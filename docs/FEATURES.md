@@ -2,24 +2,94 @@
 
 Decided with the owner feature by feature (Oct 2026). Priorities:
 **MVP** = first release (web app + API) · **Must-have** = required, after the MVP · **Future** = no commitment.
+Where the owner gave no preference, the proposed default was kept and is marked *(default)*.
 
 ## Platform decisions
 
 - API: .NET 10 (ASP.NET Core, EF Core, PostgreSQL, OpenAPI). The Python engine is ported to C# and checked against golden files from the Python build.
-- Web: React + TypeScript. Mobile later: native SwiftUI (iOS) and Kotlin/Jetpack Compose (Android).
+- Web: React + TypeScript. Mobile later: native SwiftUI (iOS, first) and Kotlin/Jetpack Compose (Android).
 - Sign-in: Google OAuth (Sign in with Apple added with the iOS app).
 - Only the admin approves data changes: admin panel with review queue and audit log.
 - Free to use; hosting on free tiers. The AI chat is the only running cost.
-- Name: MyPoGoCompanion. Unofficial fan project; no Pokémon/Niantic logos.
+- Name: MyPoGoCompanion. Unofficial fan project; no Pokémon/Niantic logos. Game sprites are used for images.
 
-## Foundation (proposed, to be reviewed)
+## Summary
 
-| ID | Feature | Status |
+| ID | Feature | First release |
 |---|---|---|
-| F01 | Accounts & Google sign-in | MVP: Google sign-in, roles, browsing without sign-in. Saved filters (F09) need sign-in in the MVP |
-| F02 | Data import pipeline | MVP: game master, PvPoke, community data, recompute after import. **History backfill pulled into MVP** by F06 |
-| F03 | Admin panel | MVP: admin area, import status, hand-maintained lists. **Review queue for "Report wrong data" pulled into MVP** by F06 |
-| F04 | Web platform & hosting | MVP: React app, .NET API, free hosting & CI/CD, legal pages |
+| F01 | Accounts & Google sign-in | MVP |
+| F02 | Data import pipeline | MVP |
+| F03 | Admin panel | MVP |
+| F04 | Web platform & hosting | MVP |
+| F05 | Pokédex browse & filters | MVP |
+| F06 | Pokémon detail page | MVP |
+| F07 | Moves database | MVP |
+| F08 | Prebuilt search filters | MVP |
+| F09 | Custom filter builder | MVP |
+| F10 | PvP tier lists | MVP |
+| F11 | Raid tier lists | MVP |
+| F12 | Max Battle tier lists | MVP |
+| F13 | Raid bosses & schedule | MVP |
+| F14 | Raid counters, tips & min players | MVP |
+| F15 | Best team by type | MVP |
+| F16 | Poke Genie import | MVP |
+| F17 | My collection | MVP |
+| F18 | IV rank checker | Future |
+| F19 | PvP battle simulator | Must-have |
+| F20 | Raid battle simulator | MVP |
+| F21 | AI assistant chat | Must-have |
+| F22 | AI corrections & curated data | Must-have (the review queue for user reports is MVP) |
+| F23 | Events calendar | MVP |
+| F24 | Localisation | Must-have |
+| F25 | Native mobile apps | Must-have (iOS first) |
+
+## F01 Accounts & Google sign-in
+
+| Item | Priority |
+|---|---|
+| Google sign-in (API checks the Google token, issues its own session token) | MVP |
+| Roles: User, Admin (first admin = owner's email in config) | MVP |
+| Browse without sign-in (sign-in needed for collection, saved filters/teams, AI) | MVP |
+| Profile & settings sync (name, preferred league, language, theme) | MVP |
+| Delete account & export data (GDPR) | MVP |
+| Sign in with Apple | Must-have (with the iOS app) |
+
+## F02 Data import pipeline
+
+| Item | Priority |
+|---|---|
+| Daily game master import (species, forms, moves, evolution requirements, Mega/Dynamax) | MVP |
+| PvPoke import (rankings GL/UL/ML/cups, Elite TM & legacy flags) | MVP |
+| Community data import (raid bosses, events, eggs, research, shiny) — check terms of LeekDuck/ScrapedDuck, pogoapi.net | MVP |
+| Recompute after import, verified by the search simulator | MVP |
+| History backfill from the game master's git history (needed by F06) | MVP |
+| Public "What changed" changelog page | Must-have |
+
+## F03 Admin panel
+
+| Item | Priority |
+|---|---|
+| Admin-only area (/admin) | MVP |
+| Import status (runs, errors, data dates, re-run) | MVP |
+| Hand-maintained lists (Megas not in GO yet, raid rotations, events, boss tips) | MVP |
+| Direct data edits (curated layer, no approval step, logged) | MVP |
+| Review queue for user reports (needed by F06 "Report wrong data") | MVP |
+| Audit log (who changed what, with undo) | MVP |
+| Users & roles (promote admins, block) | MVP |
+| AI usage & cost (messages/cost per day, daily limit setting) | MVP (shows data once F21 ships) |
+| AI proposal review (same queue) | Must-have (with F21/F22) |
+
+## F04 Web platform & hosting
+
+| Item | Priority |
+|---|---|
+| React + TypeScript web app, works on phone browsers | MVP |
+| .NET API with OpenAPI and generated clients | MVP |
+| Free hosting & CI/CD (GitHub Actions) | MVP |
+| Legal pages (unofficial disclaimer, privacy policy, terms) | MVP |
+| Pre-rendered Pokédex pages (search-engine indexing) | MVP |
+| Installable & offline (filters, Pokédex, collection) | MVP |
+| Error monitoring & analytics (privacy-friendly) | MVP |
 
 ## F05 Pokédex browse & filters
 
@@ -34,15 +104,15 @@ Decided with the owner feature by feature (Oct 2026). Priorities:
 | Owned overlay (from collection) | Must-have |
 | Compare 2–4 Pokémon | Must-have |
 
-Display: one row per form (regional forms, Megas, Shadows each their own row). Game sprites for images. Default row columns: name, number, types, base stats, max CP, PvP ranks (GL/UL/ML), best raid score.
+Display: one row per form (regional forms, Megas, Shadows each their own row). Default row columns: image, name, number, types, base stats, max CP, PvP ranks (GL/UL/ML), best raid score.
 
 ## F06 Pokémon detail page
 
-All MVP: stats, forms & versions, movepool (Elite TM / legacy / event flags), evolution requirements, how to get it, rankings summary, best IVs with search string, **history of changes**, **source badges**, **report wrong data**, **costume & shiny gallery**.
+All MVP: stats, forms & versions, movepool (Elite TM / legacy / event flags), evolution requirements, how to get it, rankings summary, best IVs with search string, history of changes, source badges, report wrong data, costume & shiny gallery.
 
-- "Versions" covers: forms & costumes (incl. retired), variants (shiny, Shadow, Purified, Mega, Dynamax, Gigantamax), changes over time (movepool/stat rebalances), event appearances.
-- How to get it: permanent ways + current appearances (community data). Full past-appearance history needs the event archive (F23).
-- CP info: max CP at L40/50/51 and the 100% CP cheat sheet (L15/20/25/30/35). CP ranges and a CP calculator are not planned.
+- "Versions" covers: forms & costumes (incl. retired), variants (shiny, Shadow, Purified, Mega, Dynamax, Gigantamax), changes over time (movepool/stat rebalances), event appearances (from F13/F23 archives).
+- How to get it: permanent ways + current appearances (community data).
+- CP info: max CP at L40/50/51 and the 100% CP cheat sheet (L15/20/25/30/35). No CP ranges or CP calculator.
 
 ## F07 Moves database
 
@@ -61,7 +131,7 @@ All MVP: stats, forms & versions, movepool (Elite TM / legacy / event flags), ev
 | Copy & tag guidance | MVP |
 | Family strings | MVP |
 | Transfer ("trash") strings | MVP |
-| Strings in other game languages | Must-have — first: Portuguese (keywords are the game's pt-BR text; UI can be pt-PT) |
+| Strings in other game languages — first Portuguese (keywords are the game's pt-BR text; UI can be pt-PT) | Must-have |
 | Master League filter | Must-have |
 | Cup filters (incl. Little Cup) | Must-have |
 
@@ -81,13 +151,15 @@ All MVP: stats, forms & versions, movepool (Elite TM / legacy / event flags), ev
 
 ## F10 PvP tier lists
 
+Source: PvPoke rankings.
+
 | Item | Priority |
 |---|---|
-| Great, Ultra and Master League lists (PvPoke rankings) | MVP |
-| Tier groups (S/A/B/C) | MVP |
-| Cups (incl. Little Cup) | Must-have |
-| List filters (type, Shadow) | Must-have |
-| Owned only | Must-have |
+| Great, Ultra and Master League lists | MVP |
+| Tier groups (S/A/B/C) | MVP *(default)* |
+| Cups (incl. Little Cup) | Must-have *(default)* |
+| List filters (type, Shadow) | Must-have *(default)* |
+| Owned only | Must-have *(default)* |
 
 ## F11 Raid tier lists
 
@@ -107,6 +179,86 @@ All MVP: stats, forms & versions, movepool (Elite TM / legacy / event flags), ev
 | G-Max moves | MVP |
 | Max Battle bosses with counters | MVP |
 
-## Still to decide
+## F13 Raid bosses & schedule
 
-F13 Raid bosses & schedule · F14 Raid counters, tips & min players · F15 Best team by type · F16 Poke Genie import · F17 My collection · F18 IV rank checker · F19 PvP simulator · F20 Raid simulator · F21 AI chat · F22 AI corrections & curated data · F23 Events calendar · F24 Localisation · F25 Native mobile apps · then a review of F01–F04.
+All MVP: current bosses by tier (1, 3, 5, Mega, Shadow, Elite) with dates and shiny, upcoming bosses, boss detail page (types, weaknesses, movesets, 100% CP normal/weather, weather boost), past bosses archive.
+
+## F14 Raid counters, tips & min players
+
+| Item | Priority |
+|---|---|
+| Best counters per boss — averaged over boss movesets, re-ranked when you pick the boss's moves | MVP |
+| Minimum players (from the F20 group simulation, labelled estimate) | MVP |
+| Tips per boss (admin-written; AI can propose later) | MVP |
+| Your best counters (from collection) | MVP |
+| Counter search string | Must-have |
+
+## F15 Best team by type
+
+All MVP: best 6 per attacking type (one Mega slot), best team vs a boss, best team from your collection, PvP team builder (3 Pokémon, type coverage), saved teams.
+
+## F16 Poke Genie import
+
+| Item | Priority |
+|---|---|
+| CSV upload; names, forms, IVs, levels, moves, Shadow/Purified, lucky, favourite | MVP |
+| Name & form matching, report of rows that didn't match | MVP |
+| Stored in the account, synced across devices (sign-in required) | MVP |
+| Re-import replaces the previous one and shows what's new, gone or changed | MVP |
+| Other apps' exports (Calcy IV…) | Future |
+
+## F17 My collection
+
+All MVP: searchable/sortable list, PvP value (IV rank GL/UL/ML), raid value, suggestions (power up, safe to transfer, missing), collection stats (types, shinies, luckies, hundos, dex completion).
+
+## F18 IV rank checker — Future
+
+Enter a Pokémon and IVs → rank, best level and CP per league, plus evolutions.
+
+## F19 PvP battle simulator — Must-have
+
+1v1 with movesets, IVs and shields, built on PvPoke's MIT battle engine. Extras — matchup matrix, 3v3 team battles, use your collection — are Future *(default)*.
+
+## F20 Raid battle simulator — MVP
+
+| Item | Priority |
+|---|---|
+| One trainer, 6 attackers vs a boss: boss moveset, energy, re-lobbies, time to win | MVP |
+| Group raids (N trainers → minimum players) | MVP *(default)* |
+| Weather & friendship bonuses | MVP *(default)* |
+| Party Power | Must-have *(default)* |
+| Dodging | Future *(default)* |
+
+## F21 AI assistant chat — Must-have
+
+| Item | Priority |
+|---|---|
+| Answers from our own data (tools over Pokédex, rankings, bosses, simulations) | Must-have |
+| Web search with cited sources | Must-have |
+| Knows your collection | Must-have |
+| Chat history in the account | Must-have |
+| Knows the current page | Future |
+| Daily message limit per user, set by the admin (start ~20/day) | Must-have |
+
+## F22 AI corrections & curated data — Must-have
+
+Proposal sources: AI chat findings, user reports (MVP via F03), weekly scheduled AI research (new Megas, raid rotations, events, debuts). Admin direct edits skip the queue but are logged.
+
+Flow: proposal (entity, field, current value, proposed value, sources, link to chat) → admin review (approve / edit + approve / reject with reason) → curated layer (survives daily imports, revertible) → Pokédex shows it with an "admin-verified" badge → a later import that changes the same field is flagged as a conflict.
+
+## F23 Events calendar
+
+| Item | Priority |
+|---|---|
+| Calendar of current and upcoming events | MVP *(default — needed by F06/F13)* |
+| Event detail (featured Pokémon, bonuses, exclusive moves, research) | MVP *(default)* |
+| Past events archive | MVP *(default — needed by F06 event appearances)* |
+| Reminders (email / push) | Must-have *(default)* |
+
+## F24 Localisation — Must-have
+
+MVP is English only *(default)*. Then Portuguese: UI (pt-PT), search strings (game pt-BR keywords), Pokémon and move names.
+
+## F25 Native mobile apps — Must-have
+
+iOS first (SwiftUI, Sign in with Apple, Apple developer account), then Android (Kotlin, Jetpack Compose). Both use the same API through generated clients.
