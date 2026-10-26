@@ -1,0 +1,559 @@
+<body>
+<style>
+.wrap { max-width: 980px; margin: 0 auto; padding: 0 16px; }
+header.top { padding: 28px 0 12px; }
+header.top .row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+h1 { font-size: 26px; line-height: 1.2; margin: 0 0 4px; letter-spacing: -.01em; }
+.sub { color: var(--text-2); margin: 0; max-width: 640px; }
+.icon-btn {
+  flex: none; border: 1px solid var(--border); background: var(--surface); color: var(--text-2);
+  border-radius: 999px; width: 38px; height: 38px; cursor: pointer; display: grid; place-items: center;
+}
+.icon-btn:hover { color: var(--text); }
+nav.tabs {
+  position: sticky; top: 0; z-index: 5; background: var(--bg);
+  border-bottom: 1px solid var(--border); margin-top: 12px;
+}
+nav.tabs .wrap { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+nav.tabs .wrap::-webkit-scrollbar { display: none; }
+.tab {
+  flex: none; border: 0; background: none; color: var(--text-2); font: 500 14px var(--sans);
+  padding: 12px 12px 10px; border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap;
+}
+.tab:hover { color: var(--text); }
+.tab[aria-selected="true"] { color: var(--accent); border-bottom-color: var(--accent); }
+.tab small { color: var(--text-3); font-weight: 400; margin-left: 4px; }
+main { padding: 20px 0 40px; }
+.panel[hidden] { display: none; }
+h2 { font-size: 20px; margin: 0 0 6px; }
+h3 { font-size: 16px; margin: 28px 0 10px; }
+p { margin: 0 0 10px; }
+.muted { color: var(--text-2); }
+.small { font-size: 13px; }
+code, .mono { font-family: var(--mono); font-size: 13px; }
+code { background: var(--surface-2); padding: 1px 5px; border-radius: 5px; }
+.card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 14px 16px; margin: 12px 0;
+}
+.str-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+.str-title { font-weight: 600; }
+.str-meta { color: var(--text-3); font-size: 13px; }
+.str-text {
+  font-family: var(--mono); font-size: 12.5px; line-height: 1.5; color: var(--text);
+  background: var(--surface-2); border-radius: 8px; padding: 10px 12px; margin: 0;
+  max-height: 132px; overflow: auto; word-break: break-all; white-space: pre-wrap;
+}
+.btn {
+  border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink);
+  font: 600 13px var(--sans); border-radius: 8px; padding: 7px 14px; cursor: pointer; white-space: nowrap;
+}
+.btn:hover { filter: brightness(1.08); }
+.btn.ghost { background: transparent; color: var(--accent); }
+.btn.done { background: var(--ok); border-color: var(--ok); color: #fff; }
+.seg { display: inline-flex; border: 1px solid var(--border); border-radius: 9px; padding: 2px; background: var(--surface); flex-wrap: wrap; }
+.seg button {
+  border: 0; background: none; color: var(--text-2); font: 500 13px var(--sans);
+  padding: 6px 12px; border-radius: 7px; cursor: pointer;
+}
+.seg button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); }
+.controls { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; margin: 14px 0 4px; }
+.controls label { color: var(--text-2); font-size: 13px; }
+.steps { margin: 0; padding-left: 20px; color: var(--text-2); }
+.steps li { margin: 3px 0; }
+.tagname { font-family: var(--mono); font-weight: 600; color: var(--text); }
+.callout {
+  border-radius: 10px; padding: 10px 14px; margin: 12px 0; font-size: 14px;
+  background: var(--accent-soft); color: var(--text);
+}
+.callout.warn { background: var(--warn-soft); }
+input[type="search"], select {
+  font: 14px var(--sans); color: var(--text); background: var(--surface);
+  border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px;
+}
+input[type="search"] { width: 100%; max-width: 420px; }
+input[type="search"]:focus, select:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+.fam { padding: 12px 14px; }
+.fam-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.fam-names { font-weight: 600; }
+.fam-names .dex { color: var(--text-3); font-weight: 400; font-size: 13px; }
+.member { display: grid; grid-template-columns: minmax(130px, 1.1fr) 2fr; gap: 6px 16px; padding: 10px 0 2px; border-top: 1px solid var(--border); margin-top: 10px; }
+.member .who { font-weight: 500; }
+.member .who small { display: block; color: var(--text-3); font-weight: 400; font-size: 12.5px; line-height: 1.4; margin-top: 2px; }
+.bars { display: grid; grid-template-columns: 34px 1fr 64px; gap: 4px 8px; align-items: center; font-size: 12.5px; }
+.bars .lab { color: var(--text-2); }
+.bars .rng { color: var(--text-2); font-family: var(--mono); font-size: 12px; text-align: right; }
+.cells { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; }
+.cells i { height: 9px; border-radius: 3px; background: var(--bar-off); }
+.cells i.on { background: var(--bar-on); }
+.member .stats { grid-column: 2; color: var(--text-3); font-size: 12.5px; }
+.more { display: flex; justify-content: center; margin-top: 12px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  border: 1px solid var(--border); background: var(--surface); color: var(--text-2);
+  font: 500 13px var(--sans); padding: 5px 11px; border-radius: 999px; cursor: pointer;
+}
+.chip .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
+.chip[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+.list { color: var(--text-2); font-size: 14px; }
+.list b { color: var(--text); font-weight: 500; }
+.table-wrap { overflow-x: auto; margin: 10px 0; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+th { font-weight: 600; color: var(--text-2); font-size: 12.5px; background: var(--surface-2); }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+tr:last-child td { border-bottom: 0; }
+tr.pinned td { background: var(--accent-soft); }
+tr.out td { color: var(--text-3); }
+.badge { display: inline-block; font-size: 11.5px; font-weight: 600; padding: 2px 8px; border-radius: 999px; }
+.badge.ok { background: var(--ok-soft); color: var(--ok); }
+.badge.mega { background: var(--accent-soft); color: var(--accent); }
+.badge.warn { background: var(--warn-soft); color: var(--warn); }
+.badge.dim { background: var(--surface-2); color: var(--text-3); }
+.elite { color: var(--warn); font-size: 11px; font-weight: 600; margin-left: 2px; }
+details { margin: 14px 0; }
+details > summary { cursor: pointer; font-weight: 600; padding: 6px 0; }
+.formula { font-family: var(--mono); font-size: 12.5px; background: var(--surface-2); padding: 10px 12px; border-radius: 8px; overflow-x: auto; white-space: pre; line-height: 1.6; }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 4px 16px; font-size: 14px; }
+.grid2 span { color: var(--text-3); font-size: 12.5px; }
+footer { border-top: 1px solid var(--border); color: var(--text-3); font-size: 12.5px; padding: 18px 0 32px; }
+footer p { margin: 0 0 6px; }
+footer a { color: var(--text-2); }
+@media (max-width: 600px) {
+  h1 { font-size: 22px; }
+  .member { grid-template-columns: 1fr; }
+  .member .stats { grid-column: 1; }
+  .str-head { flex-wrap: wrap; }
+}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <div class="row">
+      <div>
+        <h1>Keeper Filters</h1>
+        <p class="sub">Copy-paste storage searches that find the Pokémon worth keeping. Paste a string into the search bar of your Pokémon storage, select all results and tag them.</p>
+      </div>
+      <button class="icon-btn" id="theme" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Filters">
+  <div class="wrap" role="tablist">
+    <button class="tab" role="tab" data-tab="GL">Great League<small>≤1500</small></button>
+    <button class="tab" role="tab" data-tab="UL">Ultra League<small>≤2500</small></button>
+    <button class="tab" role="tab" data-tab="RAID">Raids</button>
+    <button class="tab" role="tab" data-tab="MAX">Max Battles</button>
+    <button class="tab" role="tab" data-tab="MEGA">Megas</button>
+  </div>
+</nav>
+
+<main class="wrap">
+  <section class="panel" id="panel-GL" role="tabpanel"></section>
+  <section class="panel" id="panel-UL" role="tabpanel" hidden></section>
+  <section class="panel" id="panel-RAID" role="tabpanel" hidden></section>
+  <section class="panel" id="panel-MAX" role="tabpanel" hidden></section>
+  <section class="panel" id="panel-MEGA" role="tabpanel" hidden></section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Search keywords are in English: set the game language to English, or the strings will not match.</p>
+    <p>Data: <a href="https://github.com/pvpoke/pvpoke" rel="noopener">PvPoke</a> game master and rankings (MIT licence) as of {{DATE_PVPOKE}}; raid move stats from the datamined game master as of {{DATE_GM}}. Page built {{BUILT}}.</p>
+    <p>Unofficial fan-made tool. Not affiliated with or endorsed by Niantic, Nintendo, Creatures, Game Freak or The Pokémon Company.</p>
+  </div>
+</footer>
+
+<script type="application/json" id="data-pvp">{{DATA_PVP}}</script>
+<script type="application/json" id="data-raid">{{DATA_RAID}}</script>
+<script type="application/json" id="data-mega">{{DATA_MEGA}}</script>
+<script>
+(function () {
+  "use strict";
+  var PVP = JSON.parse(document.getElementById("data-pvp").textContent);
+  var RAID = JSON.parse(document.getElementById("data-raid").textContent);
+  var MEGA = JSON.parse(document.getElementById("data-mega").textContent);
+
+  // ---------- helpers ----------
+  var store = {
+    get: function (k, d) { try { var v = localStorage.getItem("kf:" + k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } },
+    set: function (k, v) { try { localStorage.setItem("kf:" + k, JSON.stringify(v)); } catch (e) {} }
+  };
+  function h(tag, attrs) {
+    var e = document.createElement(tag);
+    if (attrs) for (var k in attrs) {
+      var v = attrs[k];
+      if (v === null || v === undefined || v === false) continue;
+      if (k === "class") e.className = v;
+      else if (k === "text") e.textContent = v;
+      else if (k === "html") e.innerHTML = v;
+      else if (k.slice(0, 2) === "on") e.addEventListener(k.slice(2), v);
+      else e.setAttribute(k, v === true ? "" : v);
+    }
+    for (var i = 2; i < arguments.length; i++) {
+      var c = arguments[i];
+      if (c === null || c === undefined || c === false) continue;
+      if (Array.isArray(c)) c.forEach(function (x) { if (x) e.appendChild(typeof x === "string" ? document.createTextNode(x) : x); });
+      else e.appendChild(typeof c === "string" ? document.createTextNode(c) : c);
+    }
+    return e;
+  }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function fmt(n, d) { return Number(n).toLocaleString("en-US", { minimumFractionDigits: d || 0, maximumFractionDigits: d || 0 }); }
+  function copy(text, btn) {
+    function done() {
+      var old = btn.textContent; btn.textContent = "Copied"; btn.classList.add("done");
+      setTimeout(function () { btn.textContent = old; btn.classList.remove("done"); }, 1400);
+    }
+    function fallback() {
+      var ta = h("textarea", { style: "position:fixed;opacity:0;top:0;left:0" }); ta.value = text;
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); done(); } catch (e) {}
+      document.body.removeChild(ta);
+    }
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(done, fallback);
+    else fallback();
+  }
+  function stringCard(title, meta, text) {
+    var pre = h("pre", { class: "str-text" }, text);
+    var btn = h("button", { class: "btn", type: "button" }, "Copy");
+    btn.addEventListener("click", function () { copy(pre.textContent, btn); });
+    var card = h("div", { class: "card" },
+      h("div", { class: "str-head" },
+        h("div", null, h("div", { class: "str-title" }, title), h("div", { class: "str-meta" }, meta)),
+        btn),
+      pre);
+    card.setText = function (t, m) { pre.textContent = t; if (m !== undefined) card.querySelector(".str-meta").textContent = m; };
+    return card;
+  }
+  function seg(options, value, onChange) {
+    var box = h("div", { class: "seg", role: "group" });
+    options.forEach(function (o) {
+      var b = h("button", { type: "button", "aria-pressed": String(o[0] === value) }, o[1]);
+      b.addEventListener("click", function () {
+        box.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", "false"); });
+        b.setAttribute("aria-pressed", "true"); onChange(o[0]);
+      });
+      box.appendChild(b);
+    });
+    return box;
+  }
+  function tagSteps(tag, many) {
+    return h("div", { class: "card" },
+      h("div", { class: "str-title" }, "How to use"),
+      h("ol", { class: "steps" },
+        h("li", null, many ? "Copy a string (one at a time)." : "Copy the string."),
+        h("li", null, "In your Pokémon storage, tap the search bar and paste it."),
+        h("li", null, "Select all results and add the tag ", h("span", { class: "tagname" }, tag), "."),
+        many ? h("li", null, "Repeat for every string.") : null,
+        h("li", null, "Later, search ", h("code", null, "#" + tag), " to see them all together.")));
+  }
+
+  // ---------- PvP tabs ----------
+  var BAR_IV = [[0, 0], [1, 5], [6, 10], [11, 14], [15, 15]];
+  var STATS = ["Atk", "Def", "HP"];
+  function ivRange(iv) {
+    var lo = BAR_IV[iv[0]][0], hi = BAR_IV[iv[1]][1];
+    return lo === hi ? String(lo) : lo + "–" + hi;
+  }
+  function barViz(box) {
+    var g = h("div", { class: "bars" });
+    box.forEach(function (iv, s) {
+      var cells = h("div", { class: "cells", title: "Bars " + iv[0] + "–" + iv[1] });
+      for (var b = 0; b < 5; b++) cells.appendChild(h("i", { class: b >= iv[0] && b <= iv[1] ? "on" : null }));
+      g.appendChild(h("span", { class: "lab" }, STATS[s]));
+      g.appendChild(cells);
+      g.appendChild(h("span", { class: "rng" }, ivRange(iv)));
+    });
+    return g;
+  }
+  function renderPvp(league, tag, leagueName) {
+    var L = PVP.leagues[league], panel = document.getElementById("panel-" + league);
+    var strings = L.strings;
+    panel.appendChild(h("h2", null, leagueName + " (CP ≤ " + L.cap + ")"));
+    panel.appendChild(h("p", { class: "muted" },
+      "Finds every Pokémon whose appraisal bars sit in its high-ranking " + leagueName +
+      " zone: IV spreads whose stat product is within 98% of the rank-1 spread, at the highest level ≤ 50 under the cap. " +
+      "Pre-evolutions are judged by what they evolve into. All 1,025 Pokédex numbers are covered, so the strings stay useful when the meta changes."));
+    strings.forEach(function (s, i) {
+      panel.appendChild(stringCard("String " + (i + 1) + " of " + strings.length,
+        "Pokédex #" + s.from + "–" + s.to + " · " + fmt(s.length) + " characters", s.text));
+    });
+    panel.appendChild(tagSteps(tag, strings.length > 1));
+
+    panel.appendChild(h("h3", null, "Look up a family"));
+    panel.appendChild(h("p", { class: "muted small" },
+      "Each family shows the appraisal bars each member must have, what it is judged by, and a short string for just that family."));
+    var input = h("input", { type: "search", placeholder: "Name or Pokédex number, e.g. Azumarill or 184", "aria-label": "Search families" });
+    var list = h("div"), moreBox = h("div", { class: "more" });
+    panel.appendChild(input); panel.appendChild(list); panel.appendChild(moreBox);
+
+    var index = L.rows.map(function (r) {
+      var names = [];
+      r.members.forEach(function (m) {
+        names.push(PVP.names[m.dex] || "", String(m.dex));
+        m.judgedBy.forEach(function (sid) { names.push(PVP.species[sid] || sid); });
+      });
+      return names.join(" ").toLowerCase();
+    });
+    var shown = 0, matches = [];
+    function famCard(r) {
+      var title = h("div", { class: "fam-names" });
+      r.members.forEach(function (m, i) {
+        if (i) title.appendChild(document.createTextNode(" · "));
+        title.appendChild(document.createTextNode(PVP.names[m.dex] + " "));
+        title.appendChild(h("span", { class: "dex" }, "#" + m.dex));
+      });
+      var btn = h("button", { class: "btn ghost", type: "button" }, "Copy family string");
+      btn.addEventListener("click", function () { copy(r.string, btn); });
+      var card = h("div", { class: "card fam" }, h("div", { class: "fam-head" }, title, btn));
+      r.members.forEach(function (m) {
+        var judged = m.judgedBy.map(function (sid) { return PVP.species[sid] || sid; });
+        var first = m.judgedBy[0], r1 = m.rank1[first];
+        card.appendChild(h("div", { class: "member" },
+          h("div", { class: "who" }, PVP.names[m.dex],
+            h("small", null, m.self ? "Judged by its own stats" : "Judged by " + judged.join(", "))),
+          barViz(m.box),
+          h("div", { class: "stats" },
+            "Rank-1 " + (PVP.species[first] || first) + ": " + r1.join("/") +
+            " · box holds " + fmt(m.tp) + " of " + fmt(m.keepers) + " keeper spreads (" + fmt(m.inBox) + " spreads in box)")));
+      });
+      return card;
+    }
+    function showMore() {
+      matches.slice(shown, shown + 15).forEach(function (r) { list.appendChild(famCard(r)); });
+      shown = Math.min(matches.length, shown + 15);
+      moreBox.innerHTML = "";
+      if (shown < matches.length) {
+        moreBox.appendChild(h("button", { class: "btn ghost", type: "button", onclick: showMore },
+          "Show more (" + fmt(matches.length - shown) + " left)"));
+      }
+    }
+    function filter() {
+      var q = input.value.trim().toLowerCase();
+      matches = L.rows.filter(function (r, i) {
+        if (!q) return true;
+        if (/^\d+$/.test(q)) return r.dex.indexOf(+q) >= 0;
+        return index[i].indexOf(q) >= 0;
+      });
+      list.innerHTML = ""; shown = 0;
+      if (!matches.length) list.appendChild(h("p", { class: "muted" }, "No family matches “" + input.value + "”."));
+      showMore();
+    }
+    input.addEventListener("input", filter);
+    filter();
+  }
+
+  // ---------- Raids ----------
+  var TYPE_COLORS = {
+    normal: "#9fa19f", fighting: "#ff8000", flying: "#81b9ef", poison: "#9141cb", ground: "#915121", rock: "#afa981",
+    bug: "#91a119", ghost: "#704170", steel: "#60a1b8", fire: "#e62829", water: "#2980ef", grass: "#3fa129",
+    electric: "#fac000", psychic: "#ef4179", ice: "#3dcef3", dragon: "#5060e1", dark: "#624d4e", fairy: "#ef70ef"
+  };
+  function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+  function renderRaid() {
+    var panel = document.getElementById("panel-RAID");
+    var mode = store.get("raidAtk", "11-15");
+    panel.appendChild(h("h2", null, "Raids"));
+    panel.appendChild(h("p", { class: "muted" },
+      "The top raid attackers of every type, their Megas and every pre-evolution, filtered to a high Attack bar. " +
+      RAID.dexCount + " Pokédex numbers: " + RAID.attackerCount + " attackers and " + RAID.preEvoCount + " pre-evolutions."));
+    var card = stringCard("Raid attackers", "", RAID.raid[mode]);
+    function meta() { return fmt(RAID.raid[mode].length) + " characters · Attack " + (mode === "15" ? "15 only" : "11–15"); }
+    card.setText(RAID.raid[mode], meta());
+    panel.appendChild(h("div", { class: "controls" }, h("label", null, "Attack IV"),
+      seg([["11-15", "11–15 (3–4 bars)"], ["15", "15 only"]], mode, function (v) {
+        mode = v; store.set("raidAtk", v); card.setText(RAID.raid[v], meta());
+      })));
+    panel.appendChild(card);
+    panel.appendChild(tagSteps("RAID", false));
+
+    // per-type numbers
+    panel.appendChild(h("h3", null, "The numbers, by type"));
+    panel.appendChild(h("p", { class: "muted small" },
+      "Each Pokémon is scored with its best moveset where both moves are of the type (Elite TM moves included). " +
+      "The filter keeps the top " + RAID.params.topDex + " Pokédex numbers among regular and Shadow forms, plus every Mega or Primal that scores above the " +
+      RAID.params.topDex + "th. Pick a type:"));
+    var current = store.get("raidType", "psychic");
+    if (!RAID.types[current]) current = "psychic";
+    var chips = h("div", { class: "chips", role: "group", "aria-label": "Attacking type" });
+    var body = h("div");
+    Object.keys(RAID.types).forEach(function (t) {
+      var c = h("button", { class: "chip", type: "button", "aria-pressed": String(t === current) },
+        h("span", { class: "dot", style: "background:" + TYPE_COLORS[t] }), cap(t));
+      c.addEventListener("click", function () {
+        chips.querySelectorAll(".chip").forEach(function (x) { x.setAttribute("aria-pressed", "false"); });
+        c.setAttribute("aria-pressed", "true"); current = t; store.set("raidType", t); drawType();
+      });
+      chips.appendChild(c);
+    });
+    panel.appendChild(chips); panel.appendChild(body);
+
+    function moveCell(name, elite) {
+      return h("td", null, name, elite ? h("span", { class: "elite", title: "Elite TM move" }, "ETM") : null);
+    }
+    function drawType() {
+      var T = RAID.types[current], best = store.get("bestMega", {}), pick = best[current] || "";
+      var megas = T.rows.filter(function (r) { return r.mega; });
+      if (pick && !megas.some(function (r) { return r.id === pick; })) pick = "";
+      body.innerHTML = "";
+
+      var names = function (ids) { return ids.map(function (d) { return PVP.names[d] || ("#" + d); }).join(", "); };
+      body.appendChild(h("p", { class: "list", style: "margin-top:14px" },
+        h("b", null, "In the filter for " + cap(current) + ": "), names(T.attackers),
+        T.preEvos.length ? h("span", null, " · pre-evolutions: " + names(T.preEvos)) : null));
+
+      var sel = h("select", { "aria-label": "Your best Mega" });
+      sel.appendChild(h("option", { value: "" }, "None: show every Mega"));
+      megas.forEach(function (m) { sel.appendChild(h("option", { value: m.id, selected: m.id === pick }, m.name)); });
+      sel.addEventListener("change", function () { best[current] = sel.value; store.set("bestMega", best); drawType(); });
+      body.appendChild(h("div", { class: "controls" }, h("label", null, "Your best Mega"), sel,
+        h("span", { class: "muted small" }, "Only one Mega fits in a raid team. Pick yours to pin it as the Mega slot and rank the rest without the other Megas.")));
+
+      var rows = T.rows;
+      if (pick) rows = [T.rows.filter(function (r) { return r.id === pick; })[0]].concat(T.rows.filter(function (r) { return !r.mega; }));
+      var tb = h("tbody");
+      var n = 0;
+      rows.forEach(function (r) {
+        var pinned = pick && r.id === pick;
+        var badge = pinned ? h("span", { class: "badge mega" }, "Mega slot")
+          : r.top && r.firstOfDex ? h("span", { class: "badge ok" }, "Top " + RAID.params.topDex)
+          : r.top ? h("span", { class: "badge ok", title: "Another form of a top-" + RAID.params.topDex + " Pokédex number: the filter works by Pokédex number" }, "Same Pokédex #")
+          : r.megaPick ? h("span", { class: "badge mega" }, "Mega above cut")
+          : r.mega ? h("span", { class: "badge dim" }, "Mega below cut")
+          : h("span", { class: "badge warn" }, "Just missed");
+        var inFilter = r.top || r.megaPick;
+        tb.appendChild(h("tr", { class: pinned ? "pinned" : (inFilter ? null : "out") },
+          h("td", { class: "num" }, pinned ? "M" : String(++n)),
+          h("td", null, r.name, " ", h("span", { class: "muted small" }, "#" + r.dex)),
+          moveCell(r.fast, r.eliteFast), moveCell(r.charged, r.eliteCharged),
+          h("td", { class: "num" }, fmt(r.dps, 1)), h("td", { class: "num" }, fmt(r.tdo, 0)),
+          h("td", { class: "num" }, h("b", null, fmt(r.er, 1))), h("td", null, badge)));
+      });
+      body.appendChild(h("div", { class: "table-wrap" }, h("table", null,
+        h("thead", null, h("tr", null, h("th", { class: "num" }, "#"), h("th", null, "Pokémon"), h("th", null, "Fast"),
+          h("th", null, "Charged"), h("th", { class: "num" }, "DPS"), h("th", { class: "num" }, "TDO"),
+          h("th", { class: "num" }, "Score"), h("th", null, "Status"))), tb)));
+      body.appendChild(h("p", { class: "muted small" }, "Cut-off (the " + RAID.params.topDex + "th Pokédex number's score): " + fmt(T.tenth, 2) +
+        ". Score = (DPS³ × TDO)^¼. Grey rows are not in the filter."));
+    }
+    drawType();
+
+    // methodology
+    var P = RAID.params, E = RAID.example;
+    var f2 = function (x) { return fmt(x, 2); };
+    var meth = h("details", null, h("summary", null, "How the ranking is calculated"),
+      h("p", { class: "muted" }, "GamePress-style comprehensive DPS. Every attacker is level " + P.level + " with 15/15/15 IVs against a target with Defense " +
+        P.targetDef + ", neutral effectiveness. STAB ×" + P.stab + ". A Mega gets ×" + P.megaOwn + " on its own types and ×" + P.megaOther +
+        " otherwise. Shadows: Attack ×1.2, Defense ×5/6. Move power, duration and energy are the raid (PvE) values from the game master."),
+      h("div", { class: "formula" },
+        "damage = floor(0.5 × power × Atk / " + P.targetDef + " × multipliers) + 1\n" +
+        "y      = 900 / Def                      (boss damage per second taken)\n" +
+        "one-bar charged moves: CE += 0.5 × FE + 0.5 × y × damageWindowStart\n" +
+        "DPS0   = (FDPS × CEPS + CDPS × FEPS) / (CEPS + FEPS)\n" +
+        "x      = 0.5 × CE + 0.5 × FE\n" +
+        "DPS    = DPS0 + (CDPS − FDPS) / (CEPS + FEPS) × (0.5 − x / HP) × y\n" +
+        "         (if CDPS < FDPS, DPS = FDPS)\n" +
+        "TDO    = DPS × HP / y\n" +
+        "Score  = (DPS³ × TDO)^¼"),
+      h("p", { style: "margin-top:12px" }, h("b", null, "Worked example: " + E.name + " (" + E.fast + " + " + E.charged + ")")),
+      h("div", { class: "formula" },
+        "Atk = " + f2(E.atk) + "   Def = " + f2(E.def) + "   HP = " + E.hp + "   y = 900 / Def = " + f2(E.y) + "\n" +
+        E.fast + ": power " + E.fastPower + ", " + E.fastDur + " s, +" + E.fastEnergy + " energy → damage floor(0.5 × " + E.fastPower + " × " + f2(E.atk) + " / " + P.targetDef + " × " + E.fastMult + ") + 1 = " + E.fastDmg + "\n" +
+        E.charged + ": power " + E.chargedPower + ", " + E.chargedDur + " s, −" + E.chargedCost + " energy → damage " + Math.floor(0.5 * E.chargedPower * E.atk / P.targetDef * E.chargedMult + 1) + "\n" +
+        "FDPS = " + f2(E.fdps) + "  FEPS = " + f2(E.feps) + "  CDPS = " + f2(E.cdps) + "  CEPS = " + f2(E.ceps) + "  (CE = " + f2(E.ce) + ")\n" +
+        "DPS0 = " + f2(E.dps0) + "   x = " + f2(E.x) + "   DPS = " + f2(E.dps) + "   TDO = " + f2(E.tdo) + "\n" +
+        "Score = (" + f2(E.dps) + "³ × " + f2(E.tdo) + ")^¼ = " + f2(E.er)),
+      h("p", { class: "muted", style: "margin-top:12px" }, "Why some picks look surprising: Deoxys (Attack) tops Psychic thanks to the cheap Psycho Boost, even though it survives only a few seconds. " +
+        "Eternatus tops Dragon with Dynamax Cannon. Crowned Zamazenta edges out Crowned Zacian because of its bulk. " +
+        "Normal and Fairy have weak attackers overall, so Pokémon such as Xerneas or Shadow Donphan make the cut."));
+    panel.appendChild(meth);
+  }
+
+  // ---------- Max Battles ----------
+  function renderMax() {
+    var panel = document.getElementById("panel-MAX");
+    var mode = store.get("maxAtk", "11-15");
+    panel.appendChild(h("h2", null, "Max Battles"));
+    panel.appendChild(h("p", { class: "muted" },
+      "Every Pokémon that can enter Max Battles (Dynamax, Gigantamax, Crowned Zacian and Zamazenta, Eternatus) with a high Attack bar. " +
+      "Max Move damage scales with Attack. The keyword picks up new releases automatically, so this string never needs updating."));
+    var card = stringCard("Max Battle attackers", "", RAID.max[mode]);
+    var meta = function () { return "Attack " + (mode === "15" ? "15 only" : "11–15"); };
+    card.setText(RAID.max[mode], meta());
+    panel.appendChild(h("div", { class: "controls" }, h("label", null, "Attack IV"),
+      seg([["11-15", "11–15 (3–4 bars)"], ["15", "15 only"]], mode, function (v) {
+        mode = v; store.set("maxAtk", v); card.setText(RAID.max[v], meta());
+      })));
+    panel.appendChild(card);
+    panel.appendChild(tagSteps("MAX", false));
+  }
+
+  // ---------- Megas ----------
+  function renderMega() {
+    var panel = document.getElementById("panel-MEGA");
+    var withPre = store.get("megaPre", false);
+    panel.appendChild(h("h2", null, "Megas"));
+    panel.appendChild(h("p", { class: "muted" },
+      h("code", null, "mega0-"), " finds every Pokémon that can Mega Evolve in the game (" + MEGA.released.length +
+      " today) and any future release. The Pokédex numbers after it add the Megas from the main games that have not reached the game yet, so you keep those Pokémon too."));
+    var card = stringCard("All Megas, current and future", "", "");
+    function upd() {
+      var s = withPre ? MEGA.stringWithPre : MEGA.string;
+      card.setText(s, fmt(s.length) + " characters" + (withPre ? " · with " + MEGA.preEvoCount + " pre-evolutions" : ""));
+    }
+    upd();
+    panel.appendChild(h("div", { class: "controls" }, h("label", null, "Include"),
+      seg([["no", "Mega Pokémon only"], ["yes", "+ pre-evolutions"]], withPre ? "yes" : "no", function (v) {
+        withPre = v === "yes"; store.set("megaPre", withPre); upd();
+      })));
+    panel.appendChild(card);
+    panel.appendChild(tagSteps("MEGA", false));
+
+    panel.appendChild(h("h3", null, "Not in the game yet (" + MEGA.notYet.length + ")"));
+    var tb = h("tbody");
+    MEGA.notYet.forEach(function (m) {
+      tb.appendChild(h("tr", null, h("td", { class: "num" }, "#" + m.dex), h("td", null, m.name), h("td", null, m.source),
+        h("td", null, m.soon ? h("span", { class: "badge ok" }, "Arrives " + m.soon) : (m.inGoFiles ? h("span", { class: "badge mega" }, "In game files") : ""))));
+    });
+    panel.appendChild(h("div", { class: "table-wrap" }, h("table", null,
+      h("thead", null, h("tr", null, h("th", { class: "num" }, "Dex"), h("th", null, "Pokémon"), h("th", null, "Mega from"), h("th", null, ""))), tb)));
+    panel.appendChild(h("h3", null, "Already in the game (" + MEGA.released.length + " Pokémon)"));
+    panel.appendChild(h("p", { class: "list" }, MEGA.releasedForms.join(" · ")));
+  }
+
+  // ---------- tabs and theme ----------
+  renderPvp("GL", "GL", "Great League");
+  renderPvp("UL", "UL", "Ultra League");
+  renderRaid();
+  renderMax();
+  renderMega();
+
+  var tabs = Array.prototype.slice.call(document.querySelectorAll(".tab"));
+  function select(id, push) {
+    if (!document.getElementById("panel-" + id)) id = "GL";
+    tabs.forEach(function (t) {
+      var on = t.getAttribute("data-tab") === id;
+      t.setAttribute("aria-selected", String(on));
+      document.getElementById("panel-" + t.getAttribute("data-tab")).hidden = !on;
+    });
+    store.set("tab", id);
+    if (push) try { history.replaceState(null, "", "#" + id.toLowerCase()); } catch (e) {}
+  }
+  tabs.forEach(function (t) { t.addEventListener("click", function () { select(t.getAttribute("data-tab"), true); }); });
+  select((location.hash.slice(1) || store.get("tab", "GL")).toUpperCase(), false);
+
+  var root = document.documentElement, saved = store.get("theme", null);
+  if (saved) root.setAttribute("data-theme", saved);
+  document.getElementById("theme").addEventListener("click", function () {
+    var dark = root.getAttribute("data-theme") ? root.getAttribute("data-theme") === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+    var next = dark ? "light" : "dark";
+    root.setAttribute("data-theme", next); store.set("theme", next);
+  });
+})();
+</script>
+</body>
+</html>

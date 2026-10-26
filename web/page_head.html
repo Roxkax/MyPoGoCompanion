@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Keeper Filters</title>
+<meta name="description" content="Copy-paste storage search strings that find the Pokémon worth keeping for Great League, Ultra League, raids, Max Battles and Megas.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --surface-2: #f0f2f5;
+  --border: #dde1e7;
+  --text: #17191c;
+  --text-2: #565d68;
+  --text-3: #858c97;
+  --accent: #2f6fde;
+  --accent-ink: #ffffff;
+  --accent-soft: #e6eefc;
+  --ok: #1f8a4c;
+  --ok-soft: #e3f4ea;
+  --warn: #a5650a;
+  --warn-soft: #fbf0dc;
+  --bar-off: #e4e7ec;
+  --bar-on: #2f6fde;
+  --shadow: 0 1px 2px rgba(16, 24, 40, .06), 0 1px 3px rgba(16, 24, 40, .08);
+  --radius: 12px;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1115;
+    --surface: #171a20;
+    --surface-2: #1e222a;
+    --border: #2b313b;
+    --text: #e8eaee;
+    --text-2: #a7aeb9;
+    --text-3: #7a828e;
+    --accent: #6b9cf0;
+    --accent-ink: #0f1115;
+    --accent-soft: #1d2a42;
+    --ok: #4cc782;
+    --ok-soft: #173325;
+    --warn: #e0a54a;
+    --warn-soft: #3a2c14;
+    --bar-off: #2a2f38;
+    --bar-on: #6b9cf0;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1115;
+  --surface: #171a20;
+  --surface-2: #1e222a;
+  --border: #2b313b;
+  --text: #e8eaee;
+  --text-2: #a7aeb9;
+  --text-3: #7a828e;
+  --accent: #6b9cf0;
+  --accent-ink: #0f1115;
+  --accent-soft: #1d2a42;
+  --ok: #4cc782;
+  --ok-soft: #173325;
+  --warn: #e0a54a;
+  --warn-soft: #3a2c14;
+  --bar-off: #2a2f38;
+  --bar-on: #6b9cf0;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .4);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.55 var(--sans);
+}
+</style>
+</head>
