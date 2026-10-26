@@ -1,6 +1,7 @@
 """Assemble dist/pvp-keeper-filters.html from web/ templates and the build/ JSON."""
 import datetime
 import json
+import re
 import sys
 
 from common import BUILD, DIST, WEB, data_dates, load_json
@@ -31,7 +32,13 @@ def main():
     DIST.mkdir(exist_ok=True)
     out = DIST / "pvp-keeper-filters.html"
     out.write_text(html, encoding="utf-8")
-    print(f"page_assemble: wrote {out.relative_to(DIST.parent)} ({len(html.encode()) / 1024:.0f} KB)")
+    # Artifact copy: the claude.ai artifact host supplies doctype/html/head/body itself
+    art = html
+    for tag in ("<!doctype html>", '<html lang="en">', "<head>", "</head>", "<body>", "</body>", "</html>"):
+        art = art.replace(tag, "", 1)
+    art = re.sub(r'<meta (charset|name="viewport")[^>]*>\n', "", art)
+    (BUILD / "artifact.html").write_text(art.strip() + "\n", encoding="utf-8")
+    print(f"page_assemble: wrote {out.relative_to(DIST.parent)} ({len(html.encode()) / 1024:.0f} KB) and build/artifact.html")
     return 0
 
 
