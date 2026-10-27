@@ -141,9 +141,14 @@ Plus:
 
 ### 9. My collection
 
-**You can:** upload your Poke Genie export and see all your Pokémon with their IVs, level and moves; search and sort them; see each one's PvP rank per league and raid value; get suggestions (what to power up, what's safe to transfer, which Pokémon you're missing); see stats (types, shinies, luckies, hundos). Uploading a newer export replaces the old one and shows what changed.
-**Backend:** CSV parser and name/form matcher (with a report of rows that didn't match), collection tables per user, recalculated values.
+**You can:** upload your Poke Genie export and see all your Pokémon with their IVs, level and moves; search and sort them; see each one's PvP rank per league and raid value; get suggestions (what to power up, what's safe to transfer, which Pokémon you're missing); see stats (types, shinies, luckies, hundos). Uploading a newer export becomes your current collection and shows what changed. Plus:
+- **Import history:** every upload is kept, so you can see how your collection grew — new hundos, shinies, power-ups over time;
+- **Duplicates review:** for each species, your best copy per use (each league, raids) and the duplicates you could transfer.
+
+**Backend:** CSV parser and name/form matcher (with a report of rows that didn't match), collection tables per user, recalculated values, import snapshots stored as diffs between uploads.
 **Data:** your Poke Genie export only (there is no official game API).
+**Notes:** a collection of a few thousand Pokémon is well under 1 MB per upload; storing diffs keeps years of history within the free database tier.
+**Review:** confirmed 2026-10-27, adding import history and the duplicates review. Not added: candy planner, notes and own tags.
 
 ### 10. Best team
 

@@ -86,6 +86,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-27 | Review — **6. Raid bosses** confirmed, adding: counter search string, "can I do it with my team", catch-screen IV check, approximate weather check (free weather service, location not stored). |
 | 2026-10-27 | Review — **7. Max Battles** confirmed, adding: team roles (attacker/tank/healer), Max Move upgrade cost, catch-screen IV check. Not added: Max counter search string. |
 | 2026-10-27 | Review — **8. Battle simulator** confirmed, adding: battle timeline, saved simulations. Not added: compare teams, Party Power and dodging. |
+| 2026-10-27 | Review — **9. My collection** confirmed, adding: import history (every upload kept, stored as diffs), duplicates review. Not added: candy planner, notes and own tags. |
 | 2026-10-27 | All commits authored by the owner's GitHub account (history rewritten); Claude's involvement shown by the Co-Authored-By trailer. |
 
 ## Open decisions
