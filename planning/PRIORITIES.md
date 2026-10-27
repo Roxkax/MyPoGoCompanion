@@ -11,7 +11,7 @@ Stage 8. Proposed by Claude, **adjusted by the owner on 2026-10-27** (changed ro
 
 | ID | Item | Proposed | Why |
 |---|---|---|---|
-| 1.1 | Browse all species and forms (one row per form) | **MVP** | Core of the app |
+| 1.1 | Browse all species: one row per species, with version markers (Mega, Shadow, Dynamax, G-Max, regional forms) | **MVP** | Core of the app |
 | 1.2 | Search by name, number or nickname | **MVP** | Core |
 | 1.3 | Filters: type, generation, stats, Shadow/Mega/Dynamax, legendary, released | **MVP** | Core |
 | 1.4 | Sort by any column | **MVP** | Core |

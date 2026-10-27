@@ -6,11 +6,11 @@ How each feature works from the user's side, as signed off by the owner. Priorit
 
 **What it's for.** Look up any Pokémon in the game and find the ones that match what you need — for example "every Ground type with Attack above 250" or "all Legendaries not released yet".
 
-**Opening it (MVP).** A list of every Pokémon: all 1,025 species, and each version that plays differently gets its own line — Charizard, Mega Charizard X, Mega Charizard Y and Shadow Charizard are four lines; Vulpix and Alolan Vulpix are two. Each line shows the picture, Pokédex number, name, types and a few key numbers (such as base stats and max CP; exact columns decided in design). Starts in Pokédex order. Tapping a line opens the Pokémon's page (feature 2).
+**Opening it (MVP).** A list of every Pokémon: **one line per species (1,025)**. Versions are not separate lines; each line shows small **version markers** — Mega (or Mega ×2), Shadow, Dynamax, G-Max, regional forms — and the versions themselves are on the Pokémon's page (feature 2). Each line shows the picture, Pokédex number, name, types, the version markers, max CP at level 50 and base Attack · Defense · Stamina, taken from the base form. Starts in Pokédex order. Tapping a line opens the Pokémon's page. *(Changed at design review 2026-10-27; was one line per form.)*
 
 **Searching (MVP).** One box that filters as you type: names in English or Portuguese ("Garchomp", "garch"), Pokédex numbers ("445"), and common nicknames ("chomp", "m2", "zard").
 
-**Filtering (MVP).** Combinable filters: type (one or two), generation, stats (min/max Attack, Defense, Stamina, max CP), variants (Shadows, Megas, can Dynamax/Gigantamax), category (Legendary, Mythical, Ultra Beast), released in GO or not.
+**Filtering (MVP).** Combinable filters: type (one or two), generation, stats (min/max Attack, Defense, Stamina, max CP — on the base form), versions (has a Mega, has a Shadow, can Dynamax, can Gigantamax, has regional forms), category (Legendary, Mythical, Ultra Beast), released in GO or not.
 
 **Sorting (MVP).** Tap any column to sort; tap again to reverse.
 
