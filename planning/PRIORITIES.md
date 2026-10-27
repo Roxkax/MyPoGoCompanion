@@ -5,7 +5,7 @@ Stage 8. Proposed by Claude, **adjusted by the owner on 2026-10-27** (changed ro
 - **MVP** = the first release (web app + API) · **Good to have** = next, after the MVP · **Future** = no commitment.
 - Foundation work (repo, CI/CD, hosting, database, sign-in, OpenAPI clients, the C# engine port) is implied by the MVP and is planned in the backlog.
 
-**Totals:** 55 MVP · 75 Good to have · 28 Future (158 items).
+**Totals:** 56 MVP · 75 Good to have · 28 Future (159 items).
 
 ## 1. Pokédex
 
@@ -181,6 +181,7 @@ Stage 8. Proposed by Claude, **adjusted by the owner on 2026-10-27** (changed ro
 | 13.5 | Event prep checklist | **Future** |  |
 | 13.6 | Calendar sync (iCal) | **Future** |  |
 | 13.7 | Reminders (in-app) | **Future** |  |
+| 13.8 | Event details: your copies of the featured Pokémon with evolve / keep / transfer advice | **MVP** | owner: added 2026-10-27 at design review (A3) |
 
 ## 14. Admin panel
 

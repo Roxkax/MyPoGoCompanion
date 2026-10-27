@@ -242,6 +242,8 @@ How each feature works from the user's side, as signed off by the owner. Priorit
 
 **AI researcher (MVP).** Weekly, reads sources such as LeekDuck and game news; fetches raid rotations, events, egg pools and research rewards; publishes automatically (no source shown on screens). The admin can fix or remove entries, or run it again mid-week. Its cost counts in the $5/month AI cap.
 
+**Event details (MVP).** Type, name, date and countdown, featured Pokémon and shiny note, exclusive move (what to do, its raid/PvP numbers, why it matters), bonuses, 100% CPs to look for, event Field Research, and — when signed in with a collection — **your copies of the featured Pokémon with evolve / keep / transfer advice** (e.g. "Gible 0/15/14 → Evolve: Great League rank 1"; candy isn't in the export, so the app reminds you to check it).
+
 **Later (Good to have).** Past events archive (feeds "when it appeared" on Pokémon pages).
 
 **Future.** Event prep checklist; calendar sync (Google/Apple); reminders.
