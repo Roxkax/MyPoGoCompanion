@@ -142,6 +142,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-27 | New MVP item **13.8**: event details show your copies of the featured Pokémon with evolve/keep/transfer advice. **A3 Event details approved.** |
 | 2026-10-27 | Data freshness: **no "data as of" dates on screens; only an out-of-date warning** when data stops updating (16.3 changed, MVP). **A4 Eggs & research approved.** |
 | 2026-10-27 | Pokédex list: **one row per species**, versions shown as markers (Mega, Shadow, Dynamax, G-Max, regional forms) and detailed on the Pokémon page; stats/filters use the base form; version filters (has Mega/Shadow, can Dynamax/Gigantamax, regional forms). Spec 1 updated. |
+| 2026-10-27 | Pokédex list: lines show the base form; **hovering (desktop) or tapping (phone) a version marker switches the line to that version's stats**; same-stat versions (Shadow, Dynamax, G-Max) show a note. |
 | 2026-10-27 | All commits authored by the owner's GitHub account (history rewritten); Claude's involvement shown by the Co-Authored-By trailer. |
 
 ## Open decisions
