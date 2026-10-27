@@ -15,3 +15,5 @@ for id in 001 002 003 004 005 006 006_51 006_52 094 094_51 382 443 444 445 445_5
   curl -sfL -o "$out" "$base/Addressable%20Assets/pm${n}${suffix}.icon.png" || { rm -f "$out"; echo "missing $id"; }
 done
 ls sprites | wc -l
+
+python3 "$(dirname "$0")/trim_sprites.py"

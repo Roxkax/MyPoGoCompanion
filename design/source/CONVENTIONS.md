@@ -9,6 +9,7 @@ Every screen follows these rules. Screens are HTML/CSS in `design/source/screens
 - **Accent:** **teal** — buttons, links, the active tab, selected states. Orange is used **only for warnings**; red only for errors and destructive actions.
 - **Themes:** light and dark, following the device (switch in Settings). Screens are reviewed in light mode; a dark check happens at the end.
 - **Type colours:** on type badges, move chips and charts everywhere. **Pokémon pages (B2) and raid boss pages (C2) are tinted with the Pokémon's main type** (header band and accents).
+- **Sprites:** trimmed to their content and scaled to **fill their box equally** (a small Pokémon like Gible looks as big as Kyogre).
 - **Sizes:** each screen is shown at **phone** (393×852, inside an iPhone frame) and **desktop** (1440 wide). Scrolling phone screens also get a `-full` image showing the whole page.
 
 ## Layout rules

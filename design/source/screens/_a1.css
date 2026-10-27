@@ -1,5 +1,5 @@
 .tiles { display: grid; gap: 8px; }
-.tile { position: relative; background: var(--surface); border-radius: 16px; box-shadow: var(--shadow); padding: 10px 8px 10px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+.tile { position: relative; background: var(--surface); border-radius: 16px; box-shadow: var(--shadow); padding: 30px 8px 10px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
 .tile .tier { position: absolute; top: 8px; left: 9px; font-size: 11px; font-weight: 800; color: var(--text-3); }
 .tile .shiny { position: absolute; top: 7px; right: 8px; color: #C08A00; }
 .tile .name { font-size: 13px; font-weight: 800; line-height: 1.15; }
@@ -7,7 +7,7 @@
 .tile .types .type { height: 16px; font-size: 9.5px; padding: 0 6px; }
 .tiles { --s: 56px; }
 .spritewrap { position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; }
-.shadowflame { position: absolute; top: calc(var(--s) - 18px); right: calc(50% - var(--s) / 2 - 4px); width: 18px; height: 18px; border-radius: 50%; background: #5B2A86; display: grid; place-items: center; }
+.shadowflame { position: absolute; top: calc(var(--s) - 16px); right: calc(50% - var(--s) / 2 - 4px); width: 18px; height: 18px; border-radius: 50%; background: #5B2A86; display: grid; place-items: center; }
 .evt { display: flex; gap: 12px; align-items: center; padding: 12px 14px; }
 .evt + .evt { border-top: 1px solid var(--line); }
 .evt .when { font-size: 12px; font-weight: 800; color: var(--text-3); }

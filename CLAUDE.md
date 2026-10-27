@@ -135,6 +135,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-27 | Design: every screen is shown at **phone and desktop size** before approval. |
 | 2026-10-27 | Design: **app map approved** (`design/APP-MAP.md`) — tabs Today, Pokédex, Battle, Filters, Collection; search, Ask (AI) and profile always on screen; 25 MVP screens A1–H3. |
 | 2026-10-27 | Design style (`design/source/CONVENTIONS.md`): clean & data-focused · light + dark following the device · **teal** accent (orange only for warnings) · type colours on badges, and **Pokémon and raid boss pages tinted by main type** · comfortable density · rounded font (**Nunito**) · one shared sample dataset with a fictional trainer (Ash_PT, level 48, Mystic) on Tue 27 Oct 2026 18:30. Game sprites fetched locally, not committed. |
+| 2026-10-27 | Screen **A1 Today approved** (tiles for raids and Max Battles, live/next events, eggs & research summary, data-source line). Sprites trimmed and scaled to fill their box equally on all screens. |
 | 2026-10-27 | All commits authored by the owner's GitHub account (history rewritten); Claude's involvement shown by the Co-Authored-By trailer. |
 
 ## Open decisions
