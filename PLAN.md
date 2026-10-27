@@ -162,7 +162,15 @@ Plus:
 ### 11. AI assistant
 
 **You can:** ask anything about the game in English or Portuguese. It answers from our data first (Pokédex, rankings, bosses, simulations, your collection) and searches the web for what we don't have, citing sources. Your conversations are saved.
-**Backend:** Claude via Anthropic's API behind a provider-agnostic layer; tools that query our data; web search; per-month spending cap ($5) with usage shown in the admin panel.
+Plus:
+- **Knows the current page:** ask about the Pokémon, boss or filter you're looking at without retyping it;
+- **Does things for you:** "make me a filter for…", "build a team for…", "simulate…" — it creates them in your account after you confirm;
+- **Screenshot questions:** attach a screenshot (appraisal, catch screen, battle) and ask about it;
+- **"Ask about this" buttons:** suggested questions on pages (e.g. "Is this worth powering up?" on one of your Pokémon).
+
+**Backend:** Claude via Anthropic's API behind a provider-agnostic layer; tools that query our data and, with confirmation, create filters, teams and simulations; page context passed with each question; image input; web search; per-month spending cap ($5) with usage shown in the admin panel; a small model for simple questions.
+**Notes:** screenshots cost more per question, so they count more against the $5 cap. Nothing is created or changed without your confirmation.
+**Review:** confirmed 2026-10-27, with all four additions.
 
 ### 12. Data corrections (AI → admin approval)
 
