@@ -240,6 +240,33 @@ Plus:
 **Backend/web:** a service worker and an offline cache of read-only data (Pokédex, filters, counters, your collection).
 **Review:** confirmed 2026-10-27, adding the installable web app. Not added: offline status indicator, choosing what's saved.
 
+### 18. Team GO Rocket
+
+**You can:** see the current Grunt, Leader (Cliff, Arlo, Sierra) and Giovanni line-ups with the best counters for each slot, which Shadow Pokémon they give, and which Shadows are worth keeping or purifying.
+**Backend:** line-up tables, counters from the raid model against each Rocket Pokémon, Shadow keep/purify advice from the rankings.
+**Data:** line-ups change with each season and aren't fully in the game files, so the weekly AI research proposes them and the admin approves.
+**Notes:** added during the review (2026-10-27); details to confirm.
+
+### 19. Eggs & research
+
+**You can:** see what hatches from each egg distance (2, 5, 7, 10, 12 km and adventure/route eggs), current Field and Special Research rewards, and the hundo CPs to look for.
+**Backend:** egg pool and research reward tables, CP lookups.
+**Data:** pools rotate and aren't in the game files; the weekly AI research proposes them and the admin approves.
+**Notes:** added during the review (2026-10-27); details to confirm.
+
+### 20. Trading & friends
+
+**You can:** see trade Stardust costs by friendship level, lucky-trade odds, trade evolutions (free with a trade), special-trade rules, friendship levels and their bonuses (raid damage, IV floor on trades).
+**Backend:** rule tables and calculators.
+**Data:** game rules (mostly fixed) from the game master where present, the rest admin-maintained.
+**Notes:** added during the review (2026-10-27); details to confirm.
+
+### 21. Routes & Party Play
+
+**You can:** read how Routes and Party Play work, their bonuses and challenges, and what's current.
+**Backend:** content pages; current challenges via the weekly AI research.
+**Notes:** Routes themselves are location-based and only visible in the game, so the app covers rules, bonuses and current challenges, not a map of routes. Added during the review (2026-10-27); details to confirm.
+
 ---
 
 ## Architecture
