@@ -217,3 +217,17 @@ How each feature works from the user's side, as signed off by the owner. Priorit
 **Future.** Does things for you after confirmation (filters, teams, simulations); screenshot questions.
 
 **Where the answers come from.** Claude (Anthropic) reading our data through the API's tools; later the web, always with sources. The AI never changes data by itself.
+
+## 12. Data corrections — signed off 2026-10-27 (all after the MVP)
+
+**What it's for.** Enrich and fix the data with facts the game files don't contain; the AI and users suggest, only the admin decides.
+
+**Sources of suggestions (Good to have).** The AI chat (web findings our data lacks — e.g. "Galarian Articuno only from Daily Adventure Incense"); the AI researcher (facts found while fetching bosses/events); "report wrong data" on any fact.
+
+**Review queue (Good to have).** Cards showing the Pokémon/move and field, current vs proposed value, sources (at least one link required), AI confidence (low marked), link to the chat. Actions: approve, edit then approve, reject (optional reason).
+
+**After approval (Good to have).** "Admin-verified" label on the Pokédex; stored in a separate layer that survives daily imports; conflicts flagged when an import changes the same field; full per-field history with revert; audit log.
+
+**Pending alerts (Good to have).** In-app and browser notifications; push with the mobile apps.
+
+**In the MVP (without this feature).** The chat never changes data; AI-researched bosses and events publish automatically and can be fixed with the small editor (14.12); special conditions wait for this feature.
