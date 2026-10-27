@@ -107,8 +107,16 @@ Filter any list to "only what I own". Plus:
 ### 6. Raid bosses
 
 **You can:** see current and upcoming raid bosses by tier (1, 3, 5, Mega, Shadow, Elite) with dates and shiny availability; open a boss to see its types, weaknesses, possible moves, 100% CP (normal and weather-boosted), **best counters** (re-ranked when you pick the boss's actual moves), **your best counters**, **tips**, and the **estimated minimum players**.
-**Backend:** a counters engine (raid model + type effectiveness + the boss's moves), the raid simulator (feature 8) for minimum players, a boss schedule table.
-**Data:** game master (boss stats and moves), the weekly AI research job (feature 13) for the rotation, tips written or approved by the admin.
+Plus:
+- **Counter search string:** copy a string that finds your best counters for this boss in your storage;
+- **Can I do it with my team?** players needed using your own counters (e.g. "you can duo this");
+- **Catch-screen IV check:** type the CP shown on the catch screen and see the possible IVs (raid IVs are at least 10/10/10), with the hundo CPs;
+- **Weather check:** an approximation of today's in-game weather where you are, to see if the boss is boosted.
+
+**Backend:** a counters engine (raid model + type effectiveness + the boss's moves), the raid simulator (feature 8) for minimum players, a boss schedule table, a CP→IV solver, the filter encoder for counter strings, a weather lookup.
+**Data:** game master (boss stats and moves), the weekly AI research job (feature 13) for the rotation, tips written or approved by the admin, a free weather service (e.g. Open-Meteo) for the weather check.
+**Notes:** the game uses its own weather provider, so the weather check is an approximation and is labelled as such. Location is asked only for this, and not stored.
+**Review:** confirmed 2026-10-27, with all four additions.
 
 ### 7. Max Battles
 
