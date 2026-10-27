@@ -140,6 +140,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-27 | Calendar entry points: calendar button in Today's header (A1 updated) and search offers the Calendar for "calendar", "raid hour", "community day" (H2). **A2 Calendar approved.** |
 | 2026-10-27 | **No source information anywhere on screens**: no source lines, no ⓘ, no source badges (item 2.11 removed; specs and PLAN updated). AI chat answers may still cite web pages inside the answer (11.2). |
 | 2026-10-27 | New MVP item **13.8**: event details show your copies of the featured Pokémon with evolve/keep/transfer advice. **A3 Event details approved.** |
+| 2026-10-27 | **No data freshness on screens** either (item 16.3 removed): no "data as of" dates or overdue warnings; import status stays in the admin panel. **A4 Eggs & research approved.** |
 | 2026-10-27 | All commits authored by the owner's GitHub account (history rewritten); Claude's involvement shown by the Co-Authored-By trailer. |
 
 ## Open decisions
