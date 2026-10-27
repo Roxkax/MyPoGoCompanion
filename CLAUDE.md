@@ -27,8 +27,8 @@ We are **planning**, following the process in `docs/PLANNING-PROCESS.md` (stages
 | 4 Clarify, one question at a time | Done 2026-10-27 |
 | 5 Write PLAN.md | Done 2026-10-27 (draft) |
 | 6 Feature-by-feature review | Done 2026-10-27 (21 features) |
-| 7 Technical decisions | **Next** (most already decided; see log) |
-| 8 Prioritise (MVP / Good to have / Future) | — |
+| 7 Technical decisions | Done 2026-10-27 |
+| 8 Prioritise (MVP / Good to have / Future) | **Next** |
 | 9 Backlog (Epic → Feature → Task, 100-hour sprints) | — |
 | 10 Design: app map, then realistic screens one by one | — |
 | 11 Rebuild the backlog from the design | — |
@@ -106,6 +106,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-27 | Tech — AI web search via a **separate search API** behind a pluggable interface; provider chosen when building. |
 | 2026-10-27 | Tech — **one monorepo** (API, jobs, web, later iOS/Android, planning docs). |
 | 2026-10-27 | The current Python Keeper Filters page **stays as it is until the app includes its filters**; then the Python code and page are removed (golden files saved first for the C# tests). |
+| 2026-10-27 | Tech defaults confirmed (PLAN.md "Technical decisions"): minimal APIs + EF Core migrations, TanStack Query + i18next, own access/refresh tokens after Google sign-in, small model for simple AI questions, Application Insights, Blob backups, GitHub Actions CI/CD, PokeMiners sprites, Open-Meteo. **Stage 7 done.** |
 | 2026-10-27 | All commits authored by the owner's GitHub account (history rewritten); Claude's involvement shown by the Co-Authored-By trailer. |
 
 ## Open decisions
