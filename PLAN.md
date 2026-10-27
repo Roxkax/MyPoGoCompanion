@@ -234,6 +234,11 @@ Plus:
 ### 17. Offline
 
 The Pokédex, filters, raid counters and your collection stay readable without a connection (cached on the device). Changes and the AI need a connection.
+Plus:
+- **Installable web app:** add it to your phone's home screen; it opens like an app and works offline.
+
+**Backend/web:** a service worker and an offline cache of read-only data (Pokédex, filters, counters, your collection).
+**Review:** confirmed 2026-10-27, adding the installable web app. Not added: offline status indicator, choosing what's saved.
 
 ---
 
