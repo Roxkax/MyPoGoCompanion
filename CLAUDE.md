@@ -100,6 +100,9 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-27 | Review — **19. Eggs & research** confirmed, adding: shiny & rarity markers, find a task by reward, catch-screen IV check, manual research checklist. |
 | 2026-10-27 | Review — **20. Trading & friends** confirmed, adding: trade IV calculator, "what to trade" from the collection. Not added: friends tracker. |
 | 2026-10-27 | Review — **21. Routes & Party Play** confirmed, adding: Zygarde Cell tracker (manual), route rewards, Party Power planner. **Stage 6 done: 21 features confirmed.** |
+| 2026-10-27 | Tech — web app is a **Vite single-page React app, installable (PWA)** with an offline cache. |
+| 2026-10-27 | Tech — scheduled work (daily import, weekly AI research, backups, reminders) runs as **Azure Container Apps Jobs** (scale-to-zero, separate from the API). |
+| 2026-10-27 | **No emails for now.** Alerts and reminders are **in-app notifications** (bell + browser notifications); push notifications come with the mobile apps. Features 12, 13 and 15 updated. |
 | 2026-10-27 | All commits authored by the owner's GitHub account (history rewritten); Claude's involvement shown by the Co-Authored-By trailer. |
 
 ## Open decisions
