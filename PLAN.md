@@ -48,11 +48,16 @@ Each feature lists what you can do, what the backend needs, where the data comes
 - **every version it has or had**: regional forms, costumes (incl. retired), shiny, Shadow/Purified, Mega, Dynamax/Gigantamax — and changes over time (moves added or rebalanced);
 - its rankings (PvP leagues, raid rank per type, Max Battle rank);
 - its best IVs per league with a one-tap search string;
-- where each fact comes from (game files, PvPoke, admin-approved), with a "report wrong data" button.
+- where each fact comes from (game files, PvPoke, admin-approved), with a "report wrong data" button;
+- **your copies** of it (from your collection) with IVs, level, moves and PvP rank per league;
+- an **IV rank checker**: type any IVs and see rank, best level and CP per league, for it and its evolutions;
+- **type matchups**: weaknesses and resistances with multipliers;
+- a **power-up cost** calculator: candy, XL candy and Stardust to reach a target level or a league's best level (including Shadow, Purified and lucky costs).
 
 **Backend:** a Pokémon detail endpoint; a **history store** of game master changes (backfilled from the game master's public git history); a **curated layer** for approved facts that survives daily imports.
 **Data:** game master + its history, PvPoke, curated layer (AI proposals approved by the admin).
 **Notes:** "how to get it" and special conditions are only partly in the game files; the AI research and the chat fill the gaps, with your approval.
+**Review:** confirmed 2026-10-27, with all four additions.
 
 ### 3. Moves
 
