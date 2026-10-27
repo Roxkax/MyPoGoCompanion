@@ -333,3 +333,17 @@ How each feature works from the user's side, as signed off by the owner. Priorit
 **Future.** Find a task by reward; manual research checklist.
 
 **Where it comes from.** AI researcher (pools, tasks; weekly, auto-published, fixable), our calculations (CPs).
+
+## 20. Trading & friends — signed off 2026-10-27 (all after the MVP)
+
+**What it's for.** Know what a trade costs and can give, and which of your Pokémon are worth trading.
+
+**Getting there.** From the menu (Trading).
+
+**Trade rules and costs (Good to have).** By friendship level (Good, Great, Ultra, Best): Stardust costs (normal, new Pokédex entry, special trades), lucky-trade chances and guarantees, trade evolutions (0 candy after a trade), friendship bonuses (raid damage, extra balls, minimum IVs on trades).
+
+**Trade IV calculator (Good to have).** Pick a Pokémon and friendship level → possible IV range (minimum IV: Good 1, Great 2, Ultra 3, Best 5, Lucky 12) and its chance of a good GL/UL/raid specimen.
+
+**Future.** What to trade (regionals, likely-lucky old catches, trade-evolution candidates, duplicates — from your collection).
+
+**Where it comes from.** Fixed game rules (kept in the app, updated by the admin), our calculations.
