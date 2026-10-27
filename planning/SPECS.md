@@ -181,3 +181,23 @@ How each feature works from the user's side, as signed off by the owner. Priorit
 **Limits.** Only as current as your last export; the app never connects to the game account (Niantic's rules); candy isn't in the export.
 
 **Privacy.** Stored only in your account; removed with account deletion (when it arrives).
+
+## 10. Best team — signed off 2026-10-27
+
+**What it's for.** Know which 6 Pokémon to bring to a raid without working it out yourself.
+
+**Getting there.** From the Raids menu (Teams), each raid boss page, and the tier lists.
+
+**Best team per type (MVP).** Pick an attacking type → the 6 best attackers: five regular/Shadow plus one Mega (only one Mega fits), each with moveset and score.
+
+**Best team against a boss (MVP).** On a raid boss page, the counters become a ready team of 6 (best Mega + five best others), using the boss's actual moves if picked.
+
+**From your collection (MVP).** The same teams built only from your Pokémon at real levels and IVs; the app says when a slot has no good option.
+
+**Mega choice (MVP).** Lock the Mega you'll actually use; the rest is rebuilt around it.
+
+**Later (Good to have).** Save teams.
+
+**Future.** PvP team builder (3 Pokémon, type coverage and threats, from PvPoke data).
+
+**Where the information comes from.** Our raid damage calculations; your collection.
