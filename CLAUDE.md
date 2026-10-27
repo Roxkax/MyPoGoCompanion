@@ -24,9 +24,9 @@ We are **planning**, following the process in `docs/PLANNING-PROCESS.md` (stages
 | 1 Kick-off questions | Done (platforms and purpose known from earlier sessions) |
 | 2 Working agreements | Done 2026-10-27 |
 | 3 Describe the idea as a user | Done 2026-10-27 (see "The idea") |
-| 4 Clarify, one question at a time | **In progress** |
-| 5 Write PLAN.md | — |
-| 6 Feature-by-feature review | — |
+| 4 Clarify, one question at a time | Done 2026-10-27 |
+| 5 Write PLAN.md | Done 2026-10-27 (draft) |
+| 6 Feature-by-feature review | **Next** |
 | 7 Technical decisions | Mostly decided (see log); remaining ones confirmed here |
 | 8 Prioritise (MVP / Good to have / Future) | — |
 | 9 Backlog (Epic → Feature → Task, 100-hour sprints) | — |
