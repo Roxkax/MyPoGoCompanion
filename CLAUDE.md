@@ -111,6 +111,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-27 | **Bosses and events are fetched by the system**: the weekly AI research job (13.2, now MVP) reads sources such as **LeekDuck** (supersedes "no scraping of community sites") and **publishes automatically** with the source shown; the admin only fixes or removes entries (new MVP item 14.12). Terms of community sites to recheck before any public launch. |
 | 2026-10-27 | Sign-off — **1. Pokédex** approved as described in `planning/SPECS.md`. |
 | 2026-10-27 | Sign-off — **2. Pokémon page** approved; "where it appears right now" (2.6) moved to MVP. |
+| 2026-10-27 | Sign-off — **3. Moves** approved as described. |
 | 2026-10-27 | All commits authored by the owner's GitHub account (history rewritten); Claude's involvement shown by the Co-Authored-By trailer. |
 
 ## Open decisions

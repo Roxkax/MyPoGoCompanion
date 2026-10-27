@@ -51,3 +51,21 @@ How each feature works from the user's side, as signed off by the owner. Priorit
 **Later (Good to have).** Special conditions found by the AI (with data corrections); changes over time (history from the game files); "report wrong data"; your copies of it with their ranks; power-up cost (candy, XL candy, Stardust, incl. Shadow/Purified/lucky).
 
 **Where the information comes from.** Game files (stats, moves, evolution rules, forms, history), PvPoke (PvP rankings, move flags), our calculations (raid ranks, best IVs, CP tables), the AI researcher (current appearances), later AI-found facts.
+
+## 3. Moves — signed off 2026-10-27
+
+**What it's for.** Look up any move: how strong it is in raids and in PvP, who can learn it, and which moves are best for each type.
+
+**Getting there.** From the menu (Moves) or by tapping a move on any Pokémon page.
+
+**Moves list (MVP).** Every fast and charged move, filterable by type and searchable by name, with two sets of numbers because the game uses different values in raids and in PvP: raids (power, duration, energy — e.g. Dragon Tail 14, 1.0 s, +8) and PvP (power, energy, turns — e.g. Dragon Tail 9, +12, 3 turns). Sortable by any number.
+
+**Move page (MVP).** Its numbers and every Pokémon that can learn it, in three groups: normally (TMs), Elite TM only, legacy. Tapping a Pokémon opens its page.
+
+**Type chart (MVP).** The full attacking × defending chart; pick a dual type (e.g. Water + Ground) to see combined weaknesses (Grass ×2.56) and resistances.
+
+**Best movesets per Pokémon (MVP).** On each Pokémon page: every fast + charged combination ranked for raids and PvP.
+
+**Later (Good to have).** Move history (rebalances over time); Max and G-Max move power by level; move rankings per type (raids: damage/energy per second; PvP: per turn); TM advice on your Pokémon (which of yours lack their best moves and which TM to use).
+
+**Where the information comes from.** Game files (move numbers, who learns what), PvPoke (Elite TM and legacy flags), our calculations (rankings).
