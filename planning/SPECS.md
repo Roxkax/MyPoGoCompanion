@@ -129,3 +129,19 @@ How each feature works from the user's side, as signed off by the owner. Priorit
 **Future.** Weather check (approximate in-game weather where you are).
 
 **Where the information comes from.** AI researcher (bosses, dates; source shown), game files (boss stats, moves), our raid calculations (counters, with type effectiveness and boss moves).
+
+## 7. Max Battles — signed off 2026-10-27 (all after the MVP)
+
+**What it's for.** Prepare for Dynamax and Gigantamax battles: current Max bosses, which Pokémon to bring, in which role.
+
+**Getting there.** From the menu (Max Battles), the home page and calendar during Max Battle weeks.
+
+**Max boss list (Good to have).** Current Max bosses by star level (1–6, Gigantamax) with types and dates, fetched by the AI researcher.
+
+**Max boss page (Good to have).** Best counters (Max model, labelled estimates); your best Dynamax/Gigantamax Pokémon from your collection; a suggested team by role — attacker (Max Strike), tank (Max Guard), healer (Max Spirit); tips (admin-written); catch-screen IV check.
+
+**Future.** Max Move upgrade cost (candy and Max Particles for Max Attack, Guard, Spirit).
+
+**Where the information comes from.** AI researcher (bosses, dates), game files (stats, moves), our Max Battle model (counters, roles).
+
+**Honest note.** Max mechanics are less documented; results are labelled estimates and improve over time.
