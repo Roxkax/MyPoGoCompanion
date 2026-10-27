@@ -23,8 +23,8 @@ We are **planning**, following the process in `docs/PLANNING-PROCESS.md` (stages
 |---|---|
 | 1 Kick-off questions | Done (platforms and purpose known from earlier sessions) |
 | 2 Working agreements | Done 2026-10-27 |
-| 3 Describe the idea as a user | **Next** |
-| 4 Clarify, one question at a time | — |
+| 3 Describe the idea as a user | Done 2026-10-27 (see "The idea") |
+| 4 Clarify, one question at a time | **In progress** |
 | 5 Write PLAN.md | — |
 | 6 Feature-by-feature review | — |
 | 7 Technical decisions | Mostly decided (see log); remaining ones confirmed here |
@@ -35,6 +35,17 @@ We are **planning**, following the process in `docs/PLANNING-PROCESS.md` (stages
 | 12 Start sprints | Only when the owner says so |
 
 Earlier product work (feature list F01–F25 with priorities, UI choices, first wireframes) is archived in `docs/archive/` for reference only. It is **not** decided: the product is being redone with this process.
+
+## The idea (owner's words, 2026-10-26)
+
+- An extensive Pokédex: each Pokémon's stats, full movepool, where to get it and any special conditions, every version it has or had; filter by Attack, type and more.
+- Create search filters.
+- Tier lists for PvP, raids and Dynamax.
+- Raid boss list with counters, tips and minimum players.
+- A battle simulator.
+- Import my Poke Genie export so my collection is in the app.
+- Suggestions for the best team per type.
+- An AI chat to answer doubts. When it finds something the Pokédex is missing (e.g. a special catch condition) and the admin approves it, the Pokédex is updated.
 
 ## Decision log
 
@@ -51,6 +62,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-27 | Adopted the planning process in `docs/PLANNING-PROCESS.md`. |
 | 2026-10-27 | Keep the technical decisions above; **redo the product** (features, priorities, design) from scratch. v1 feature list, UX choices and wireframes archived. |
 | 2026-10-27 | Working agreements above confirmed. |
+| 2026-10-27 | Stage 3: the description above is the starting idea; more features can be added during the review. |
 | 2026-10-27 | All commits authored by the owner's GitHub account (history rewritten); Claude's involvement shown by the Co-Authored-By trailer. |
 
 ## Open decisions
