@@ -244,8 +244,14 @@ Plus:
 
 **You can:** see the current Grunt, Leader (Cliff, Arlo, Sierra) and Giovanni line-ups with the best counters for each slot, which Shadow Pokémon they give, and which Shadows are worth keeping or purifying.
 **Backend:** line-up tables, counters from the raid model against each Rocket Pokémon, Shadow keep/purify advice from the rankings.
-**Data:** line-ups change with each season and aren't fully in the game files, so the weekly AI research proposes them and the admin approves.
-**Notes:** added during the review (2026-10-27); details to confirm.
+Plus:
+- **Your counters:** your best counters for each Leader and Giovanni slot, from your collection;
+- **Counter search string:** copy a string that finds your counters for a Leader in your storage;
+- **Purify advice on yours:** for each Shadow you own, keep as Shadow or purify — per league and for raids, with the cost;
+- **Grunt by quote:** pick a Grunt's quote to see their type and line-up.
+
+**Data:** line-ups and quotes change with each season and aren't fully in the game files, so the weekly AI research proposes them and the admin approves.
+**Review:** added and confirmed 2026-10-27, with all four additions.
 
 ### 19. Eggs & research
 
