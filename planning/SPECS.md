@@ -159,3 +159,25 @@ How each feature works from the user's side, as signed off by the owner. Priorit
 **Not included.** No PvP simulator (PvP rankings come from PvPoke). Dodging and Party Power aren't modelled.
 
 **Where the information comes from.** Game files (stats, moves); our simulation model (labelled estimate).
+
+## 9. My collection — signed off 2026-10-27
+
+**What it's for.** Your own Pokémon in the app, so everything becomes personal.
+
+**Getting there.** From the menu (Collection); sign-in required (saved to your account).
+
+**Importing (MVP).** Export a CSV from Poke Genie → Upload → the app reads every Pokémon (species, form, CP, IVs, level, moves, Shadow/Purified, lucky, favourite, catch date) and matches it to the Pokédex → a report ("2,148 imported, 3 not recognised") listing unmatched rows.
+
+**Updating (MVP).** Upload a newer export: it becomes the current collection and the app shows what changed (new, gone, powered up, evolved, new moves).
+
+**Collection list (MVP).** Searchable, sortable (CP, IVs, level, catch date, rank). Each Pokémon shows PvP value (rank in GL/UL/ML with its IVs, best level and CP) and raid value (vs the top attackers of its type at its level). Tapping opens its Pokémon page with your copy's details.
+
+**Used everywhere (MVP).** Feeds "only what I own" (tier lists), "your best counters" (raid bosses), "best team from your collection".
+
+**Later (Good to have).** Suggestions (power up, safe to transfer, missing); collection stats (types, shinies, luckies, hundos, Shadows, completion); duplicates review.
+
+**Future.** Import history (every upload kept).
+
+**Limits.** Only as current as your last export; the app never connects to the game account (Niantic's rules); candy isn't in the export.
+
+**Privacy.** Stored only in your account; removed with account deletion (when it arrives).
