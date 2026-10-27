@@ -145,3 +145,17 @@ How each feature works from the user's side, as signed off by the owner. Priorit
 **Where the information comes from.** AI researcher (bosses, dates), game files (stats, moves), our Max Battle model (counters, roles).
 
 **Honest note.** Max mechanics are less documented; results are labelled estimates and improve over time.
+
+## 8. Battle simulator — signed off 2026-10-27 (all after the MVP)
+
+**What it's for.** Test a raid before doing it: how long it takes, how many of your Pokémon faint, how many trainers you need.
+
+**Getting there.** From a raid boss page ("Simulate"), the Raids menu, and saved teams.
+
+**Raid simulator (Good to have).** Choose a boss and its moves (or average), a team of six (suggested, your own, or hand-picked), attacker level (40/50/51), weather and friendship. The simulation plays the battle second by second (boss attacks, fast/charged moves, energy, faints, re-lobbies) and reports time to win against the timer, faints, win/lose (e.g. "4 trainers, level 40: win in 2:35, ~3 faints each"). **Group raids**: set the number of trainers to find the minimum players — this feeds "estimated minimum players" and "can I do it with my team?" on raid boss pages.
+
+**Future.** Max Battle simulator (once mechanics are better documented); battle timeline (step-by-step replay); saved simulations.
+
+**Not included.** No PvP simulator (PvP rankings come from PvPoke). Dodging and Party Power aren't modelled.
+
+**Where the information comes from.** Game files (stats, moves); our simulation model (labelled estimate).
