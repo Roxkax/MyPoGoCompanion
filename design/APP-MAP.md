@@ -29,4 +29,8 @@ Always on screen: a **search bar** (any Pokémon, move, boss or event), an **Ask
 | G. Admin | G1 Data status & re-run · G2 Fix fetched entries |
 | H. Shared | H1 AI chat · H2 Search results · H3 Offline screen |
 
+## Entry points (agreed during screen review)
+
+- **A2 Calendar:** "Calendar" link in Today's Events section; a **calendar button in Today's header** (phone); Calendar in the desktop sidebar; **search** offers the Calendar for words like "calendar", "raid hour", "community day" (H2).
+
 Post-MVP screens (Max Battles, simulator, Team GO Rocket, trading, routes, data corrections, etc.) are added to this map when their features are scheduled.

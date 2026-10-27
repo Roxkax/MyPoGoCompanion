@@ -1,7 +1,7 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><title>A1 Today</title><link rel="stylesheet" href="../base.css"><link rel="stylesheet" href="_a1.css"></head><body><div class="stage"><div class="device"><div class="screen">
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>A1 Today</title><style>.iconbtn{width:36px;height:36px;border-radius:18px;border:0;background:var(--surface-2);color:var(--text-2);display:grid;place-items:center}</style><link rel="stylesheet" href="../base.css"><link rel="stylesheet" href="_a1.css"></head><body><div class="stage"><div class="device"><div class="screen">
 <div data-statusbar></div>
 <header class="apphead">
- <div class="titlerow"><h1 class="bigtitle">Today</h1><span data-ask></span><div class="avatar">A</div></div>
+ <div class="titlerow"><h1 class="bigtitle">Today</h1><button class="iconbtn" aria-label="Calendar">CALICON</button><span data-ask></span><div class="avatar">A</div></div>
  <div class="sub" style="margin-top:-8px">Tuesday 27 October</div>
  <div data-search></div>
 </header>
@@ -29,4 +29,4 @@
  <p class="fresh" style="margin:4px 2px 0">Bosses &amp; events from LeekDuck, fetched Sun 25 Oct 22:00 · Game data 27 Oct 06:00</p>
 </div></div>
 <div data-tabbar="today"></div>
-</div></div></div><script src="../chrome.js"></script><script>document.body.innerHTML=document.body.innerHTML.replaceAll("ICON_EGG",icon("egg",22)).replaceAll("ICON_CAL",icon("calendar",22));</script></body></html>
+</div></div></div><script src="../chrome.js"></script><script>document.body.innerHTML=document.body.innerHTML.replaceAll("ICON_EGG",icon("egg",22)).replaceAll("ICON_CAL",icon("calendar",22)).replaceAll("CALICON",icon("calendar",21,2.1));</script></body></html>
