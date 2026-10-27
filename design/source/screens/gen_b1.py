@@ -80,3 +80,40 @@ HOVER = (6, "Mega Y", "006_52", 319, 212, 186, 5037, "Mega Charizard Y")
 deskh = desk_src()
 (HERE / 'B1h-desktop.html').write_text(deskh)
 (HERE / 'B1h-phone.html').write_text(phone_src(ROWS[3:]))
+
+# ---- Filtered example: Fire + Attack >= 230 (versions count; non-matching badges hidden) ----
+FX = [  # dex, sprite, name, types, atk, def, sta, cp, badges, selected badge, showing label
+    (6, "006_52", "Charizard", ["fire", "flying"], 319, 212, 186, 5037, ["Mega X", "Mega Y"], "Mega Y", "Mega Charizard Y"),
+    (59, "059_HISUIAN", "Arcanine", ["fire", "rock"], 232, 165, 216, 3556, ["Hisuian"], "Hisuian", "Hisuian Arcanine"),
+    (136, "136", "Flareon", ["fire"], 246, 179, 163, 3424, ["Shadow"], None, None),
+    (146, "146", "Moltres", ["fire", "flying"], 251, 181, 207, 3917, ["Shadow"], None, None),
+    (157, "157_HISUIAN", "Typhlosion", ["fire", "ghost"], 238, 172, 177, 3385, ["Hisuian"], "Hisuian", "Hisuian Typhlosion"),
+    (229, "229_51", "Houndoom", ["dark", "fire"], 289, 194, 181, 4344, ["Mega"], "Mega", "Mega Houndoom"),
+    (244, "244", "Entei", ["fire"], 235, 171, 251, 3926, ["Shadow"], None, None),
+]
+def fx_phone(r):
+    d, sp, n, ts, a, de, s_, cp, bs, sel, lab = r
+    sub = f'<span class="showing">Showing {lab}</span>' if lab else ''
+    return f'''<div class="drow"><img class="sprite" src="../sprites/{sp}.png" width="46" height="46" alt=""><div class="nm"><span class="no">#{d:03d}</span><b>{n}</b><span class="types">{tbadges(ts)}</span>{vchips(bs, sel)}{sub}</div>
+<div class="stats"><b>{f(cp)}</b><span><b style="font-size:11.5px;color:var(--accent)">{a}</b> · {de} · {s_}</span></div></div>'''
+def fx_desk(r):
+    d, sp, n, ts, a, de, s_, cp, bs, sel, lab = r
+    return f'''<tr><td class="n" style="color:var(--text-3)">#{d:03d}</td><td><span style="display:flex;align-items:center;gap:10px"><img class="sprite" src="../sprites/{sp}.png" width="36" height="36" alt="">{n}</span></td>
+<td><span style="display:flex;gap:4px">{tbadges(ts)}</span></td><td>{vchips(bs, sel)}{f'<div class="showing">Showing {lab}</div>' if lab else ''}</td><td class="n" style="color:var(--accent);font-weight:800">{a}</td><td class="n">{de}</td><td class="n">{s_}</td><td class="n" style="font-weight:800">{f(cp)}</td></tr>'''
+X = '<span style="opacity:.7;margin-left:4px">✕</span>'
+active = f'<div class="toolbar"><span class="tbtn on">Fire{X}</span><span class="tbtn on">Attack ≥ 230{X}</span><span class="tbtn on">Released{X}</span><a style="font-weight:800;font-size:14px;margin-left:4px">Clear</a></div>'
+fx_phone_html = head("B1 Pokédex — filtered") + f'''<div class="stage"><div class="device"><div class="screen"><div data-statusbar></div>{phead}
+<div class="scroll"><div style="padding:12px 12px 8px;display:flex;flex-direction:column;gap:10px"><div class="toolbar"><span class="tbtn">{FIL}Filters · 3</span><span class="tbtn">Sort: Number ↑</span></div>{active}
+<div style="display:flex;justify-content:space-between;align-items:baseline"><span class="count">24 Pokémon</span><span class="count" style="text-align:right;line-height:1.25">Max CP (L50)<br>Atk · Def · Sta</span></div></div>
+<div class="card" style="margin:0 10px 16px;overflow:hidden">{''.join(fx_phone(r) for r in FX)}</div></div>
+<div data-tabbar="pokedex"></div></div></div></div>{script}</body></html>'''
+fx_desk_html = head("B1 Pokédex — filtered") + f'''<div class="desktop"><div data-sidebar="pokedex"></div><div class="main"><div data-topbar></div>
+<div class="content" style="max-width:1180px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;align-items:baseline;gap:14px"><h1 class="bigtitle" style="flex:none">Pokédex</h1><span class="count">24 Pokémon</span></div>
+<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><div class="searchbox" style="width:230px;height:40px;background:var(--surface);border:1px solid var(--line)">SEARCHICON Name or number</div>
+<span class="tbtn on">Type: Fire{X}</span><span class="tbtn on">Attack ≥ 230{X}</span><span class="tbtn">Generation ▾</span><span class="tbtn">{FIL}More</span><span style="flex:1"></span><span class="tbtn on">Released</span><span class="tbtn">Has Mega</span><span class="tbtn">Has Shadow</span></div>
+<div class="card" style="overflow:hidden"><table class="dex"><tr><th class="n"># ↑</th><th>Pokémon</th><th>Types</th><th>Versions</th><th class="n">Attack</th><th class="n">Defense</th><th class="n">Stamina</th><th class="n">Max CP (L50)</th></tr>
+{''.join(fx_desk(r) for r in FX)}</table></div>
+<p class="count" style="margin:0">A Pokémon is shown when any of its versions matches. Each line shows the best-matching version; versions that don't match are hidden.</p></div></div></div>{script}</body></html>'''
+(HERE / 'B1x-phone.html').write_text(fx_phone_html)
+(HERE / 'B1x-desktop.html').write_text(fx_desk_html)

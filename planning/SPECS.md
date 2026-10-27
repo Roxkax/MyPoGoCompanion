@@ -10,7 +10,7 @@ How each feature works from the user's side, as signed off by the owner. Priorit
 
 **Searching (MVP).** One box that filters as you type: names in English or Portuguese ("Garchomp", "garch"), Pokédex numbers ("445"), and common nicknames ("chomp", "m2", "zard").
 
-**Filtering (MVP).** Combinable filters: type (one or two), generation, stats (min/max Attack, Defense, Stamina, max CP — on the base form), versions (has a Mega, has a Shadow, can Dynamax, can Gigantamax, has regional forms), category (Legendary, Mythical, Ultra Beast), released in GO or not.
+**Filtering (MVP).** Combinable filters that **look at every version**: a Pokémon matches when any of its versions matches (e.g. Fire + Attack ≥ 230 includes Charizard through Mega Y and Groudon through Primal Groudon). The line then shows the best-matching version (highest value of the filtered stat) with "Showing …", and **badges of versions that don't match are hidden**. Filters: type (one or two), generation, stats (min/max Attack, Defense, Stamina, max CP), versions (has a Mega, has a Shadow, can Dynamax, can Gigantamax, has regional forms), category (Legendary, Mythical, Ultra Beast), released in GO or not.
 
 **Sorting (MVP).** Tap any column to sort; tap again to reverse.
 
