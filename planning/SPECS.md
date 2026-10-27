@@ -249,3 +249,15 @@ How each feature works from the user's side, as signed off by the owner. Priorit
 **Future.** Event prep checklist; calendar sync (Google/Apple); reminders.
 
 **Honest note.** Weekly fetching can miss mid-week surprises; an extra run can be triggered any time and the frequency raised later.
+
+## 14. Admin panel — signed off 2026-10-27
+
+**What it's for.** The owner's control room: keep the system healthy and the data right without touching code. Admin role only.
+
+**Getting there.** An "Admin" menu entry visible only to admins.
+
+**MVP — two screens.** (1) **Data status & re-run**: last daily import and weekly AI researcher runs, success/errors, what changed, a "Run now" button for each. (2) **Fix fetched entries** (14.12): bosses, Max bosses and events published by the AI researcher, with source links; edit details or remove.
+
+**Simple in the MVP.** Admin role set in configuration (no user screen); the $5 AI cap is a configuration setting (spend visible); "Megas not yet in GO" stays in configuration or is updated by the AI researcher.
+
+**Later (Good to have).** Review queue (feature 12); direct data edits (logged); hand-maintained lists on screen; AI usage and cap on screen; audit log; users & roles; content editor (EN/PT); health & limits; downloadable backups; feature switches.
