@@ -28,7 +28,7 @@ We are **planning**, following the process in `docs/PLANNING-PROCESS.md` (stages
 | 5 Write PLAN.md | Done 2026-10-27 (draft) |
 | 6 Feature-by-feature review | Done 2026-10-27 (21 features) |
 | 7 Technical decisions | Done 2026-10-27 |
-| 8 Prioritise (MVP / Good to have / Future) | **Next** |
+| 8 Prioritise (MVP / Good to have / Future) | **In progress** — Claude's proposal in `planning/PRIORITIES.md`, owner adjusting |
 | 9 Backlog (Epic → Feature → Task, 100-hour sprints) | — |
 | 10 Design: app map, then realistic screens one by one | — |
 | 11 Rebuild the backlog from the design | — |
