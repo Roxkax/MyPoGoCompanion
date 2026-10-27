@@ -187,7 +187,14 @@ Plus:
 
 **You can:** see current and upcoming raid rotations, Max Battle weeks and events (Community Days, Spotlight Hours, raid days, seasons), with featured Pokémon and bonuses; a home page with "today in the game".
 **Backend:** the **weekly AI research job** reads news and proposes the rotation and events; the admin approves; manual edits possible.
-**Notes:** weekly means mid-week surprises can be missed; the admin can also run it on demand.
+Plus:
+- **Past events archive:** every past event and rotation is kept, and feeds "event appearances" on each Pokémon page;
+- **Event prep checklist:** what to do before and during an event (e.g. evolve during Community Day for the exclusive move, save candy), drafted by the AI and approved by the admin;
+- **Calendar sync:** a subscribable calendar link (iCal) for Google or Apple Calendar;
+- **Reminders:** email (later push) before events you mark as interesting.
+
+**Notes:** weekly means mid-week surprises can be missed; the admin can also run it on demand. Calendar sync and reminders use the event times in your time zone.
+**Review:** confirmed 2026-10-27, with all four additions.
 
 ### 14. Admin panel
 
