@@ -5,7 +5,7 @@ Stage 8. Proposed by Claude, **adjusted by the owner on 2026-10-27** (changed ro
 - **MVP** = the first release (web app + API) · **Good to have** = next, after the MVP · **Future** = no commitment.
 - Foundation work (repo, CI/CD, hosting, database, sign-in, OpenAPI clients, the C# engine port) is implied by the MVP and is planned in the backlog.
 
-**Totals:** 53 MVP · 77 Good to have · 28 Future (158 items).
+**Totals:** 54 MVP · 77 Good to have · 28 Future (159 items).
 
 ## 1. Pokédex
 
@@ -198,6 +198,7 @@ Stage 8. Proposed by Claude, **adjusted by the owner on 2026-10-27** (changed ro
 | 14.9 | Health & limits | **Good to have** |  |
 | 14.10 | Backups (downloadable) | **Good to have** | Neon's restore window covers the MVP |
 | 14.11 | Feature switches | **Good to have** | owner: changed 2026-10-27 |
+| 14.12 | Fix or remove a fetched boss or event (small editor) | **MVP** | owner: added 2026-10-27 — small fixes to what the AI researcher publishes |
 
 ## 15. Account and settings
 
