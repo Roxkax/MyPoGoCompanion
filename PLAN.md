@@ -222,6 +222,14 @@ Plus:
 ### 16. Data import pipeline (behind the scenes)
 
 Daily import of the game master and PvPoke, change detection, history, and recalculation of rankings, filters and counters — each verified before it's published.
+Plus:
+- **Portuguese names:** Pokémon, move and type names in Portuguese from the game's datamined text files (needed for the Portuguese interface);
+- **"What changed" page:** a public changelog per import — new Pokémon, forms, moves and rebalances;
+- **Data freshness:** every page shows "data as of" dates and warns if an import is overdue;
+- **Preview big changes:** when an import changes a lot (e.g. a move rebalance), the admin sees the diff and approves it before it goes live; small changes publish automatically.
+
+**Data:** game master and PvPoke (git), datamined game text for names (source to confirm, e.g. PokeMiners' game assets).
+**Review:** confirmed 2026-10-27, with all four additions.
 
 ### 17. Offline
 
