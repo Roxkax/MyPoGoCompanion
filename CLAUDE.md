@@ -107,6 +107,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-27 | Tech — **one monorepo** (API, jobs, web, later iOS/Android, planning docs). |
 | 2026-10-27 | The current Python Keeper Filters page **stays as it is until the app includes its filters**; then the Python code and page are removed (golden files saved first for the C# tests). |
 | 2026-10-27 | Tech defaults confirmed (PLAN.md "Technical decisions"): minimal APIs + EF Core migrations, TanStack Query + i18next, own access/refresh tokens after Google sign-in, small model for simple AI questions, Application Insights, Blob backups, GitHub Actions CI/CD, PokeMiners sprites, Open-Meteo. **Stage 7 done.** |
+| 2026-10-27 | Priorities adjusted by the owner: 1.7, 2.5, 2.12, 2.13, 6.7, 11.2, 11.3, all of 12 (data corrections) and all of 14 except 14.1 → Good to have; 5.2 → Future. |
 | 2026-10-27 | All commits authored by the owner's GitHub account (history rewritten); Claude's involvement shown by the Co-Authored-By trailer. |
 
 ## Open decisions

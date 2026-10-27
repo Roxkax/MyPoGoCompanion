@@ -1,11 +1,11 @@
 # MyPoGoCompanion — priorities
 
-Stage 8. **Proposed by Claude, to be adjusted by the owner.** Reply with the IDs you want to change (e.g. "6.6 → MVP, 2.8 → Future").
+Stage 8. Proposed by Claude, **adjusted by the owner on 2026-10-27** (changed rows are marked). Pending the owner's sign-off per feature.
 
 - **MVP** = the first release (web app + API) · **Good to have** = next, after the MVP · **Future** = no commitment.
 - Foundation work (repo, CI/CD, hosting, database, sign-in, OpenAPI clients, the C# engine port) is implied by the MVP and is planned in the backlog.
 
-**Totals:** 68 MVP · 62 Good to have · 28 Future (158 items).
+**Totals:** 52 MVP · 78 Good to have · 28 Future (158 items).
 
 ## 1. Pokédex
 
@@ -17,7 +17,7 @@ Stage 8. **Proposed by Claude, to be adjusted by the owner.** Reply with the IDs
 | 1.4 | Sort by any column | **MVP** | Core |
 | 1.5 | Move filters (incl. Elite TM / legacy) | **Good to have** | Useful, not needed day one |
 | 1.6 | Availability filters (shiny, in raids now) | **Good to have** | Needs the AI research data (13.2) |
-| 1.7 | "I own it" markers and owned/missing filter | **MVP** | Cheap once the collection exists; makes it personal |
+| 1.7 | "I own it" markers and owned/missing filter | **Good to have** | Cheap once the collection exists; makes it personal; owner: changed 2026-10-27 |
 | 1.8 | Collection tracker (completion by region and category) | **Good to have** | Collecting is a focus, but builds on 1.7 |
 | 1.9 | Compare 2–4 Pokémon | **Good to have** |  |
 | 1.10 | Saved views | **Future** | Nice convenience |
@@ -30,15 +30,15 @@ Stage 8. **Proposed by Claude, to be adjusted by the owner.** Reply with the IDs
 | 2.2 | Movepool with raid and PvP stats, Elite TM/legacy/event flags | **MVP** | Core |
 | 2.3 | Evolution chain with every condition | **MVP** | Core; in the game files |
 | 2.4 | How to get it: permanent ways | **MVP** | Core |
-| 2.5 | How to get it: special conditions (curated, from AI + admin) | **MVP** | Your main AI idea |
+| 2.5 | How to get it: special conditions (curated, from AI + admin) | **Good to have** | Your main AI idea; owner: changed 2026-10-27 |
 | 2.6 | How to get it: current appearances | **Good to have** | Needs the AI research job (13.2) |
 | 2.7 | Versions: forms, costumes, shiny, Shadow/Purified, Mega, Dynamax | **MVP** | Core |
 | 2.8 | Changes over time (history backfill) | **Good to have** | Sizeable data work |
 | 2.9 | Rankings summary (PvP, raids, Max) | **MVP** | Core |
 | 2.10 | Best IVs per league + search string | **MVP** | Engine already exists |
 | 2.11 | Source badges | **MVP** | Cheap with the curated layer |
-| 2.12 | Report wrong data | **MVP** | Feeds the review queue |
-| 2.13 | Your copies (from your collection) | **MVP** | Cheap once the collection exists |
+| 2.12 | Report wrong data | **Good to have** | Feeds the review queue; owner: changed 2026-10-27 |
+| 2.13 | Your copies (from your collection) | **Good to have** | Cheap once the collection exists; owner: changed 2026-10-27 |
 | 2.14 | IV rank checker | **MVP** | Cheap with the engine |
 | 2.15 | Type matchups | **MVP** | Cheap |
 | 2.16 | Power-up cost calculator | **Good to have** |  |
@@ -76,7 +76,7 @@ Stage 8. **Proposed by Claude, to be adjusted by the owner.** Reply with the IDs
 | ID | Item | Proposed | Why |
 |---|---|---|---|
 | 5.1 | PvP: Great, Ultra, Master League (PvPoke) in tiers | **MVP** | Part of your idea |
-| 5.2 | PvP: cups (incl. Little Cup) | **Good to have** |  |
+| 5.2 | PvP: cups (incl. Little Cup) | **Future** | owner: changed 2026-10-27 |
 | 5.3 | Raids: per type and overall, with the numbers | **MVP** | Engine already exists |
 | 5.4 | Max Battles: attackers, tanks, supports (estimate) | **Good to have** | New model |
 | 5.5 | Only what I own | **MVP** | Cheap once the collection exists |
@@ -95,7 +95,7 @@ Stage 8. **Proposed by Claude, to be adjusted by the owner.** Reply with the IDs
 | 6.4 | Your best counters | **MVP** |  |
 | 6.5 | Tips | **Good to have** | Admin-written content |
 | 6.6 | Estimated minimum players | **Good to have** | Needs the simulator (8.1–8.2) |
-| 6.7 | Counter search string | **MVP** | Cheap with the engine |
+| 6.7 | Counter search string | **Good to have** | Cheap with the engine; owner: changed 2026-10-27 |
 | 6.8 | Can I do it with my team? | **Good to have** | Needs the simulator |
 | 6.9 | Catch-screen IV check | **MVP** | Small CP→IV solver, reused in 7 and 19 |
 | 6.10 | Weather check (approximate) | **Future** |  |
@@ -151,8 +151,8 @@ Stage 8. **Proposed by Claude, to be adjusted by the owner.** Reply with the IDs
 | ID | Item | Proposed | Why |
 |---|---|---|---|
 | 11.1 | Chat that answers from our data (tools) | **MVP** | Part of your idea |
-| 11.2 | Web search with sources for gaps | **MVP** | Needed for the correction loop |
-| 11.3 | Saved conversations | **MVP** |  |
+| 11.2 | Web search with sources for gaps | **Good to have** | Needed for the correction loop; owner: changed 2026-10-27 |
+| 11.3 | Saved conversations | **Good to have** | owner: changed 2026-10-27 |
 | 11.4 | $5 cap and small-model routing | **MVP** | Cost control from day one |
 | 11.5 | Knows your collection | **Good to have** |  |
 | 11.6 | Knows the current page | **Good to have** |  |
@@ -164,10 +164,10 @@ Stage 8. **Proposed by Claude, to be adjusted by the owner.** Reply with the IDs
 
 | ID | Item | Proposed | Why |
 |---|---|---|---|
-| 12.1 | Proposal queue from chat and reports: approve / edit / reject | **MVP** | Part of your idea |
-| 12.2 | Curated layer + admin-verified badge | **MVP** | Part of your idea |
-| 12.3 | Conflict detection on later imports | **MVP** | Keeps approved facts correct |
-| 12.4 | Required sources + AI confidence | **MVP** | Cheap; protects data quality |
+| 12.1 | Proposal queue from chat and reports: approve / edit / reject | **Good to have** | Part of your idea; owner: changed 2026-10-27 |
+| 12.2 | Curated layer + admin-verified badge | **Good to have** | Part of your idea; owner: changed 2026-10-27 |
+| 12.3 | Conflict detection on later imports | **Good to have** | Keeps approved facts correct; owner: changed 2026-10-27 |
+| 12.4 | Required sources + AI confidence | **Good to have** | Cheap; protects data quality; owner: changed 2026-10-27 |
 | 12.5 | Field history & revert | **Good to have** |  |
 | 12.6 | Pending alerts (in-app) | **Good to have** |  |
 
@@ -188,16 +188,16 @@ Stage 8. **Proposed by Claude, to be adjusted by the owner.** Reply with the IDs
 | ID | Item | Proposed | Why |
 |---|---|---|---|
 | 14.1 | Import status and re-run | **MVP** |  |
-| 14.2 | Review queue (12) | **MVP** |  |
-| 14.3 | Direct data edits (logged) | **MVP** |  |
-| 14.4 | Hand-maintained lists | **MVP** |  |
-| 14.5 | AI usage and cap setting | **MVP** |  |
-| 14.6 | Audit log | **MVP** |  |
+| 14.2 | Review queue (12) | **Good to have** | owner: changed 2026-10-27 |
+| 14.3 | Direct data edits (logged) | **Good to have** | owner: changed 2026-10-27 |
+| 14.4 | Hand-maintained lists | **Good to have** | owner: changed 2026-10-27 |
+| 14.5 | AI usage and cap setting | **Good to have** | owner: changed 2026-10-27 |
+| 14.6 | Audit log | **Good to have** | owner: changed 2026-10-27 |
 | 14.7 | Users and roles | **Good to have** | Mainly you at launch |
 | 14.8 | Content editor (EN/PT) | **Good to have** |  |
 | 14.9 | Health & limits | **Good to have** |  |
 | 14.10 | Backups (downloadable) | **Good to have** | Neon's restore window covers the MVP |
-| 14.11 | Feature switches | **Future** |  |
+| 14.11 | Feature switches | **Good to have** | owner: changed 2026-10-27 |
 
 ## 15. Account and settings
 
