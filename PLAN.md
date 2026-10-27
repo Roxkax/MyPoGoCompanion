@@ -308,8 +308,28 @@ Plus:
    MVP               later            later
 ```
 
-- **Hosting:** API and worker on Azure Container Apps (scale-to-zero), web on Azure Static Web Apps, database on Neon. Container images on GitHub Container Registry (free).
-- **Clients:** generated from the OpenAPI spec (TypeScript, later Swift and Kotlin).
+### Technical decisions (stage 7)
+
+| Area | Decision |
+|---|---|
+| Repository | One monorepo `MyPoGoCompanion`: `api/`, `jobs/`, `web/`, later `ios/` and `android/`, plus planning docs |
+| API | .NET 10 (ASP.NET Core minimal APIs), EF Core with migrations, PostgreSQL, OpenAPI spec |
+| Engines | C# library ported from the Python Keeper Filters + raid ranking code, verified by golden files |
+| Scheduled work | Azure Container Apps Jobs: daily import, weekly AI research, backups, reminders |
+| Web | React + TypeScript, Vite single-page app, installable PWA with offline cache; TanStack Query for data, i18next for English/Portuguese |
+| API clients | Generated from the OpenAPI spec (TypeScript now; Swift and Kotlin later) |
+| Sign-in | Google ID token checked by the API, which issues its own short-lived access token + refresh token; roles User/Admin |
+| AI | Claude via Anthropic's API behind a provider-agnostic interface; small model for simple questions; $5/month hard cap |
+| AI web search | A separate search API behind a pluggable interface; provider chosen when building (free tiers rechecked then) |
+| Notifications | In-app (bell + browser notifications); push with the mobile apps; no email for now |
+| Hosting | Azure Container Apps (API, jobs), Azure Static Web Apps (web), Neon (PostgreSQL), GitHub Container Registry (images) |
+| Monitoring | Azure Application Insights (free allowance) |
+| Backups | Scheduled job to Azure Blob Storage (a few cents/month) |
+| CI/CD | GitHub Actions: build, test, deploy |
+| Sprites | Datamined game sprites (e.g. PokeMiners' public asset repo), cached in our storage |
+| Weather check | A free weather service (e.g. Open-Meteo), approximate |
+| Current Python page | Kept as it is until the app includes its filters; then the Python code and page are removed (golden files saved first) |
+
 - **Offline:** the web app caches read-only data in the browser; native apps cache on the device.
 
 ## Monthly cost estimate (personal use)

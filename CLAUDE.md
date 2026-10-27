@@ -103,6 +103,9 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-27 | Tech — web app is a **Vite single-page React app, installable (PWA)** with an offline cache. |
 | 2026-10-27 | Tech — scheduled work (daily import, weekly AI research, backups, reminders) runs as **Azure Container Apps Jobs** (scale-to-zero, separate from the API). |
 | 2026-10-27 | **No emails for now.** Alerts and reminders are **in-app notifications** (bell + browser notifications); push notifications come with the mobile apps. Features 12, 13 and 15 updated. |
+| 2026-10-27 | Tech — AI web search via a **separate search API** behind a pluggable interface; provider chosen when building. |
+| 2026-10-27 | Tech — **one monorepo** (API, jobs, web, later iOS/Android, planning docs). |
+| 2026-10-27 | The current Python Keeper Filters page **stays as it is until the app includes its filters**; then the Python code and page are removed (golden files saved first for the C# tests). |
 | 2026-10-27 | All commits authored by the owner's GitHub account (history rewritten); Claude's involvement shown by the Co-Authored-By trailer. |
 
 ## Open decisions
