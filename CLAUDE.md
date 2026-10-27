@@ -67,6 +67,10 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-27 | The owner plays raids, PvP (GO Battle League), Max Battles and collecting: all four get equal weight. |
 | 2026-10-27 | App languages at launch: **English + Portuguese (pt-PT)** for the interface. Pokémon and move names in Portuguese come from the game (pt-BR text). |
 | 2026-10-27 | The owner's game is set to **English**, so search strings use English keywords; strings in other game languages are not needed at launch. |
+| 2026-10-27 | Offline: **read-only** — Pokédex, filters, raid counters and the user's collection are cached on the device; changes and the AI need a connection. |
+| 2026-10-27 | Collection input: **Poke Genie CSV export only** (no official game API; reading the game breaks Niantic's terms). Re-upload to refresh. |
+| 2026-10-27 | Battle simulator covers **raid battles and Max Battles**; no PvP simulator. Max Battle results are estimates (mechanics less documented). |
+| 2026-10-27 | AI chat: **Claude via Anthropic's API**, pay-per-use, behind a provider-agnostic layer in the .NET API. |
 | 2026-10-27 | All commits authored by the owner's GitHub account (history rewritten); Claude's involvement shown by the Co-Authored-By trailer. |
 
 ## Open decisions
