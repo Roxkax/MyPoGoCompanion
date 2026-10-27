@@ -1,6 +1,6 @@
 # MyPoGoCompanion — plan
 
-Status: **draft for the feature-by-feature review (stage 6)**. Nothing here is final until it is confirmed in the review and logged in `CLAUDE.md`. Priorities (MVP / Good to have / Future) come later, in stage 8.
+Status: **feature review done (stage 6, 2026-10-27)** — 21 features confirmed. Technical details are confirmed in stage 7; priorities (MVP / Good to have / Future) come in stage 8.
 
 ## Vision
 
@@ -281,7 +281,13 @@ Plus:
 
 **You can:** read how Routes and Party Play work, their bonuses and challenges, and what's current.
 **Backend:** content pages; current challenges via the weekly AI research.
-**Notes:** Routes themselves are location-based and only visible in the game, so the app covers rules, bonuses and current challenges, not a map of routes. Added during the review (2026-10-27); details to confirm.
+Plus:
+- **Zygarde Cell tracker:** track the Cells you've collected (entered by hand) and how many each form needs;
+- **Route rewards:** what completing routes gives — route eggs, Zygarde Cells, gifts, badges;
+- **Party Power planner:** how Party Power boosts charged moves in raids, and which of your counters benefit most (a calculation on the raid model, separate from the simulator, which doesn't model Party Power).
+
+**Notes:** Routes themselves are location-based and only visible in the game, so the app covers rules, rewards and current challenges, not a map of routes.
+**Review:** added and confirmed 2026-10-27, with all three additions.
 
 ---
 

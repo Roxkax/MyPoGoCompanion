@@ -26,8 +26,8 @@ We are **planning**, following the process in `docs/PLANNING-PROCESS.md` (stages
 | 3 Describe the idea as a user | Done 2026-10-27 (see "The idea") |
 | 4 Clarify, one question at a time | Done 2026-10-27 |
 | 5 Write PLAN.md | Done 2026-10-27 (draft) |
-| 6 Feature-by-feature review | **Next** |
-| 7 Technical decisions | Mostly decided (see log); remaining ones confirmed here |
+| 6 Feature-by-feature review | Done 2026-10-27 (21 features) |
+| 7 Technical decisions | **Next** (most already decided; see log) |
 | 8 Prioritise (MVP / Good to have / Future) | — |
 | 9 Backlog (Epic → Feature → Task, 100-hour sprints) | — |
 | 10 Design: app map, then realistic screens one by one | — |
@@ -99,6 +99,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-27 | Review — **18. Team GO Rocket** confirmed, adding: your counters, counter search string, purify advice on your Shadows, Grunt lookup by quote. |
 | 2026-10-27 | Review — **19. Eggs & research** confirmed, adding: shiny & rarity markers, find a task by reward, catch-screen IV check, manual research checklist. |
 | 2026-10-27 | Review — **20. Trading & friends** confirmed, adding: trade IV calculator, "what to trade" from the collection. Not added: friends tracker. |
+| 2026-10-27 | Review — **21. Routes & Party Play** confirmed, adding: Zygarde Cell tracker (manual), route rewards, Party Power planner. **Stage 6 done: 21 features confirmed.** |
 | 2026-10-27 | All commits authored by the owner's GitHub account (history rewritten); Claude's involvement shown by the Co-Authored-By trailer. |
 
 ## Open decisions
