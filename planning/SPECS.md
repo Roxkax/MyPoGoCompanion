@@ -301,3 +301,21 @@ How each feature works from the user's side, as signed off by the owner. Priorit
 **Later (Good to have): read-only offline.** A device copy of the Pokédex, search filters, raid counters and your collection, refreshed when online: look up Pokémon, copy filters, check counters, browse your collection without signal. Uploading, saving and the AI need a connection.
 
 **Not planned.** Offline edits that sync later; choosing what's kept offline.
+
+## 18. Team GO Rocket — signed off 2026-10-27 (all after the MVP)
+
+**What it's for.** Beat Grunts, Leaders and Giovanni, and decide what to do with rescued Shadows.
+
+**Getting there.** From the menu (Team GO Rocket).
+
+**Line-ups and counters (Good to have).** Current line-ups fetched by the AI researcher (Grunts by type; Cliff, Arlo, Sierra with their three slots; Giovanni), best counters for each Pokémon, and which Shadows each can give.
+
+**Your counters (Good to have).** Best counters from your own collection per Leader/Giovanni slot.
+
+**Counter search string (Good to have).** A string that finds your counters for a Leader.
+
+**Purify advice on your Shadows (Good to have).** Keep as Shadow or purify, per league and for raids, with the purification cost.
+
+**Future.** Grunt by quote.
+
+**Where it comes from.** AI researcher (line-ups; weekly, auto-published, fixable), our battle calculations, your collection.

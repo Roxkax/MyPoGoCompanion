@@ -126,6 +126,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-27 | Sign-off — **15. Account and settings** approved as described (browse without sign-in; sign-in for collection, saved filters, AI). |
 | 2026-10-27 | Sign-off — **16. Data import pipeline** approved as described. |
 | 2026-10-27 | Sign-off — **17. Offline and installing** approved as described. |
+| 2026-10-27 | Sign-off — **18. Team GO Rocket** approved as described (all after the MVP). |
 | 2026-10-27 | All commits authored by the owner's GitHub account (history rewritten); Claude's involvement shown by the Co-Authored-By trailer. |
 
 ## Open decisions
