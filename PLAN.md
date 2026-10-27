@@ -131,9 +131,13 @@ Plus:
 
 ### 8. Battle simulator (raids and Max Battles)
 
-**You can:** pick a boss and a team (generic best, or from your collection) and simulate: time to win, faints, and how many trainers are needed; adjust level, weather and friendship.
-**Backend:** a raid simulation engine (boss moves, energy, dodging off, re-lobbies) and a Max Battle simulation engine; both run in the API.
-**Notes:** no PvP simulator (PvP rankings come from PvPoke). Max Battle results are estimates.
+**You can:** pick a boss and a team (generic best, or from your collection) and simulate: time to win, faints, and how many trainers are needed; adjust level, weather and friendship. Plus:
+- **Battle timeline:** a step-by-step view of the simulation — who attacked when, charged moves, faints, re-lobbies;
+- **Save simulations:** keep a simulation (boss, team, settings, result) to reopen later.
+
+**Backend:** a raid simulation engine (boss moves, energy, dodging off, re-lobbies) and a Max Battle simulation engine, both in the API and emitting an event log for the timeline; saved simulations per user.
+**Notes:** no PvP simulator (PvP rankings come from PvPoke). Max Battle results are estimates. Party Power and dodging are not modelled.
+**Review:** confirmed 2026-10-27, adding the battle timeline and saved simulations. Not added: compare teams, Party Power and dodging toggles.
 
 ### 9. My collection
 
