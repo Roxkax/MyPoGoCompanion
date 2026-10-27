@@ -114,6 +114,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-27 | Sign-off — **3. Moves** approved as described. |
 | 2026-10-27 | Sign-off — **4. Search filters** approved as described. |
 | 2026-10-27 | Sign-off — **5. Tier lists** approved as described. |
+| 2026-10-27 | Sign-off — **6. Raid bosses** approved as described. |
 | 2026-10-27 | All commits authored by the owner's GitHub account (history rewritten); Claude's involvement shown by the Co-Authored-By trailer. |
 
 ## Open decisions

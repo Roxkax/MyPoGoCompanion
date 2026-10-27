@@ -111,3 +111,21 @@ How each feature works from the user's side, as signed off by the owner. Priorit
 **Future.** Cup lists (Little Cup and rotating cups); budget picks; risers & fallers.
 
 **Where the information comes from.** PvPoke (PvP, MIT, credited); our damage calculations (raids: level 40, 15/15/15, formula shown); our Max Battle model (Max).
+
+## 6. Raid bosses — signed off 2026-10-27
+
+**What it's for.** Know what's in raids now and what's coming, and how to beat each boss.
+
+**Getting there.** From the menu (Raids), "Today in the game" on the home page, and the calendar.
+
+**Boss list (MVP).** Current bosses by tier (1-star, 3-star, 5-star, Mega, Shadow, Elite) with picture, types, dates and shiny availability; an Upcoming section. Fetched weekly by the AI researcher (sources such as LeekDuck) and published automatically; the admin can fix or remove entries.
+
+**Boss page (MVP).** Types, weaknesses and resistances; possible moves; 100% CP normal and weather-boosted; **best counters** (averaged over the boss's moves, re-ranked when you pick its actual moves; one Mega slot); **your best counters** from your collection at real levels and IVs.
+
+**Catch-screen IV check (MVP).** Type the catch-screen CP to see the possible IVs (raid floor 10/10/10).
+
+**Later (Good to have).** Tips per boss (admin-written); estimated minimum players (raid simulator, labelled estimate); counter search string; "can I do it with my team?".
+
+**Future.** Weather check (approximate in-game weather where you are).
+
+**Where the information comes from.** AI researcher (bosses, dates; source shown), game files (boss stats, moves), our raid calculations (counters, with type effectiveness and boss moves).
