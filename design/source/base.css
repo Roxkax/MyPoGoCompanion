@@ -77,7 +77,7 @@ kbd { font-family: var(--mono); font-size: 11px; padding: 2px 6px; border-radius
 .type.dragon { background: var(--t-dragon); } .type.ground { background: var(--t-ground); } .type.grass { background: var(--t-grass); }
 .type.dark { background: var(--t-dark); } .type.electric { background: var(--t-electric); color: #2A2200; }
 .sprite { display: block; object-fit: contain; }
-.pill { display: inline-flex; align-items: center; gap: 5px; height: 22px; padding: 0 9px; border-radius: 11px; font-size: 12px; font-weight: 800; }
+.pill { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; flex: none; height: 22px; padding: 0 9px; border-radius: 11px; font-size: 12px; font-weight: 800; }
 .pill.live { background: var(--ok-soft); color: var(--ok); }
 .pill.soft { background: var(--surface-2); color: var(--text-2); }
 .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; display: inline-block; }

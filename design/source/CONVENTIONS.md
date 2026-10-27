@@ -46,6 +46,7 @@ All screens show the same moment and the same trainer, so they tell one consiste
   - Tue 3 Nov 10:00 — new raids: 5★ Groudon (Ground); 18:00–19:00 — Spotlight Hour: Snorunt (2× catch Stardust).
   - Wed 4 Nov 18:00–19:00 — Raid Hour: Groudon.
   - Sat 7 Nov 14:00–17:00 — Community Day: Gible.
+- **Community Day: Gible details** (A3; sample): Sat 7 Nov 14:00–17:00; shiny Gible more often; evolve Gabite 14:00–22:00 → Garchomp learns **Earth Power** (raids 100 power · 3.5 s · −50 energy; PvP 90 power · −50 energy); bonuses 3× catch Stardust, ¼ egg hatch distance, Lure Modules and Incense last 3 hours; Field Research "Catch 15 Gible → Gible encounter"; hundo CPs Gible 954 (L30) / 1,033 (L35 boosted, Windy or Sunny), Garchomp after evolving 3,396 / 3,679.
 - **Eggs:** 10 km includes Gible; **Research:** "Win 3 raids" → Gible encounter.
 - **Collection:** 2,148 Pokémon; last import Sun 25 Oct 21:14 (63 new, 40 gone, 12 changed). Includes a Garchomp 2/15/13 L23 (UL rank 41), a Medicham 1/15/15 L49.5 (GL rank 12), Shadow Zekrom, Zeraora, Mega-ready Sceptile.
 - **Kyogre counters** (from today's raid model, same numbers on every screen): Mega Sceptile 57.3 (Mega slot) · Shadow Zekrom 44.6 · Zeraora 41.5 · Shadow Raikou 41.2 · Shadow Electivire 39.8 · Shadow Chesnaught 39.3 · Zarude 39.2 · Regieleki 39.2 · Xurkitree 39.1.
