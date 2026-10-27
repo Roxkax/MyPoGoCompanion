@@ -48,7 +48,7 @@ Each feature lists what you can do, what the backend needs, where the data comes
 - **every version it has or had**: regional forms, costumes (incl. retired), shiny, Shadow/Purified, Mega, Dynamax/Gigantamax — and changes over time (moves added or rebalanced);
 - its rankings (PvP leagues, raid rank per type, Max Battle rank);
 - its best IVs per league with a one-tap search string;
-- where each fact comes from (game files, PvPoke, admin-approved), with a "report wrong data" button;
+- a "report wrong data" button;
 - **your copies** of it (from your collection) with IVs, level, moves and PvP rank per league;
 - an **IV rank checker**: type any IVs and see rank, best level and CP per league, for it and its evolutions;
 - **type matchups**: weaknesses and resistances with multipliers;
@@ -186,7 +186,7 @@ Plus:
 ### 13. Game calendar (bosses and events)
 
 **You can:** see current and upcoming raid rotations, Max Battle weeks and events (Community Days, Spotlight Hours, raid days, seasons), with featured Pokémon and bonuses; a home page with "today in the game".
-**Backend:** the **weekly AI research job** reads sources such as LeekDuck and game news, fetches the rotation and events, and **publishes them automatically** with their source; the admin only fixes or removes entries. (With feature 12, proposals can later go through the review queue.)
+**Backend:** the **weekly AI research job** reads sources such as LeekDuck and game news, fetches the rotation and events, and **publishes them automatically** (no source shown on screens); the admin only fixes or removes entries. (With feature 12, proposals can later go through the review queue.)
 Plus:
 - **Past events archive:** every past event and rotation is kept, and feeds "event appearances" on each Pokémon page;
 - **Event prep checklist:** what to do before and during an event (e.g. evolve during Community Day for the exclusive move, save candy), drafted by the AI and approved by the admin;

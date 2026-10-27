@@ -36,13 +36,21 @@ research = '''<section class="section"><h2 class="sectitle">Field Research</h2><
  <div class="li" style="font-weight:700"><img class="sprite" src="../sprites/443.png" width="32" height="32" alt=""><div><div>Catch 15 Gible</div><div class="note">Reward: Gible encounter</div></div></div>
 </div></section>'''
 
+mine = """<section class="section"><div class="sechead"><h2 class="sectitle">Your Gible family</h2><a class="seclink">Collection</a></div><div class="card">
+ <div class="mrow"><img class="sprite" src="../sprites/443.png" width="40" height="40" alt=""><div class="mtxt"><b>Gible 15/15/14</b><span>Garchomp for raids and Master League · ML rank 3 (99.5%)</span></div><span class="tag go">Evolve</span></div>
+ <div class="mrow"><img class="sprite" src="../sprites/443.png" width="40" height="40" alt=""><div class="mtxt"><b>Gible 0/15/14</b><span>Great League rank 1 · Garchomp CP 1,495</span></div><span class="tag go">Evolve</span></div>
+ <div class="mrow"><img class="sprite" src="../sprites/443.png" width="40" height="40" alt=""><div class="mtxt"><b>Gible 1/13/15</b><span>Great League rank 11 (99.4%) · backup</span></div><span class="tag go">Evolve</span></div>
+ <div class="mrow"><img class="sprite" src="../sprites/444.png" width="40" height="40" alt=""><div class="mtxt"><b>Gabite 12/12/13</b><span>Master League rank 160 (96.6%) · if you have the candy</span></div><span class="tag maybe">Optional</span></div>
+ <div class="mrow"><img class="sprite" src="../sprites/443.png" width="40" height="40" alt=""><div class="mtxt"><b>Gible 10/4/2</b><span>Not good in any league</span></div><span class="tag no">Transfer</span></div>
+ <div class="blk note">Each Garchomp costs 25 + 100 candy. Poke Genie doesn't export candy, so check yours in the game.</div>
+</div></section>"""
 fresh = ''
 head = '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>A3 Event details</title><link rel="stylesheet" href="../base.css"><link rel="stylesheet" href="_a3.css"></head><body>'
 
 phone = head + f'''<div class="stage"><div class="device"><div class="screen">
 <div data-statusbar></div><div data-dethead="Calendar|Event"></div>
 <div class="scroll"><div style="padding:14px 14px 20px;display:flex;flex-direction:column;gap:20px">
-{hero(92)}{move}{bonuses}{cps}{research}{fresh}
+{hero(92)}{move}{mine}{bonuses}{cps}{research}{fresh}
 </div></div><div data-tabbar="today"></div></div></div></div><script src="../chrome.js"></script></body></html>'''
 
 desk = head + f'''<div class="desktop"><div data-sidebar="calendar"></div><div class="main"><div data-topbar></div>
@@ -50,7 +58,7 @@ desk = head + f'''<div class="desktop"><div data-sidebar="calendar"></div><div c
 {hero(132)}
 <div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:24px;align-items:start">
  <div style="display:flex;flex-direction:column;gap:22px">{move}{bonuses}</div>
- <div style="display:flex;flex-direction:column;gap:22px">{cps}{research}</div>
+ <div style="display:flex;flex-direction:column;gap:22px">{mine}{cps}{research}</div>
 </div>{fresh}</div></div></div><script src="../chrome.js"></script></body></html>'''
 
 (HERE / 'A3-phone.html').write_text(phone)

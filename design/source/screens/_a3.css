@@ -15,3 +15,12 @@
 .chev { margin-left: auto; color: var(--text-3); font-size: 20px; font-weight: 700; }
 .note { font-size: 13.5px; color: var(--text-2); font-weight: 600; line-height: 1.4; }
 .type { vertical-align: 1px; }
+
+.mrow { display: flex; align-items: center; gap: 12px; padding: 10px 16px; }
+.mrow + .mrow { border-top: 1px solid var(--line); }
+.mtxt { flex: 1; min-width: 0; display: flex; flex-direction: column; font-size: 15px; }
+.mtxt span { font-size: 13px; color: var(--text-2); font-weight: 600; }
+.tag { flex: none; font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 10px; }
+.tag.go { background: var(--accent-soft); color: var(--accent); }
+.tag.maybe { background: var(--surface-2); color: var(--text-2); }
+.tag.no { background: #FBE4E1; color: var(--danger); }

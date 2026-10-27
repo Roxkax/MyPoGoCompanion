@@ -46,8 +46,6 @@ How each feature works from the user's side, as signed off by the owner. Priorit
 
 **Type matchups (MVP).** Weaknesses and resistances with multipliers.
 
-**Sources (MVP).** Each fact shows where it came from (game files, PvPoke; later "admin-verified").
-
 **Later (Good to have).** Special conditions found by the AI (with data corrections); changes over time (history from the game files); "report wrong data"; your copies of it with their ranks; power-up cost (candy, XL candy, Stardust, incl. Shadow/Purified/lucky).
 
 **Where the information comes from.** Game files (stats, moves, evolution rules, forms, history), PvPoke (PvP rankings, move flags), our calculations (raid ranks, best IVs, CP tables), the AI researcher (current appearances), later AI-found facts.
@@ -118,7 +116,7 @@ How each feature works from the user's side, as signed off by the owner. Priorit
 
 **Getting there.** From the menu (Raids), "Today in the game" on the home page, and the calendar.
 
-**Boss list (MVP).** Current bosses by tier (1-star, 3-star, 5-star, Mega, Shadow, Elite) with picture, types, dates and shiny availability; an Upcoming section. Fetched weekly by the AI researcher (sources such as LeekDuck) and published automatically; the admin can fix or remove entries.
+**Boss list (MVP).** Current bosses by tier (1-star, 3-star, 5-star, Mega, Shadow, Elite) with picture, types, dates and shiny availability; an Upcoming section. Fetched weekly by the AI researcher (sources such as LeekDuck) and published automatically; the admin can fix or remove entries. No source information is shown on screens.
 
 **Boss page (MVP).** Types, weaknesses and resistances; possible moves; 100% CP normal and weather-boosted; **best counters** (averaged over the boss's moves, re-ranked when you pick its actual moves; one Mega slot); **your best counters** from your collection at real levels and IVs.
 
@@ -128,7 +126,7 @@ How each feature works from the user's side, as signed off by the owner. Priorit
 
 **Future.** Weather check (approximate in-game weather where you are).
 
-**Where the information comes from.** AI researcher (bosses, dates; source shown), game files (boss stats, moves), our raid calculations (counters, with type effectiveness and boss moves).
+**Where the information comes from.** AI researcher (bosses, dates), game files (boss stats, moves), our raid calculations (counters, with type effectiveness and boss moves).
 
 ## 7. Max Battles — signed off 2026-10-27 (all after the MVP)
 
@@ -242,7 +240,7 @@ How each feature works from the user's side, as signed off by the owner. Priorit
 
 **Calendar (MVP).** Current and upcoming raid rotations, Max Battle weeks and events (Community Days, Spotlight Hours, Raid Days/Hours, seasons, special events) with dates and times in your time zone, featured Pokémon, bonuses and exclusive moves.
 
-**AI researcher (MVP).** Weekly, reads sources such as LeekDuck and game news; fetches raid rotations, events, egg pools and research rewards; publishes automatically with the source shown. The admin can fix or remove entries, or run it again mid-week. Its cost counts in the $5/month AI cap.
+**AI researcher (MVP).** Weekly, reads sources such as LeekDuck and game news; fetches raid rotations, events, egg pools and research rewards; publishes automatically (no source shown on screens). The admin can fix or remove entries, or run it again mid-week. Its cost counts in the $5/month AI cap.
 
 **Later (Good to have).** Past events archive (feeds "when it appeared" on Pokémon pages).
 

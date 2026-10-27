@@ -5,7 +5,7 @@ Stage 8. Proposed by Claude, **adjusted by the owner on 2026-10-27** (changed ro
 - **MVP** = the first release (web app + API) · **Good to have** = next, after the MVP · **Future** = no commitment.
 - Foundation work (repo, CI/CD, hosting, database, sign-in, OpenAPI clients, the C# engine port) is implied by the MVP and is planned in the backlog.
 
-**Totals:** 56 MVP · 75 Good to have · 28 Future (159 items).
+**Totals:** 55 MVP · 75 Good to have · 28 Future (158 items).
 
 ## 1. Pokédex
 
@@ -36,7 +36,6 @@ Stage 8. Proposed by Claude, **adjusted by the owner on 2026-10-27** (changed ro
 | 2.8 | Changes over time (history backfill) | **Good to have** | Sizeable data work |
 | 2.9 | Rankings summary (PvP, raids, Max) | **MVP** | Core |
 | 2.10 | Best IVs per league + search string | **MVP** | Engine already exists |
-| 2.11 | Source badges | **MVP** | Cheap with the curated layer |
 | 2.12 | Report wrong data | **Good to have** | Feeds the review queue; owner: changed 2026-10-27 |
 | 2.13 | Your copies (from your collection) | **Good to have** | Cheap once the collection exists; owner: changed 2026-10-27 |
 | 2.14 | IV rank checker | **MVP** | Cheap with the engine |
