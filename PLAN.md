@@ -120,9 +120,14 @@ Plus:
 
 ### 7. Max Battles
 
-**You can:** see the current Max Battle bosses with their counters, your best Dynamax/Gigantamax Pokémon for each, and tips.
-**Backend:** Max Battle counters from the Max model; schedule from the weekly AI research.
-**Notes:** same estimate caveat as feature 5.
+**You can:** see the current Max Battle bosses with their counters, your best Dynamax/Gigantamax Pokémon for each, and tips. Plus:
+- **Team roles:** a suggested team by role for each boss — attacker (Max Strike), tank (Max Guard), healer (Max Spirit);
+- **Max Move upgrade cost:** candy and Max Particles to level up Max Attack, Max Guard and Max Spirit;
+- **Catch-screen IV check:** type the catch-screen CP and see the possible IVs, with the hundo CPs.
+
+**Backend:** Max Battle counters and role scoring from the Max model; schedule from the weekly AI research; Max Move cost table; the CP→IV solver shared with raids.
+**Notes:** same estimate caveat as feature 5. Max Move costs come from the game master where present, otherwise from admin-approved data.
+**Review:** confirmed 2026-10-27, adding team roles, Max Move upgrade cost and the catch-screen IV check. Not added: a Max counter search string.
 
 ### 8. Battle simulator (raids and Max Battles)
 

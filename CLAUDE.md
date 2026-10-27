@@ -84,6 +84,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-27 | Review — **4. Search filters** confirmed, adding: utility filter library (admin-curated), cleanup routine. Not added: Master League/cup keeper filters, "Megas you own". |
 | 2026-10-27 | Review — **5. Tier lists** confirmed, adding: your gaps & what to build, budget picks, risers & fallers, "why it's ranked here" for every list. |
 | 2026-10-27 | Review — **6. Raid bosses** confirmed, adding: counter search string, "can I do it with my team", catch-screen IV check, approximate weather check (free weather service, location not stored). |
+| 2026-10-27 | Review — **7. Max Battles** confirmed, adding: team roles (attacker/tank/healer), Max Move upgrade cost, catch-screen IV check. Not added: Max counter search string. |
 | 2026-10-27 | All commits authored by the owner's GitHub account (history rewritten); Claude's involvement shown by the Co-Authored-By trailer. |
 
 ## Open decisions
