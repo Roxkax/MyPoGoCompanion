@@ -69,3 +69,27 @@ How each feature works from the user's side, as signed off by the owner. Priorit
 **Later (Good to have).** Move history (rebalances over time); Max and G-Max move power by level; move rankings per type (raids: damage/energy per second; PvP: per turn); TM advice on your Pokémon (which of yours lack their best moves and which TM to use).
 
 **Where the information comes from.** Game files (move numbers, who learns what), PvPoke (Elite TM and legacy flags), our calculations (rankings).
+
+## 4. Search filters — signed off 2026-10-27
+
+**What it's for.** Search strings you paste into the game's storage search to find exactly the Pokémon you want (to tag, keep, or transfer the rest). The app does the analysis the game can't.
+
+**Getting there.** From the menu (Filters); family strings from Pokémon pages.
+
+**Ready-made keeper filters (MVP).** Today's Keeper Filters, rebuilt daily: Great League and Ultra League (every Pokémon whose appraisal bars sit in its high-ranking zone, pre-evolutions judged by their evolutions; all 1,025 Pokémon; 2 strings for GL, 3 for UL), raid attackers (top attackers per type, their Megas and pre-evolutions, Attack 11–15 or 15 only), Max Battle attackers (Dynamax/Gigantamax with high Attack), Megas (all Mega-capable plus announced ones not yet in GO). Each with a Copy button and how-to (paste, select all, tag, search `#TAG` later).
+
+**"Safe to transfer" (MVP).** The inverse: not a keeper for any league, raids, Max or Megas; shinies, luckies, legendaries and favourites excluded, with a safety note.
+
+**Family strings (MVP).** A short string per family on each Pokémon page.
+
+**Filter builder (MVP).** Pick conditions from lists (Pokédex numbers/names, types, appraisal bars per stat, CP range, stars, shiny, lucky, Shadow, legendary, distance, age, other game keywords); the string updates live and can be edited by hand; the app checks it and splits strings over ~1,950 characters.
+
+**Saved filters (MVP).** Name, save, reopen and copy filters.
+
+**Later (Good to have).** Builder options (keeper margin 95/98/99%, level cap 50/51); explain a string (plain words + matches); preview matches on your collection; utility library curated by the admin.
+
+**Future.** Cleanup routine (filters with "last applied" dates and new matches per import).
+
+**Where the information comes from.** Game files, PvPoke rankings, our calculations; every string verified by simulating the game's search before publishing.
+
+**Limits.** English keywords (the owner's game language); forms sharing a Pokédex number can't be told apart by the game.
