@@ -74,6 +74,10 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-27 | Live game data (current raid bosses, Max Battles, events): a **weekly scheduled AI research job** proposes updates and the **admin approves** them; the admin can also edit by hand. No scraping of community sites. |
 | 2026-10-27 | Images: **datamined game sprites**. Fine for personal use; recheck the trademark risk before any public launch. |
 | 2026-10-27 | Hosting: **Azure Container Apps** (API + worker, scale-to-zero), **Azure Static Web Apps** (web, free), **Neon** (PostgreSQL, free tier). |
+| 2026-10-27 | PvP tier lists come from **PvPoke rankings** (MIT), imported daily, for Great, Ultra, Master League and cups. |
+| 2026-10-27 | AI spending cap: **$5/month for now** (adjustable in the admin panel); AI calls stop when it's reached and the admin is told. |
+| 2026-10-27 | Build model: **Claude Code writes the code in sprints; the owner reviews, tests and approves.** Estimates include the owner's testing time. |
+| 2026-10-27 | Owner availability: **10–20 hours per week** for reviewing and testing. |
 | 2026-10-27 | All commits authored by the owner's GitHub account (history rewritten); Claude's involvement shown by the Co-Authored-By trailer. |
 
 ## Open decisions
