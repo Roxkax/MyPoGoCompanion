@@ -93,3 +93,21 @@ How each feature works from the user's side, as signed off by the owner. Priorit
 **Where the information comes from.** Game files, PvPoke rankings, our calculations; every string verified by simulating the game's search before publishing.
 
 **Limits.** English keywords (the owner's game language); forms sharing a Pokédex number can't be told apart by the game.
+
+## 5. Tier lists — signed off 2026-10-27
+
+**What it's for.** See at a glance which Pokémon are best for each activity, to know what to catch, keep and power up.
+
+**Getting there.** From the menu (Tier lists) and from the rankings on each Pokémon page.
+
+**PvP tier lists (MVP).** Great, Ultra and Master League from PvPoke, updated daily: Pokémon, best moveset, score, grouped into S/A/B/C tiers. Tapping an entry opens its page.
+
+**Raid tier lists (MVP).** Per attacking type: best attackers with best moveset, DPS, total damage and score (today's numbers table). An overall view (top attackers across types, best per type). "Your best Mega": pick your Mega to pin it as the Mega slot and rank the rest without other Megas.
+
+**"Only what I own" (MVP).** With the collection imported, show only Pokémon you have, with your copies' ranks.
+
+**Later (Good to have).** Max Battle lists (attackers, tanks, healers; estimates at first); your gaps & what to build ("2 of the top 10 Ground attackers; next: Shadow Excadrill"); "why it's ranked here" for PvP and Max lists.
+
+**Future.** Cup lists (Little Cup and rotating cups); budget picks; risers & fallers.
+
+**Where the information comes from.** PvPoke (PvP, MIT, credited); our damage calculations (raids: level 40, 15/15/15, formula shown); our Max Battle model (Max).
