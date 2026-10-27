@@ -152,8 +152,12 @@ Plus:
 
 ### 10. Best team
 
-**You can:** get the best 6 for each attacking type (one Mega slot), the best team against a specific raid or Max boss, and the best team **from your own collection**; save teams.
-**Backend:** team builder over the raid/Max models and the collection.
+**You can:** get the best 6 for each attacking type (one Mega slot), the best team against a specific raid or Max boss, and the best team **from your own collection**; save teams. Plus:
+- **PvP team builder:** build a 3-Pokémon league team with a type-coverage and threat check, from PvPoke data;
+- **Mega choice:** lock the Mega you'll actually use and the rest of the team is rebuilt around it.
+
+**Backend:** team builder over the raid/Max models and the collection; PvP coverage analysis from PvPoke rankings and matchups (no PvP simulator).
+**Review:** confirmed 2026-10-27, adding the PvP team builder and the Mega choice. Not added: team search string, generalist team.
 
 ### 11. AI assistant
 
