@@ -144,6 +144,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-27 | Pokédex list: **one row per species**, versions shown as markers (Mega, Shadow, Dynamax, G-Max, regional forms) and detailed on the Pokémon page; stats/filters use the base form; version filters (has Mega/Shadow, can Dynamax/Gigantamax, regional forms). Spec 1 updated. |
 | 2026-10-27 | Pokédex list: lines show the base form; **hovering (desktop) or tapping (phone) a version marker switches the line to that version's stats**; same-stat versions (Shadow, Dynamax, G-Max) show a note. |
 | 2026-10-27 | Pokédex filters **look at every version**: a Pokémon matches if any version matches; the line shows the best-matching version and **hides badges of versions that don't match**. |
+| 2026-10-27 | **B1 Pokédex list approved** (one line per species, version markers with hover/tap switching, version-aware filters). |
 | 2026-10-27 | All commits authored by the owner's GitHub account (history rewritten); Claude's involvement shown by the Co-Authored-By trailer. |
 
 ## Open decisions

@@ -16,4 +16,10 @@ for id in 059_HISUIAN 157_HISUIAN 136 146 229_51 244 003_51 007 008 009 009_51 6
 done
 ls sprites | wc -l
 
+# shiny variants used on Pokémon pages
+for id in 445 445_51; do
+  dex=${id%%_*}; form=00; [[ $id == *_* ]] && form=${id##*_}
+  out="sprites/${id}_shiny.png"
+  [[ -s $out ]] || curl -sfL -o "$out" "$base/pokemon_icon_${dex}_${form}_shiny.png" || { n=$((10#$dex)); sfx=""; [[ $form == 51 ]] && sfx=".fMEGA"; curl -sfL -o "$out" "$base/Addressable%20Assets/pm${n}${sfx}.s.icon.png" || { rm -f "$out"; echo "missing ${id}_shiny"; }; }
+done
 python3 "$(dirname "$0")/trim_sprites.py"
