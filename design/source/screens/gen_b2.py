@@ -70,20 +70,24 @@ def ivs():
 <div class="lrow" style="padding:6px 0 0;border-top:0"><span>Master League</span><span class="r">#590 <span class="faint">· 94.4%</span></span></div></div>'''
     return f'<section class="sec" id="ivs"><h2>Best IVs</h2><div class="card">{rows}</div>{checker}</section>'
 
-jump = '<div class="jump">' + ''.join(f'<span class="{"on" if i == 0 else ""}">{n}</span>' for i, n in enumerate(["Overview", "Moves", "Evolution", "Get it", "Versions", "IVs"])) + '</div>'
+TABS = [("o", "Overview"), ("m", "Moves"), ("i", "IVs"), ("g", "Get it"), ("v", "Versions")]
+BODY = {"o": lambda: stats() + ranks() + matchups(), "m": lambda: moves(True), "i": lambda: ivs() + cps(),
+        "g": lambda: getit() + evo(), "v": versions}
+tabs = lambda on: '<div class="ptabs">' + ''.join(f'<span class="{"on" if k == on else ""}">{n}</span>' for k, n in TABS) + '</div>'
 hero = lambda size: f'''<div class="hero"><img class="sprite" src="../sprites/445.png" width="{size}" height="{size}" alt="Garchomp"><div style="display:flex;flex-direction:column;gap:6px"><span class="no">#445</span><h1>Garchomp</h1><span style="display:flex;gap:5px">{T(["dragon", "ground"])}</span></div></div>
 <div class="vswitch"><span class="on">Garchomp</span><span>Shadow</span><span>Mega</span></div>'''
 head = '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>B2 Pokémon page</title><link rel="stylesheet" href="../base.css"><link rel="stylesheet" href="_b2.css"></head><body>'
-phone = head + f'''<div class="stage tint"><div class="device"><div class="screen">
-<div data-statusbar></div><div class="band"><div data-dethead="Pokédex|"></div>{hero(104)}</div>{jump}
-<div class="scroll"><div style="padding:14px 12px 20px;display:flex;flex-direction:column;gap:22px">
-{stats()}{ranks()}{cps()}{matchups()}{moves(True)}{evo()}{getit()}{versions()}{ivs()}</div></div>
+def phone(tab):
+    return head + f'''<div class="stage tint"><div class="device"><div class="screen">
+<div data-statusbar></div><div class="band"><div data-dethead="Pokédex|"></div>{hero(84)}{tabs(tab)}</div>
+<div class="scroll"><div style="padding:14px 12px 20px;display:flex;flex-direction:column;gap:22px">{BODY[tab]()}</div></div>
 <div data-tabbar="pokedex"></div></div></div></div><script src="../chrome.js"></script>
-<script>document.querySelector('.statusbar').style.background='transparent';document.querySelector('.statusbar').parentElement.querySelector('.band').before(document.querySelector('.statusbar'));document.querySelector('.statusbar').style.background='color-mix(in srgb, var(--t-dragon) 13%, var(--surface))';</script></body></html>'''
+<script>document.querySelector('.statusbar').style.background='color-mix(in srgb, var(--t-dragon) 13%, var(--surface))';</script></body></html>'''
 desk = head + f'''<div class="desktop tint"><div data-sidebar="pokedex"></div><div class="main"><div data-topbar></div>
 <div class="band" style="padding:18px 32px 4px"><a class="backlink">‹ Pokédex</a><div style="display:flex;align-items:flex-end;gap:24px">{hero(150).replace('class="vswitch"', 'class="vswitch" style="padding-bottom:22px;margin-left:auto"')}</div></div>
 <div class="content" style="max-width:1200px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:start">
 <div style="display:flex;flex-direction:column;gap:22px">{stats()}{ranks()}{moves()}{versions()}</div>
 <div style="display:flex;flex-direction:column;gap:22px">{ivs()}{cps()}{matchups()}{evo()}{getit()}</div></div></div></div><script src="../chrome.js"></script></body></html>'''
-(HERE / 'B2-phone.html').write_text(phone)
+for k, _ in TABS:
+    (HERE / f'B2{"" if k == "o" else k}-phone.html').write_text(phone(k))
 (HERE / 'B2-desktop.html').write_text(desk)
