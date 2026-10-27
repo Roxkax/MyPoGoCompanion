@@ -210,8 +210,13 @@ Plus:
 
 ### 15. Account and settings
 
-**You can:** sign in with Google; set your language (English / Português), theme (light/dark), preferred league; delete your account and download your data.
-**Backend:** Google token validation, own session tokens, roles (User, Admin), settings per user.
+**You can:** sign in with Google; set your language (English / Português), theme (light/dark), preferred league; delete your account and download your data. Plus:
+- **Trainer profile:** trainer level (it caps how far you can power up), team and friend code;
+- **Calculation defaults:** your usual attacker level (40/50/51), best buddy, include Shadows/Megas — used by tier lists, counters and the simulator;
+- **Notification settings:** choose which emails (later pushes) you get — reminders, pending proposals, import results.
+
+**Backend:** Google token validation, own session tokens, roles (User, Admin), settings and trainer profile per user, notification preferences.
+**Review:** confirmed 2026-10-27, adding trainer profile, calculation defaults and notification settings. Not added: devices & sessions.
 **Notes:** the iOS app will also need Sign in with Apple.
 
 ### 16. Data import pipeline (behind the scenes)

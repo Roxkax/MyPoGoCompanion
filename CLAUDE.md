@@ -92,6 +92,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-27 | Review — **12. Data corrections** confirmed, adding: required sources + AI confidence, field history & revert, pending-proposal alerts (email now, push with mobile). Not added: bulk approve. |
 | 2026-10-27 | Review — **13. Game calendar** confirmed, adding: past events archive, event prep checklist (AI-drafted, admin-approved), calendar sync (iCal link), reminders (email, later push). |
 | 2026-10-27 | Review — **14. Admin panel** confirmed, adding: bilingual content editor, health & limits, feature switches, scheduled downloadable backups (Azure Blob, a few cents/month). |
+| 2026-10-27 | Review — **15. Account and settings** confirmed, adding: trainer profile (level, team, friend code), calculation defaults, notification settings. Not added: devices & sessions. |
 | 2026-10-27 | All commits authored by the owner's GitHub account (history rewritten); Claude's involvement shown by the Co-Authored-By trailer. |
 
 ## Open decisions
