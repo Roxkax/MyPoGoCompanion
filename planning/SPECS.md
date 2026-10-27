@@ -363,3 +363,11 @@ How each feature works from the user's side, as signed off by the owner. Priorit
 **Party Power planner (Future).** How much Party Power helps and which of your counters benefit most (a separate calculation; the simulator doesn't model Party Power).
 
 **Not possible.** A map of Routes (location-based, only visible in the game).
+
+## 22. Mobile apps — signed off 2026-10-27 (after the MVP)
+
+**iOS app (Good to have, first after the web MVP).** Native SwiftUI app from the App Store, same features and data as the web app through the same API (same account, collection, saved items). Sign in with Google plus Sign in with Apple (Apple requires it). Phone extras: push notifications (pending proposals, event reminders), offline copy on the device, import a Poke Genie export from the Share menu. Needs the Apple Developer Program ($99/year).
+
+**Android app (Future, after iOS).** The same, native Kotlin, on Google Play ($25 once).
+
+**Order.** Web app + API first, then iOS, then Android; each app shows the features the API has at that point.

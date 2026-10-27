@@ -28,9 +28,9 @@ We are **planning**, following the process in `docs/PLANNING-PROCESS.md` (stages
 | 5 Write PLAN.md | Done 2026-10-27 (draft) |
 | 6 Feature-by-feature review | Done 2026-10-27 (21 features) |
 | 7 Technical decisions | Done 2026-10-27 |
-| 8 Prioritise (MVP / Good to have / Future) | **In progress** — Claude's proposal in `planning/PRIORITIES.md`, owner adjusting |
-| 9 Backlog (Epic → Feature → Task, 100-hour sprints) | — |
-| 10 Design: app map, then realistic screens one by one | — |
+| 8 Prioritise (MVP / Good to have / Future) | Done 2026-10-27 (`planning/PRIORITIES.md`; descriptions signed off in `planning/SPECS.md`) |
+| 9 Backlog (Epic → Feature → Task, 100-hour sprints) | Moved after the design (built in stage 11) |
+| 10 Design: app map, then realistic screens one by one | **Next** |
 | 11 Rebuild the backlog from the design | — |
 | 12 Start sprints | Only when the owner says so |
 
@@ -130,6 +130,8 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-27 | Sign-off — **19. Eggs & research** approved; egg pools and research rewards with hundo CPs (19.1) moved to MVP. |
 | 2026-10-27 | Sign-off — **20. Trading & friends** approved as described (all after the MVP). |
 | 2026-10-27 | Sign-off — **21. Routes & Party Play** approved as described (all Future). |
+| 2026-10-27 | Sign-off — **22. Mobile apps** approved as described. **All features signed off** (`planning/SPECS.md`); final priorities in `planning/PRIORITIES.md`: 56 MVP · 75 Good to have · 28 Future. **Stage 8 done.** |
+| 2026-10-27 | The backlog (stage 9) is built **after the design** (merged with stage 11), since the design will change it; next is stage 10 (UI/UX). |
 | 2026-10-27 | All commits authored by the owner's GitHub account (history rewritten); Claude's involvement shown by the Co-Authored-By trailer. |
 
 ## Open decisions
