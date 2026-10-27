@@ -319,3 +319,17 @@ How each feature works from the user's side, as signed off by the owner. Priorit
 **Future.** Grunt by quote.
 
 **Where it comes from.** AI researcher (line-ups; weekly, auto-published, fixable), our battle calculations, your collection.
+
+## 19. Eggs & research — signed off 2026-10-27
+
+**What it's for.** Know what can hatch and which research rewards are available, and spot a good one.
+
+**Getting there.** From the menu (Eggs & Research) and the home page.
+
+**Egg pools and research rewards (MVP).** Eggs per distance (2, 5, 7, 10, 12 km, Adventure Sync, route eggs) with the Pokémon that can hatch now; Field Research tasks with their rewards; hundo CPs at the level each comes at (L20 eggs, L15 research). From the AI researcher's weekly fetch.
+
+**Later (Good to have).** Shiny and rarity markers; catch-screen IV check for research and hatches (10/10/10 floor; same tool as raids).
+
+**Future.** Find a task by reward; manual research checklist.
+
+**Where it comes from.** AI researcher (pools, tasks; weekly, auto-published, fixable), our calculations (CPs).

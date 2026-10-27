@@ -5,7 +5,7 @@ Stage 8. Proposed by Claude, **adjusted by the owner on 2026-10-27** (changed ro
 - **MVP** = the first release (web app + API) · **Good to have** = next, after the MVP · **Future** = no commitment.
 - Foundation work (repo, CI/CD, hosting, database, sign-in, OpenAPI clients, the C# engine port) is implied by the MVP and is planned in the backlog.
 
-**Totals:** 55 MVP · 76 Good to have · 28 Future (159 items).
+**Totals:** 56 MVP · 75 Good to have · 28 Future (159 items).
 
 ## 1. Pokédex
 
@@ -246,7 +246,7 @@ Stage 8. Proposed by Claude, **adjusted by the owner on 2026-10-27** (changed ro
 
 | ID | Item | Proposed | Why |
 |---|---|---|---|
-| 19.1 | Egg pools and research rewards with hundo CPs | **Good to have** |  |
+| 19.1 | Egg pools and research rewards with hundo CPs | **MVP** | owner: changed 2026-10-27 at sign-off — the researcher already fetches them |
 | 19.2 | Shiny & rarity markers | **Good to have** |  |
 | 19.3 | Catch-screen IV check | **Good to have** | Reuses 6.9 |
 | 19.4 | Find a task by reward | **Future** |  |
