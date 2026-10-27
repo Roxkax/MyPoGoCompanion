@@ -275,3 +275,19 @@ How each feature works from the user's side, as signed off by the owner. Priorit
 **Future.** Notification settings.
 
 **Privacy.** Only the Google name, email and picture, settings, and what you upload.
+
+## 16. Data import pipeline — signed off 2026-10-27
+
+**What it's for.** Keep all game data up to date automatically.
+
+**Every day (MVP).** A background job early each morning: downloads the game files and PvPoke rankings; recalculates max CPs, raid rankings, counters, best IVs and search filters; checks results (every string tested by simulating the game's search — on failure the old data stays live and the problem shows in the admin panel); publishes to the database.
+
+**Portuguese names (MVP).** Official Portuguese Pokémon, move and type names from the game's text files.
+
+**Data freshness (MVP).** "Data as of" dates on pages (game data, rankings, raid bosses); a warning when an import is overdue.
+
+**Later (Good to have).** Change history, including a backfill of years of past changes from the game files' public history (powers "changes over time"); preview big changes before publishing (small changes publish automatically).
+
+**Future.** Public "What changed" page.
+
+**Where it comes from.** Datamined game files (public on GitHub), PvPoke (MIT), datamined game text.
