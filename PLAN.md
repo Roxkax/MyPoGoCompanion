@@ -30,7 +30,13 @@ Each feature lists what you can do, what the backend needs, where the data comes
 **You can:** browse every Pokémon (all 1,025 species and their forms, Megas, Shadows), search by name, number or nickname, and filter by type, generation, stats (Attack, Defense, Stamina, max CP), moves, Shadow/Mega/Dynamax/Gigantamax, shiny availability, legendary/mythical, released or not, and "in raids now". Sort by any column.
 **Backend:** species/form/move tables built from the game master and PvPoke; a search endpoint with filters and sorting; precomputed max CP and rankings per form.
 **Data:** game master (stats, forms, moves), PvPoke (Elite TM / legacy flags, rankings), approved AI facts (availability).
-**Notes:** forms share a Pokédex number in the game; the app shows each form separately.
+- **"I own it" markers:** each row shows whether you own it (from your collection), with shiny, lucky, hundo and Shadow badges; filter by owned or missing.
+- **Collection tracker:** Pokédex completion per region and category (shinies, luckies, hundos, Shadows, costumes, Dynamax).
+- **Compare:** 2–4 Pokémon side by side (stats, moves, rankings).
+- **Saved views:** save a filter + column setup (e.g. "Ground attackers I own") and reopen it with one tap.
+
+**Notes:** forms share a Pokédex number in the game; the app shows each form separately. Owned markers and the tracker need an imported collection (feature 9).
+**Review:** confirmed 2026-10-27, with all four additions.
 
 ### 2. Pokémon page
 

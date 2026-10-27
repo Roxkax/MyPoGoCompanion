@@ -78,6 +78,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-27 | AI spending cap: **$5/month for now** (adjustable in the admin panel); AI calls stop when it's reached and the admin is told. |
 | 2026-10-27 | Build model: **Claude Code writes the code in sprints; the owner reviews, tests and approves.** Estimates include the owner's testing time. |
 | 2026-10-27 | Owner availability: **10–20 hours per week** for reviewing and testing. |
+| 2026-10-27 | Review — **1. Pokédex** confirmed, adding: "I own it" markers, collection tracker (completion by region and category), compare 2–4 Pokémon, saved views. |
 | 2026-10-27 | All commits authored by the owner's GitHub account (history rewritten); Claude's involvement shown by the Co-Authored-By trailer. |
 
 ## Open decisions
