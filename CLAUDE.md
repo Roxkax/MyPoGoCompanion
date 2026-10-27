@@ -89,6 +89,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-27 | Review — **9. My collection** confirmed, adding: import history (every upload kept, stored as diffs), duplicates review. Not added: candy planner, notes and own tags. |
 | 2026-10-27 | Review — **10. Best team** confirmed, adding: PvP team builder (coverage/threat check from PvPoke data), Mega choice. Not added: team search string, generalist team. |
 | 2026-10-27 | Review — **11. AI assistant** confirmed, adding: knows the current page, does things for you after confirmation (filters, teams, simulations), screenshot questions, "ask about this" buttons. |
+| 2026-10-27 | Review — **12. Data corrections** confirmed, adding: required sources + AI confidence, field history & revert, pending-proposal alerts (email now, push with mobile). Not added: bulk approve. |
 | 2026-10-27 | All commits authored by the owner's GitHub account (history rewritten); Claude's involvement shown by the Co-Authored-By trailer. |
 
 ## Open decisions

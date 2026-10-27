@@ -175,7 +175,13 @@ Plus:
 ### 12. Data corrections (AI → admin approval)
 
 **You can (as admin):** see a queue of proposed changes — from the AI chat, from the weekly research job and from "report wrong data" — each with the current value, the proposed value and sources; approve, edit then approve, or reject. Approved facts appear on the Pokédex with an "admin-verified" badge.
-**Backend:** proposal records (field-level), the curated layer, conflict detection when a later import changes the same field, audit log.
+Plus:
+- **Confidence & sources:** every proposal must cite at least one source and shows the AI's confidence; low-confidence ones are marked;
+- **Field history & revert:** every value a field has had (from imports and approvals), with roll-back to any of them;
+- **Pending alerts:** a digest when proposals are waiting — email from the web app, push notifications once the mobile apps exist.
+
+**Backend:** proposal records (field-level, with sources and confidence), the curated layer, per-field value history, conflict detection when a later import changes the same field, audit log, an email sender on a free tier.
+**Review:** confirmed 2026-10-27, adding confidence & sources, field history & revert, and pending alerts. Not added: bulk approve.
 
 ### 13. Game calendar (bosses and events)
 
