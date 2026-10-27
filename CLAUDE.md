@@ -14,7 +14,7 @@ We are **planning**, following the process in `docs/PLANNING-PROCESS.md` (stages
 - **Cost rule:** prefer free tiers, pay-per-use and scale-to-zero services. Flag anything with a running cost (the AI).
 - **Commercial readiness:** design for many users from day one, and flag licensing, terms-of-service and trademark issues (Pokémon/Niantic data, sprites, community sources).
 - **Language:** replies in English. The owner may write in Portuguese.
-- **Git:** commit and push planning documents after every confirmed change.
+- **Git:** commit and push planning documents after every confirmed change. Commits are authored as `Diogo Gonçalves <3799595+Roxkax@users.noreply.github.com>` (set `git config user.name/user.email` in a new clone); commits Claude writes keep the `Co-Authored-By: Claude` trailer.
 - **Decision log:** every confirmed decision goes in the log below, with its date, immediately.
 
 ## Planning status
@@ -51,6 +51,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-27 | Adopted the planning process in `docs/PLANNING-PROCESS.md`. |
 | 2026-10-27 | Keep the technical decisions above; **redo the product** (features, priorities, design) from scratch. v1 feature list, UX choices and wireframes archived. |
 | 2026-10-27 | Working agreements above confirmed. |
+| 2026-10-27 | All commits authored by the owner's GitHub account (history rewritten); Claude's involvement shown by the Co-Authored-By trailer. |
 
 ## Open decisions
 
