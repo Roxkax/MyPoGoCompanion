@@ -5,7 +5,7 @@ Stage 8. Proposed by Claude, **adjusted by the owner on 2026-10-27** (changed ro
 - **MVP** = the first release (web app + API) · **Good to have** = next, after the MVP · **Future** = no commitment.
 - Foundation work (repo, CI/CD, hosting, database, sign-in, OpenAPI clients, the C# engine port) is implied by the MVP and is planned in the backlog.
 
-**Totals:** 54 MVP · 77 Good to have · 28 Future (159 items).
+**Totals:** 55 MVP · 76 Good to have · 28 Future (159 items).
 
 ## 1. Pokédex
 
@@ -31,7 +31,7 @@ Stage 8. Proposed by Claude, **adjusted by the owner on 2026-10-27** (changed ro
 | 2.3 | Evolution chain with every condition | **MVP** | Core; in the game files |
 | 2.4 | How to get it: permanent ways | **MVP** | Core |
 | 2.5 | How to get it: special conditions (curated, from AI + admin) | **Good to have** | Your main AI idea; owner: changed 2026-10-27 |
-| 2.6 | How to get it: current appearances | **Good to have** | Needs the AI research job (13.2) |
+| 2.6 | How to get it: current appearances | **MVP** | Needs the AI research job (13.2); owner: changed 2026-10-27 at sign-off |
 | 2.7 | Versions: forms, costumes, shiny, Shadow/Purified, Mega, Dynamax | **MVP** | Core |
 | 2.8 | Changes over time (history backfill) | **Good to have** | Sizeable data work |
 | 2.9 | Rankings summary (PvP, raids, Max) | **MVP** | Core |
