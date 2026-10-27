@@ -261,3 +261,17 @@ How each feature works from the user's side, as signed off by the owner. Priorit
 **Simple in the MVP.** Admin role set in configuration (no user screen); the $5 AI cap is a configuration setting (spend visible); "Megas not yet in GO" stays in configuration or is updated by the AI researcher.
 
 **Later (Good to have).** Review queue (feature 12); direct data edits (logged); hand-maintained lists on screen; AI usage and cap on screen; audit log; users & roles; content editor (EN/PT); health & limits; downloadable backups; feature switches.
+
+## 15. Account and settings — signed off 2026-10-27
+
+**What it's for.** Sign in so your collection, saved filters and AI chat belong to you; set the app up your way.
+
+**Signing in (MVP).** "Sign in with Google", no passwords. Without signing in you can use the Pokédex, moves, filters, tier lists, raid bosses and calendar; uploading a collection, saving filters and the AI chat need sign-in. The owner is the admin. You stay signed in on a device until you sign out.
+
+**Settings (MVP).** Language: English or Português (Portugal) — the whole interface, including Pokémon and move names (from the game's pt-BR text); search strings stay in English. Theme: light, dark, or follow the device.
+
+**Later (Good to have).** Calculation defaults (attacker level 40/50/51, Best Buddy, include Shadows/Megas); preferred league; trainer profile (level — caps power-up suggestions —, team, friend code); delete account & download data (required before any public launch); Sign in with Apple (with the iOS app).
+
+**Future.** Notification settings.
+
+**Privacy.** Only the Google name, email and picture, settings, and what you upload.
