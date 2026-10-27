@@ -347,3 +347,19 @@ How each feature works from the user's side, as signed off by the owner. Priorit
 **Future.** What to trade (regionals, likely-lucky old catches, trade-evolution candidates, duplicates — from your collection).
 
 **Where it comes from.** Fixed game rules (kept in the app, updated by the admin), our calculations.
+
+## 21. Routes & Party Play — signed off 2026-10-27 (all Future)
+
+**What it's for.** Understand Routes and Party Play and what they give; track Zygarde Cells.
+
+**Getting there.** From the menu (Routes & Party).
+
+**Rules, bonuses and current challenges (Future).** How Routes work (streaks, Route eggs and gifts); how Party Play works, the Party Power boost, current Party Challenges (from the AI researcher).
+
+**Route rewards (Future).** Route eggs, Zygarde Cells, gifts, badges, streak bonuses.
+
+**Zygarde Cell tracker (Future).** Enter your Cell count by hand and see which forms you can make (10% at 50, 50% at 100, Complete at 250) and how many you still need.
+
+**Party Power planner (Future).** How much Party Power helps and which of your counters benefit most (a separate calculation; the simulator doesn't model Party Power).
+
+**Not possible.** A map of Routes (location-based, only visible in the game).

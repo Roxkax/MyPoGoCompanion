@@ -129,6 +129,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-27 | Sign-off — **18. Team GO Rocket** approved as described (all after the MVP). |
 | 2026-10-27 | Sign-off — **19. Eggs & research** approved; egg pools and research rewards with hundo CPs (19.1) moved to MVP. |
 | 2026-10-27 | Sign-off — **20. Trading & friends** approved as described (all after the MVP). |
+| 2026-10-27 | Sign-off — **21. Routes & Party Play** approved as described (all Future). |
 | 2026-10-27 | All commits authored by the owner's GitHub account (history rewritten); Claude's involvement shown by the Co-Authored-By trailer. |
 
 ## Open decisions
