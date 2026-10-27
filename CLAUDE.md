@@ -147,6 +147,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-27 | **B1 Pokédex list approved** (one line per species, version markers with hover/tap switching, version-aware filters). |
 | 2026-10-27 | All commits authored by the owner's GitHub account (history rewritten); Claude's involvement shown by the Co-Authored-By trailer. |
 | 2026-10-27 | Pokémon page (B2) on the **phone uses tabs** (Overview · Moves · IVs · Get it · Versions), not one long page; desktop keeps everything on one page in two columns. |
+| 2026-10-27 | **B2 Pokémon page approved** (type-tinted header, version switcher, phone tabs Overview · Moves · IVs · Get it · Versions; desktop two columns). |
 
 ## Open decisions
 
