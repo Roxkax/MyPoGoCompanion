@@ -201,3 +201,19 @@ How each feature works from the user's side, as signed off by the owner. Priorit
 **Future.** PvP team builder (3 Pokémon, type coverage and threats, from PvPoke data).
 
 **Where the information comes from.** Our raid damage calculations; your collection.
+
+## 11. AI assistant — signed off 2026-10-27
+
+**What it's for.** Ask any question about the game in your own words (English or Portuguese) and get an answer based on real data.
+
+**Getting there.** A chat button on every page; sign-in required (the AI has a cost).
+
+**Asking questions (MVP).** Answers from our own data — Pokédex, moves, rankings, raid bosses and counters, calendar — showing which data it used (e.g. "best non-legendary Ground attackers?", "when does Kyogre leave raids?", "Qual é o melhor moveset do Garchomp para raids?"). If our data doesn't have the answer, it says so instead of guessing.
+
+**Cost control (MVP).** Simple questions use a smaller model; a **$5/month** cap shared with the AI researcher; when reached, the chat pauses until next month and says why.
+
+**Later (Good to have).** Web search with cited sources (findings can become correction proposals with feature 12); saved conversations (in the MVP a chat lasts for the session); knows your collection; knows the current page; "ask about this" buttons.
+
+**Future.** Does things for you after confirmation (filters, teams, simulations); screenshot questions.
+
+**Where the answers come from.** Claude (Anthropic) reading our data through the API's tools; later the web, always with sources. The AI never changes data by itself.
