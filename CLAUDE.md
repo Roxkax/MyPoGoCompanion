@@ -81,6 +81,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-27 | Review — **1. Pokédex** confirmed, adding: "I own it" markers, collection tracker (completion by region and category), compare 2–4 Pokémon, saved views. |
 | 2026-10-27 | Review — **2. Pokémon page** confirmed, adding: your copies, IV rank checker, type matchups, power-up cost calculator. |
 | 2026-10-27 | Review — **3. Moves** confirmed, adding: move rankings per type, type chart, TM advice on the user's Pokémon, moveset ranking per Pokémon. |
+| 2026-10-27 | Review — **4. Search filters** confirmed, adding: utility filter library (admin-curated), cleanup routine. Not added: Master League/cup keeper filters, "Megas you own". |
 | 2026-10-27 | All commits authored by the owner's GitHub account (history rewritten); Claude's involvement shown by the Co-Authored-By trailer. |
 
 ## Open decisions

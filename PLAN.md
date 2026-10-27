@@ -78,11 +78,14 @@ Each feature lists what you can do, what the backend needs, where the data comes
 - copy a short string for any one family from its Pokémon page;
 - build your own filter with a form (Pokédex numbers, types, IV bars, CP, stars, shiny, lucky, Shadow, keywords) and see the string update live; options like keeper % (95/98/99) and level cap 50/51;
 - paste any string and get a plain-language explanation plus the Pokémon it matches;
-- preview which of **your** Pokémon a string matches; save and name your filters.
+- preview which of **your** Pokémon a string matches; save and name your filters;
+- a **utility filter library**: ready strings for everyday chores (trade fodder, lucky-trade candidates, evolve for Pokédex, purify candidates, buddy candidates), curated by the admin;
+- a **cleanup routine**: a checklist of your filters with "last applied" dates and the number of new matches in your latest import, so you know when to re-tag.
 
 **Backend:** the Keeper Filters engine ported to C# (box search, encoder, game-search simulator, 1,950-character split), checked against golden files from today's Python build.
 **Data:** game master, PvPoke rankings.
 **Notes:** strings use English keywords; the game can't tell regional forms apart by Pokédex number (a game limitation).
+**Review:** confirmed 2026-10-27, adding the utility filter library and the cleanup routine. Not added: Master League and cup keeper filters, "Megas you own".
 
 ### 5. Tier lists
 
