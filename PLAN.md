@@ -257,8 +257,14 @@ Plus:
 
 **You can:** see what hatches from each egg distance (2, 5, 7, 10, 12 km and adventure/route eggs), current Field and Special Research rewards, and the hundo CPs to look for.
 **Backend:** egg pool and research reward tables, CP lookups.
-**Data:** pools rotate and aren't in the game files; the weekly AI research proposes them and the admin approves.
-**Notes:** added during the review (2026-10-27); details to confirm.
+Plus:
+- **Shiny & rarity markers:** each egg and reward shows whether it can be shiny and how rare it is in its pool;
+- **Find a task by reward:** search for a Pokémon and see which Field Research task gives it;
+- **Catch-screen IV check:** for research encounters and hatches, type the CP and see the possible IVs (10/10/10 floor);
+- **Research checklist:** tick off Special and Timed Research steps by hand to track progress (the app can't read the game).
+
+**Data:** pools rotate and aren't in the game files; the weekly AI research proposes them and the admin approves. Research step lists come the same way.
+**Review:** added and confirmed 2026-10-27, with all four additions.
 
 ### 20. Trading & friends
 
