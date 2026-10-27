@@ -62,8 +62,14 @@ Each feature lists what you can do, what the backend needs, where the data comes
 ### 3. Moves
 
 **You can:** list all fast and charged moves with raid and PvP stats side by side, filter by type, see who learns each move (normal, Elite TM, legacy) and how it changed over time; Max Moves and G-Max moves with their power.
-**Backend:** move tables (PvE and PvP stats are different in the game), move history.
-**Data:** game master, PvPoke.
+- **Move rankings:** best moves per type — raid damage and energy per second, PvP damage and energy per turn.
+- **Type chart:** the full 18×18 effectiveness chart, including dual types.
+- **TM advice on your Pokémon:** flags Pokémon in your collection that lack their best moves and says which TM to use (Fast, Charged, Elite).
+- **Moveset ranking per Pokémon** (shown on the Pokémon page): every fast + charged combination ranked for raids and PvP.
+
+**Backend:** move tables (PvE and PvP stats are different in the game), move history, move and moveset scoring (raid model + PvPoke move data).
+**Data:** game master, PvPoke; your collection's moves (Poke Genie exports include them) for the TM advice.
+**Review:** confirmed 2026-10-27, with all four additions.
 
 ### 4. Search filters
 
