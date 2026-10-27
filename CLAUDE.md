@@ -132,6 +132,8 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-27 | Sign-off — **21. Routes & Party Play** approved as described (all Future). |
 | 2026-10-27 | Sign-off — **22. Mobile apps** approved as described. **All features signed off** (`planning/SPECS.md`); final priorities in `planning/PRIORITIES.md`: 56 MVP · 75 Good to have · 28 Future. **Stage 8 done.** |
 | 2026-10-27 | The backlog (stage 9) is built **after the design** (merged with stage 11), since the design will change it; next is stage 10 (UI/UX). |
+| 2026-10-27 | Design: every screen is shown at **phone and desktop size** before approval. |
+| 2026-10-27 | Design: **app map approved** (`design/APP-MAP.md`) — tabs Today, Pokédex, Battle, Filters, Collection; search, Ask (AI) and profile always on screen; 25 MVP screens A1–H3. |
 | 2026-10-27 | All commits authored by the owner's GitHub account (history rewritten); Claude's involvement shown by the Co-Authored-By trailer. |
 
 ## Open decisions
