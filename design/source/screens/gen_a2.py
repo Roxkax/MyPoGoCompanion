@@ -38,7 +38,7 @@ def agenda(phone):
     return ''.join(f'<div class="day"><b>{d}</b>{rel}</div><div class="group" style="margin:0 12px 6px">' + ''.join(items) + '</div>' for d, rel, items in days(phone))
 
 chips = '<div class="filterchips"><span class="fchip on">All</span><span class="fchip">Raids</span><span class="fchip">Max Battles</span><span class="fchip">Events</span></div>'
-fresh = '<p class="fresh" style="margin:14px 16px 4px">From LeekDuck, fetched by the AI researcher Sun 25 Oct 22:00 · Times in Lisbon time</p>'
+fresh = ''
 head = '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>A2 Calendar</title><link rel="stylesheet" href="../base.css"><link rel="stylesheet" href="_a2.css"></head><body>'
 phone = head + f'''<div class="stage"><div class="device"><div class="screen">
 <div data-statusbar></div><div data-dethead="Today|Calendar"></div>

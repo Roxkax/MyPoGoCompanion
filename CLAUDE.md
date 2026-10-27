@@ -138,6 +138,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-27 | Screen **A1 Today approved** (tiles for raids and Max Battles, live/next events, eggs & research summary, data-source line). Sprites trimmed and scaled to fill their box equally on all screens. |
 | 2026-10-27 | Working agreement: questions are asked **as plain text in the chat**, answered freely (no multiple-choice pop-ups). |
 | 2026-10-27 | Calendar entry points: calendar button in Today's header (A1 updated) and search offers the Calendar for "calendar", "raid hour", "community day" (H2). **A2 Calendar approved.** |
+| 2026-10-27 | **No source lines on screens** (removed from A1, A2, A3). Whether the source stays reachable (ⓘ) is still open; the specs' "source shown" wording is updated once decided. |
 | 2026-10-27 | All commits authored by the owner's GitHub account (history rewritten); Claude's involvement shown by the Co-Authored-By trailer. |
 
 ## Open decisions
