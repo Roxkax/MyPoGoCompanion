@@ -71,6 +71,9 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-27 | Collection input: **Poke Genie CSV export only** (no official game API; reading the game breaks Niantic's terms). Re-upload to refresh. |
 | 2026-10-27 | Battle simulator covers **raid battles and Max Battles**; no PvP simulator. Max Battle results are estimates (mechanics less documented). |
 | 2026-10-27 | AI chat: **Claude via Anthropic's API**, pay-per-use, behind a provider-agnostic layer in the .NET API. |
+| 2026-10-27 | Live game data (current raid bosses, Max Battles, events): a **weekly scheduled AI research job** proposes updates and the **admin approves** them; the admin can also edit by hand. No scraping of community sites. |
+| 2026-10-27 | Images: **datamined game sprites**. Fine for personal use; recheck the trademark risk before any public launch. |
+| 2026-10-27 | Hosting: **Azure Container Apps** (API + worker, scale-to-zero), **Azure Static Web Apps** (web, free), **Neon** (PostgreSQL, free tier). |
 | 2026-10-27 | All commits authored by the owner's GitHub account (history rewritten); Claude's involvement shown by the Co-Authored-By trailer. |
 
 ## Open decisions
