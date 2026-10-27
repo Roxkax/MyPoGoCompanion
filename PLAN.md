@@ -94,9 +94,15 @@ Each feature lists what you can do, what the backend needs, where the data comes
 - **Raids:** best attackers per type and overall (our DPS/TDO model, with the "best Mega" slot and the numbers behind each score);
 - **Max Battles:** best Dynamax/Gigantamax attackers, tanks and supports.
 
-Filter any list to "only what I own".
-**Backend:** daily PvPoke import; raid ranking engine (ported from Python); a new Max Battle ranking model.
-**Notes:** the Max Battle model is new work and less documented by the community; it will be labelled as an estimate at first.
+Filter any list to "only what I own". Plus:
+- **Your gaps & what to build:** per type, how many top attackers you own and the next best one to power up or catch;
+- **Budget picks:** strong options that are easy to get (non-legendary, cheap to power up), marked in each list;
+- **Risers & fallers:** what moved up or down since the last data update or season;
+- **Why it's ranked here:** for every list (raids, Max, PvP), the numbers and moves behind each position.
+
+**Backend:** daily PvPoke import; raid ranking engine (ported from Python); a new Max Battle ranking model; stored ranking snapshots for risers and fallers; power-up cost data for budget picks.
+**Notes:** the Max Battle model is new work and less documented by the community; it will be labelled as an estimate at first. For PvP, "why" shows PvPoke's published moveset, matchups and score breakdown.
+**Review:** confirmed 2026-10-27, with all four additions.
 
 ### 6. Raid bosses
 
