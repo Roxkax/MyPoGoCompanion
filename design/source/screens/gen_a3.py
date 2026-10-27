@@ -36,7 +36,7 @@ research = '''<section class="section"><h2 class="sectitle">Field Research</h2><
  <div class="li" style="font-weight:700"><img class="sprite" src="../sprites/443.png" width="32" height="32" alt=""><div><div>Catch 15 Gible</div><div class="note">Reward: Gible encounter</div></div></div>
 </div></section>'''
 
-fresh = '<p class="fresh" style="margin:6px 2px 0">From LeekDuck, fetched by the AI researcher Sun 25 Oct 22:00 · <a>View source</a></p>'
+fresh = ''
 head = '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>A3 Event details</title><link rel="stylesheet" href="../base.css"><link rel="stylesheet" href="_a3.css"></head><body>'
 
 phone = head + f'''<div class="stage"><div class="device"><div class="screen">
