@@ -94,3 +94,5 @@ kbd { font-family: var(--mono); font-size: 11px; padding: 2px 6px; border-radius
 .fchip { flex: none; height: 34px; padding: 0 14px; border-radius: 17px; background: var(--surface); border: 1px solid var(--line); color: var(--text-2); font-weight: 700; font-size: 14px; display: inline-flex; align-items: center; }
 .fchip.on { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 .backlink { color: var(--accent); font-weight: 800; font-size: 15px; }
+.type.normal { background: var(--t-normal); } .type.fighting { background: var(--t-fighting); } .type.psychic { background: var(--t-psychic); }
+.type.bug { background: var(--t-bug); } .type.rock { background: var(--t-rock); } .type.steel { background: var(--t-steel); } .type.fairy { background: var(--t-fairy); }
