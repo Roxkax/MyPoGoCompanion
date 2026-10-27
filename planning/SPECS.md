@@ -231,3 +231,21 @@ How each feature works from the user's side, as signed off by the owner. Priorit
 **Pending alerts (Good to have).** In-app and browser notifications; push with the mobile apps.
 
 **In the MVP (without this feature).** The chat never changes data; AI-researched bosses and events publish automatically and can be fixed with the small editor (14.12); special conditions wait for this feature.
+
+## 13. Game calendar — signed off 2026-10-27
+
+**What it's for.** Know what's happening in the game today and in the coming weeks, fetched by the system.
+
+**Getting there.** The home page opens on it; also in the menu (Calendar).
+
+**Home page "Today in the game" (MVP).** Raids now (by tier, linking to counters), Max Battles now, events live now (with end time) and next (e.g. "Mega Chandelure debut — Sat 31 Oct").
+
+**Calendar (MVP).** Current and upcoming raid rotations, Max Battle weeks and events (Community Days, Spotlight Hours, Raid Days/Hours, seasons, special events) with dates and times in your time zone, featured Pokémon, bonuses and exclusive moves.
+
+**AI researcher (MVP).** Weekly, reads sources such as LeekDuck and game news; fetches raid rotations, events, egg pools and research rewards; publishes automatically with the source shown. The admin can fix or remove entries, or run it again mid-week. Its cost counts in the $5/month AI cap.
+
+**Later (Good to have).** Past events archive (feeds "when it appeared" on Pokémon pages).
+
+**Future.** Event prep checklist; calendar sync (Google/Apple); reminders.
+
+**Honest note.** Weekly fetching can miss mid-week surprises; an extra run can be triggered any time and the frequency raised later.

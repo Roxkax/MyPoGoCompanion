@@ -121,6 +121,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-27 | Sign-off — **10. Best team** approved as described. |
 | 2026-10-27 | Sign-off — **11. AI assistant** approved as described (MVP: answers from our data only, session-only chats, $5 cap shared with the researcher). |
 | 2026-10-27 | Sign-off — **12. Data corrections** approved as described (all after the MVP). |
+| 2026-10-27 | Sign-off — **13. Game calendar** approved as described. |
 | 2026-10-27 | All commits authored by the owner's GitHub account (history rewritten); Claude's involvement shown by the Co-Authored-By trailer. |
 
 ## Open decisions
