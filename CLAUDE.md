@@ -98,6 +98,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-27 | Review — **new features added**: 18. Team GO Rocket, 19. Eggs & research, 20. Trading & friends, 21. Routes & Party Play (to be reviewed one by one). |
 | 2026-10-27 | Review — **18. Team GO Rocket** confirmed, adding: your counters, counter search string, purify advice on your Shadows, Grunt lookup by quote. |
 | 2026-10-27 | Review — **19. Eggs & research** confirmed, adding: shiny & rarity markers, find a task by reward, catch-screen IV check, manual research checklist. |
+| 2026-10-27 | Review — **20. Trading & friends** confirmed, adding: trade IV calculator, "what to trade" from the collection. Not added: friends tracker. |
 | 2026-10-27 | All commits authored by the owner's GitHub account (history rewritten); Claude's involvement shown by the Co-Authored-By trailer. |
 
 ## Open decisions

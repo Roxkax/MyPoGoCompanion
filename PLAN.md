@@ -270,8 +270,12 @@ Plus:
 
 **You can:** see trade Stardust costs by friendship level, lucky-trade odds, trade evolutions (free with a trade), special-trade rules, friendship levels and their bonuses (raid damage, IV floor on trades).
 **Backend:** rule tables and calculators.
-**Data:** game rules (mostly fixed) from the game master where present, the rest admin-maintained.
-**Notes:** added during the review (2026-10-27); details to confirm.
+Plus:
+- **Trade IV calculator:** the IV range a traded Pokémon can get at each friendship level (and when lucky), with its chance of a good PvP or raid rank;
+- **What to trade:** from your collection — regionals, lucky-trade candidates (old catches), trade evolutions, duplicates.
+
+**Data:** game rules (mostly fixed) from the game master where present, the rest admin-maintained; your collection's catch dates (in the Poke Genie export) for lucky candidates.
+**Review:** added and confirmed 2026-10-27, adding the trade IV calculator and "what to trade". Not added: friends tracker.
 
 ### 21. Routes & Party Play
 
