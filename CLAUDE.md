@@ -63,6 +63,10 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-27 | Keep the technical decisions above; **redo the product** (features, priorities, design) from scratch. v1 feature list, UX choices and wireframes archived. |
 | 2026-10-27 | Working agreements above confirmed. |
 | 2026-10-27 | Stage 3: the description above is the starting idea; more features can be added during the review. |
+| 2026-10-27 | Audience at launch: **mainly the owner** (a personal tool; going public is a maybe for later). Still designed for many users. |
+| 2026-10-27 | The owner plays raids, PvP (GO Battle League), Max Battles and collecting: all four get equal weight. |
+| 2026-10-27 | App languages at launch: **English + Portuguese (pt-PT)** for the interface. Pokémon and move names in Portuguese come from the game (pt-BR text). |
+| 2026-10-27 | The owner's game is set to **English**, so search strings use English keywords; strings in other game languages are not needed at launch. |
 | 2026-10-27 | All commits authored by the owner's GitHub account (history rewritten); Claude's involvement shown by the Co-Authored-By trailer. |
 
 ## Open decisions
