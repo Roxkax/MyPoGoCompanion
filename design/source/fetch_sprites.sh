@@ -5,7 +5,7 @@ cd "$(dirname "$0")"
 mkdir -p sprites
 base="https://raw.githubusercontent.com/PokeMiners/pogo_assets/master/Images/Pokemon%20-%20256x256"
 # file name: <dex>[_<form>] -> pokemon_icon_<dex3>_<form2>.png (00 = normal, 51/52 = Mega/Mega X, Mega Y)
-for id in 001 002 003 004 005 006 006_51 006_52 094 094_51 382 443 444 445 445_51 609 254_51 644 807 243 466 652 893 894 796 308 464 131 359; do
+for id in 001 002 003 004 005 006 006_51 006_52 094 094_51 382 383 361 443 444 445 445_51 609 254_51 644 807 243 466 652 893 894 796 308 464 131 359; do
   dex=${id%%_*}; form=00; [[ $id == *_* ]] && form=${id##*_}
   out="sprites/${id}.png"
   [[ -s $out ]] && continue

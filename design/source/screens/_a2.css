@@ -1,0 +1,16 @@
+.day { padding: 14px 16px 6px; font-size: 13px; font-weight: 800; color: var(--text-3); letter-spacing: .02em; display: flex; gap: 8px; align-items: baseline; }
+.day b { color: var(--text); font-size: 15px; }
+.citem { display: flex; gap: 12px; align-items: center; padding: 12px 16px; background: var(--surface); }
+.citem + .citem { border-top: 1px solid var(--line); }
+.ctime { width: 64px; flex: none; font-size: 13px; font-weight: 800; color: var(--text-2); line-height: 1.25; }
+.cbody { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.ctitle { font-size: 15.5px; font-weight: 800; line-height: 1.25; }
+.kind { align-self: flex-start; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 8px; background: var(--surface-2); color: var(--text-2); }
+.kind.ev { background: var(--accent-soft); color: var(--accent); }
+.csprites { display: flex; flex: none; }
+.csprites img + img { margin-left: -10px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 9px; background: var(--surface-2); color: var(--text-2); }
+.chev { color: var(--text-3); font-size: 20px; font-weight: 700; }
+.group { border-radius: 18px; overflow: hidden; box-shadow: var(--shadow); }
+.until { font-size: 13px; font-weight: 700; color: var(--text-2); }

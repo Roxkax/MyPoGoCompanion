@@ -26,19 +26,27 @@ All screens show the same moment and the same trainer, so they tell one consiste
 
 - **Now:** Tuesday 27 October 2026, 18:30 (Lisbon).
 - **Trainer:** Ash_PT · level 48 · Team Mystic · signed in · language English.
-- **Data freshness:** game data and rankings 27 Oct 06:00; bosses & events fetched by the AI researcher Sun 26 Oct 22:00 (source: LeekDuck).
-- **Raids now** (until Tue 4 Nov 10:00):
+- **Data freshness:** game data and rankings 27 Oct 06:00; bosses & events fetched by the AI researcher Sun 25 Oct 22:00 (source: LeekDuck).
+- **Raids now** (until Tue 3 Nov 10:00):
   - 5★ **Kyogre** (Water) — 100% CP 2,351 / 2,939 boosted (Rainy) — shiny available.
   - Mega **Mega Gengar** (Ghost/Poison) — shiny available.
   - Shadow 3★ **Shadow Absol** (Dark).
   - 3★ **Charizard** (Fire/Flying), **Lapras** (Water/Ice).
   - 1★ **Gible** (Dragon/Ground), **Charmander** (Fire).
-- **Max Battles now** (until Sun 2 Nov 10:00): 6★ **Gigantamax Venusaur**; 1★ **Dynamax Charmander**.
+- **Max Battles now** (until Sun 1 Nov 10:00): 6★ **Gigantamax Venusaur**; 1★ **Dynamax Charmander**.
 - **Events:**
-  - Live: **Halloween event** — until Fri 31 Oct 20:00 — Ghost-types spawn more often; 2× catch candy.
+  - Live: **Halloween event** — until Sat 31 Oct 20:00 — Ghost-types spawn more often; 2× catch candy.
   - Next: **Mega Chandelure debut** — Sat 31 Oct 10:00 — Mega Chandelure in Mega raids.
-  - Next: **Community Day: Gible** — Sat 8 Nov 14:00–17:00 — evolve Gabite for Garchomp with Earth Power; 3× catch Stardust.
+  - Next: **Community Day: Gible** — Sat 7 Nov 14:00–17:00 — evolve Gabite for Garchomp with Earth Power; 3× catch Stardust.
+- **Calendar entries** (A2; all sample):
+  - Wed 28 Oct 18:00–19:00 — Raid Hour: Kyogre.
+  - Sat 31 Oct 10:00 — Mega Chandelure debut (Mega raids); 20:00 — Halloween event ends.
+  - Sun 1 Nov 10:00 — new Max Battles: 6★ Gigantamax Lapras.
+  - Mon 2 Nov 18:00–19:00 — Max Monday: Gigantamax Lapras.
+  - Tue 3 Nov 10:00 — new raids: 5★ Groudon (Ground); 18:00–19:00 — Spotlight Hour: Snorunt (2× catch Stardust).
+  - Wed 4 Nov 18:00–19:00 — Raid Hour: Groudon.
+  - Sat 7 Nov 14:00–17:00 — Community Day: Gible.
 - **Eggs:** 10 km includes Gible; **Research:** "Win 3 raids" → Gible encounter.
-- **Collection:** 2,148 Pokémon; last import Sun 26 Oct 21:14 (63 new, 40 gone, 12 changed). Includes a Garchomp 2/15/13 L23 (UL rank 41), a Medicham 1/15/15 L49.5 (GL rank 12), Shadow Zekrom, Zeraora, Mega-ready Sceptile.
+- **Collection:** 2,148 Pokémon; last import Sun 25 Oct 21:14 (63 new, 40 gone, 12 changed). Includes a Garchomp 2/15/13 L23 (UL rank 41), a Medicham 1/15/15 L49.5 (GL rank 12), Shadow Zekrom, Zeraora, Mega-ready Sceptile.
 - **Kyogre counters** (from today's raid model, same numbers on every screen): Mega Sceptile 57.3 (Mega slot) · Shadow Zekrom 44.6 · Zeraora 41.5 · Shadow Raikou 41.2 · Shadow Electivire 39.8 · Shadow Chesnaught 39.3 · Zarude 39.2 · Regieleki 39.2 · Xurkitree 39.1.
 - **Garchomp** (B2 example): Atk 261 · Def 193 · Sta 239 · max CP 3,962 / 4,479 / 4,532 (L40/50/51) · 100% CP 1,698 (L15) / 2,264 (L20) / 2,830 (L25) / 3,396 (L30) / 3,679 (L35) · ML #31 (Shadow #26) · Ground raids #12 (Shadow #5, Mega #2) · GL best IVs 0/15/14.

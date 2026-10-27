@@ -48,6 +48,10 @@
   document.querySelectorAll("[data-search]").forEach(el => {
     el.outerHTML = `<div class="searchbox">${svg("search", 19)}Search Pokémon, moves, bosses…</div>`;
   });
+  document.querySelectorAll("[data-dethead]").forEach(el => {
+    const [back, title] = el.dataset.dethead.split("|");
+    el.outerHTML = `<header class="dethead"><a class="back">‹ ${back}</a><span class="dettitle">${title}</span><button class="askbtn">${svg("ask", 18)}Ask</button></header>`;
+  });
   document.querySelectorAll("[data-ask]").forEach(el => { el.outerHTML = `<button class="askbtn">${svg("ask", 18)}Ask</button>`; });
   if (new URLSearchParams(location.search).get("full")) document.documentElement.classList.add("full");
   if (new URLSearchParams(location.search).get("theme") === "dark") document.documentElement.dataset.theme = "dark";
