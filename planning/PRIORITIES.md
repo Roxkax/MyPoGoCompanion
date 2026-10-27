@@ -5,7 +5,7 @@ Stage 8. Proposed by Claude, **adjusted by the owner on 2026-10-27** (changed ro
 - **MVP** = the first release (web app + API) · **Good to have** = next, after the MVP · **Future** = no commitment.
 - Foundation work (repo, CI/CD, hosting, database, sign-in, OpenAPI clients, the C# engine port) is implied by the MVP and is planned in the backlog.
 
-**Totals:** 52 MVP · 78 Good to have · 28 Future (158 items).
+**Totals:** 53 MVP · 77 Good to have · 28 Future (158 items).
 
 ## 1. Pokédex
 
@@ -89,7 +89,7 @@ Stage 8. Proposed by Claude, **adjusted by the owner on 2026-10-27** (changed ro
 
 | ID | Item | Proposed | Why |
 |---|---|---|---|
-| 6.1 | Current and upcoming bosses by tier (entered by the admin in the MVP) | **MVP** | Part of your idea |
+| 6.1 | Current and upcoming bosses by tier (fetched by the AI researcher) | **MVP** | Part of your idea |
 | 6.2 | Boss detail: types, weaknesses, moves, 100% CP | **MVP** |  |
 | 6.3 | Best counters, re-ranked by boss moveset | **MVP** | Part of your idea |
 | 6.4 | Your best counters | **MVP** |  |
@@ -175,8 +175,8 @@ Stage 8. Proposed by Claude, **adjusted by the owner on 2026-10-27** (changed ro
 
 | ID | Item | Proposed | Why |
 |---|---|---|---|
-| 13.1 | Current and upcoming rotations and events (admin-entered in the MVP) | **MVP** | Needed by 6.1 and the home page |
-| 13.2 | Weekly AI research job (proposes rotations, events, pools) | **Good to have** | Admin enters by hand until then |
+| 13.1 | Current and upcoming rotations and events (fetched by the AI researcher) | **MVP** | Needed by 6.1 and the home page |
+| 13.2 | Weekly AI research job: fetches rotations, events and pools (sources such as LeekDuck) and publishes them automatically | **MVP** | owner: changed 2026-10-27 — the system fetches everything; the admin only fixes |
 | 13.3 | Home page "Today in the game" | **MVP** |  |
 | 13.4 | Past events archive | **Good to have** |  |
 | 13.5 | Event prep checklist | **Future** |  |

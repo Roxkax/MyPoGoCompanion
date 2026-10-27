@@ -186,7 +186,7 @@ Plus:
 ### 13. Game calendar (bosses and events)
 
 **You can:** see current and upcoming raid rotations, Max Battle weeks and events (Community Days, Spotlight Hours, raid days, seasons), with featured Pokémon and bonuses; a home page with "today in the game".
-**Backend:** the **weekly AI research job** reads news and proposes the rotation and events; the admin approves; manual edits possible.
+**Backend:** the **weekly AI research job** reads sources such as LeekDuck and game news, fetches the rotation and events, and **publishes them automatically** with their source; the admin only fixes or removes entries. (With feature 12, proposals can later go through the review queue.)
 Plus:
 - **Past events archive:** every past event and rotation is kept, and feeds "event appearances" on each Pokémon page;
 - **Event prep checklist:** what to do before and during an event (e.g. evolve during Community Day for the exclusive move, save candy), drafted by the AI and approved by the admin;
@@ -364,4 +364,5 @@ Risk: if the database outgrows Neon's free 0.5 GB (mainly the change history), t
 | Reading the game / automation | Breaks Niantic's terms, risks bans | Never; the collection comes only from Poke Genie exports |
 | Poke Genie export | The user's own data | Store per user; delete on request (GDPR) |
 | AI web research | Copying news sites' content | Store facts with source links, not copied text |
+| LeekDuck and other community sites | Their terms of use may limit automated reading | Fine for personal use with polite, infrequent requests (weekly); store facts with links, not copied text; recheck terms before any public launch |
 | Google sign-in | Public apps need Google's consent-screen verification | Basic profile scopes only; verify if going public |
