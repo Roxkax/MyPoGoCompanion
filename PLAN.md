@@ -199,6 +199,14 @@ Plus:
 ### 14. Admin panel
 
 **You can (as admin):** see the data import status (last run, errors, re-run), review proposals (feature 12), edit any data directly (logged), manage hand-maintained lists (e.g. Megas not in GO yet, boss tips), see AI usage and cost and set the cap, manage users and roles, read the audit log.
+Plus:
+- **Content editor:** one place to write and edit tips, the utility filter library and event prep checklists, in English and Portuguese;
+- **Health & limits:** API errors, response times, database size against the free-tier limit, and this month's costs;
+- **Feature switches:** turn features on or off (e.g. hide the AI when the budget runs out) without a new release;
+- **Backups:** scheduled database backups you can download, beyond Neon's built-in restore window.
+
+**Backend:** admin-only endpoints and role checks; bilingual content tables; telemetry (Azure Application Insights free allowance); feature flags stored in the database; a scheduled backup job writing to Azure Blob Storage (a few cents a month).
+**Review:** confirmed 2026-10-27, with all four additions.
 
 ### 15. Account and settings
 
