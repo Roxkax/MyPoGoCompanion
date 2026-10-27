@@ -291,3 +291,13 @@ How each feature works from the user's side, as signed off by the owner. Priorit
 **Future.** Public "What changed" page.
 
 **Where it comes from.** Datamined game files (public on GitHub), PvPoke (MIT), datamined game text.
+
+## 17. Offline and installing — signed off 2026-10-27
+
+**What it's for.** Use the web app like a phone app, and later keep it useful without signal.
+
+**Install on your phone (MVP).** "Add to Home Screen" (iPhone: Share → Add to Home Screen; Android: install prompt): own icon, full screen, no app store, automatic updates. In the MVP it still needs a connection; offline it shows a friendly "You're offline" screen.
+
+**Later (Good to have): read-only offline.** A device copy of the Pokédex, search filters, raid counters and your collection, refreshed when online: look up Pokémon, copy filters, check counters, browse your collection without signal. Uploading, saving and the AI need a connection.
+
+**Not planned.** Offline edits that sync later; choosing what's kept offline.
