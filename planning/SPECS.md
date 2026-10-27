@@ -284,7 +284,7 @@ How each feature works from the user's side, as signed off by the owner. Priorit
 
 **Portuguese names (MVP).** Official Portuguese Pokémon, move and type names from the game's text files.
 
-**Data freshness.** Removed by the owner (2026-10-27): no "data as of" dates or overdue warnings on screens; the admin sees import status in the admin panel (G1).
+**Out-of-date warning (MVP).** No "data as of" dates on screens. Only when data stops updating does a warning appear where that data is shown (e.g. "Raid bosses haven't updated in 9 days"). The admin also sees import status in the admin panel (G1).
 
 **Later (Good to have).** Change history, including a backfill of years of past changes from the game files' public history (powers "changes over time"); preview big changes before publishing (small changes publish automatically).
 

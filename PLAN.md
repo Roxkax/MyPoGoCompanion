@@ -224,6 +224,7 @@ Plus:
 Daily import of the game master and PvPoke, change detection, history, and recalculation of rankings, filters and counters — each verified before it's published.
 Plus:
 - **Portuguese names:** Pokémon, move and type names in Portuguese from the game's datamined text files (needed for the Portuguese interface);
+- **Out-of-date warning:** no "data as of" dates; a warning appears only when data stops updating;
 - **"What changed" page:** a public changelog per import — new Pokémon, forms, moves and rebalances;
 - **Preview big changes:** when an import changes a lot (e.g. a move rebalance), the admin sees the diff and approves it before it goes live; small changes publish automatically.
 

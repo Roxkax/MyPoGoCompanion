@@ -5,7 +5,7 @@ Stage 8. Proposed by Claude, **adjusted by the owner on 2026-10-27** (changed ro
 - **MVP** = the first release (web app + API) · **Good to have** = next, after the MVP · **Future** = no commitment.
 - Foundation work (repo, CI/CD, hosting, database, sign-in, OpenAPI clients, the C# engine port) is implied by the MVP and is planned in the backlog.
 
-**Totals:** 55 MVP · 75 Good to have · 28 Future (158 items).
+**Totals:** 56 MVP · 75 Good to have · 28 Future (159 items).
 
 ## 1. Pokédex
 
@@ -220,6 +220,7 @@ Stage 8. Proposed by Claude, **adjusted by the owner on 2026-10-27** (changed ro
 |---|---|---|---|
 | 16.1 | Daily game master + PvPoke import, recalculation, verification | **MVP** |  |
 | 16.2 | Portuguese names from game text | **MVP** | Needed for the Portuguese interface |
+| 16.3 | Out-of-date warning only (e.g. "Raid bosses haven't updated in 9 days"); no "data as of" dates | **MVP** | owner: changed 2026-10-27 at design review |
 | 16.4 | Change detection & history | **Good to have** | With 2.8 |
 | 16.5 | Preview big changes before publishing | **Good to have** |  |
 | 16.6 | "What changed" page | **Future** |  |
