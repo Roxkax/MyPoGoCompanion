@@ -28,3 +28,12 @@
 .stp { display: flex; align-items: center; gap: 10px; font-size: 14.5px; font-weight: 700; color: var(--text-2); }
 .stp .d { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 900; }
 .stp .d.ok { background: var(--ok); color: #fff; } .stp .d.now { border: 3px solid var(--accent); } .stp .d.wait { border: 2px solid var(--line); }
+.grh { display: flex; align-items: baseline; gap: 8px; padding: 12px 14px 6px; }
+.grh b { font-size: 15px; }
+.grh span { font-size: 12.5px; font-weight: 700; color: var(--text-3); }
+.cnt { font-size: 13px; font-weight: 800; color: var(--text-2); margin-left: auto; font-variant-numeric: tabular-nums; }
+.chev { color: var(--text-3); font-size: 18px; font-weight: 700; }
+table.ch { width: 100%; border-collapse: collapse; }
+table.ch th { text-align: left; font-size: 12.5px; font-weight: 800; color: var(--text-3); padding: 11px 14px; border-bottom: 1px solid var(--line); }
+table.ch td { padding: 8px 14px; border-bottom: 1px solid var(--line); font-size: 14.5px; font-weight: 700; white-space: nowrap; }
+table.ch tr.g td { background: var(--surface-2); font-size: 12px; font-weight: 800; color: var(--text-3); text-transform: uppercase; letter-spacing: .04em; padding: 7px 14px; }
