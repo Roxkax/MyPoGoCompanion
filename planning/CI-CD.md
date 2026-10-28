@@ -37,6 +37,10 @@ Switched on at **Sprint 0**, together with the pipelines (until then planning do
 - GitHub **environments** `prod` and `qa` hold their own secrets: Neon connection string, Google OAuth client, Anthropic API key, search API key. The repository is public, so nothing secret is ever committed.
 - Static Web Apps deployment token per environment.
 
+## Addresses
+
+Azure's free default addresses for prod and QA for now (`*.azurestaticapps.net`, `*.azurecontainerapps.io`). A custom domain can be added later (~€10–20/year, free HTTPS); avoid trademarked words in it if the app goes public.
+
 ## Costs
 
 - Repository is public: GitHub Actions minutes and branch protection are free.

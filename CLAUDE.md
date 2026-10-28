@@ -173,6 +173,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-28 | **QA database = a copy of prod**, reset automatically to a fresh copy every time `main` deploys to prod (Neon branch reset). UI tests run on QA against that real data, so they check behaviour (screens load, flows work, numbers present and consistent) rather than fixed sample values. |
 | 2026-10-28 | Merge rule: **no approval required while the owner works alone** (all checks green, branch up to date, conversations resolved). When collaborators join: 1 approval + CODEOWNERS for pipeline/infra files. Full setup in `planning/CI-CD.md`. |
 | 2026-10-28 | Branch rules on `main` are **switched on at Sprint 0**, together with the pipelines; until then planning documents keep going straight to `main`. |
+| 2026-10-28 | Web addresses: **Azure's free default addresses** for prod and QA for now; a custom domain (~€10–20/year) can be added later without other changes. **CI/CD planning done** (`planning/CI-CD.md`). |
 
 ## Open decisions
 
