@@ -164,6 +164,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-28 | **E1 My collection approved** (summary + Upload new, filters/sort, league chips and raid % chip per Pokémon, first-time Poke Genie upload state). League ranks show **only for the top 2% (within 98% of the best IVs)**, the same rule as the keeper filters. |
 | 2026-10-28 | **E2 Upload & import report approved** (import progress steps; report with imported / not recognised / new · gone / changed; unrecognised rows with reasons; what changed, matched by family + IVs + catch date) and its **"All changes" screen** (filter chips by kind; changed Pokémon first with before → after; new and gone grouped by species). |
 | 2026-10-28 | **F1 Sign in approved** (sign-in screen/modal with what works without an account, four benefits, Continue with Google only, "Not now", privacy + fan-project disclaimer; signed-out prompts in place of personal screens; Admin hidden unless the admin is signed in). |
+| 2026-10-28 | **F2 Settings approved** (account with Admin badge, language EN / pt-PT, theme, About & credits with disclaimer and data credits incl. PvPoke MIT, install the app, Admin row on phone for the admin, sign out). Delete account / download data stays Good to have but is **required before any public launch**. |
 
 ## Open decisions
 
