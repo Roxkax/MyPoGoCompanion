@@ -3,7 +3,7 @@
 A free companion system for Pokémon GO players: a shared API, a web app (first) and native mobile apps (later).
 The repository today holds a working Python pipeline that builds copy-paste storage search strings ("Keeper Filters"); its full context is in `docs/KEEPER-FILTERS.md`. The pipeline lives in `legacy/keeper-filters/`; read that doc before touching it. The repository layout is in `README.md`.
 
-We are **planning**, following the process in `docs/PLANNING-PROCESS.md` (stages 1–12). **Don't start application code until the owner says to start a sprint.**
+Planning (stages 1–11 of `docs/PLANNING-PROCESS.md`) is done; we are **building in sprints** (stage 12). Work follows the backlog (`planning/BACKLOG.md`, GitHub issues, project board); progress is tracked in **Sprint progress** below. Start a new sprint only when the owner says so.
 
 ## Working agreements
 
@@ -16,6 +16,7 @@ We are **planning**, following the process in `docs/PLANNING-PROCESS.md` (stages
 - **Language:** replies in English. The owner may write in Portuguese.
 - **Git:** commit and push planning documents after every confirmed change. Commits are authored as `Diogo Gonçalves <3799595+Roxkax@users.noreply.github.com>` (set `git config user.name/user.email` in a new clone); commits Claude writes keep the `Co-Authored-By: Claude` trailer.
 - **Decision log:** every confirmed decision goes in the log below, with its date, immediately.
+- **Progress tracking:** after every task, PR, merge or setup step, update **Sprint progress** below (status, PR, what's left, owner to-dos) and commit it together with the work, so this file always shows where the build stands.
 
 ## Planning status
 
@@ -35,6 +36,35 @@ We are **planning**, following the process in `docs/PLANNING-PROCESS.md` (stages
 | 12 Start sprints | **In progress** — Sprint 0 started 2026-10-28 |
 
 Earlier product work (feature list F01–F25 with priorities, UI choices, first wireframes) is archived in `docs/archive/` for reference only. It is **not** decided: the product is being redone with this process.
+
+## Sprint progress
+
+Board: https://github.com/users/Roxkax/projects/2 (kept in sync by the `Project sync` workflow). One PR per feature; the owner reviews, tests and merges (no approval needed).
+
+### Sprint 0 — Delivery pipeline (started 2026-10-28)
+
+| Feature | Status | PRs | Notes |
+|---|---|---|---|
+| E00-F01 Monorepo layout and developer tooling | **Done** 2026-10-28 | #892, #894 | Tasks #3–#7 closed. Python pipeline moved to `legacy/keeper-filters/`; `.gitattributes` forces LF. The dev **seed data** is left for E01-F01 ("Initial migration and dev seed"). |
+| E00-F02 Azure, Neon and GitHub environments | Next | | Starts with the owner's setup guide; the owner creates the Azure and Neon resources. |
+| E00-F03 Deployable API and web skeletons | Todo | | |
+| E00-F04 Build & unit-test pipeline | Todo | | |
+| E00-F05 Integration-test pipeline | Todo | | |
+| E00-F06 Shared QA deploy pipeline | Todo | | Until QA exists, the owner tests each feature locally. |
+| E00-F07 UI-test pipeline | Todo | | |
+| E00-F08 Prod deploy on merge to main | Todo | | Continues into Sprint 1, followed by E00-F09 (branch rules) and E00-F10 (golden files). |
+
+### Other work done
+
+| Date | Work | PRs |
+|---|---|---|
+| 2026-10-28 | Project board created and synced: all 891 backlog issues added, Status (Todo · In progress · In review · Done) and Hours set; views Current sprint, Backlog, Features. Script handles GitHub's auto-added sub-issues and retries its temporary errors. | #893, #895, #896 |
+
+### Owner to-dos
+
+- Replace the `PROJECT_TOKEN` secret with a new classic token that has **only** `project` + `public_repo`, then delete the old token (the current one carries admin and delete-repo scopes).
+- Clone the repo to `C:\Dev\PoGoCompanion` and set `git config user.name/user.email` (see Git above).
+- When a sprint's "Current sprint" view should move on, change its filter to the next milestone (e.g. `milestone:"Sprint 1"`).
 
 ## The idea (owner's words, 2026-10-26)
 
@@ -181,6 +211,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-28 | **One pull request per feature**, holding all of that feature's tasks; the owner reviews and tests it once. Issues are closed by the PR (`Closes #n`). |
 | 2026-10-28 | Sprint 0 tooling (E00-F01): .NET 10 SDK pinned in `global.json`, shared `Directory.Build.props` (nullable, latest analyzers, warnings as errors in CI), `.editorconfig` code style checked by `dotnet format`; web lint with ESLint 10 + typescript-eslint and Prettier; local **PostgreSQL 17** (Neon's version) in Docker Compose. Dev seed data comes with the schema (E01-F01). |
 | 2026-10-28 | **Project board**: GitHub project "MyPoGoCompanion" created and kept in sync by the `Project sync` workflow (token secret `PROJECT_TOKEN`). Columns Todo · In progress (draft PR open) · In review (PR ready) · Done; Hours field on tasks; sprints = milestones. Feature PRs are merged by the owner **without an approval** (GitHub doesn't allow approving your own PR). |
+| 2026-10-28 | **E00-F01 done** (PRs #892, #894; issues #2–#7 closed). Progress is tracked in CLAUDE.md's **Sprint progress** section, updated with every task, PR and setup step. |
 
 ## Open decisions
 
