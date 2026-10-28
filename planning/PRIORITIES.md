@@ -5,7 +5,7 @@ Stage 8. Proposed by Claude, **adjusted by the owner on 2026-10-27** (changed ro
 - **MVP** = the first release (web app + API) · **Good to have** = next, after the MVP · **Future** = no commitment.
 - Foundation work (repo, CI/CD, hosting, database, sign-in, OpenAPI clients, the C# engine port) is implied by the MVP and is planned in the backlog.
 
-**Totals:** 56 MVP · 75 Good to have · 28 Future (159 items).
+**Totals:** 56 MVP · 76 Good to have · 28 Future (160 items).
 
 ## 1. Pokédex
 
@@ -133,6 +133,7 @@ Stage 8. Proposed by Claude, **adjusted by the owner on 2026-10-27** (changed ro
 | 9.7 | Collection stats | **Good to have** |  |
 | 9.8 | Duplicates review | **Good to have** |  |
 | 9.9 | Import history | **Future** |  |
+| 9.10 | Edit your Pokémon in the app ("Your Pokémon" screen): power up, evolve, change moves, transfer; marked "Edited in app" until the next upload | **Good to have** | owner: added 2026-10-28 at design review (E1); the next Poke Genie upload replaces app edits |
 
 ## 10. Best team
 

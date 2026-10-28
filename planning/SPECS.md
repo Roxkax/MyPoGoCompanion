@@ -172,11 +172,11 @@ How each feature works from the user's side, as signed off by the owner. Priorit
 
 **Used everywhere (MVP).** Feeds "only what I own" (tier lists), "your best counters" (raid bosses), "best team from your collection".
 
-**Later (Good to have).** Suggestions (power up, safe to transfer, missing); collection stats (types, shinies, luckies, hundos, Shadows, completion); duplicates review.
+**Later (Good to have).** Suggestions (power up, safe to transfer, missing); collection stats (types, shinies, luckies, hundos, Shadows, completion); duplicates review; **edit your Pokémon in the app** (a "Your Pokémon" screen opened from the list or from "Your copies": power up to a level with the new CP, evolve with new moves, change moves after a TM, transfer/traded away; edits are saved to the account and marked "Edited in app" until the next upload, which always replaces them).
 
 **Future.** Import history (every upload kept).
 
-**Limits.** Only as current as your last export; the app never connects to the game account (Niantic's rules); candy isn't in the export.
+**Limits.** The Poke Genie upload is the source of truth for now; a better way to keep the collection current is an open question for later. Only as current as your last export; the app never connects to the game account (Niantic's rules); candy isn't in the export.
 
 **Privacy.** Stored only in your account; removed with account deletion (when it arrives).
 

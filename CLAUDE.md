@@ -160,7 +160,8 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-28 | **D1 Keeper filters approved** (Filters tab switcher Keepers · Builder · Saved; one card per filter with suggested tag; phone shows Copy buttons per part, desktop shows previews and how-to). **Safe to transfer works from the user's tags** (`!#GL&!#UL&!#Raid&!#Max&!#Mega&…`); spec 4 updated. |
 | 2026-10-28 | **D2 Filter builder approved** (condition rows joined by AND, values inside a condition OR; add-a-condition sheet with 10 groups and search; live string, hand-editable, checked by the game-search simulator, length shown, auto-split; Save and Copy). |
 | 2026-10-28 | **D3 Saved filters approved** (list with Copy and ⋯ menu: open, rename, duplicate, delete; save sheet with name; stored with the account, sign-in needed). |
+| 2026-10-28 | New Good to have item **9.10 "Your Pokémon" edits** (power up, evolve, change moves, transfer, marked "Edited in app"). The **Poke Genie upload stays the absolute source of truth** for now; a better way to keep the collection updated is to be planned later (open decision). Totals: 56 MVP · 76 Good to have · 28 Future. |
 
 ## Open decisions
 
-- None yet.
+- **Keeping the collection up to date** (raised 2026-10-28): the owner doesn't always rescan in Poke Genie after evolving or powering up. For now the upload is the source of truth; plan a better approach later (e.g. in-app edits merged with uploads, matching rules between exports).
