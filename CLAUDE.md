@@ -158,6 +158,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-28 | **C3 Tier lists approved** (PvP Great/Ultra/Master with S/A/B/C tiers by stated score ranges; "Only what I own" shows your best copy; raid lists per type with a pinned Mega slot and the C2 number format). PvPoke credit (MIT) goes in **Settings → About**, not on screens. |
 | 2026-10-28 | **C4 Best team approved** (By type / Against a boss; Best possible / From my Pokémon; locked Mega slot; weak slot flagged when under 40% of the best and nothing better is left). |
 | 2026-10-28 | **D1 Keeper filters approved** (Filters tab switcher Keepers · Builder · Saved; one card per filter with suggested tag; phone shows Copy buttons per part, desktop shows previews and how-to). **Safe to transfer works from the user's tags** (`!#GL&!#UL&!#Raid&!#Max&!#Mega&…`); spec 4 updated. |
+| 2026-10-28 | **D2 Filter builder approved** (condition rows joined by AND, values inside a condition OR; add-a-condition sheet with 10 groups and search; live string, hand-editable, checked by the game-search simulator, length shown, auto-split; Save and Copy). |
 
 ## Open decisions
 
