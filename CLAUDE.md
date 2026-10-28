@@ -148,6 +148,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-27 | All commits authored by the owner's GitHub account (history rewritten); Claude's involvement shown by the Co-Authored-By trailer. |
 | 2026-10-27 | Pokémon page (B2) on the **phone uses tabs** (Overview · Moves · IVs · Get it · Versions), not one long page; desktop keeps everything on one page in two columns. |
 | 2026-10-27 | **B2 Pokémon page approved** (type-tinted header, version switcher, phone tabs Overview · Moves · IVs · Get it · Versions; desktop two columns). |
+| 2026-10-28 | **B3 Moves list approved** (Fast/Charged switch, type filter, sort; phone Raids/PvP number switch, desktop both side by side; PvP effects shown). The phone Pokédex tab gets a **Pokémon · Moves · Type chart** switcher (B1 updated). |
 
 ## Open decisions
 

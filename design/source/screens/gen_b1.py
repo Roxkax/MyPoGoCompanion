@@ -38,6 +38,7 @@ FIL = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="curre
 toolbar = f'<div class="toolbar"><span class="tbtn">{FIL}Filters</span><span class="tbtn">Sort: Number ↑</span><span class="tbtn on">Released</span><span class="tbtn">Has Mega</span><span class="tbtn">Has Shadow</span></div>'
 head = lambda t: f'<!doctype html><html lang="en"><head><meta charset="utf-8"><title>{t}</title><link rel="stylesheet" href="../base.css"><link rel="stylesheet" href="_b1.css"></head><body>'
 phead = '''<header class="apphead"><div class="titlerow"><h1 class="bigtitle">Pokédex</h1><span data-ask></span><div class="avatar">A</div></div>
+<div class="seg"><span class="on">Pokémon</span><span>Moves</span><span>Type chart</span></div>
 <div class="searchbox">SEARCHICON Name, number or nickname</div></header>'''
 script = '<script src="../chrome.js"></script><script>document.body.innerHTML=document.body.innerHTML.replaceAll("SEARCHICON",icon("search",19));</script>'
 def listbody_src(rows=ROWS): return f'''<div style="padding:12px 12px 8px;display:flex;flex-direction:column;gap:10px">{toolbar}<div style="display:flex;justify-content:space-between;align-items:baseline"><span class="count">1,025 Pokémon</span><span class="count" style="text-align:right;line-height:1.25">Max CP (L50)<br>Atk · Def · Sta</span></div></div>
