@@ -1,0 +1,30 @@
+.done { display: flex; gap: 12px; align-items: center; background: var(--ok-soft); color: var(--ok); border-radius: 16px; padding: 12px 14px; }
+.done b { font-size: 16px; color: var(--ok); }
+.done .file { font-family: var(--mono); font-size: 11.5px; color: var(--text-2); }
+.tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.tile { background: var(--surface); border-radius: 14px; box-shadow: var(--shadow); padding: 10px 12px; display: flex; flex-direction: column; gap: 1px; }
+.tile b { font-size: 22px; font-variant-numeric: tabular-nums; }
+.tile span { font-size: 12.5px; font-weight: 800; color: var(--text-2); }
+.tile.warn b { color: var(--warn); }
+.sec2 { display: flex; flex-direction: column; gap: 8px; }
+.sec2 h2 { margin: 0 4px; font-size: 17px; }
+.ur { display: flex; flex-direction: column; gap: 3px; padding: 10px 14px; }
+.ur + .ur { border-top: 1px solid var(--line); }
+.ur code { font-family: var(--mono); font-size: 12px; color: var(--text); }
+.ur span { font-size: 12.5px; font-weight: 700; color: var(--text-2); }
+.chg { display: flex; align-items: center; gap: 10px; padding: 9px 14px; }
+.chg + .chg { border-top: 1px solid var(--line); }
+.chg .t { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.chg .t b { font-size: 14.5px; }
+.chg .t span { font-size: 12.5px; font-weight: 700; color: var(--text-2); }
+.kind { font-size: 11px; font-weight: 800; padding: 2px 7px; border-radius: 7px; background: var(--surface-2); color: var(--text-2); white-space: nowrap; }
+.kind.new { background: var(--ok-soft); color: var(--ok); }
+.kind.gone { background: #FCE4E4; color: #A3262B; }
+.kind.up { background: var(--accent-soft); color: var(--accent); }
+.spr { display: flex; gap: 2px; padding: 4px 14px 10px; flex-wrap: wrap; align-items: center; }
+.btn { height: 50px; border-radius: 14px; border: 0; font-family: var(--font); font-weight: 800; font-size: 16px; background: var(--accent); color: var(--accent-ink); width: 100%; }
+.prog { height: 10px; border-radius: 5px; background: var(--surface-2); overflow: hidden; }
+.prog i { display: block; height: 100%; background: var(--accent); border-radius: 5px; }
+.stp { display: flex; align-items: center; gap: 10px; font-size: 14.5px; font-weight: 700; color: var(--text-2); }
+.stp .d { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 900; }
+.stp .d.ok { background: var(--ok); color: #fff; } .stp .d.now { border: 3px solid var(--accent); } .stp .d.wait { border: 2px solid var(--line); }
