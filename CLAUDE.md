@@ -153,6 +153,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-28 | **B4 Move page approved** (raid and PvP numbers, Elite TM / Legacy / normal learner groups sorted by Attack, event note when an event gives the move). The owner likes a **raid score** for ranking, but it must be **explained, not a bare number** — to be designed with the raid counters (C2). |
 | 2026-10-28 | **B5 Type chart approved** (phone: Defending · Attacking · Full chart; desktop: picker + full chart; GO multipliers ×1.6 / ×0.63 / ×0.39, no immunities). Pokémon page matchups link to the type chart (B2 updated). |
 | 2026-10-28 | Battle tab has a **Raids · Tier lists · Teams** switcher. Raid boss list shows **100% CP (normal and boosted) on phone and desktop**, plus weaknesses, shiny marker and per-boss end dates when they differ. |
+| 2026-10-28 | **C1 Raid bosses approved** (Now / Coming up, tier filter, weaknesses, 100% CP, shiny, event pills). |
 
 ## Open decisions
 
