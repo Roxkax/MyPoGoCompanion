@@ -57,7 +57,6 @@ module.exports = async ({ github, context, core }) => {
     { login: repository.owner.login },
   );
   let project = projectOwner.projectsV2.nodes.find((p) => p.title === TITLE && !p.closed);
-  let created = false;
   if (!project) {
     if (!full) return core.info(`No "${TITLE}" project yet; run the workflow by hand to create it.`);
     ({ createProjectV2: { projectV2: project } } = await gql(
@@ -69,7 +68,6 @@ module.exports = async ({ github, context, core }) => {
       `mutation($id: ID!, $d: String!) { updateProjectV2(input: { projectId: $id, shortDescription: $d }) { projectV2 { id } } }`,
       { id: project.id, d: 'Sprints, features and tasks of MyPoGoCompanion. Kept in sync by the Project sync workflow.' }, true,
     );
-    created = true;
     core.info(`Created project ${project.url}`);
   }
 
@@ -104,21 +102,25 @@ module.exports = async ({ github, context, core }) => {
   const option = (name) => fields.Status.options.find((o) => o.name.toLowerCase() === name.toLowerCase())?.id;
 
   // --- what is already on the board ----------------------------------------------------------------------
+  const valueFields = `fieldValues(first: 20) { nodes {
+    ... on ProjectV2ItemFieldSingleSelectValue { optionId field { ... on ProjectV2FieldCommon { name } } }
+    ... on ProjectV2ItemFieldNumberValue { number field { ... on ProjectV2FieldCommon { name } } } } }`;
+  const itemFields = `projectItems(first: 20) { nodes { id project { id } ${valueFields} } }`;
+  const valuesOf = (it) => {
+    const v = Object.fromEntries(it.fieldValues.nodes.filter((f) => f.field).map((f) => [f.field.name, f.optionId ?? f.number]));
+    return { status: v.Status ?? null, hours: v.Hours ?? null };
+  };
   const items = {}; // content node id → { id, status, hours }
   for (let after = null; ; ) {
     const { node } = await gql(
       `query($id: ID!, $after: String) { node(id: $id) { ... on ProjectV2 { items(first: 100, after: $after) {
          pageInfo { hasNextPage endCursor }
-         nodes { id content { ... on Issue { id } ... on PullRequest { id } }
-           fieldValues(first: 20) { nodes {
-             ... on ProjectV2ItemFieldSingleSelectValue { optionId field { ... on ProjectV2FieldCommon { name } } }
-             ... on ProjectV2ItemFieldNumberValue { number field { ... on ProjectV2FieldCommon { name } } } } } } } } } }`,
+         nodes { id content { ... on Issue { id } ... on PullRequest { id } } ${valueFields} } } } } }`,
       { id: project.id, after },
     );
     for (const it of node.items.nodes) {
       if (!it.content?.id) continue;
-      const v = Object.fromEntries(it.fieldValues.nodes.filter((f) => f.field).map((f) => [f.field.name, f.optionId ?? f.number]));
-      items[it.content.id] = { id: it.id, status: v.Status ?? null, hours: v.Hours ?? null };
+      items[it.content.id] = { id: it.id, ...valuesOf(it) };
     }
     if (!node.items.pageInfo.hasNextPage) break;
     after = node.items.pageInfo.endCursor;
@@ -154,15 +156,29 @@ module.exports = async ({ github, context, core }) => {
     );
     changed++;
   }
+  async function findItem(contentId) {
+    const { node } = await gql(
+      `query($c: ID!) { node(id: $c) { ... on Issue { ${itemFields} } ... on PullRequest { ${itemFields} } } }`,
+      { c: contentId },
+    );
+    const it = node.projectItems.nodes.find((i) => i.project.id === project.id);
+    return { id: it.id, ...valuesOf(it) };
+  }
   async function sync(content, wanted, hours) {
     let item = items[content.id];
     if (!item) {
-      const r = await gql(
-        `mutation($p: ID!, $c: ID!) { addProjectV2ItemById(input: { projectId: $p, contentId: $c }) { item { id } } }`,
-        { p: project.id, c: content.id }, true,
-      );
-      item = items[content.id] = { id: r.addProjectV2ItemById.item.id, status: null, hours: null };
-      added++;
+      try {
+        const r = await gql(
+          `mutation($p: ID!, $c: ID!) { addProjectV2ItemById(input: { projectId: $p, contentId: $c }) { item { id } } }`,
+          { p: project.id, c: content.id }, true,
+        );
+        item = items[content.id] = { id: r.addProjectV2ItemById.item.id, status: null, hours: null };
+        added++;
+      } catch (e) {
+        // Added meanwhile by GitHub itself (the project's "Auto-add sub-issues" workflow) or by another run.
+        if (!/already exists/i.test(e.message)) throw e;
+        item = items[content.id] = await findItem(content.id);
+      }
     }
     const target = option(wanted(item.status));
     if (target && target !== item.status) await setValue(item.id, 'Status', { singleSelectOptionId: target });
@@ -214,10 +230,14 @@ module.exports = async ({ github, context, core }) => {
     }
   }
 
-  // --- views (first run only; the API for views may not be available to every account) ------------------
-  if (created) {
+  // --- views (manual runs; the API for views may not be available to every account) ---------------------
+  if (context.eventName === 'workflow_dispatch') {
     const login = repository.owner.login;
-    for (const v of VIEWS) {
+    const { node } = await gql(`query($id: ID!) { node(id: $id) { ... on ProjectV2 { views(first: 50) { nodes { name } } } } }`, {
+      id: project.id,
+    });
+    const have = new Set(node.views.nodes.map((v) => v.name));
+    for (const v of VIEWS.filter((x) => !have.has(x.name))) {
       try {
         await github.request('POST /users/{login}/projectsV2/{number}/views', { login, number: project.number, ...v });
       } catch (e) {
