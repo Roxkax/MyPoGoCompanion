@@ -24,6 +24,9 @@ Decided with the owner on 2026-10-28. Built as **Sprint 0 "Delivery pipeline"**,
 
 ## Merge rules on `main`
 
+Switched on at **Sprint 0**, together with the pipelines (until then planning documents are pushed straight to `main`).
+
+
 - No direct pushes; changes only through pull requests; no force pushes or deletion.
 - All four checks must pass; the branch must be up to date with `main`; all PR conversations resolved.
 - **No approval required while the owner works alone** (GitHub doesn't allow approving your own PR, and Claude's commits are authored by the owner). When collaborators join: **1 approval required** + `CODEOWNERS` making the owner approve changes to `.github/`, infrastructure and pipeline files.
