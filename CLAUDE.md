@@ -154,6 +154,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-28 | **B5 Type chart approved** (phone: Defending · Attacking · Full chart; desktop: picker + full chart; GO multipliers ×1.6 / ×0.63 / ×0.39, no immunities). Pokémon page matchups link to the type chart (B2 updated). |
 | 2026-10-28 | Battle tab has a **Raids · Tier lists · Teams** switcher. Raid boss list shows **100% CP (normal and boosted) on phone and desktop**, plus weaknesses, shiny marker and per-boss end dates when they differ. |
 | 2026-10-28 | **C1 Raid bosses approved** (Now / Coming up, tier filter, weaknesses, 100% CP, shiny, event pills). |
+| 2026-10-28 | **C2 Raid boss page approved** (phone tabs Counters · Yours · Boss · Catch; desktop two columns). Raid score shown with **damage/s, how long it lasts and % of best**, plus a "How the raid score works" explainer. The C# raid engine **models the boss's moves** so counters re-rank when the user picks them (spec 6.3). |
 
 ## Open decisions
 
