@@ -1,0 +1,52 @@
+# Checks that a GitHub environment (qa or prod) is set up: signs in to Azure with OIDC (no stored password),
+# finds the resources from infra/main.bicep, connects to the environment's Neon database and confirms the
+# Static Web Apps token is there. Run it by hand after the setup in docs/SETUP-ENVIRONMENTS.md.
+name: Environment check
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment to check
+        type: choice
+        options: [qa, prod]
+        default: qa
+
+permissions:
+  id-token: write # OIDC sign-in to Azure
+  contents: read
+
+env:
+  RESOURCE_GROUP: rg-mypogocompanion
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    timeout-minutes: 10
+    steps:
+      - name: Sign in to Azure (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Azure resources
+        run: |
+          echo "Resource group:  $(az group show -n "$RESOURCE_GROUP" --query name -o tsv)"
+          echo "API:             https://$(az containerapp show -g "$RESOURCE_GROUP" -n "api-${{ inputs.environment }}" --query properties.configuration.ingress.fqdn -o tsv)"
+          echo "Web app:         https://$(az staticwebapp show -g "$RESOURCE_GROUP" -n swa-mypogocompanion --query defaultHostname -o tsv)"
+
+      - name: Database
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          test -n "$DATABASE_URL" || { echo "::error::DATABASE_URL secret is missing"; exit 1; }
+          command -v psql >/dev/null || sudo apt-get install -y -qq postgresql-client >/dev/null
+          psql "$DATABASE_URL" -tAc "select 'Database: ' || current_database() || ' on PostgreSQL ' || current_setting('server_version')"
+
+      - name: Static Web Apps token
+        env:
+          SWA_TOKEN: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+        run: test -n "$SWA_TOKEN" && echo "Static Web Apps deployment token is set" || { echo "::error::AZURE_STATIC_WEB_APPS_API_TOKEN secret is missing"; exit 1; }
