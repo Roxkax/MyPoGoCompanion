@@ -1,0 +1,295 @@
+{
+ "epic": {
+  "key": "E20",
+  "title": "Good to have — Pokédex and moves",
+  "area": [
+   "api",
+   "web"
+  ],
+  "description": "Extra Pokédex filters, collection markers, compare, special conditions, history and move tools."
+ },
+ "features": [
+  {
+   "key": "E20-F01",
+   "title": "Move and availability filters",
+   "tier": "Good to have",
+   "items": [
+    "1.5",
+    "1.6"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Filter by move (incl. Elite TM / legacy)",
+     4
+    ],
+    [
+     "Filter by availability: shiny released, in raids now",
+     3
+    ]
+   ],
+   "tests": [
+    2,
+    2,
+    2
+   ]
+  },
+  {
+   "key": "E20-F02",
+   "title": "'I own it' markers and collection tracker",
+   "tier": "Good to have",
+   "items": [
+    "1.7",
+    "1.8"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Owned / missing markers and filter in the Pokédex",
+     4
+    ],
+    [
+     "Completion by region and category (shiny, lucky, hundo, Shadow)",
+     8
+    ]
+   ],
+   "tests": [
+    2,
+    2,
+    3
+   ]
+  },
+  {
+   "key": "E20-F03",
+   "title": "Compare 2–4 Pokémon",
+   "tier": "Good to have",
+   "items": [
+    "1.9"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Compare screen: stats, max CP, moves, ranks side by side",
+     8
+    ],
+    [
+     "Add to compare from lists and Pokémon pages",
+     2
+    ]
+   ],
+   "tests": [
+    2,
+    1,
+    3
+   ]
+  },
+  {
+   "key": "E20-F04",
+   "title": "Special catch conditions (curated)",
+   "tier": "Good to have",
+   "items": [
+    "2.5"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Curated conditions on the Pokémon page from AI findings approved by the admin",
+     6
+    ],
+    [
+     "Admin editing of conditions",
+     3
+    ]
+   ],
+   "tests": [
+    2,
+    2,
+    2
+   ]
+  },
+  {
+   "key": "E20-F05",
+   "title": "Changes over time (history backfill)",
+   "tier": "Good to have",
+   "items": [
+    "2.8"
+   ],
+   "screens": [],
+   "area": [
+    "data",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Backfill years of game-file history (stats, moves)",
+     10
+    ],
+    [
+     "History section on the Pokémon page",
+     4
+    ]
+   ],
+   "tests": [
+    3,
+    3,
+    2
+   ]
+  },
+  {
+   "key": "E20-F06",
+   "title": "Report wrong data",
+   "tier": "Good to have",
+   "items": [
+    "2.12"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "'Report wrong data' on Pokémon and boss pages, feeding the review queue",
+     5
+    ]
+   ],
+   "tests": [
+    1,
+    2,
+    2
+   ]
+  },
+  {
+   "key": "E20-F07",
+   "title": "Your copies on the Pokémon page",
+   "tier": "Good to have",
+   "items": [
+    "2.13"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Your copies section with IVs, ranks and raid value",
+     5
+    ]
+   ],
+   "tests": [
+    2,
+    2,
+    2
+   ]
+  },
+  {
+   "key": "E20-F08",
+   "title": "Power-up cost calculator",
+   "tier": "Good to have",
+   "items": [
+    "2.16"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Stardust and candy from level A to B (incl. XL, Shadow, Purified, lucky)",
+     6
+    ]
+   ],
+   "tests": [
+    3,
+    0,
+    2
+   ]
+  },
+  {
+   "key": "E20-F09",
+   "title": "Move history and Max moves",
+   "tier": "Good to have",
+   "items": [
+    "3.3",
+    "3.4"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Move history (rebalances) on the move page",
+     4
+    ],
+    [
+     "Max and G-Max move power by level",
+     4
+    ]
+   ],
+   "tests": [
+    2,
+    2,
+    2
+   ]
+  },
+  {
+   "key": "E20-F10",
+   "title": "Move rankings per type and TM advice",
+   "tier": "Good to have",
+   "items": [
+    "3.5",
+    "3.7"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Rankings: raids damage/energy per second, PvP per turn",
+     5
+    ],
+    [
+     "TM advice: which of your Pokémon lack their best moves",
+     6
+    ]
+   ],
+   "tests": [
+    3,
+    2,
+    3
+   ]
+  }
+ ]
+}

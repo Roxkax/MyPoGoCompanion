@@ -1,0 +1,314 @@
+{
+ "epic": {
+  "key": "E00",
+  "title": "Sprint 0 — Delivery pipeline",
+  "area": [
+   "infra"
+  ],
+  "description": "Monorepo, Azure/Neon/GitHub setup, the four required checks (build & unit, integration, QA deploy, UI tests), prod deploy and branch rules, as decided in planning/CI-CD.md."
+ },
+ "features": [
+  {
+   "key": "E00-F01",
+   "title": "Monorepo layout and developer tooling",
+   "tier": "MVP",
+   "items": [],
+   "screens": [],
+   "area": [
+    "infra"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Monorepo layout: api/, jobs/, web/, tests/, design/, planning/",
+     2
+    ],
+    [
+     "Formatting and lint: dotnet format, ESLint, Prettier, .editorconfig",
+     2
+    ],
+    [
+     "Local PostgreSQL with Docker Compose and a seeded dev database",
+     3
+    ],
+    [
+     "Developer README: run API, web, jobs and all tests locally",
+     2
+    ]
+   ],
+   "no_tests": "Tooling; exercised by every pipeline"
+  },
+  {
+   "key": "E00-F02",
+   "title": "Azure, Neon and GitHub environments",
+   "tier": "MVP",
+   "items": [],
+   "screens": [],
+   "area": [
+    "infra"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Step-by-step setup guide for the owner (Azure, Neon, GitHub)",
+     3
+    ],
+    [
+     "Owner creates resource group, Static Web App, Container Apps environment (api-prod, api-qa, jobs), container registry",
+     4,
+     "owner"
+    ],
+    [
+     "Owner creates the Neon project with main and qa branches",
+     1,
+     "owner"
+    ],
+    [
+     "GitHub environments prod and qa with their secrets",
+     2
+    ],
+    [
+     "OIDC federated sign-in GitHub → Azure, verified from a workflow",
+     3
+    ]
+   ],
+   "no_tests": "Verified by the deploy smoke checks"
+  },
+  {
+   "key": "E00-F03",
+   "title": "Deployable API and web skeletons",
+   "tier": "MVP",
+   "items": [],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "ASP.NET Core (.NET 10) minimal API with /health, OpenAPI and Dockerfile",
+     4
+    ],
+    [
+     "React + TypeScript Vite app shell calling /health",
+     3
+    ],
+    [
+     "Smoke test that runs after every deploy",
+     2
+    ]
+   ],
+   "tests": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "key": "E00-F04",
+   "title": "Build & unit-test pipeline (check: build-and-unit)",
+   "tier": "MVP",
+   "items": [],
+   "screens": [],
+   "area": [
+    "infra",
+    "testing"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Workflow: restore, build and unit tests for API, jobs and web",
+     4
+    ],
+    [
+     "Lint, format and type check inside the check",
+     2
+    ],
+    [
+     "Code coverage collected, posted as a PR summary, with a minimum that fails the check",
+     4
+    ]
+   ],
+   "no_tests": "The pipeline is the test"
+  },
+  {
+   "key": "E00-F05",
+   "title": "Integration-test pipeline (check: integration)",
+   "tier": "MVP",
+   "items": [],
+   "screens": [],
+   "area": [
+    "infra",
+    "testing"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Testcontainers PostgreSQL fixture; migrations applied per run",
+     4
+    ],
+    [
+     "Workflow job with test-results report on the PR",
+     2
+    ]
+   ],
+   "no_tests": "The pipeline is the test"
+  },
+  {
+   "key": "E00-F06",
+   "title": "Shared QA deploy pipeline (check: deploy-qa)",
+   "tier": "MVP",
+   "items": [],
+   "screens": [],
+   "area": [
+    "infra"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Build and push the API image; deploy to api-qa",
+     4
+    ],
+    [
+     "Apply migrations to the Neon qa branch",
+     2
+    ],
+    [
+     "Deploy the web app to the Static Web Apps 'qa' environment",
+     3
+    ],
+    [
+     "Queue: one PR at a time on QA (deploy + UI tests in one run)",
+     3
+    ],
+    [
+     "PR comment 'QA now shows PR #n' with the QA links",
+     2
+    ],
+    [
+     "'Deploy this PR to QA again' re-run",
+     1
+    ]
+   ],
+   "no_tests": "The pipeline is the test"
+  },
+  {
+   "key": "E00-F07",
+   "title": "UI-test pipeline (check: ui-tests)",
+   "tier": "MVP",
+   "items": [],
+   "screens": [],
+   "area": [
+    "infra",
+    "testing"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Playwright projects: phone 393×852 and desktop 1440, light and dark",
+     3
+    ],
+    [
+     "Run against QA after deploy; keep traces, screenshots and video on failure",
+     3
+    ],
+    [
+     "First smoke journey: open the app, switch tabs, switch theme",
+     2
+    ]
+   ],
+   "no_tests": "The pipeline is the test"
+  },
+  {
+   "key": "E00-F08",
+   "title": "Prod deploy on merge to main",
+   "tier": "MVP",
+   "items": [],
+   "screens": [],
+   "area": [
+    "infra"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "On merge: build, migrate the prod database, deploy API then web",
+     5
+    ],
+    [
+     "Smoke tests against prod after deploy; failure alerts the owner",
+     3
+    ],
+    [
+     "Reset the Neon qa branch to a fresh copy of prod after each prod deploy",
+     2
+    ],
+    [
+     "Rollback guide: redeploy the previous image and web build",
+     2
+    ]
+   ],
+   "no_tests": "Verified by the prod smoke tests"
+  },
+  {
+   "key": "E00-F09",
+   "title": "Branch rules and PR hygiene",
+   "tier": "MVP",
+   "items": [],
+   "screens": [],
+   "area": [
+    "infra"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Ruleset on main: PRs only; required checks build-and-unit, integration, deploy-qa, ui-tests; up to date; conversations resolved",
+     2
+    ],
+    [
+     "PR template with a testing checklist",
+     1
+    ],
+    [
+     "Proof: a deliberately failing test blocks the merge",
+     1
+    ],
+    [
+     "Dependabot for NuGet, npm and GitHub Actions; CodeQL scanning",
+     2
+    ]
+   ],
+   "no_tests": "Verified by the proof PR"
+  },
+  {
+   "key": "E00-F10",
+   "title": "Golden files from the Python keeper build",
+   "tier": "MVP",
+   "items": [],
+   "screens": [],
+   "area": [
+    "testing"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Freeze Python outputs: PvP boxes and strings, raid rankings, Mega lists, search-simulator results",
+     3
+    ],
+    [
+     "Golden-file test harness for the C# port: exact comparison with a readable diff",
+     4
+    ],
+    [
+     "Keep the Python pipeline runnable until the C# port matches",
+     1
+    ]
+   ],
+   "tests": [
+    2,
+    0,
+    0
+   ]
+  }
+ ]
+}

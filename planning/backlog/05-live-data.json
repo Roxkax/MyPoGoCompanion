@@ -1,0 +1,149 @@
+{
+ "epic": {
+  "key": "E05",
+  "title": "Live data and the AI researcher",
+  "area": [
+   "ai",
+   "data"
+  ],
+  "description": "The provider-agnostic AI layer with the $5 cap, the search connector, the weekly researcher that publishes raids, Max Battles, events, eggs and research, and the live-data API."
+ },
+ "features": [
+  {
+   "key": "E05-F01",
+   "title": "AI provider layer and cost cap",
+   "tier": "MVP",
+   "items": [
+    "11.4"
+   ],
+   "screens": [],
+   "area": [
+    "ai",
+    "api"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Provider-agnostic AI interface in .NET with a Claude implementation",
+     4
+    ],
+    [
+     "Small-model routing for simple tasks",
+     2
+    ],
+    [
+     "Cost tracking per call and per month; shared $5 cap that pauses AI and tells the admin",
+     4
+    ]
+   ],
+   "tests": [
+    4,
+    2,
+    0
+   ]
+  },
+  {
+   "key": "E05-F02",
+   "title": "Search and fetch connector",
+   "tier": "MVP",
+   "items": [],
+   "screens": [],
+   "area": [
+    "ai"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Pluggable search / fetch interface; first provider chosen at build time",
+     4
+    ],
+    [
+     "Fetch community pages (e.g. LeekDuck) with rate limits and caching",
+     3
+    ]
+   ],
+   "tests": [
+    2,
+    1,
+    0
+   ]
+  },
+  {
+   "key": "E05-F03",
+   "title": "Weekly AI researcher",
+   "tier": "MVP",
+   "items": [
+    "13.2"
+   ],
+   "screens": [],
+   "area": [
+    "ai",
+    "data"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Container Apps Job, Sundays at 22:00",
+     2
+    ],
+    [
+     "Research prompts and tools: raids, Max Battles, events, egg pools, research tasks",
+     6
+    ],
+    [
+     "Structured output validated against the Pokédex (unknown Pokémon rejected)",
+     5
+    ],
+    [
+     "Publish automatically with source links; detect new and changed entries",
+     4
+    ],
+    [
+     "Never overwrite admin-fixed entries; flag 'source changed since your fix'",
+     3
+    ],
+    [
+     "Run log and cost per run",
+     2
+    ],
+    [
+     "Recorded-response tests: replay saved pages so tests don't call the AI",
+     3
+    ]
+   ],
+   "tests": [
+    5,
+    4,
+    0
+   ]
+  },
+  {
+   "key": "E05-F04",
+   "title": "Live data API",
+   "tier": "MVP",
+   "items": [
+    "13.1"
+   ],
+   "screens": [],
+   "area": [
+    "api"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Endpoints: raids now / next, Max Battles, events by day, egg pools, research",
+     5
+    ],
+    [
+     "100% CPs for raid catches (L20 / L25), eggs (L20) and research (L15)",
+     2
+    ]
+   ],
+   "tests": [
+    2,
+    4,
+    0
+   ]
+  }
+ ]
+}

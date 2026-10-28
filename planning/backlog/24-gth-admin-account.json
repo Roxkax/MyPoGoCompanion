@@ -1,0 +1,282 @@
+{
+ "epic": {
+  "key": "E24",
+  "title": "Good to have — admin, account, pipeline and offline",
+  "area": [
+   "api",
+   "web"
+  ],
+  "description": "Admin tools, account extras (incl. delete account, required before any public launch), change history, preview, offline cache and the events archive."
+ },
+ "features": [
+  {
+   "key": "E24-F01",
+   "title": "Admin editing and audit",
+   "tier": "Good to have",
+   "items": [
+    "14.3",
+    "14.4",
+    "14.6"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Direct data edits (logged)",
+     6
+    ],
+    [
+     "Hand-maintained lists on screen",
+     4
+    ],
+    [
+     "Audit log",
+     4
+    ]
+   ],
+   "tests": [
+    3,
+    3,
+    2
+   ]
+  },
+  {
+   "key": "E24-F02",
+   "title": "Admin settings and health",
+   "tier": "Good to have",
+   "items": [
+    "14.5",
+    "14.7",
+    "14.9",
+    "14.11"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "AI usage and cap setting on screen",
+     3
+    ],
+    [
+     "Users and roles",
+     5
+    ],
+    [
+     "Health & limits",
+     4
+    ],
+    [
+     "Feature switches",
+     4
+    ]
+   ],
+   "tests": [
+    3,
+    3,
+    3
+   ]
+  },
+  {
+   "key": "E24-F03",
+   "title": "Content editor and backups",
+   "tier": "Good to have",
+   "items": [
+    "14.8",
+    "14.10"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Bilingual content editor (EN / PT)",
+     7
+    ],
+    [
+     "Scheduled downloadable backups (Blob)",
+     4
+    ]
+   ],
+   "tests": [
+    2,
+    3,
+    2
+   ]
+  },
+  {
+   "key": "E24-F04",
+   "title": "Account extras",
+   "tier": "Good to have",
+   "items": [
+    "15.4",
+    "15.5",
+    "15.6"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Calculation defaults (level 40/50/51, Best Buddy, include Shadows/Megas)",
+     4
+    ],
+    [
+     "Preferred league",
+     2
+    ],
+    [
+     "Trainer profile (level, team, friend code)",
+     3
+    ]
+   ],
+   "tests": [
+    2,
+    2,
+    2
+   ]
+  },
+  {
+   "key": "E24-F05",
+   "title": "Delete account and export data",
+   "tier": "Good to have",
+   "items": [
+    "15.7"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Delete account (all data) and download my data",
+     6
+    ]
+   ],
+   "tests": [
+    2,
+    3,
+    2
+   ]
+  },
+  {
+   "key": "E24-F06",
+   "title": "Sign in with Apple",
+   "tier": "Good to have",
+   "items": [
+    "15.9"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Sign in with Apple (with the iOS app)",
+     5
+    ]
+   ],
+   "tests": [
+    1,
+    2,
+    1
+   ]
+  },
+  {
+   "key": "E24-F07",
+   "title": "Change detection, history and preview",
+   "tier": "Good to have",
+   "items": [
+    "16.4",
+    "16.5"
+   ],
+   "screens": [],
+   "area": [
+    "data",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Change detection and history in the daily import",
+     8
+    ],
+    [
+     "Preview big changes before publishing",
+     6
+    ]
+   ],
+   "tests": [
+    3,
+    3,
+    2
+   ]
+  },
+  {
+   "key": "E24-F08",
+   "title": "Read-only offline",
+   "tier": "Good to have",
+   "items": [
+    "17.2"
+   ],
+   "screens": [],
+   "area": [
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Device copy of Pokédex, filters, raid counters and collection, refreshed when online",
+     14
+    ]
+   ],
+   "tests": [
+    3,
+    0,
+    4
+   ]
+  },
+  {
+   "key": "E24-F09",
+   "title": "Past events archive",
+   "tier": "Good to have",
+   "items": [
+    "13.4"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Archive of past events in the calendar",
+     4
+    ]
+   ],
+   "tests": [
+    1,
+    1,
+    2
+   ]
+  }
+ ]
+}

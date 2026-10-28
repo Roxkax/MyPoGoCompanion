@@ -1,0 +1,68 @@
+{
+ "epic": {
+  "key": "E11",
+  "title": "AI assistant",
+  "area": [
+   "ai",
+   "web"
+  ],
+  "description": "Screen H1: chat answering from the app's data."
+ },
+ "features": [
+  {
+   "key": "E11-F01",
+   "title": "Chat that answers from our data",
+   "tier": "MVP",
+   "items": [
+    "11.1"
+   ],
+   "screens": [
+    "H1"
+   ],
+   "area": [
+    "ai",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Chat API with streamed answers",
+     4
+    ],
+    [
+     "Tools: Pokédex, moves, rankings, raid bosses and counters, calendar, eggs",
+     8
+    ],
+    [
+     "'Based on' links to the screens used",
+     3
+    ],
+    [
+     "Says when the data has no answer; guardrails; never changes data",
+     3
+    ],
+    [
+     "Answers in the user's language",
+     1
+    ],
+    [
+     "Per-user rate limits; paused state at the cap",
+     3
+    ],
+    [
+     "Phone full screen; desktop side panel; suggested questions",
+     5
+    ],
+    [
+     "Answer-quality set: 40 questions with expected facts, run on demand with a small budget",
+     5
+    ]
+   ],
+   "tests": [
+    4,
+    4,
+    4
+   ]
+  }
+ ]
+}

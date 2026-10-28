@@ -1,0 +1,104 @@
+{
+ "epic": {
+  "key": "E26",
+  "title": "Good to have — iOS app",
+  "area": [
+   "ios"
+  ],
+  "description": "Native SwiftUI app on the same API, with its own CI and TestFlight builds."
+ },
+ "features": [
+  {
+   "tier": "Good to have",
+   "screens": [],
+   "area": [
+    "ios"
+   ],
+   "key": "E26-F01",
+   "title": "iOS app — foundations",
+   "items": [
+    "22.1"
+   ],
+   "description": "Native SwiftUI app on the same API.",
+   "tasks": [
+    [
+     "Project, generated API client, CI build and TestFlight",
+     10
+    ],
+    [
+     "Sign-in (Google + Apple) and app shell",
+     12
+    ],
+    [
+     "Today and calendar",
+     10
+    ]
+   ],
+   "tests": [
+    4,
+    0,
+    4
+   ]
+  },
+  {
+   "tier": "Good to have",
+   "screens": [],
+   "area": [
+    "ios"
+   ],
+   "key": "E26-F02",
+   "title": "iOS app — Pokédex and battle",
+   "items": [],
+   "description": "",
+   "tasks": [
+    [
+     "Pokédex, moves, type chart",
+     16
+    ],
+    [
+     "Battle: raids, tier lists, teams",
+     18
+    ]
+   ],
+   "tests": [
+    4,
+    0,
+    4
+   ]
+  },
+  {
+   "tier": "Good to have",
+   "screens": [],
+   "area": [
+    "ios"
+   ],
+   "key": "E26-F03",
+   "title": "iOS app — filters, collection, AI and release",
+   "items": [],
+   "description": "",
+   "tasks": [
+    [
+     "Filters",
+     10
+    ],
+    [
+     "Collection",
+     10
+    ],
+    [
+     "AI chat and search",
+     8
+    ],
+    [
+     "App Store submission",
+     6
+    ]
+   ],
+   "tests": [
+    4,
+    0,
+    4
+   ]
+  }
+ ]
+}

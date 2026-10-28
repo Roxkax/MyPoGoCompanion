@@ -1,0 +1,139 @@
+{
+ "epic": {
+  "key": "E06",
+  "title": "Today and calendar",
+  "area": [
+   "web"
+  ],
+  "description": "Screens A1–A4: home, calendar, event details with your copies, eggs and research."
+ },
+ "features": [
+  {
+   "key": "E06-F01",
+   "title": "Today (home)",
+   "tier": "MVP",
+   "items": [
+    "13.3"
+   ],
+   "screens": [
+    "A1"
+   ],
+   "area": [
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Raid tiles (tier, shiny, Shadow marker) and Max Battle tiles",
+     5
+    ],
+    [
+     "Events live and next, with time left",
+     3
+    ],
+    [
+     "Eggs & research summary",
+     2
+    ],
+    [
+     "Calendar button and section links",
+     1
+    ]
+   ],
+   "tests": [
+    2,
+    2,
+    4
+   ]
+  },
+  {
+   "key": "E06-F02",
+   "title": "Calendar",
+   "tier": "MVP",
+   "items": [],
+   "screens": [
+    "A2"
+   ],
+   "area": [
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Calendar by day with a Now section; filters All / Raids / Max Battles / Events",
+     6
+    ],
+    [
+     "Raid Hours, Spotlight Hours, Community Days and rotations",
+     2
+    ]
+   ],
+   "tests": [
+    2,
+    2,
+    3
+   ]
+  },
+  {
+   "key": "E06-F03",
+   "title": "Event details",
+   "tier": "MVP",
+   "items": [
+    "13.8"
+   ],
+   "screens": [
+    "A3"
+   ],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Event page: dates, bonuses, featured Pokémon, exclusive moves, hundo CPs",
+     5
+    ],
+    [
+     "Your copies of the featured Pokémon with evolve / keep / transfer advice",
+     6
+    ]
+   ],
+   "tests": [
+    3,
+    2,
+    3
+   ]
+  },
+  {
+   "key": "E06-F04",
+   "title": "Eggs & research",
+   "tier": "MVP",
+   "items": [
+    "19.1"
+   ],
+   "screens": [
+    "A4"
+   ],
+   "area": [
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Egg pools by distance with hundo CPs",
+     3
+    ],
+    [
+     "Field research rewards with hundo CPs",
+     2
+    ]
+   ],
+   "tests": [
+    1,
+    1,
+    2
+   ]
+  }
+ ]
+}

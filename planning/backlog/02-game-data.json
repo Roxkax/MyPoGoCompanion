@@ -1,0 +1,188 @@
+{
+ "epic": {
+  "key": "E02",
+  "title": "Game data pipeline",
+  "area": [
+   "data",
+   "api"
+  ],
+  "description": "Daily import of game files and PvPoke, Portuguese names, the calculation engine ported from Python (checked against golden files), verification and publishing, sprites."
+ },
+ "features": [
+  {
+   "key": "E02-F01",
+   "title": "Daily import job",
+   "tier": "MVP",
+   "items": [
+    "16.1"
+   ],
+   "screens": [],
+   "area": [
+    "data"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Container Apps Job scheduled daily at 06:00",
+     2
+    ],
+    [
+     "Download game master and PvPoke gamemaster and rankings",
+     3
+    ],
+    [
+     "Parse species, forms, versions, stats, moves (raid + PvP), learnsets, Elite TM / legacy flags",
+     8
+    ],
+    [
+     "Upsert with change counts per kind",
+     4
+    ],
+    [
+     "Run log: start, end, duration, what changed, errors",
+     3
+    ]
+   ],
+   "tests": [
+    5,
+    5,
+    0
+   ]
+  },
+  {
+   "key": "E02-F02",
+   "title": "Portuguese names from game text",
+   "tier": "MVP",
+   "items": [
+    "16.2"
+   ],
+   "screens": [],
+   "area": [
+    "data"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Download game text and map Pokémon, move and type names",
+     4
+    ],
+    [
+     "Fallback to English and report missing names",
+     1
+    ]
+   ],
+   "tests": [
+    2,
+    1,
+    0
+   ]
+  },
+  {
+   "key": "E02-F03",
+   "title": "Calculation engine (port of the Python pipeline)",
+   "tier": "MVP",
+   "items": [],
+   "screens": [],
+   "area": [
+    "data"
+   ],
+   "description": "Golden files from Sprint 0 must match exactly before the Python page is retired.",
+   "tasks": [
+    [
+     "CP formula, CP multipliers, max CP L40/50/51, 100% CP at L15/20/25/30/35",
+     3
+    ],
+    [
+     "PvP: stat product, best level under the cap, IV rank of all 4,096 spreads per league",
+     8
+    ],
+    [
+     "Keeper boxes: appraisal bars within 98% of rank 1, best box (F1)",
+     6
+    ],
+    [
+     "Raid engine: comprehensive DPS / TDO and score, Shadow and Mega bonuses, one Mega slot",
+     8
+    ],
+    [
+     "Boss move modelling: damage from the boss's moves; re-rank counters by chosen moves",
+     8
+    ],
+    [
+     "Type effectiveness for single and dual types (×1.6 / ×0.63 / ×0.39)",
+     2
+    ]
+   ],
+   "tests": [
+    12,
+    2,
+    0
+   ]
+  },
+  {
+   "key": "E02-F04",
+   "title": "Verification and publishing",
+   "tier": "MVP",
+   "items": [],
+   "screens": [],
+   "area": [
+    "data"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Game-search simulator (port of searchsim) checks every generated string",
+     6
+    ],
+    [
+     "Sanity checks: counts, ranks, no missing species",
+     3
+    ],
+    [
+     "Publish atomically; on failure keep yesterday's data live and log why",
+     4
+    ],
+    [
+     "'Run now' trigger for the admin",
+     2
+    ]
+   ],
+   "tests": [
+    5,
+    4,
+    0
+   ]
+  },
+  {
+   "key": "E02-F05",
+   "title": "Sprites",
+   "tier": "MVP",
+   "items": [],
+   "screens": [],
+   "area": [
+    "data",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Fetch game sprites, trim to content, square; store in Blob storage with CDN caching",
+     5
+    ],
+    [
+     "Shiny and Mega variants",
+     2
+    ],
+    [
+     "Fallback image when a sprite is missing",
+     1
+    ]
+   ],
+   "tests": [
+    1,
+    1,
+    1
+   ]
+  }
+ ]
+}

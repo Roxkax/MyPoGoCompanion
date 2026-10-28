@@ -1,0 +1,471 @@
+{
+ "epic": {
+  "key": "E30",
+  "title": "Future",
+  "area": [
+   "api",
+   "web"
+  ],
+  "description": "Not scheduled. Rough estimates, refined when an item is picked up."
+ },
+ "features": [
+  {
+   "key": "E30-F01",
+   "title": "Saved Pokédex views",
+   "tier": "Future",
+   "items": [
+    "1.10"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Saved Pokédex views (rough estimate, refined when scheduled)",
+     4
+    ]
+   ],
+   "tests": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "key": "E30-F02",
+   "title": "Filter cleanup routine",
+   "tier": "Future",
+   "items": [
+    "4.10"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Filter cleanup routine (rough estimate, refined when scheduled)",
+     8
+    ]
+   ],
+   "tests": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "key": "E30-F03",
+   "title": "PvP cup tier lists (incl. Little Cup)",
+   "tier": "Future",
+   "items": [
+    "5.2"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "PvP cup tier lists (incl. Little Cup) (rough estimate, refined when scheduled)",
+     10
+    ]
+   ],
+   "tests": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "key": "E30-F04",
+   "title": "Budget picks and risers & fallers",
+   "tier": "Future",
+   "items": [
+    "5.7",
+    "5.8"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Budget picks and risers & fallers (rough estimate, refined when scheduled)",
+     12
+    ]
+   ],
+   "tests": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "key": "E30-F05",
+   "title": "Weather check (approximate)",
+   "tier": "Future",
+   "items": [
+    "6.10"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Weather check (approximate) (rough estimate, refined when scheduled)",
+     8
+    ]
+   ],
+   "tests": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "key": "E30-F06",
+   "title": "Max Move upgrade cost",
+   "tier": "Future",
+   "items": [
+    "7.5"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Max Move upgrade cost (rough estimate, refined when scheduled)",
+     4
+    ]
+   ],
+   "tests": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "key": "E30-F07",
+   "title": "Max Battle simulator, timeline, saved simulations",
+   "tier": "Future",
+   "items": [
+    "8.3",
+    "8.4",
+    "8.5"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Max Battle simulator, timeline, saved simulations (rough estimate, refined when scheduled)",
+     30
+    ]
+   ],
+   "tests": [
+    3,
+    3,
+    3
+   ]
+  },
+  {
+   "key": "E30-F08",
+   "title": "Collection import history",
+   "tier": "Future",
+   "items": [
+    "9.9"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Collection import history (rough estimate, refined when scheduled)",
+     8
+    ]
+   ],
+   "tests": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "key": "E30-F09",
+   "title": "PvP team builder",
+   "tier": "Future",
+   "items": [
+    "10.6"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "PvP team builder (rough estimate, refined when scheduled)",
+     16
+    ]
+   ],
+   "tests": [
+    2,
+    1,
+    2
+   ]
+  },
+  {
+   "key": "E30-F10",
+   "title": "AI does things for you; screenshot questions",
+   "tier": "Future",
+   "items": [
+    "11.8",
+    "11.9"
+   ],
+   "screens": [],
+   "area": [
+    "ai"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "AI does things for you; screenshot questions (rough estimate, refined when scheduled)",
+     16
+    ]
+   ],
+   "tests": [
+    2,
+    1,
+    2
+   ]
+  },
+  {
+   "key": "E30-F11",
+   "title": "Event prep checklist, calendar sync, reminders",
+   "tier": "Future",
+   "items": [
+    "13.5",
+    "13.6",
+    "13.7"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Event prep checklist, calendar sync, reminders (rough estimate, refined when scheduled)",
+     16
+    ]
+   ],
+   "tests": [
+    2,
+    1,
+    2
+   ]
+  },
+  {
+   "key": "E30-F12",
+   "title": "Notification settings",
+   "tier": "Future",
+   "items": [
+    "15.8"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Notification settings (rough estimate, refined when scheduled)",
+     4
+    ]
+   ],
+   "tests": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "key": "E30-F13",
+   "title": "Public 'What changed' page",
+   "tier": "Future",
+   "items": [
+    "16.6"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Public 'What changed' page (rough estimate, refined when scheduled)",
+     6
+    ]
+   ],
+   "tests": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "key": "E30-F14",
+   "title": "Grunt lookup by quote",
+   "tier": "Future",
+   "items": [
+    "18.5"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Grunt lookup by quote (rough estimate, refined when scheduled)",
+     4
+    ]
+   ],
+   "tests": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "key": "E30-F15",
+   "title": "Find a task by reward; research checklist",
+   "tier": "Future",
+   "items": [
+    "19.4",
+    "19.5"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Find a task by reward; research checklist (rough estimate, refined when scheduled)",
+     8
+    ]
+   ],
+   "tests": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "key": "E30-F16",
+   "title": "What to trade (from your collection)",
+   "tier": "Future",
+   "items": [
+    "20.3"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "What to trade (from your collection) (rough estimate, refined when scheduled)",
+     6
+    ]
+   ],
+   "tests": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "key": "E30-F17",
+   "title": "Routes & Party Play",
+   "tier": "Future",
+   "items": [
+    "21.1",
+    "21.2",
+    "21.3",
+    "21.4"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Routes & Party Play (rough estimate, refined when scheduled)",
+     20
+    ]
+   ],
+   "tests": [
+    2,
+    2,
+    2
+   ]
+  },
+  {
+   "key": "E30-F18",
+   "title": "Android app (Kotlin / Jetpack Compose)",
+   "tier": "Future",
+   "items": [
+    "22.2"
+   ],
+   "screens": [],
+   "area": [
+    "android"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Android app (Kotlin / Jetpack Compose) (rough estimate, refined when scheduled)",
+     120
+    ]
+   ],
+   "tests": [
+    15,
+    12,
+    15
+   ]
+  }
+ ]
+}

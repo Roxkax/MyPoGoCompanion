@@ -1,0 +1,173 @@
+{
+ "epic": {
+  "key": "E23",
+  "title": "Good to have — AI assistant and data corrections",
+  "area": [
+   "ai",
+   "api",
+   "web"
+  ],
+  "description": "Web search with sources, saved conversations, context, and the full correction loop with the admin review queue."
+ },
+ "features": [
+  {
+   "key": "E23-F01",
+   "title": "AI web search with sources",
+   "tier": "Good to have",
+   "items": [
+    "11.2"
+   ],
+   "screens": [],
+   "area": [
+    "ai"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Web search for gaps with cited sources; findings can become proposals",
+     10
+    ]
+   ],
+   "tests": [
+    3,
+    3,
+    2
+   ]
+  },
+  {
+   "key": "E23-F02",
+   "title": "Saved conversations",
+   "tier": "Good to have",
+   "items": [
+    "11.3"
+   ],
+   "screens": [],
+   "area": [
+    "ai",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Save, list and delete chats",
+     6
+    ]
+   ],
+   "tests": [
+    1,
+    2,
+    2
+   ]
+  },
+  {
+   "key": "E23-F03",
+   "title": "Context: your collection and the current page",
+   "tier": "Good to have",
+   "items": [
+    "11.5",
+    "11.6",
+    "11.7"
+   ],
+   "screens": [],
+   "area": [
+    "ai",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Knows your collection",
+     5
+    ],
+    [
+     "Knows the current page",
+     4
+    ],
+    [
+     "'Ask about this' buttons",
+     4
+    ]
+   ],
+   "tests": [
+    3,
+    2,
+    3
+   ]
+  },
+  {
+   "key": "E23-F04",
+   "title": "Correction proposals and review",
+   "tier": "Good to have",
+   "items": [
+    "12.1",
+    "12.2",
+    "12.4",
+    "14.2"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Proposal queue from chat and reports: approve / edit / reject",
+     10
+    ],
+    [
+     "Curated layer with admin-verified badge",
+     6
+    ],
+    [
+     "Required sources and AI confidence",
+     4
+    ],
+    [
+     "Admin review-queue screen",
+     4
+    ]
+   ],
+   "tests": [
+    4,
+    4,
+    3
+   ]
+  },
+  {
+   "key": "E23-F05",
+   "title": "Conflicts, history and alerts",
+   "tier": "Good to have",
+   "items": [
+    "12.3",
+    "12.5",
+    "12.6"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Conflict detection when later imports disagree",
+     6
+    ],
+    [
+     "Field history and revert",
+     6
+    ],
+    [
+     "In-app notification bell for pending proposals",
+     6
+    ]
+   ],
+   "tests": [
+    4,
+    3,
+    3
+   ]
+  }
+ ]
+}

@@ -3,3 +3,4 @@ build/
 __pycache__/
 *.pyc
 design/source/sprites/
+planning/backlog/backlog.out.json

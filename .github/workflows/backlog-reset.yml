@@ -1,0 +1,39 @@
+# Deletes every issue created by the backlog import (those with a backlog-key marker) and the sprint milestones,
+# so the backlog can be rebuilt. Deleting issues needs an admin token: add a classic personal access token with
+# the "repo" scope as the secret BACKLOG_ADMIN_TOKEN.
+name: Backlog reset
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type DELETE to delete all backlog issues and sprint milestones'
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  reset:
+    if: inputs.confirm == 'DELETE'
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.BACKLOG_ADMIN_TOKEN }}
+          script: |
+            const { owner, repo } = context.repo;
+            const sleep = ms => new Promise(r => setTimeout(r, ms));
+            let n = 0;
+            for await (const page of github.paginate.iterator(github.rest.issues.listForRepo, { owner, repo, state: 'all', per_page: 100 })) {
+              for (const i of page.data) {
+                if (i.pull_request || !/<!-- backlog-key: \S+ -->/.test(i.body || '')) continue;
+                await github.graphql('mutation($id: ID!) { deleteIssue(input: { issueId: $id }) { clientMutationId } }', { id: i.node_id });
+                n++; await sleep(1000);
+              }
+            }
+            for (const m of await github.paginate(github.rest.issues.listMilestones, { owner, repo, state: 'all', per_page: 100 })) {
+              if (/^Sprint \d+$|^Future \(not scheduled\)$/.test(m.title)) await github.rest.issues.deleteMilestone({ owner, repo, milestone_number: m.number });
+            }
+            core.info(`Deleted ${n} issues.`);

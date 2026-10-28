@@ -1,0 +1,180 @@
+{
+ "epic": {
+  "key": "E04",
+  "title": "Search filters",
+  "area": [
+   "api",
+   "web"
+  ],
+  "description": "Screens D1–D3: keeper filters ported from the Python build, safe to transfer, family strings, the filter builder and saved filters."
+ },
+ "features": [
+  {
+   "key": "E04-F01",
+   "title": "Keeper filters",
+   "tier": "MVP",
+   "items": [
+    "4.1"
+   ],
+   "screens": [
+    "D1"
+   ],
+   "area": [
+    "data",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "PvP keeper strings: Great League (2 parts) and Ultra League (3 parts) with 1,950-character splitting",
+     6
+    ],
+    [
+     "Raid attackers (Attack 11–15 / 15 only), Max Battle attackers, Megas (with / without pre-evolutions)",
+     5
+    ],
+    [
+     "Rebuilt by the daily import; golden-file checked",
+     2
+    ],
+    [
+     "Keepers screen: cards, suggested tags, Copy per part with Copied state, how-to",
+     5
+    ]
+   ],
+   "tests": [
+    6,
+    3,
+    4
+   ]
+  },
+  {
+   "key": "E04-F02",
+   "title": "Safe to transfer",
+   "tier": "MVP",
+   "items": [
+    "4.2"
+   ],
+   "screens": [
+    "D1"
+   ],
+   "area": [
+    "data",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Tag-based inverse string with exclusions and safety note",
+     2
+    ]
+   ],
+   "tests": [
+    2,
+    0,
+    1
+   ]
+  },
+  {
+   "key": "E04-F03",
+   "title": "Family strings",
+   "tier": "MVP",
+   "items": [
+    "4.3"
+   ],
+   "screens": [
+    "B2"
+   ],
+   "area": [
+    "data",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Short family string on each Pokémon page",
+     2
+    ]
+   ],
+   "tests": [
+    2,
+    0,
+    1
+   ]
+  },
+  {
+   "key": "E04-F04",
+   "title": "Filter builder",
+   "tier": "MVP",
+   "items": [
+    "4.4"
+   ],
+   "screens": [
+    "D2"
+   ],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Condition model: 10 groups; AND between conditions, OR inside one",
+     6
+    ],
+    [
+     "String generator for English game keywords",
+     5
+    ],
+    [
+     "Parse hand-edited strings back into conditions where possible",
+     5
+    ],
+    [
+     "Live check with the search simulator, length counter, automatic split",
+     4
+    ],
+    [
+     "Phone add-condition sheet with search; desktop three columns",
+     5
+    ]
+   ],
+   "tests": [
+    8,
+    2,
+    4
+   ]
+  },
+  {
+   "key": "E04-F05",
+   "title": "Saved filters",
+   "tier": "MVP",
+   "items": [
+    "4.8"
+   ],
+   "screens": [
+    "D3"
+   ],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "API: save, list, rename, duplicate, delete (per user)",
+     4
+    ],
+    [
+     "Saved list with Copy and ⋯ menu; save sheet; signed-out prompt",
+     4
+    ]
+   ],
+   "tests": [
+    2,
+    3,
+    3
+   ]
+  }
+ ]
+}

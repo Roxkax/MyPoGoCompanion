@@ -1,0 +1,40 @@
+{
+ "epic": {
+  "key": "E09",
+  "title": "Account and settings",
+  "area": [
+   "web"
+  ],
+  "description": "Screen F2: settings and About & credits."
+ },
+ "features": [
+  {
+   "key": "E09-F01",
+   "title": "Settings and About",
+   "tier": "MVP",
+   "items": [],
+   "screens": [
+    "F2"
+   ],
+   "area": [
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Settings: account, language, theme, install, Admin row for admins, sign out",
+     4
+    ],
+    [
+     "About & credits: disclaimer, PvPoke (MIT), data and image credits, open-source licences",
+     3
+    ]
+   ],
+   "tests": [
+    1,
+    0,
+    3
+   ]
+  }
+ ]
+}

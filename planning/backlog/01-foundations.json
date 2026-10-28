@@ -1,0 +1,303 @@
+{
+ "epic": {
+  "key": "E01",
+  "title": "Foundations",
+  "area": [
+   "api",
+   "web"
+  ],
+  "description": "Database, sign-in, the app shell and design system, languages, the generated API client, installing the app and observability."
+ },
+ "features": [
+  {
+   "key": "E01-F01",
+   "title": "Database schema v1",
+   "tier": "MVP",
+   "items": [],
+   "screens": [],
+   "area": [
+    "api"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "EF Core model: species, forms, versions, types, moves, learnsets, evolutions",
+     6
+    ],
+    [
+     "Rankings, raid scores and PvP IV tables",
+     4
+    ],
+    [
+     "Live data: raid bosses, Max bosses, events, egg pools, research (source, fetched-at, admin-fixed lock)",
+     4
+    ],
+    [
+     "Users, settings, collections, saved filters, import runs, AI usage",
+     4
+    ],
+    [
+     "Initial migration and dev seed",
+     2
+    ]
+   ],
+   "tests": [
+    2,
+    6,
+    0
+   ]
+  },
+  {
+   "key": "E01-F02",
+   "title": "Google sign-in, tokens and roles",
+   "tier": "MVP",
+   "items": [
+    "15.1"
+   ],
+   "screens": [
+    "F1"
+   ],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Google OAuth sign-in (authorization code + PKCE)",
+     5
+    ],
+    [
+     "Own access and refresh tokens, rotation, sign-out everywhere on this device",
+     5
+    ],
+    [
+     "Admin role from configuration",
+     1
+    ],
+    [
+     "Sign-in screen / modal with 'Not now'; return to where you were",
+     4
+    ],
+    [
+     "Signed-out prompts on personal screens (collection, saved filters, AI)",
+     3
+    ],
+    [
+     "Security review: token storage, CSRF, CORS, rate limits",
+     3
+    ]
+   ],
+   "tests": [
+    3,
+    5,
+    3
+   ]
+  },
+  {
+   "key": "E01-F03",
+   "title": "App shell and design system",
+   "tier": "MVP",
+   "items": [
+    "15.3"
+   ],
+   "screens": [],
+   "area": [
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Design tokens from design/source/base.css: colours, type colours, Nunito, spacing",
+     4
+    ],
+    [
+     "Phone layout: bottom tab bar, tab headers with search/Ask/profile, detail header with back + Ask",
+     4
+    ],
+    [
+     "Desktop layout: sidebar (tabs, quick links, Settings, Admin for admins) and top bar",
+     4
+    ],
+    [
+     "Theme: follow device / light / dark, with a dark version of every fixed colour",
+     3
+    ],
+    [
+     "Shared components: cards, chips, pills, segmented switch, type badges, version markers, sprite box",
+     6
+    ],
+    [
+     "Routing and deep links for every screen",
+     3
+    ]
+   ],
+   "tests": [
+    3,
+    0,
+    5
+   ]
+  },
+  {
+   "key": "E01-F04",
+   "title": "Languages: English and Português (Portugal)",
+   "tier": "MVP",
+   "items": [
+    "15.2"
+   ],
+   "screens": [],
+   "area": [
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "i18next set-up; language saved per user (or device when signed out)",
+     3
+    ],
+    [
+     "All interface text extracted; English strings",
+     4
+    ],
+    [
+     "Portuguese (Portugal) translation of the interface",
+     5
+    ],
+    [
+     "Dates, numbers and plurals per language",
+     2
+    ]
+   ],
+   "tests": [
+    2,
+    0,
+    3
+   ]
+  },
+  {
+   "key": "E01-F05",
+   "title": "OpenAPI and generated client",
+   "tier": "MVP",
+   "items": [],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "OpenAPI document with examples",
+     2
+    ],
+    [
+     "Generated TypeScript client and TanStack Query hooks",
+     3
+    ],
+    [
+     "Contract check: generated client matches the API in CI",
+     2
+    ]
+   ],
+   "tests": [
+    0,
+    2,
+    0
+   ]
+  },
+  {
+   "key": "E01-F06",
+   "title": "Installable web app and offline screen",
+   "tier": "MVP",
+   "items": [
+    "17.1"
+   ],
+   "screens": [
+    "H3"
+   ],
+   "area": [
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "PWA manifest, icons, splash and service worker for the app shell",
+     4
+    ],
+    [
+     "'Install the app' in Settings and install prompt",
+     2
+    ],
+    [
+     "Offline screen with Try again and automatic reload",
+     2
+    ]
+   ],
+   "tests": [
+    0,
+    0,
+    3
+   ]
+  },
+  {
+   "key": "E01-F07",
+   "title": "Out-of-date warning",
+   "tier": "MVP",
+   "items": [
+    "16.3"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "API: freshness per data kind (3 days game data, 9 days raids/events)",
+     2
+    ],
+    [
+     "Orange warning banner where stale data appears",
+     2
+    ]
+   ],
+   "tests": [
+    2,
+    1,
+    2
+   ]
+  },
+  {
+   "key": "E01-F08",
+   "title": "Observability and errors",
+   "tier": "MVP",
+   "items": [],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Application Insights for API, jobs and web",
+     3
+    ],
+    [
+     "Friendly error pages and error boundary",
+     2
+    ],
+    [
+     "Structured logs without personal data",
+     1
+    ]
+   ],
+   "tests": [
+    1,
+    1,
+    1
+   ]
+  }
+ ]
+}

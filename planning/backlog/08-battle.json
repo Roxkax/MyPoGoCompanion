@@ -1,0 +1,184 @@
+{
+ "epic": {
+  "key": "E08",
+  "title": "Battle: raids, tier lists and teams",
+  "area": [
+   "api",
+   "web"
+  ],
+  "description": "Screens C1–C4: raid bosses, the raid boss page with explained scores, tier lists and best teams."
+ },
+ "features": [
+  {
+   "key": "E08-F01",
+   "title": "Raid bosses",
+   "tier": "MVP",
+   "items": [
+    "6.1"
+   ],
+   "screens": [
+    "C1"
+   ],
+   "area": [
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Now / Coming up with tier filter, weaknesses, 100% CP, shiny, end dates and event pills",
+     5
+    ],
+    [
+     "Battle tab switcher: Raids · Tier lists · Teams",
+     1
+    ]
+   ],
+   "tests": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "key": "E08-F02",
+   "title": "Raid boss page",
+   "tier": "MVP",
+   "items": [
+    "6.2",
+    "6.3",
+    "6.4",
+    "6.9"
+   ],
+   "screens": [
+    "C2"
+   ],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Boss tab: weaknesses, resistances, possible moves with warnings",
+     3
+    ],
+    [
+     "Counters: best 9 with one Mega slot; damage/s, how long it lasts, % of best",
+     5
+    ],
+    [
+     "Boss move picker re-ranks the counters",
+     4
+    ],
+    [
+     "'How the raid score works' explainer",
+     2
+    ],
+    [
+     "Your counters at real level, IVs and moves",
+     5
+    ],
+    [
+     "Catch tab: 100% CPs and catch-screen IV check (raid floor 10/10/10)",
+     5
+    ],
+    [
+     "Phone tabs; desktop two columns; type tint",
+     3
+    ]
+   ],
+   "tests": [
+    6,
+    4,
+    5
+   ]
+  },
+  {
+   "key": "E08-F03",
+   "title": "Tier lists",
+   "tier": "MVP",
+   "items": [
+    "5.1",
+    "5.3",
+    "5.5"
+   ],
+   "screens": [
+    "C3"
+   ],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "PvPoke rankings grouped into S / A / B / C by score",
+     3
+    ],
+    [
+     "PvP lists for Great, Ultra and Master League",
+     4
+    ],
+    [
+     "Raid lists per type and overall with a pinned, changeable Mega slot",
+     5
+    ],
+    [
+     "Only what I own: your best copy with IV rank and CP",
+     4
+    ]
+   ],
+   "tests": [
+    3,
+    3,
+    4
+   ]
+  },
+  {
+   "key": "E08-F04",
+   "title": "Best team",
+   "tier": "MVP",
+   "items": [
+    "10.1",
+    "10.2",
+    "10.3",
+    "10.4"
+   ],
+   "screens": [
+    "C4"
+   ],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Best 6 per attacking type with one Mega slot",
+     3
+    ],
+    [
+     "Against a boss, using the chosen boss moves",
+     3
+    ],
+    [
+     "From my Pokémon, with the weak-slot rule (under 40%)",
+     4
+    ],
+    [
+     "Lock your Mega and rebuild the other five",
+     3
+    ],
+    [
+     "Team cards on phone and desktop",
+     3
+    ]
+   ],
+   "tests": [
+    4,
+    3,
+    4
+   ]
+  }
+ ]
+}

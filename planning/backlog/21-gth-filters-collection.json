@@ -1,0 +1,225 @@
+{
+ "epic": {
+  "key": "E21",
+  "title": "Good to have — filters and collection",
+  "area": [
+   "api",
+   "web"
+  ],
+  "description": "Builder options, explain and preview strings, the utility library, collection suggestions, stats, duplicates and in-app edits."
+ },
+ "features": [
+  {
+   "key": "E21-F01",
+   "title": "Builder options",
+   "tier": "Good to have",
+   "items": [
+    "4.5"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Keeper margin 95 / 98 / 99% and level cap 50 / 51",
+     4
+    ]
+   ],
+   "tests": [
+    2,
+    0,
+    1
+   ]
+  },
+  {
+   "key": "E21-F02",
+   "title": "Explain a string",
+   "tier": "Good to have",
+   "items": [
+    "4.6"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Plain-words explanation and match count for any string",
+     8
+    ]
+   ],
+   "tests": [
+    4,
+    0,
+    2
+   ]
+  },
+  {
+   "key": "E21-F03",
+   "title": "Preview matches on your collection",
+   "tier": "Good to have",
+   "items": [
+    "4.7"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Run a string against your collection with the simulator",
+     8
+    ]
+   ],
+   "tests": [
+    3,
+    2,
+    2
+   ]
+  },
+  {
+   "key": "E21-F04",
+   "title": "Utility filter library",
+   "tier": "Good to have",
+   "items": [
+    "4.9"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Admin-curated library of useful strings",
+     6
+    ]
+   ],
+   "tests": [
+    1,
+    2,
+    2
+   ]
+  },
+  {
+   "key": "E21-F05",
+   "title": "Collection suggestions",
+   "tier": "Good to have",
+   "items": [
+    "9.6"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Power up, safe to transfer and missing suggestions",
+     10
+    ]
+   ],
+   "tests": [
+    4,
+    2,
+    3
+   ]
+  },
+  {
+   "key": "E21-F06",
+   "title": "Collection stats",
+   "tier": "Good to have",
+   "items": [
+    "9.7"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Types, shinies, luckies, hundos, Shadows, completion",
+     8
+    ]
+   ],
+   "tests": [
+    2,
+    2,
+    2
+   ]
+  },
+  {
+   "key": "E21-F07",
+   "title": "Duplicates review",
+   "tier": "Good to have",
+   "items": [
+    "9.8"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Group duplicates and suggest the copy to keep",
+     6
+    ]
+   ],
+   "tests": [
+    3,
+    1,
+    2
+   ]
+  },
+  {
+   "key": "E21-F08",
+   "title": "Edit your Pokémon in the app",
+   "tier": "Good to have",
+   "items": [
+    "9.10"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "'Your Pokémon' screen: power up to a level with the new CP",
+     5
+    ],
+    [
+     "Evolve with new moves (event move suggested)",
+     4
+    ],
+    [
+     "Change moves after a TM; transfer / traded away",
+     3
+    ],
+    [
+     "'Edited in app' marker; the next upload replaces app edits and the report lists them",
+     4
+    ]
+   ],
+   "tests": [
+    5,
+    3,
+    3
+   ]
+  }
+ ]
+}

@@ -1,0 +1,203 @@
+{
+ "epic": {
+  "key": "E22",
+  "title": "Good to have — battle, Max Battles and simulator",
+  "area": [
+   "api",
+   "web"
+  ],
+  "description": "Max Battles, the raid simulator, gaps, explanations, tips, counter strings and saved teams."
+ },
+ "features": [
+  {
+   "key": "E22-F01",
+   "title": "Max Battles",
+   "tier": "Good to have",
+   "items": [
+    "7.1",
+    "7.2",
+    "7.3",
+    "7.4",
+    "7.6"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Max boss list and page with counters (estimate model)",
+     12
+    ],
+    [
+     "Your best Dynamax / Gigantamax per boss",
+     5
+    ],
+    [
+     "Team roles: attacker, tank, healer",
+     8
+    ],
+    [
+     "Tips (admin-written) and catch-screen IV check",
+     4
+    ]
+   ],
+   "tests": [
+    6,
+    4,
+    5
+   ]
+  },
+  {
+   "key": "E22-F02",
+   "title": "Max Battle tier lists",
+   "tier": "Good to have",
+   "items": [
+    "5.4"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Attackers, tanks and supports per type (labelled estimate)",
+     10
+    ]
+   ],
+   "tests": [
+    4,
+    2,
+    2
+   ]
+  },
+  {
+   "key": "E22-F03",
+   "title": "Raid simulator",
+   "tier": "Good to have",
+   "items": [
+    "8.1",
+    "8.2"
+   ],
+   "screens": [],
+   "area": [
+    "api"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Simulator: time to win, faints, per team (dodging excluded)",
+     20
+    ],
+    [
+     "Group raids → estimated minimum players",
+     8
+    ]
+   ],
+   "tests": [
+    10,
+    3,
+    3
+   ]
+  },
+  {
+   "key": "E22-F04",
+   "title": "Raid boss extras",
+   "tier": "Good to have",
+   "items": [
+    "6.5",
+    "6.6",
+    "6.7",
+    "6.8"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Tips per boss (admin-written)",
+     3
+    ],
+    [
+     "Estimated minimum players (from the simulator)",
+     3
+    ],
+    [
+     "Counter search string",
+     3
+    ],
+    [
+     "'Can I do it with my team?'",
+     5
+    ]
+   ],
+   "tests": [
+    3,
+    2,
+    3
+   ]
+  },
+  {
+   "key": "E22-F05",
+   "title": "Gaps and 'why it's ranked here'",
+   "tier": "Good to have",
+   "items": [
+    "5.6",
+    "5.9"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Your gaps & what to build next",
+     8
+    ],
+    [
+     "Why it's ranked here for PvP and Max lists",
+     6
+    ]
+   ],
+   "tests": [
+    3,
+    2,
+    2
+   ]
+  },
+  {
+   "key": "E22-F06",
+   "title": "Save teams",
+   "tier": "Good to have",
+   "items": [
+    "10.5"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Save, name and reopen teams",
+     5
+    ]
+   ],
+   "tests": [
+    1,
+    2,
+    2
+   ]
+  }
+ ]
+}

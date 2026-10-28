@@ -1,0 +1,113 @@
+{
+ "epic": {
+  "key": "E25",
+  "title": "Good to have — Team GO Rocket, eggs, trading",
+  "area": [
+   "api",
+   "web"
+  ],
+  "description": "Rocket line-ups and purify advice, egg extras and trading."
+ },
+ "features": [
+  {
+   "key": "E25-F01",
+   "title": "Team GO Rocket",
+   "tier": "Good to have",
+   "items": [
+    "18.1",
+    "18.2",
+    "18.3",
+    "18.4"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Line-ups with counters per slot",
+     8
+    ],
+    [
+     "Your counters",
+     4
+    ],
+    [
+     "Counter search string",
+     3
+    ],
+    [
+     "Purify advice on your Shadows",
+     4
+    ]
+   ],
+   "tests": [
+    4,
+    3,
+    3
+   ]
+  },
+  {
+   "key": "E25-F02",
+   "title": "Eggs & research extras",
+   "tier": "Good to have",
+   "items": [
+    "19.2",
+    "19.3"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Shiny and rarity markers",
+     2
+    ],
+    [
+     "Catch-screen IV check for eggs and research",
+     2
+    ]
+   ],
+   "tests": [
+    1,
+    0,
+    1
+   ]
+  },
+  {
+   "key": "E25-F03",
+   "title": "Trading",
+   "tier": "Good to have",
+   "items": [
+    "20.1",
+    "20.2"
+   ],
+   "screens": [],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Trade rules, costs and friendship bonuses",
+     4
+    ],
+    [
+     "Trade IV calculator",
+     5
+    ]
+   ],
+   "tests": [
+    3,
+    1,
+    2
+   ]
+  }
+ ]
+}

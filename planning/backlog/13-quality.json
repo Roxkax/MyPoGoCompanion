@@ -1,0 +1,194 @@
+{
+ "epic": {
+  "key": "E13",
+  "title": "Quality and MVP release",
+  "area": [
+   "testing"
+  ],
+  "description": "Testing that spans the whole app, on top of each feature's own tests: journeys, visual regression, accessibility, performance, security, correctness, and the release."
+ },
+ "features": [
+  {
+   "key": "E13-F01",
+   "title": "End-to-end user journeys",
+   "tier": "MVP",
+   "items": [],
+   "screens": [],
+   "area": [
+    "testing"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "First visit → sign in → upload collection → see your counters and team",
+     4
+    ],
+    [
+     "Build a filter → save → copy",
+     2
+    ],
+    [
+     "Admin fixes a boss → users see the fix; next AI run keeps it",
+     2
+    ],
+    [
+     "Portuguese user end-to-end",
+     2
+    ],
+    [
+     "Signed-out browsing of every public screen",
+     2
+    ]
+   ],
+   "no_tests": "This feature is tests"
+  },
+  {
+   "key": "E13-F02",
+   "title": "Visual regression",
+   "tier": "MVP",
+   "items": [],
+   "screens": [],
+   "area": [
+    "testing"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Screenshot tests of all 25 screens: phone + desktop, light + dark, against approved baselines",
+     6
+    ],
+    [
+     "Baseline review process for intended changes",
+     2
+    ]
+   ],
+   "no_tests": "This feature is tests"
+  },
+  {
+   "key": "E13-F03",
+   "title": "Accessibility",
+   "tier": "MVP",
+   "items": [],
+   "screens": [],
+   "area": [
+    "testing"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Automated accessibility checks (axe) on every screen in the UI pipeline",
+     3
+    ],
+    [
+     "Keyboard navigation and screen-reader labels",
+     3
+    ],
+    [
+     "Colour contrast in both themes",
+     2
+    ]
+   ],
+   "no_tests": "This feature is tests"
+  },
+  {
+   "key": "E13-F04",
+   "title": "Performance",
+   "tier": "MVP",
+   "items": [],
+   "screens": [],
+   "area": [
+    "testing"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Lighthouse CI budget on key phone screens",
+     3
+    ],
+    [
+     "API load test (k6): browse, counters, filters at 50 concurrent users",
+     4
+    ],
+    [
+     "Cold-start check for the scale-to-zero API",
+     2
+    ]
+   ],
+   "no_tests": "This feature is tests"
+  },
+  {
+   "key": "E13-F05",
+   "title": "Security",
+   "tier": "MVP",
+   "items": [],
+   "screens": [],
+   "area": [
+    "testing"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "OWASP top 10 review; dependency and secret scanning",
+     4
+    ],
+    [
+     "Authorization tests: no access to others' data; admin-only endpoints",
+     3
+    ],
+    [
+     "Upload hardening tests (malformed and huge files)",
+     2
+    ]
+   ],
+   "no_tests": "This feature is tests"
+  },
+  {
+   "key": "E13-F06",
+   "title": "Correctness of the numbers",
+   "tier": "MVP",
+   "items": [],
+   "screens": [],
+   "area": [
+    "testing"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Nightly check: our numbers vs golden files and PvPoke spot checks; alert on drift",
+     4
+    ],
+    [
+     "Mutation testing of the calculation engine (Stryker.NET) to prove the tests catch bugs",
+     4
+    ]
+   ],
+   "no_tests": "This feature is tests"
+  },
+  {
+   "key": "E13-F07",
+   "title": "MVP release",
+   "tier": "MVP",
+   "items": [],
+   "screens": [],
+   "area": [
+    "infra"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Retire the Python Keeper Filters page once the app's filters match (golden files kept)",
+     2
+    ],
+    [
+     "Release checklist and owner acceptance test on prod",
+     4
+    ],
+    [
+     "Backup and restore drill with Neon",
+     2
+    ]
+   ],
+   "no_tests": "Release checks"
+  }
+ ]
+}

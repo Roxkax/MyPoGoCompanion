@@ -1,0 +1,87 @@
+{
+ "epic": {
+  "key": "E10",
+  "title": "Admin",
+  "area": [
+   "api",
+   "web"
+  ],
+  "description": "Screens G1–G2: data status and fixing fetched entries."
+ },
+ "features": [
+  {
+   "key": "E10-F01",
+   "title": "Data status and re-run",
+   "tier": "MVP",
+   "items": [
+    "14.1"
+   ],
+   "screens": [
+    "G1"
+   ],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Job cards: last / next run, what changed, Run now",
+     4
+    ],
+    [
+     "AI spending this month vs the cap",
+     2
+    ],
+    [
+     "Recent runs with failure explanations",
+     3
+    ],
+    [
+     "Admin-only access on every admin endpoint",
+     1
+    ]
+   ],
+   "tests": [
+    2,
+    3,
+    3
+   ]
+  },
+  {
+   "key": "E10-F02",
+   "title": "Fix fetched entries",
+   "tier": "MVP",
+   "items": [
+    "14.12"
+   ],
+   "screens": [
+    "G2"
+   ],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Entries by kind with New / Changed this week / Fixed by you flags and source links",
+     4
+    ],
+    [
+     "Edit sheet: fields, Save fix (locks the entry), Remove",
+     5
+    ],
+    [
+     "Who / when / what stored for every fix",
+     2
+    ]
+   ],
+   "tests": [
+    2,
+    4,
+    3
+   ]
+  }
+ ]
+}

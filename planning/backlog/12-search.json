@@ -1,0 +1,46 @@
+{
+ "epic": {
+  "key": "E12",
+  "title": "Search",
+  "area": [
+   "api",
+   "web"
+  ],
+  "description": "Screen H2: search across the app."
+ },
+ "features": [
+  {
+   "key": "E12-F01",
+   "title": "Search everywhere",
+   "tier": "MVP",
+   "items": [],
+   "screens": [
+    "H2"
+   ],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Search index: Pokémon (EN + PT, nicknames), moves, raid bosses, events, pages",
+     5
+    ],
+    [
+     "Calendar shortcut for 'calendar', 'raid hour', 'community day'",
+     1
+    ],
+    [
+     "Phone full-screen search with recent searches; desktop Ctrl K window with keyboard",
+     5
+    ]
+   ],
+   "tests": [
+    3,
+    2,
+    3
+   ]
+  }
+ ]
+}

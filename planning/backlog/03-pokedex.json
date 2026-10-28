@@ -1,0 +1,236 @@
+{
+ "epic": {
+  "key": "E03",
+  "title": "Pokédex, moves and type chart",
+  "area": [
+   "api",
+   "web"
+  ],
+  "description": "Screens B1–B5: the species list with version-aware filters, the Pokémon page, moves, move page and type chart."
+ },
+ "features": [
+  {
+   "key": "E03-F01",
+   "title": "Pokédex list",
+   "tier": "MVP",
+   "items": [
+    "1.1",
+    "1.2",
+    "1.3",
+    "1.4"
+   ],
+   "screens": [
+    "B1"
+   ],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Species list API with paging and version markers",
+     4
+    ],
+    [
+     "Version-aware filters (type, generation, stats, Mega / Shadow / Dynamax / G-Max, regional forms, legendary, released): match any version, show the best-matching one, hide non-matching badges",
+     8
+    ],
+    [
+     "Search by name, number or nickname (English and Portuguese names)",
+     3
+    ],
+    [
+     "Sort by any column",
+     2
+    ],
+    [
+     "Phone list with filter sheet; desktop table with filter bar",
+     6
+    ],
+    [
+     "Pokédex tab switcher: Pokémon · Moves · Type chart",
+     1
+    ],
+    [
+     "Version marker hover (desktop) / tap (phone) switches the row to that version's stats",
+     4
+    ]
+   ],
+   "tests": [
+    4,
+    4,
+    5
+   ]
+  },
+  {
+   "key": "E03-F02",
+   "title": "Pokémon page",
+   "tier": "MVP",
+   "items": [
+    "2.1",
+    "2.2",
+    "2.3",
+    "2.4",
+    "2.6",
+    "2.7",
+    "2.9",
+    "2.10",
+    "2.14",
+    "2.15",
+    "3.8"
+   ],
+   "screens": [
+    "B2"
+   ],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Header tinted by main type; version switcher (normal, Shadow, Mega…)",
+     4
+    ],
+    [
+     "Overview: stats, max CP, rankings summary, type matchups (link to type chart)",
+     4
+    ],
+    [
+     "Moves: best movesets per raid type and league; full movepool with raid and PvP numbers, Elite TM / legacy / event flags",
+     5
+    ],
+    [
+     "Moveset ranking: every fast + charged combination for raids and PvP",
+     4
+    ],
+    [
+     "IVs: best IVs per league, keeper bars, search string with Copy; IV rank checker",
+     6
+    ],
+    [
+     "100% CP cheat sheet",
+     1
+    ],
+    [
+     "Get it: right now (from live data) and usual ways; evolution chain with costs and conditions",
+     6
+    ],
+    [
+     "Versions: forms, costumes, shiny, Shadow, Mega with their stats",
+     3
+    ],
+    [
+     "Phone tabs (Overview · Moves · IVs · Get it · Versions); desktop two columns",
+     3
+    ]
+   ],
+   "tests": [
+    5,
+    4,
+    6
+   ]
+  },
+  {
+   "key": "E03-F03",
+   "title": "Moves list",
+   "tier": "MVP",
+   "items": [
+    "3.1"
+   ],
+   "screens": [
+    "B3"
+   ],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Moves API with raid and PvP numbers and PvP effects",
+     3
+    ],
+    [
+     "Fast / Charged switch, type filter, search and sort",
+     4
+    ],
+    [
+     "Phone Raids / PvP number switch; desktop both side by side",
+     3
+    ]
+   ],
+   "tests": [
+    2,
+    2,
+    3
+   ]
+  },
+  {
+   "key": "E03-F04",
+   "title": "Move page",
+   "tier": "MVP",
+   "items": [
+    "3.2"
+   ],
+   "screens": [
+    "B4"
+   ],
+   "area": [
+    "api",
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Learners grouped Elite TM / Legacy / normal, sorted by Attack, with 'Mega too'",
+     4
+    ],
+    [
+     "Event note when an event gives the move",
+     2
+    ],
+    [
+     "Phone: top 8 + Show all; desktop grid",
+     2
+    ]
+   ],
+   "tests": [
+    2,
+    2,
+    2
+   ]
+  },
+  {
+   "key": "E03-F05",
+   "title": "Type chart",
+   "tier": "MVP",
+   "items": [
+    "3.6"
+   ],
+   "screens": [
+    "B5"
+   ],
+   "area": [
+    "web"
+   ],
+   "description": "",
+   "tasks": [
+    [
+     "Defending (one or two types), Attacking and the full 18×18 chart",
+     5
+    ],
+    [
+     "Links to Pokémon with that typing and to moves of that type",
+     2
+    ]
+   ],
+   "tests": [
+    2,
+    0,
+    3
+   ]
+  }
+ ]
+}
