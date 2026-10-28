@@ -178,6 +178,8 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-28 | **Backlog approved** by the owner; imported into GitHub issues with the `Backlog import` workflow. **Stage 11 done.** Next: Sprint 0 only when the owner says so. |
 | 2026-10-28 | **Sprint 0 started** (stage 12). Code goes through pull requests from the working branch; planning-only changes may still go to `main` until the branch rules are on. |
 | 2026-10-28 | Monorepo layout (task #3): `api/`, `jobs/`, `web/`, `tests/`, `design/`, `planning/`, `docs/`; unit tests next to each project, integration/UI tests and golden files in `tests/`. The Python Keeper Filters pipeline **moved to `legacy/keeper-filters/`** (unchanged output; `docs/KEEPER-FILTERS.md` stays in `docs/`) so the new app gets `web/`. |
+| 2026-10-28 | **One pull request per feature**, holding all of that feature's tasks; the owner reviews and tests it once. Issues are closed by the PR (`Closes #n`). |
+| 2026-10-28 | Sprint 0 tooling (E00-F01): .NET 10 SDK pinned in `global.json`, shared `Directory.Build.props` (nullable, latest analyzers, warnings as errors in CI), `.editorconfig` code style checked by `dotnet format`; web lint with ESLint 10 + typescript-eslint and Prettier; local **PostgreSQL 17** (Neon's version) in Docker Compose. Dev seed data comes with the schema (E01-F01). |
 
 ## Open decisions
 
