@@ -165,6 +165,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-28 | **E2 Upload & import report approved** (import progress steps; report with imported / not recognised / new · gone / changed; unrecognised rows with reasons; what changed, matched by family + IVs + catch date) and its **"All changes" screen** (filter chips by kind; changed Pokémon first with before → after; new and gone grouped by species). |
 | 2026-10-28 | **F1 Sign in approved** (sign-in screen/modal with what works without an account, four benefits, Continue with Google only, "Not now", privacy + fan-project disclaimer; signed-out prompts in place of personal screens; Admin hidden unless the admin is signed in). |
 | 2026-10-28 | **F2 Settings approved** (account with Admin badge, language EN / pt-PT, theme, About & credits with disclaimer and data credits incl. PvPoke MIT, install the app, Admin row on phone for the admin, sign out). Delete account / download data stays Good to have but is **required before any public launch**. |
+| 2026-10-28 | **G1 Data status approved** (one card per job with last/next run, what changed, Run now; AI spend this month vs the $5 cap; recent runs with failures explained; preview of the user warning). Out-of-date warning thresholds: **3 days for daily game data, 9 days for raids and events**; spec 16 updated. |
 
 ## Open decisions
 
