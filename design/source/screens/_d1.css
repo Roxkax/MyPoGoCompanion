@@ -1,0 +1,18 @@
+.kf { background: var(--surface); border-radius: 18px; box-shadow: var(--shadow); padding: 14px; display: flex; flex-direction: column; gap: 9px; }
+.kf .hd { display: flex; align-items: center; gap: 10px; }
+.kf .ic { width: 36px; height: 36px; border-radius: 11px; display: grid; place-items: center; font-weight: 900; font-size: 13px; color: #fff; flex: none; }
+.kf h3 { margin: 0; font-size: 16px; font-weight: 800; }
+.kf .ds { font-size: 13px; font-weight: 600; color: var(--text-2); line-height: 1.4; }
+.kf .tagname { margin-left: auto; font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--accent); background: var(--accent-soft); padding: 3px 8px; border-radius: 8px; white-space: nowrap; }
+.part { display: flex; gap: 8px; align-items: center; }
+.part code { flex: 1; min-width: 0; font-family: var(--mono); font-size: 11.5px; background: var(--surface-2); border-radius: 9px; padding: 8px 9px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-2); }
+.part .lab { font-size: 11.5px; font-weight: 800; color: var(--text-3); width: 74px; flex: none; line-height: 1.2; }
+.copy { height: 34px; padding: 0 13px; border-radius: 10px; border: 0; background: var(--accent); color: var(--accent-ink); font-family: var(--font); font-weight: 800; font-size: 13px; flex: none; }
+.copy.done { background: var(--ok-soft); color: var(--ok); }
+.opt { display: flex; gap: 6px; align-items: center; font-size: 12.5px; font-weight: 800; color: var(--text-2); }
+.opt .seg { padding: 2px; } .opt .seg span { height: 26px; font-size: 12px; padding: 0 9px; }
+.warnbox { font-size: 12.5px; font-weight: 700; color: var(--warn); background: var(--warn-soft); border-radius: 10px; padding: 8px 10px; line-height: 1.4; }
+.howto { display: flex; gap: 10px; align-items: center; padding: 12px 14px; background: var(--accent-soft); border-radius: 16px; color: var(--accent); font-weight: 800; font-size: 14px; }
+.steps { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 600; color: var(--text-2); line-height: 1.45; }
+.steps b { color: var(--text); }
+.steps code { font-family: var(--mono); font-size: 12.5px; background: var(--surface-2); padding: 1px 5px; border-radius: 5px; color: var(--text); }
