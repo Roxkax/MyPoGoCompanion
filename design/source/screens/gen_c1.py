@@ -33,7 +33,7 @@ def prow(b, upcoming=False):
     tier, tc, sp, n, ts, sh, sd, c20, c25, note = b
     nt = pill(note)
     return f'''<div class="br">{sprite(sp, sd, 52)}<div class="nm"><span class="top"><span class="tier {tc}">{tier}</span><b>{n}</b></span>
-<span class="types">{T(ts)}</span><span class="weak">Weak to {weak(ts)}</span>{f'<span style="display:flex">{nt}</span>' if nt else ''}</div>{STAR if sh else ''}<span class="chev">›</span></div>'''
+<span class="types">{T(ts)}</span><span class="weak">Weak to {weak(ts)}</span><span class="pcp">100% CP <b>{c20}</b> · {c25} boosted</span>{f'<span style="display:flex">{nt}</span>' if nt else ''}</div>{STAR if sh else ''}<span class="chev">›</span></div>'''
 def dcard(b):
     tier, tc, sp, n, ts, sh, sd, c20, c25, note = b
     return f'''<div class="bcard"><div class="hd"><span class="tier {tc}">{tier}</span>{STAR if sh else ''}</div>
