@@ -1,0 +1,28 @@
+.ent { display: flex; align-items: center; gap: 12px; padding: 10px 14px; }
+.ent + .ent { border-top: 1px solid var(--line); }
+.ent .t { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.ent .t b { font-size: 14.5px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.ent .t span { font-size: 12.5px; font-weight: 700; color: var(--text-2); }
+.ent .src { font-size: 12px; font-weight: 800; color: var(--accent); white-space: nowrap; }
+.flag { font-size: 10.5px; font-weight: 800; padding: 2px 6px; border-radius: 6px; }
+.flag.chg { background: var(--warn-soft); color: var(--warn); }
+.flag.new { background: var(--ok-soft); color: var(--ok); }
+.flag.fixed { background: var(--accent-soft); color: var(--accent); }
+.chev { color: var(--text-3); font-size: 19px; font-weight: 700; }
+.kh { display: flex; justify-content: space-between; align-items: baseline; margin: 4px 4px 0; }
+.kh h2 { margin: 0; font-size: 17px; }
+.sheetbg { position: absolute; inset: 0; background: rgba(10, 20, 18, .35); }
+.sheet { position: absolute; left: 0; right: 0; bottom: 0; top: 110px; background: var(--surface); border-radius: 24px 24px 0 0; display: flex; flex-direction: column; padding: 8px 16px 30px; gap: 12px; }
+.grab { width: 40px; height: 5px; border-radius: 3px; background: var(--line); margin: 0 auto; }
+.fld { display: flex; flex-direction: column; gap: 4px; }
+.fld label { font-size: 12px; font-weight: 800; color: var(--text-3); text-transform: uppercase; letter-spacing: .04em; }
+.fld .in { min-height: 42px; border-radius: 11px; border: 1px solid var(--line); background: var(--surface); padding: 0 12px; display: flex; align-items: center; font-weight: 700; font-size: 15px; gap: 8px; }
+.fld .in.focus { border: 2px solid var(--accent); }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.tog { width: 44px; height: 26px; border-radius: 13px; background: var(--accent); position: relative; margin-left: auto; }
+.tog::after { content: ""; position: absolute; top: 3px; left: 21px; width: 20px; height: 20px; border-radius: 50%; background: #fff; }
+.srcbox { background: var(--surface-2); border-radius: 12px; padding: 10px 12px; font-size: 13px; font-weight: 600; color: var(--text-2); line-height: 1.45; }
+.srcbox a { font-weight: 800; }
+.btn { height: 48px; border-radius: 14px; border: 0; font-family: var(--font); font-weight: 800; font-size: 16px; }
+.btn.pri { background: var(--accent); color: var(--accent-ink); flex: 1; } .btn.del { background: #FCE4E4; color: var(--danger); padding: 0 18px; }
+.screen .ent .src { display: none; }
