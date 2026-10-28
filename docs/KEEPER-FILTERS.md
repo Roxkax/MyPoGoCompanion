@@ -2,6 +2,8 @@
 
 This project generates copy-paste **Pokémon GO storage search strings** that help a player decide which Pokémon to keep, and publishes them in a single self-contained web page (`dist/pvp-keeper-filters.html`). The owner wants to turn it into a product.
 
+**Location:** the pipeline lives in `legacy/keeper-filters/` (moved there in Sprint 0 so the new app could use `web/`). Every path in this file (`build.py`, `scripts/`, `web/`, `dist/`, `data/`, `build/`) is relative to that folder. It is removed once the C# port matches its golden files.
+
 It started as a Claude chat session (Oct 2026). This file carries over everything decided there, so read it before changing anything.
 
 ## What the page offers (5 tabs)
@@ -19,6 +21,7 @@ Each tab also tells the user to tag the results (GL / UL / RAID / MAX / MEGA) so
 ## How to build
 
 ```
+cd legacy/keeper-filters
 pip install -r requirements.txt
 python build.py              # fetch/update data (git), rebuild everything, write dist/pvp-keeper-filters.html
 python build.py --no-fetch   # rebuild from data already in ./data

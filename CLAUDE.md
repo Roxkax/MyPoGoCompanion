@@ -1,7 +1,7 @@
 # MyPoGoCompanion — project context
 
 A free companion system for Pokémon GO players: a shared API, a web app (first) and native mobile apps (later).
-The repository today holds a working Python pipeline that builds copy-paste storage search strings ("Keeper Filters"); its full context is in `docs/KEEPER-FILTERS.md`. Read it before touching `scripts/`, `web/` or `build.py`.
+The repository today holds a working Python pipeline that builds copy-paste storage search strings ("Keeper Filters"); its full context is in `docs/KEEPER-FILTERS.md`. The pipeline lives in `legacy/keeper-filters/`; read that doc before touching it. The repository layout is in `README.md`.
 
 We are **planning**, following the process in `docs/PLANNING-PROCESS.md` (stages 1–12). **Don't start application code until the owner says to start a sprint.**
 
@@ -32,7 +32,7 @@ We are **planning**, following the process in `docs/PLANNING-PROCESS.md` (stages
 | 9 Backlog (Epic → Feature → Task, 100-hour sprints) | Moved after the design (built in stage 11) |
 | 10 Design: app map, then realistic screens one by one | Done 2026-10-28 (25 MVP screens + dark mode; `design/`) |
 | 11 Rebuild the backlog from the design | Done 2026-10-28 (`planning/BACKLOG.md`, GitHub issues) |
-| 12 Start sprints | **Next** — only when the owner says so |
+| 12 Start sprints | **In progress** — Sprint 0 started 2026-10-28 |
 
 Earlier product work (feature list F01–F25 with priorities, UI choices, first wireframes) is archived in `docs/archive/` for reference only. It is **not** decided: the product is being redone with this process.
 
@@ -176,6 +176,8 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-28 | Web addresses: **Azure's free default addresses** for prod and QA for now; a custom domain (~€10–20/year) can be added later without other changes. **CI/CD planning done** (`planning/CI-CD.md`). |
 | 2026-10-28 | Stage 11 started: backlog as code (`planning/backlog/*.json` → `build.py` → `planning/BACKLOG.md`; GitHub workflows `backlog-import` / `backlog-reset`). Every MVP / Good to have feature carries unit, integration and UI test tasks plus an owner review & testing task (15%); a Quality epic adds journeys, visual regression, accessibility, performance, security, mutation testing. Sprints filled task by task to 100 h; Good to have starts a fresh sprint. Draft: MVP 1,307 h (Sprints 0–13), Good to have 1,022 h (14–24), Future 480 h (not scheduled). |
 | 2026-10-28 | **Backlog approved** by the owner; imported into GitHub issues with the `Backlog import` workflow. **Stage 11 done.** Next: Sprint 0 only when the owner says so. |
+| 2026-10-28 | **Sprint 0 started** (stage 12). Code goes through pull requests from the working branch; planning-only changes may still go to `main` until the branch rules are on. |
+| 2026-10-28 | Monorepo layout (task #3): `api/`, `jobs/`, `web/`, `tests/`, `design/`, `planning/`, `docs/`; unit tests next to each project, integration/UI tests and golden files in `tests/`. The Python Keeper Filters pipeline **moved to `legacy/keeper-filters/`** (unchanged output; `docs/KEEPER-FILTERS.md` stays in `docs/`) so the new app gets `web/`. |
 
 ## Open decisions
 
