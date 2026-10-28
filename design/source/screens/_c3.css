@@ -1,0 +1,28 @@
+.tierh { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: var(--surface-2); }
+.tierh .tl { width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; font-weight: 900; font-size: 16px; color: #fff; }
+.tl.S { background: #0B7A72; } .tl.A { background: #2F8F5B; } .tl.B { background: #8A7A1F; } .tl.C { background: #8A5A2B; }
+.tierh span { font-size: 12.5px; font-weight: 800; color: var(--text-2); }
+.pr { display: grid; grid-template-columns: 26px 42px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 9px 14px; border-top: 1px solid var(--line); }
+.pr .rk { font-size: 12.5px; font-weight: 800; color: var(--text-3); text-align: right; }
+.pr .nm { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.pr .nm b { font-size: 14.5px; white-space: nowrap; }
+.pr .mv { font-size: 12px; font-weight: 700; color: var(--text-2); }
+.pr .mine { font-size: 12px; font-weight: 800; color: var(--accent); }
+.pr .sc { font-size: 17px; font-weight: 800; font-variant-numeric: tabular-nums; text-align: right; }
+.pr .sc small { display: block; font-size: 10.5px; color: var(--text-3); font-weight: 800; }
+.tag { font-size: 10.5px; font-weight: 800; padding: 1px 6px; border-radius: 6px; margin-left: 5px; vertical-align: 1px; }
+.tag.shadow { background: #EFE3F7; color: #5B2A86; } .tag.mega { background: var(--accent-soft); color: var(--accent); }
+.toggle { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 800; }
+.sw { width: 44px; height: 26px; border-radius: 13px; background: var(--line); position: relative; flex: none; }
+.sw::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.2); }
+.sw.on { background: var(--accent); } .sw.on::after { left: 21px; }
+.megaslot { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: var(--accent-soft); }
+.megaslot b { font-size: 14px; }
+.megaslot a { margin-left: auto; font-weight: 800; font-size: 13.5px; }
+.sbar { width: 64px; height: 5px; border-radius: 3px; background: var(--surface-2); overflow: hidden; margin: 4px 0 2px auto; }
+.sbar i { display: block; height: 100%; background: var(--accent); }
+table.tl2 { width: 100%; border-collapse: collapse; }
+table.tl2 th { font-size: 12.5px; font-weight: 800; color: var(--text-3); text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+table.tl2 td { padding: 8px 14px; border-bottom: 1px solid var(--line); font-size: 14.5px; font-weight: 700; white-space: nowrap; }
+table.tl2 .n { text-align: right; font-variant-numeric: tabular-nums; }
+table.tl2 tr.th td { background: var(--surface-2); padding: 7px 14px; }
