@@ -171,6 +171,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-28 | **Dark-mode check done**: all 25 screens rendered in dark (`design/screens/*-dark.png`, overview `DARK-overview-phone.png`); fixed pastel chips (Shadow, G-Max, Dynamax, lucky, 5★, raid %, gone, errors, type-chart cells) got dark versions. The Google sign-in button stays white (Google's branding rules). |
 | 2026-10-28 | CI/CD set up **before the backlog** (as Sprint 0 "Delivery pipeline"). **Prod** auto-deploys web + API on merge to `main`. **One shared QA environment** (web + API + its own database) that shows the most recently updated open PR; deploy + UI tests for QA run one PR at a time (queued) so PRs don't overwrite each other mid-test. Pipelines: build & unit tests, integration tests, UI tests, QA deploy; **all required to merge**; no direct pushes to `main`. Repo is public, so branch protection and Actions minutes are free. |
 | 2026-10-28 | **QA database = a copy of prod**, reset automatically to a fresh copy every time `main` deploys to prod (Neon branch reset). UI tests run on QA against that real data, so they check behaviour (screens load, flows work, numbers present and consistent) rather than fixed sample values. |
+| 2026-10-28 | Merge rule: **no approval required while the owner works alone** (all checks green, branch up to date, conversations resolved). When collaborators join: 1 approval + CODEOWNERS for pipeline/infra files. Full setup in `planning/CI-CD.md`. |
 
 ## Open decisions
 
