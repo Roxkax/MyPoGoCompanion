@@ -180,6 +180,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-28 | Monorepo layout (task #3): `api/`, `jobs/`, `web/`, `tests/`, `design/`, `planning/`, `docs/`; unit tests next to each project, integration/UI tests and golden files in `tests/`. The Python Keeper Filters pipeline **moved to `legacy/keeper-filters/`** (unchanged output; `docs/KEEPER-FILTERS.md` stays in `docs/`) so the new app gets `web/`. |
 | 2026-10-28 | **One pull request per feature**, holding all of that feature's tasks; the owner reviews and tests it once. Issues are closed by the PR (`Closes #n`). |
 | 2026-10-28 | Sprint 0 tooling (E00-F01): .NET 10 SDK pinned in `global.json`, shared `Directory.Build.props` (nullable, latest analyzers, warnings as errors in CI), `.editorconfig` code style checked by `dotnet format`; web lint with ESLint 10 + typescript-eslint and Prettier; local **PostgreSQL 17** (Neon's version) in Docker Compose. Dev seed data comes with the schema (E01-F01). |
+| 2026-10-28 | **Project board**: GitHub project "MyPoGoCompanion" created and kept in sync by the `Project sync` workflow (token secret `PROJECT_TOKEN`). Columns Todo · In progress (draft PR open) · In review (PR ready) · Done; Hours field on tasks; sprints = milestones. Feature PRs are merged by the owner **without an approval** (GitHub doesn't allow approving your own PR). |
 
 ## Open decisions
 
