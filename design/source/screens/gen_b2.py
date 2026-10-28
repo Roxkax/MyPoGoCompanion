@@ -22,7 +22,8 @@ def matchups():
     chip = lambda t, m: f'<span class="type {t}" style="height:24px;font-size:12px;padding:0 9px">{t.capitalize()} {m}</span>'
     return f'''<section class="sec"><h2>Type matchups</h2><div class="card pad" style="display:flex;flex-direction:column;gap:10px">
 <div><div class="faint" style="font-size:12.5px;font-weight:800;margin-bottom:6px">Weak to</div><div class="mm">{''.join(chip(t, m) for t, m in weak)}</div></div>
-<div><div class="faint" style="font-size:12.5px;font-weight:800;margin-bottom:6px">Resists</div><div class="mm">{''.join(chip(t, m) for t, m in res)}</div></div></div></section>'''
+<div><div class="faint" style="font-size:12.5px;font-weight:800;margin-bottom:6px">Resists</div><div class="mm">{''.join(chip(t, m) for t, m in res)}</div></div>
+<a class="seclink" style="font-size:13.5px">Open in type chart ›</a></div></section>'''
 def moves(compact=False):
     best = [("Raids · Ground", "Mud Shot + Earth Power"), ("Raids · Dragon", "Dragon Tail + Breaking Swipe"),
             ("Great &amp; Ultra League", "Dragon Tail + Twister, Sand Tomb"), ("Master League", "Dragon Tail + Twister, Earth Power")]

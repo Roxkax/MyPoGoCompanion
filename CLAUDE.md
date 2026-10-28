@@ -151,6 +151,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-28 | **B3 Moves list approved** (Fast/Charged switch, type filter, sort; phone Raids/PvP number switch, desktop both side by side; PvP effects shown). The phone Pokédex tab gets a **Pokémon · Moves · Type chart** switcher (B1 updated). |
 | 2026-10-28 | Move page (B4): learners **sorted by base Attack**, no computed score (a raid score was tried and rejected as an unexplained number); rare groups (Elite TM, Legacy) shown first. |
 | 2026-10-28 | **B4 Move page approved** (raid and PvP numbers, Elite TM / Legacy / normal learner groups sorted by Attack, event note when an event gives the move). The owner likes a **raid score** for ranking, but it must be **explained, not a bare number** — to be designed with the raid counters (C2). |
+| 2026-10-28 | **B5 Type chart approved** (phone: Defending · Attacking · Full chart; desktop: picker + full chart; GO multipliers ×1.6 / ×0.63 / ×0.39, no immunities). Pokémon page matchups link to the type chart (B2 updated). |
 
 ## Open decisions
 
