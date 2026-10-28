@@ -1,0 +1,21 @@
+.team { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.slot { background: var(--surface); border-radius: 16px; box-shadow: var(--shadow); padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 5px; position: relative; min-width: 0; }
+.slot.mega { box-shadow: 0 0 0 2px var(--accent), var(--shadow); }
+.slot .hd { display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-weight: 800; color: var(--text-3); }
+.slot .hd a { font-size: 12px; }
+.slot .mid { display: flex; gap: 8px; align-items: center; }
+.slot b.n { font-size: 14.5px; line-height: 1.15; }
+.slot .mv { font-size: 11.5px; font-weight: 700; color: var(--text-2); line-height: 1.3; }
+.slot .ft { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 2px; }
+.slot .ft b { font-size: 16px; font-variant-numeric: tabular-nums; }
+.slot .ft span { font-size: 11px; font-weight: 800; color: var(--text-3); }
+.slot .lv { font-size: 11.5px; font-weight: 700; color: var(--text-3); }
+.slot.weakslot { box-shadow: 0 0 0 2px var(--warn), var(--shadow); }
+.warnnote { font-size: 11.5px; font-weight: 800; color: var(--warn); background: var(--warn-soft); border-radius: 8px; padding: 5px 8px; line-height: 1.3; }
+.sbar { height: 5px; border-radius: 3px; background: var(--surface-2); overflow: hidden; flex: 1; }
+.sbar i { display: block; height: 100%; background: var(--accent); }
+.tag { font-size: 10px; font-weight: 800; padding: 1px 5px; border-radius: 6px; display: inline-block; margin-top: 2px; }
+.tag.shadow { background: #EFE3F7; color: #5B2A86; } .tag.mega, .tag.primal { background: var(--accent-soft); color: var(--accent); } .tag.ready { background: var(--ok-soft); color: var(--ok); }
+.lock { display: inline-flex; align-items: center; gap: 4px; color: var(--accent); }
+.bossbar { display: flex; align-items: center; gap: 10px; background: var(--surface); border-radius: 14px; box-shadow: var(--shadow); padding: 8px 12px; }
+.bossbar b { font-size: 15px; }
