@@ -102,3 +102,18 @@ kbd { font-family: var(--mono); font-size: 11px; padding: 2px 6px; border-radius
 .seg span { flex: 1; text-align: center; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 9px; font-weight: 800; font-size: 13.5px; color: var(--text-2); white-space: nowrap; padding: 0 10px; }
 .seg span.on { background: var(--surface); color: var(--text); box-shadow: var(--shadow); }
 .seg span i { font-style: normal; color: var(--text-3); font-weight: 700; margin-left: 4px; }
+
+/* ---------- dark versions of the fixed pastel chips ---------- */
+:root[data-theme="dark"] .ver.shadow, :root[data-theme="dark"] .vtag.shadow, :root[data-theme="dark"] .tag.shadow, :root[data-theme="dark"] .tier.shadow { background: #33224A; color: #D9B8F5; }
+:root[data-theme="dark"] .ver.gmax { background: #3D1D20; color: #F4A3A7; }
+:root[data-theme="dark"] .ver.dynamax { background: #3B1D2C; color: #F2A6C8; }
+:root[data-theme="dark"] .val.raid { background: #3A2617; color: #F2B38A; }
+:root[data-theme="dark"] .kind.gone, :root[data-theme="dark"] .bad { background: #3D1D20; color: #F4A3A7; }
+:root[data-theme="dark"] .tier.five, :root[data-theme="dark"] .mk.lucky { background: #3A2E0F; color: #F2CC6B; }
+:root[data-theme="dark"] .errbox { background: #3D1D20; color: #F4C4C6; }
+:root[data-theme="dark"] .hovrow, :root[data-theme="dark"] .hovrow td { background: #12342F !important; }
+:root[data-theme="dark"] table.tc td.se { background: #1D4A2E; color: #A7E3BC; }
+:root[data-theme="dark"] table.tc td.nve { background: #4A2C17; color: #F2B38A; }
+:root[data-theme="dark"] table.tc td.dbl { background: #4D1F22; color: #F4A3A7; }
+:root[data-theme="dark"] .btn.del { background: #3D1D20; color: #F4A3A7; }
+:root[data-theme="dark"] { --danger: #F27E7E; }

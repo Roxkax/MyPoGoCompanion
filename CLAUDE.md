@@ -30,8 +30,8 @@ We are **planning**, following the process in `docs/PLANNING-PROCESS.md` (stages
 | 7 Technical decisions | Done 2026-10-27 |
 | 8 Prioritise (MVP / Good to have / Future) | Done 2026-10-27 (`planning/PRIORITIES.md`; descriptions signed off in `planning/SPECS.md`) |
 | 9 Backlog (Epic → Feature → Task, 100-hour sprints) | Moved after the design (built in stage 11) |
-| 10 Design: app map, then realistic screens one by one | **Next** |
-| 11 Rebuild the backlog from the design | — |
+| 10 Design: app map, then realistic screens one by one | Done 2026-10-28 (25 MVP screens + dark mode; `design/`) |
+| 11 Rebuild the backlog from the design | **Next** |
 | 12 Start sprints | Only when the owner says so |
 
 Earlier product work (feature list F01–F25 with priorities, UI choices, first wireframes) is archived in `docs/archive/` for reference only. It is **not** decided: the product is being redone with this process.
@@ -168,6 +168,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-28 | **G1 Data status approved** (one card per job with last/next run, what changed, Run now; AI spend this month vs the $5 cap; recent runs with failures explained; preview of the user warning). Out-of-date warning thresholds: **3 days for daily game data, 9 days for raids and events**; spec 16 updated. |
 | 2026-10-28 | **G2 Fix fetched entries approved** (entries by kind with New / Changed this week / Fixed by you flags; source links shown here only, admin-only; edit sheet with where it came from, fields, Save fix, Remove). **Fixed entries are locked**: the weekly AI run won't overwrite them; if the source later changes, the entry shows "Source changed since your fix"; spec 14 updated. |
 | 2026-10-28 | **H1 AI chat, H2 Search and H3 Offline approved** (chat full screen on phone, side panel on desktop; answers end with "Based on" links to the screens used; says when the data has no answer; paused message at the $5 cap. Search full screen on phone and Ctrl K window on desktop, grouped results, "raid hour"/"calendar" offer the Calendar. Offline screen with Try again). **All 25 MVP screens designed**; remaining in stage 10: dark-mode check. |
+| 2026-10-28 | **Dark-mode check done**: all 25 screens rendered in dark (`design/screens/*-dark.png`, overview `DARK-overview-phone.png`); fixed pastel chips (Shadow, G-Max, Dynamax, lucky, 5★, raid %, gone, errors, type-chart cells) got dark versions. The Google sign-in button stays white (Google's branding rules). |
 
 ## Open decisions
 
