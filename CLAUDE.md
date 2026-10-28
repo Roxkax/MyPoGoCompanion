@@ -157,6 +157,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-28 | **C2 Raid boss page approved** (phone tabs Counters · Yours · Boss · Catch; desktop two columns). Raid score shown with **damage/s, how long it lasts and % of best**, plus a "How the raid score works" explainer. The C# raid engine **models the boss's moves** so counters re-rank when the user picks them (spec 6.3). |
 | 2026-10-28 | **C3 Tier lists approved** (PvP Great/Ultra/Master with S/A/B/C tiers by stated score ranges; "Only what I own" shows your best copy; raid lists per type with a pinned Mega slot and the C2 number format). PvPoke credit (MIT) goes in **Settings → About**, not on screens. |
 | 2026-10-28 | **C4 Best team approved** (By type / Against a boss; Best possible / From my Pokémon; locked Mega slot; weak slot flagged when under 40% of the best and nothing better is left). |
+| 2026-10-28 | **D1 Keeper filters approved** (Filters tab switcher Keepers · Builder · Saved; one card per filter with suggested tag; phone shows Copy buttons per part, desktop shows previews and how-to). **Safe to transfer works from the user's tags** (`!#GL&!#UL&!#Raid&!#Max&!#Mega&…`); spec 4 updated. |
 
 ## Open decisions
 

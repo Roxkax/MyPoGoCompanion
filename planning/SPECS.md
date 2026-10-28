@@ -76,7 +76,7 @@ How each feature works from the user's side, as signed off by the owner. Priorit
 
 **Ready-made keeper filters (MVP).** Today's Keeper Filters, rebuilt daily: Great League and Ultra League (every Pokémon whose appraisal bars sit in its high-ranking zone, pre-evolutions judged by their evolutions; all 1,025 Pokémon; 2 strings for GL, 3 for UL), raid attackers (top attackers per type, their Megas and pre-evolutions, Attack 11–15 or 15 only), Max Battle attackers (Dynamax/Gigantamax with high Attack), Megas (all Mega-capable plus announced ones not yet in GO). Each with a Copy button and how-to (paste, select all, tag, search `#TAG` later).
 
-**"Safe to transfer" (MVP).** The inverse: not a keeper for any league, raids, Max or Megas; shinies, luckies, legendaries and favourites excluded, with a safety note.
+**"Safe to transfer" (MVP).** The inverse, built from the user's own tags: everything not tagged #GL, #UL, #Raid, #Max or #Mega (the suggested tags of the keeper filters), excluding shinies, luckies, legendaries, mythicals, favourites, hundos and costumes; one short string, with a note to tag with all five keeper filters first and to check the results before transferring.
 
 **Family strings (MVP).** A short string per family on each Pokémon page.
 
