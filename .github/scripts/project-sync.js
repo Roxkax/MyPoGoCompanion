@@ -34,10 +34,13 @@ module.exports = async ({ github, context, core }) => {
         if (mutation && full) await sleep(1000);
         return r;
       } catch (e) {
-        const limited = /rate limit|abuse|secondary/i.test(e.message) || [403, 429, 502].includes(e.status);
-        if (limited && attempt < 10) {
-          const wait = Number(e.response?.headers?.['retry-after'] || 60 * (attempt + 1));
-          core.info(`rate limited, waiting ${wait}s`);
+        const limited = /rate limit|abuse|secondary/i.test(e.message) || [403, 429].includes(e.status);
+        // GitHub's occasional "Something went wrong while executing your query" and gateway errors are temporary.
+        const transient =
+          /something went wrong|timed? ?out|ECONNRESET|socket hang up/i.test(e.message) || [500, 502, 503, 504].includes(e.status);
+        if ((limited || transient) && attempt < 10) {
+          const wait = Number(e.response?.headers?.['retry-after'] || (limited ? 60 : 10) * (attempt + 1));
+          core.info(`${limited ? 'rate limited' : 'GitHub error, retrying'}: waiting ${wait}s`);
           await sleep(wait * 1000);
           continue;
         }
@@ -208,8 +211,10 @@ module.exports = async ({ github, context, core }) => {
            issues(first: 100, after: $after) { pageInfo { hasNextPage endCursor } nodes { ${issueFields} } } } }`,
         { owner, repo, after },
       );
-      for (const issue of r.issues.nodes) await sync(issue, issueStatus(issue), hoursOf(issue));
-      core.info(`… ${Object.keys(items).length} items, ${added} added, ${changed} values set`);
+      for (const [n, issue] of r.issues.nodes.entries()) {
+        await sync(issue, issueStatus(issue), hoursOf(issue));
+        if (n % 25 === 24) core.info(`… up to #${issue.number}: ${added} added, ${changed} values set`);
+      }
       if (!r.issues.pageInfo.hasNextPage) break;
       after = r.issues.pageInfo.endCursor;
     }
