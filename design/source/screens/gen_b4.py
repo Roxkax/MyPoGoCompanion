@@ -2,40 +2,26 @@
 import pathlib
 HERE = pathlib.Path(__file__).parent
 # sprite, name, types, attack, has Mega that also learns it
-# sprite, name, types, raid score with its best fast move + Earth Power, fast move, versions {kind: score}
-ELITE = [("445", "Garchomp", ["dragon", "ground"], 34.2, "Mud Shot", {"Shadow": 40.8, "Mega": 58.4}),
-         ("330", "Flygon", ["ground", "dragon"], 27.1, "Sand Attack", {"Shadow": 30.5})]
-NORMAL = [("645_11", "Landorus", ["ground", "flying"], 32.5, "Mud Shot", {"Shadow": 38.8}),
-          ("485", "Heatran", ["fire", "steel"], 32.1, "Fire Spin", {"Shadow": 35.9}),
-          ("721", "Volcanion", ["fire", "water"], 30.1, "Incinerate", {}),
-          ("450", "Hippowdon", ["ground"], 29.0, "Sand Attack", {"Shadow": 32.7}),
-          ("623", "Golurk", ["ground", "ghost"], 28.6, "Mud Slap", {"Shadow": 33.5}),
-          ("905_THERIAN", "Enamorus (Therian)", ["fairy", "flying"], 28.4, "Fairy Wind", {}),
-          ("812", "Rillaboom", ["grass"], 28.2, "Razor Leaf", {}),
-          ("249", "Lugia", ["psychic", "flying"], 27.3, "Extrasensory", {"Shadow": 30.9}),
-          ("034", "Nidoking", ["poison", "ground"], 26.9, "Poison Jab", {"Shadow": 30.9}),
-          ("844", "Sandaconda", ["ground"], 26.7, "Mud Shot", {}),
-          ("930", "Arboliva", ["grass", "normal"], 26.3, "Razor Leaf", {}),
-          ("142", "Aerodactyl", ["rock", "flying"], 26.0, "Rock Throw", {"Shadow": 29.4, "Mega": 40.9}),
-          ("537", "Seismitoad", ["water", "ground"], 25.8, "Mud Shot", {}),
-          ("770", "Palossand", ["ghost", "ground"], 25.0, "Sand Attack", {"Shadow": 28.2}),
-          ("031", "Nidoqueen", ["poison", "ground"], 24.2, "Mud Slap", {"Shadow": 28.0}),
-          ("323", "Camerupt", ["fire", "ground"], 23.7, "Incinerate", {"Shadow": 27.7, "Mega": 41.3}),
-          ("423_11", "Gastrodon", ["water", "ground"], 23.6, "Mud Slap", {}),
-          ("949", "Toedscruel", ["ground", "grass"], 23.3, "Mud Slap", {}),
-          ("344", "Claydol", ["ground", "psychic"], 18.7, "Mud Slap", {"Shadow": 21.9}),
-          ("536", "Palpitoad", ["water", "ground"], 16.0, "Mud Shot", {}),
-          ("929", "Dolliv", ["grass", "normal"], 15.7, "Tackle", {}),
-          ("769", "Sandygast", ["ghost", "ground"], 15.0, "Sand Attack", {"Shadow": 16.7}),
-          ("843", "Silicobra", ["ground"], 13.3, "Mud Shot", {}),
-          ("948", "Toedscool", ["ground", "grass"], 12.6, "Mud Shot", {}),
-          ("928", "Smoliv", ["grass", "normal"], 10.2, "Tackle", {}),
-          ("235", "Smeargle", ["normal"], 5.4, "Mud Shot", {})]
+ELITE = [("445", "Garchomp", ["dragon", "ground"], 261, True), ("330", "Flygon", ["ground", "dragon"], 205, False)]
+NORMAL = [("645_11", "Landorus", ["ground", "flying"], 261, False), ("323", "Camerupt", ["fire", "ground"], 194, True),
+          ("721", "Volcanion", ["fire", "water"], 252, False), ("485", "Heatran", ["fire", "steel"], 251, False),
+          ("905_THERIAN", "Enamorus (Therian)", ["fairy", "flying"], 250, False), ("812", "Rillaboom", ["grass"], 239, False),
+          ("623", "Golurk", ["ground", "ghost"], 222, False), ("142", "Aerodactyl", ["rock", "flying"], 221, True),
+          ("930", "Arboliva", ["grass", "normal"], 219, False), ("034", "Nidoking", ["poison", "ground"], 204, False),
+          ("844", "Sandaconda", ["ground"], 202, False), ("450", "Hippowdon", ["ground"], 201, False),
+          ("249", "Lugia", ["psychic", "flying"], 193, False), ("537", "Seismitoad", ["water", "ground"], 188, False),
+          ("031", "Nidoqueen", ["poison", "ground"], 180, False), ("770", "Palossand", ["ghost", "ground"], 178, False),
+          ("423_11", "Gastrodon", ["water", "ground"], 169, False), ("949", "Toedscruel", ["ground", "grass"], 166, False),
+          ("344", "Claydol", ["ground", "psychic"], 140, False), ("929", "Dolliv", ["grass", "normal"], 137, False),
+          ("536", "Palpitoad", ["water", "ground"], 128, False), ("769", "Sandygast", ["ghost", "ground"], 120, False),
+          ("843", "Silicobra", ["ground"], 103, False), ("928", "Smoliv", ["grass", "normal"], 100, False),
+          ("948", "Toedscool", ["ground", "grass"], 97, False), ("235", "Smeargle", ["normal"], 40, False)]
+NORMAL.sort(key=lambda r: -r[3])
 T = lambda ts: ''.join(f'<span class="type {t}">{t.capitalize()}</span>' for t in ts)
 def lr(r):
-    sp, n, ts, sc, fast, vs = r
-    v = ''.join(f'<span class="ver {k.lower()}">{k} {x}</span>' for k, x in vs.items())
-    return f'<div class="lr"><img class="sprite" src="../sprites/{sp}.png" width="38" height="38" alt=""><div class="nm"><b>{n}</b><span class="tt">{T(ts)}</span><span class="with">with {fast}{" · " if v else ""}{v}</span></div><div class="atk">{sc}<span>RAID SCORE</span></div></div>'
+    sp, n, ts, a, mega = r
+    m = '<span class="ver mega">Mega too</span>' if mega else ''
+    return f'<div class="lr"><img class="sprite" src="../sprites/{sp}.png" width="38" height="38" alt=""><div class="nm"><b>{n}</b><span class="tt">{T(ts)}{m}</span></div><div class="atk">{a}<span>ATTACK</span></div></div>'
 CAL = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>'
 NOTE = f'<div class="note">{CAL}<span>Free during <b>Community Day: Gible</b> — evolve Gabite Sat 7 Nov, 14:00–22:00</span></div>'
 MORE = '<div style="border-top:1px solid var(--line);padding:12px 16px;text-align:center;font-weight:800;color:var(--accent);font-size:14.5px">Show all 26 ›</div>'
@@ -53,12 +39,12 @@ head = '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>B4 Mov
 mhead = f'<div class="mhead"><h1>Earth Power</h1><div class="meta"><span class="type ground">Ground</span>Charged move</div></div>'
 phone = head + f'''<div class="stage"><div class="device"><div class="screen"><div data-statusbar></div><div data-dethead="Moves|"></div>{mhead}
 <div class="scroll"><div style="padding:14px 12px 20px;display:flex;flex-direction:column;gap:12px">{nums()}
-<div style="margin:10px 4px 0"><h2 style="margin:0;font-size:18px">Who learns it</h2><div class="sub" style="margin-top:2px">Best first: raid score with its best fast move + Earth Power</div></div>{groups(limit=8)}</div></div>
+<h2 style="margin:10px 4px 0;font-size:18px">Who learns it</h2>{groups(limit=8)}</div></div>
 <div data-tabbar="pokedex"></div></div></div></div><script src="../chrome.js"></script></body></html>'''
 desk = head + f'''<div class="desktop"><div data-sidebar="moves"></div><div class="main"><div data-topbar></div>
 <div class="content" style="max-width:1180px;display:flex;flex-direction:column;gap:18px">
 <a class="backlink">‹ Moves</a><div style="display:flex;flex-direction:column;gap:6px;margin-top:-6px"><h1 class="bigtitle">Earth Power</h1><div class="mhead" style="padding:0;background:none;border:0"><div class="meta"><span class="type ground">Ground</span>Charged move</div></div></div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">{nums()}</div>
-<div style="margin-top:8px"><h2 style="margin:0;font-size:20px">Who learns it</h2><div class="sub" style="margin-top:2px;font-size:14px">Best first: raid score with its best fast move + Earth Power. Shadow and Mega scores shown when they exist.</div></div>{groups(True)}</div></div></div><script src="../chrome.js"></script></body></html>'''
+<h2 style="margin:8px 0 0;font-size:20px">Who learns it</h2>{groups(True)}</div></div></div><script src="../chrome.js"></script></body></html>'''
 (HERE / 'B4-phone.html').write_text(phone)
 (HERE / 'B4-desktop.html').write_text(desk)

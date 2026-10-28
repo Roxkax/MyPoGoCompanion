@@ -26,5 +26,3 @@
 .empty { padding: 4px 16px 14px; font-size: 13.5px; color: var(--text-2); font-weight: 600; }
 .lgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 0; }
 .lgrid .lr { border-top: 1px solid var(--line); }
-.lr .with { font-size: 11.5px; font-weight: 700; color: var(--text-3); display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
-.lr .with .ver { font-size: 10.5px; }
