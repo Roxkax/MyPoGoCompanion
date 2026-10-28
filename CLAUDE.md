@@ -31,8 +31,8 @@ We are **planning**, following the process in `docs/PLANNING-PROCESS.md` (stages
 | 8 Prioritise (MVP / Good to have / Future) | Done 2026-10-27 (`planning/PRIORITIES.md`; descriptions signed off in `planning/SPECS.md`) |
 | 9 Backlog (Epic → Feature → Task, 100-hour sprints) | Moved after the design (built in stage 11) |
 | 10 Design: app map, then realistic screens one by one | Done 2026-10-28 (25 MVP screens + dark mode; `design/`) |
-| 11 Rebuild the backlog from the design | **In progress** (draft in `planning/BACKLOG.md`) |
-| 12 Start sprints | Only when the owner says so |
+| 11 Rebuild the backlog from the design | Done 2026-10-28 (`planning/BACKLOG.md`, GitHub issues) |
+| 12 Start sprints | **Next** — only when the owner says so |
 
 Earlier product work (feature list F01–F25 with priorities, UI choices, first wireframes) is archived in `docs/archive/` for reference only. It is **not** decided: the product is being redone with this process.
 
@@ -175,6 +175,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-28 | Branch rules on `main` are **switched on at Sprint 0**, together with the pipelines; until then planning documents keep going straight to `main`. |
 | 2026-10-28 | Web addresses: **Azure's free default addresses** for prod and QA for now; a custom domain (~€10–20/year) can be added later without other changes. **CI/CD planning done** (`planning/CI-CD.md`). |
 | 2026-10-28 | Stage 11 started: backlog as code (`planning/backlog/*.json` → `build.py` → `planning/BACKLOG.md`; GitHub workflows `backlog-import` / `backlog-reset`). Every MVP / Good to have feature carries unit, integration and UI test tasks plus an owner review & testing task (15%); a Quality epic adds journeys, visual regression, accessibility, performance, security, mutation testing. Sprints filled task by task to 100 h; Good to have starts a fresh sprint. Draft: MVP 1,307 h (Sprints 0–13), Good to have 1,022 h (14–24), Future 480 h (not scheduled). |
+| 2026-10-28 | **Backlog approved** by the owner; imported into GitHub issues with the `Backlog import` workflow. **Stage 11 done.** Next: Sprint 0 only when the owner says so. |
 
 ## Open decisions
 
