@@ -1,0 +1,24 @@
+# Local development services. Start with `docker compose up -d`; see README.md.
+# The password is for this local container only; real environments get theirs from GitHub/Azure secrets.
+name: mypogocompanion
+
+services:
+  db:
+    image: postgres:17-alpine # same major version as the Neon project
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: mypogocompanion
+      POSTGRES_USER: mypogocompanion
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-localdev}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mypogocompanion -d mypogocompanion"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  db-data:
