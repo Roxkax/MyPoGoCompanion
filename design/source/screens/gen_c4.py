@@ -26,7 +26,7 @@ def slot(r, top, i, weak=False):
     pc = round(s / top * 100)
     tg = f'<span class="tag {t.split()[0].lower()}">{t}</span>' if t else ''
     hd = f'<span class="lock">{LOCK}MEGA SLOT</span><a>Change</a>' if i == 0 else f'<span>{i + 1}</span>'
-    note = '<div class="warnnote">Weak slot: under 40% of the best, and it's your next best Ground attacker</div>' if weak else ''
+    note = '<div class="warnnote">Weak slot: under 40% of the best, the best of your Ground attackers left</div>' if weak else ''
     return f'''<div class="slot{" mega" if i == 0 else ""}{" weakslot" if weak else ""}"><div class="hd">{hd}</div><div class="mid"><img class="sprite" src="../sprites/{sp}.png" width="48" height="48" alt=""><div style="min-width:0"><b class="n">{n}</b><br>{tg}</div></div>
 <span class="mv">{f} + {c}</span>{f'<span class="lv">{lv}</span>' if lv else ''}<div class="ft"><b>{s}</b><div class="sbar"><i style="width:{pc}%"></i></div><span>{pc}%</span></div>{note}</div>'''
 def team(rows, top, weak_last=False):
