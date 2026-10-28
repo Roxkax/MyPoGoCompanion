@@ -29,7 +29,7 @@ All screens show the same moment and the same trainer, so they tell one consiste
 - **Data freshness:** game data and rankings 27 Oct 06:00; bosses & events fetched by the AI researcher Sun 25 Oct 22:00 (source: LeekDuck).
 - **Raids now** (until Tue 3 Nov 10:00):
   - 5★ **Kyogre** (Water) — 100% CP 2,351 / 2,939 boosted (Rainy) — shiny available.
-  - Mega **Mega Gengar** (Ghost/Poison) — shiny available.
+  - Mega **Mega Gengar** (Ghost/Poison) — shiny available — until Sat 31 Oct 10:00, when Mega Chandelure replaces it.
   - Shadow 3★ **Shadow Absol** (Dark).
   - 3★ **Charizard** (Fire/Flying), **Lapras** (Water/Ice).
   - 1★ **Gible** (Dragon/Ground), **Charmander** (Fire).
