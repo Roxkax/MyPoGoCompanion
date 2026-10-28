@@ -163,6 +163,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-28 | New Good to have item **9.10 "Your Pokémon" edits** (power up, evolve, change moves, transfer, marked "Edited in app"). The **Poke Genie upload stays the absolute source of truth** for now; a better way to keep the collection updated is to be planned later (open decision). Totals: 56 MVP · 76 Good to have · 28 Future. |
 | 2026-10-28 | **E1 My collection approved** (summary + Upload new, filters/sort, league chips and raid % chip per Pokémon, first-time Poke Genie upload state). League ranks show **only for the top 2% (within 98% of the best IVs)**, the same rule as the keeper filters. |
 | 2026-10-28 | **E2 Upload & import report approved** (import progress steps; report with imported / not recognised / new · gone / changed; unrecognised rows with reasons; what changed, matched by family + IVs + catch date) and its **"All changes" screen** (filter chips by kind; changed Pokémon first with before → after; new and gone grouped by species). |
+| 2026-10-28 | **F1 Sign in approved** (sign-in screen/modal with what works without an account, four benefits, Continue with Google only, "Not now", privacy + fan-project disclaimer; signed-out prompts in place of personal screens; Admin hidden unless the admin is signed in). |
 
 ## Open decisions
 
