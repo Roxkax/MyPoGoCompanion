@@ -1,0 +1,22 @@
+.sv { display: flex; align-items: center; gap: 12px; padding: 12px 14px; }
+.sv + .sv { border-top: 1px solid var(--line); }
+.sv .nm { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.sv .nm b { font-size: 15px; }
+.sv code { font-family: var(--mono); font-size: 11.5px; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sv .when { font-size: 11.5px; font-weight: 700; color: var(--text-3); }
+.copy { height: 36px; padding: 0 14px; border-radius: 10px; border: 0; background: var(--accent); color: var(--accent-ink); font-family: var(--font); font-weight: 800; font-size: 13.5px; flex: none; }
+.more { width: 32px; height: 36px; display: grid; place-items: center; color: var(--text-3); font-size: 20px; font-weight: 800; flex: none; }
+.sheetbg { position: absolute; inset: 0; background: rgba(10, 20, 18, .35); }
+.sheet { position: absolute; left: 0; right: 0; bottom: 0; background: var(--surface); border-radius: 24px 24px 0 0; display: flex; flex-direction: column; padding: 8px 16px 34px; gap: 14px; }
+.grab { width: 40px; height: 5px; border-radius: 3px; background: var(--line); margin: 0 auto; }
+.inp { height: 48px; border-radius: 13px; border: 2px solid var(--accent); background: var(--surface); font-family: var(--font); font-size: 17px; font-weight: 800; padding: 0 14px; display: flex; align-items: center; color: var(--text); }
+.btn { flex: 1; height: 48px; border-radius: 14px; border: 0; font-family: var(--font); font-weight: 800; font-size: 16px; }
+.btn.pri { background: var(--accent); color: var(--accent-ink); } .btn.sec { background: var(--surface-2); color: var(--text); flex: none; padding: 0 18px; }
+.menu { position: absolute; right: 22px; top: 318px; background: var(--surface); border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,.18); padding: 6px 0; width: 190px; }
+.menu div { padding: 10px 16px; font-weight: 700; font-size: 15px; }
+.menu div.del { color: var(--danger); border-top: 1px solid var(--line); }
+table.svt { width: 100%; border-collapse: collapse; }
+table.svt th { text-align: left; font-size: 12.5px; font-weight: 800; color: var(--text-3); padding: 12px 16px; border-bottom: 1px solid var(--line); }
+table.svt td { padding: 12px 16px; border-bottom: 1px solid var(--line); font-size: 15px; font-weight: 700; vertical-align: middle; }
+table.svt tr:last-child td { border-bottom: 0; }
+table.svt code { font-family: var(--mono); font-size: 12.5px; color: var(--text-2); }
