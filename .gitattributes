@@ -1,0 +1,16 @@
+# Same line endings on every machine: LF in the repository and in working copies (Windows included),
+# matching .editorconfig, Prettier and dotnet format. Binary files are never touched.
+* text=auto eol=lf
+
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.pdf binary
