@@ -24,7 +24,7 @@ Always on screen: a **search bar** (any Pokémon, move, boss or event), an **Ask
 | B. Pokédex | B1 Pokédex list (with filter panel) · B2 Pokémon page · B3 Moves list · B4 Move page · B5 Type chart |
 | C. Battle | C1 Raid bosses · C2 Raid boss page (counters, your counters, team, IV check) · C3 Tier lists · C4 Best team by type |
 | D. Filters | D1 Keeper filters · D2 Filter builder · D3 Saved filters |
-| E. Collection | E1 My collection (incl. empty "upload" state) · E2 Upload & import report |
+| E. Collection | E1 My collection (incl. empty "upload" state) · E2 Upload & import report (with "All changes") |
 | F. Me | F1 Sign in · F2 Settings |
 | G. Admin | G1 Data status & re-run · G2 Fix fetched entries |
 | H. Shared | H1 AI chat · H2 Search results · H3 Offline screen |
