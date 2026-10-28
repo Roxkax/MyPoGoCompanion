@@ -7,14 +7,14 @@ ROWS = [("443", "Gible", "", "20", "0/15/14", "565", "#1", "—", "—", "", "as
         ("443", "Gible", "", "20", "15/15/14", "634", "—", "—", "#3", "", "as Garchomp", "Sun 25 Oct"),
         ("443", "Gible", "", "15", "1/13/15", "424", "#11", "—", "—", "", "as Garchomp", "Sat 24 Oct"),
         ("443", "Gible", "", "8", "10/4/2", "218", "—", "—", "—", "", "", "Sat 24 Oct"),
-        ("444", "Gabite", "", "25", "12/12/13", "1,296", "—", "—", "#160", "", "as Garchomp", "Thu 22 Oct"),
-        ("445", "Garchomp", "", "23", "2/15/13", "2,471", "—", "#232", "—", "Ground 39%", "", "Wed 21 Oct"),
+        ("444", "Gabite", "", "25", "12/12/13", "1,296", "—", "—", "—", "", "", "Thu 22 Oct"),
+        ("445", "Garchomp", "", "23", "2/15/13", "2,471", "—", "—", "—", "Ground 39%", "", "Wed 21 Oct"),
         ("334", "Altaria", "lucky", "29", "0/14/15", "1,497", "#1", "—", "—", "", "", "Sun 18 Oct"),
         ("383", "Groudon", "", "40", "15/15/13", "4,096", "—", "—", "—", "Ground 59%", "", "Sat 10 Oct"),
         ("260", "Swampert", "ready", "40", "14/13/15", "2,945", "—", "—", "—", "Ground 71%", "as Mega", "Mon 5 Oct"),
         ("254", "Sceptile", "ready", "40", "14/15/13", "2,731", "—", "—", "—", "Grass 100%", "as Mega", "Thu 1 Oct"),
         ("184", "Azumarill", "", "45.5", "0/15/14", "1,496", "#6", "—", "—", "", "", "Tue 15 Sep"),
-        ("308", "Medicham", "lucky", "50", "1/15/15", "1,451", "#333", "—", "—", "", "", "Sat 2 May")]
+        ("308", "Medicham", "lucky", "50", "1/15/15", "1,451", "—", "—", "—", "", "", "Sat 2 May")]
 pct = lambda iv: round(sum(int(x) for x in iv.split("/")) / 45 * 100)
 MK = {"lucky": '<span class="mk lucky">Lucky</span>', "ready": '<span class="mk ready">Mega ready</span>', "": ""}
 def vals(r):
@@ -40,7 +40,7 @@ script = '<script src="../chrome.js"></script><script>document.body.innerHTML=do
 SUM = '<div class="sum"><div style="display:flex;flex-direction:column;gap:2px"><b>2,148 Pokémon</b><span class="sub">Last upload Sun 25 Oct, 21:14</span></div><button class="up">Upload new</button></div>'
 FIL = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg>'
 TOOLS = f'<div class="toolbar"><span class="tbtn">{FIL}Filters</span><span class="tbtn">Sort: Recently caught</span><span class="tbtn">Shiny</span><span class="tbtn">Lucky</span><span class="tbtn">Shadow</span></div>'
-LEG = '<div class="sub" style="margin:0 4px;line-height:1.4"><span class="val pvp">GL #1</span> = rank of its IVs in that league (shown when within 95% of the best) · <span class="val raid">Ground 59%</span> = raid score vs the best of its type</div>'
+LEG = '<div class="sub" style="margin:0 4px;line-height:1.4"><span class="val pvp">GL #1</span> = rank of its IVs in that league (only the top 2%: within 98% of the best) · <span class="val raid">Ground 59%</span> = raid score vs the best of its type</div>'
 phone = head + f'''<div class="stage"><div class="device"><div class="screen"><div data-statusbar></div>{phead}
 <div class="scroll"><div style="padding:12px 10px 20px;display:flex;flex-direction:column;gap:10px">{SUM}{TOOLS}{LEG}<div class="card" style="overflow:hidden">{''.join(prow(r) for r in ROWS)}</div></div></div>
 <div data-tabbar="collection"></div></div></div></div>{script}</body></html>'''
@@ -56,5 +56,5 @@ desk = head + f'''<div class="desktop"><div data-sidebar="collection"></div><div
 <div style="display:flex;align-items:center;gap:16px"><h1 class="bigtitle" style="flex:none">Collection</h1><span class="sub" style="font-size:14px">2,148 Pokémon · last upload Sun 25 Oct, 21:14</span><span style="flex:1"></span><button class="up" style="height:40px">Upload new export</button></div>
 <div style="display:flex;gap:10px;align-items:center"><div class="searchbox" style="width:320px;height:40px;background:var(--surface);border:1px solid var(--line)">SEARCHICON Search your Pokémon</div>{TOOLS[21:-6]}<span style="flex:1"></span></div>
 <div class="card" style="overflow:hidden"><table class="col"><tr><th>Pokémon</th><th class="n">CP</th><th class="n">Level</th><th class="n">IVs</th><th class="n">%</th><th>Great</th><th>Ultra</th><th>Master</th><th>Raids</th><th>Caught ↓</th></tr>{''.join(drow(r) for r in ROWS)}</table></div>
-<p class="sub" style="margin:0">League columns: rank of these IVs among all 4,096 combinations, judged as its final evolution ("as Garchomp"); shown when within 95% of the best IVs. Raids: raid score as a % of the best attacker of its type. Click a Pokémon for its page with your copy's details.</p></div></div></div>{script}</body></html>'''
+<p class="sub" style="margin:0">League columns: rank of these IVs among all 4,096 combinations, judged as its final evolution ("as Garchomp"); shown only for the top 2% (within 98% of the best IVs), the same rule as the keeper filters. Raids: raid score as a % of the best attacker of its type. Click a Pokémon for its page with your copy's details.</p></div></div></div>{script}</body></html>'''
 (HERE / 'E1-phone.html').write_text(phone); (HERE / 'E1e-phone.html').write_text(phonee); (HERE / 'E1-desktop.html').write_text(desk)
