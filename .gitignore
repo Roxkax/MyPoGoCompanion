@@ -1,6 +1,35 @@
-data/
-build/
+# Legacy Python keeper-filters pipeline
+/legacy/keeper-filters/data/
+/legacy/keeper-filters/build/
 __pycache__/
 *.pyc
+
+# Design sprites (fetched locally, not committed) and backlog build output
 design/source/sprites/
 planning/backlog/backlog.out.json
+
+# .NET
+bin/
+obj/
+*.user
+.vs/
+TestResults/
+coverage/
+
+# Node / web
+node_modules/
+web/dist/
+*.tsbuildinfo
+playwright-report/
+test-results/
+
+# Local settings and secrets
+.env
+.env.*
+!.env.example
+appsettings.*.local.json
+
+# Editors and OS
+.idea/
+.DS_Store
+Thumbs.db
