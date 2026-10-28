@@ -159,6 +159,7 @@ Earlier product work (feature list F01–F25 with priorities, UI choices, first 
 | 2026-10-28 | **C4 Best team approved** (By type / Against a boss; Best possible / From my Pokémon; locked Mega slot; weak slot flagged when under 40% of the best and nothing better is left). |
 | 2026-10-28 | **D1 Keeper filters approved** (Filters tab switcher Keepers · Builder · Saved; one card per filter with suggested tag; phone shows Copy buttons per part, desktop shows previews and how-to). **Safe to transfer works from the user's tags** (`!#GL&!#UL&!#Raid&!#Max&!#Mega&…`); spec 4 updated. |
 | 2026-10-28 | **D2 Filter builder approved** (condition rows joined by AND, values inside a condition OR; add-a-condition sheet with 10 groups and search; live string, hand-editable, checked by the game-search simulator, length shown, auto-split; Save and Copy). |
+| 2026-10-28 | **D3 Saved filters approved** (list with Copy and ⋯ menu: open, rename, duplicate, delete; save sheet with name; stored with the account, sign-in needed). |
 
 ## Open decisions
 
