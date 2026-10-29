@@ -46,7 +46,7 @@ Board: https://github.com/users/Roxkax/projects/2 (kept in sync by the `Project 
 | Feature | Status | PRs | Notes |
 |---|---|---|---|
 | E00-F01 Monorepo layout and developer tooling | **Done** 2026-10-28 | #892, #894 | Tasks #3–#7 closed. Python pipeline moved to `legacy/keeper-filters/`; `.gitattributes` forces LF. The dev **seed data** is left for E01-F01 ("Initial migration and dev seed"). |
-| E00-F02 Azure, Neon and GitHub environments | **Owner setup in progress** | #898, #899 | Guide `docs/SETUP-ENVIRONMENTS.md`, Azure template `infra/main.bicep` (one Cloud Shell command), `Environment check` workflow (OIDC sign-in + database + token). #898 merged; owner deployed Azure. First check failed: GitHub's OIDC subject now carries numeric IDs (`repo:Roxkax@3799595/MyPoGoCompanion@1434430254:environment:qa`), fixed in #899 → redeploy, then re-run the check for `qa` and `prod`; then #10–#14 close. Awaiting the owner's OK on: GitHub Container Registry instead of an Azure registry, West Europe + Neon Frankfurt, €5/month budget alert. |
+| E00-F02 Azure, Neon and GitHub environments | **Done** 2026-10-29 | #898, #899 | Issues #8–#14 closed. Owner set up Neon (`main`, `qa`), deployed `infra/main.bicep` to `rg-mypogocompanion` (West Europe) and created the GitHub environments `prod` and `qa`; **Environment check** green for both (OIDC sign-in, resources, database, Static Web Apps token). GitHub's OIDC subject carries numeric IDs: `repo:Roxkax@3799595/MyPoGoCompanion@1434430254:environment:<env>`. |
 | E00-F03 Deployable API and web skeletons | Todo | | |
 | E00-F04 Build & unit-test pipeline | Todo | | |
 | E00-F05 Integration-test pipeline | Todo | | |
@@ -213,6 +213,7 @@ Board: https://github.com/users/Roxkax/projects/2 (kept in sync by the `Project 
 | 2026-10-28 | **Project board**: GitHub project "MyPoGoCompanion" created and kept in sync by the `Project sync` workflow (token secret `PROJECT_TOKEN`). Columns Todo · In progress (draft PR open) · In review (PR ready) · Done; Hours field on tasks; sprints = milestones. Feature PRs are merged by the owner **without an approval** (GitHub doesn't allow approving your own PR). |
 | 2026-10-28 | **E00-F01 done** (PRs #892, #894; issues #2–#7 closed). Progress is tracked in CLAUDE.md's **Sprint progress** section, updated with every task, PR and setup step. |
 | 2026-10-29 | Repository **renamed to `Roxkax/MyPoGoCompanion`** by the owner (old URLs redirect). Azure's GitHub sign-in uses the new name. |
+| 2026-10-29 | **E00-F02 done**: environments set up and checked. As deployed by the owner: container images in **GitHub Container Registry** (no Azure registry, ~€5/month saved), Azure **West Europe** + Neon **AWS Frankfurt**, **€5/month Azure budget alert** to the owner's email, logs capped at 0.5 GB/day, GitHub → Azure sign-in by OIDC with Contributor on the resource group only. |
 
 ## Open decisions
 
