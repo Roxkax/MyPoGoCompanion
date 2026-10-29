@@ -46,7 +46,7 @@ Board: https://github.com/users/Roxkax/projects/2 (kept in sync by the `Project 
 | Feature | Status | PRs | Notes |
 |---|---|---|---|
 | E00-F01 Monorepo layout and developer tooling | **Done** 2026-10-28 | #892, #894 | Tasks #3–#7 closed. Python pipeline moved to `legacy/keeper-filters/`; `.gitattributes` forces LF. The dev **seed data** is left for E01-F01 ("Initial migration and dev seed"). |
-| E00-F02 Azure, Neon and GitHub environments | **In review** | #898 | Guide `docs/SETUP-ENVIRONMENTS.md`, Azure template `infra/main.bicep` (one Cloud Shell command), `Environment check` workflow (OIDC sign-in + database + token). Proposed, awaiting the owner's OK: GitHub Container Registry instead of an Azure registry (~€5/month saved), West Europe + Neon Frankfurt, €5/month budget alert. After merge the owner runs the setup and the check for `qa` and `prod`; then #10–#14 close. |
+| E00-F02 Azure, Neon and GitHub environments | **Owner setup in progress** | #898, #899 | Guide `docs/SETUP-ENVIRONMENTS.md`, Azure template `infra/main.bicep` (one Cloud Shell command), `Environment check` workflow (OIDC sign-in + database + token). #898 merged; owner deployed Azure. First check failed: GitHub's OIDC subject now carries numeric IDs (`repo:Roxkax@3799595/MyPoGoCompanion@1434430254:environment:qa`), fixed in #899 → redeploy, then re-run the check for `qa` and `prod`; then #10–#14 close. Awaiting the owner's OK on: GitHub Container Registry instead of an Azure registry, West Europe + Neon Frankfurt, €5/month budget alert. |
 | E00-F03 Deployable API and web skeletons | Todo | | |
 | E00-F04 Build & unit-test pipeline | Todo | | |
 | E00-F05 Integration-test pipeline | Todo | | |

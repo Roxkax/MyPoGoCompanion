@@ -14,7 +14,7 @@ Container images go to **GitHub Container Registry** (free for a public reposito
 
 ## 0. Before you start
 
-- Azure trusts the repository by its exact name (`Roxkax/MyPoGoCompanion`). If it's ever renamed, run the deployment in step 2 again with `githubRepository=<owner>/<new name>`.
+- Azure trusts the repository by the exact name GitHub puts in its sign-in token, `Roxkax@3799595/MyPoGoCompanion@1434430254` (owner and repository with their numeric IDs). If it's ever renamed, run the deployment in step 2 again with `githubRepository=Roxkax@3799595/<new name>@1434430254`. A failed **Environment check** sign-in prints the exact value GitHub sends ("assertion subject 'repo:…:environment:qa'"): the part between `repo:` and `:environment` is what goes here.
 - You need an **Azure subscription**. A new free account works, but after its first 30 days Azure asks you to upgrade to pay-as-you-go to keep the free services; you're still only charged for usage above the free amounts.
 
 ## 1. Neon (database)
