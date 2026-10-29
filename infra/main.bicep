@@ -8,8 +8,10 @@
 @description('Azure region for everything except where noted.')
 param location string = 'westeurope'
 
-@description('GitHub repository allowed to sign in to Azure (owner/name). Must match exactly: if the repository is renamed, deploy again with the new name.')
-param githubRepository string = 'Roxkax/MyPoGoCompanion'
+@description('''GitHub repository allowed to sign in to Azure, exactly as GitHub's sign-in token names it:
+"owner@ownerId/name@repositoryId" (the numeric IDs make it immune to someone re-creating a deleted name).
+If the repository is renamed, deploy again with the new name.''')
+param githubRepository string = 'Roxkax@3799595/MyPoGoCompanion@1434430254'
 
 @description('Email for the monthly budget alerts.')
 param alertEmail string
