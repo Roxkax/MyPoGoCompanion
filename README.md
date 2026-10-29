@@ -35,8 +35,8 @@ Editors pick up `.editorconfig` automatically (Visual Studio, Rider and VS Code 
 ### First time
 
 ```bash
-git clone https://github.com/Roxkax/PoGoCompanion.git
-cd PoGoCompanion
+git clone https://github.com/Roxkax/MyPoGoCompanion.git
+cd MyPoGoCompanion
 cd web && npm ci && cd ..
 ```
 

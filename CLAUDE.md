@@ -63,7 +63,7 @@ Board: https://github.com/users/Roxkax/projects/2 (kept in sync by the `Project 
 ### Owner to-dos
 
 - Replace the `PROJECT_TOKEN` secret with a new classic token that has **only** `project` + `public_repo`, then delete the old token (the current one carries admin and delete-repo scopes).
-- Clone the repo to `C:\Dev\PoGoCompanion` and set `git config user.name/user.email` (see Git above).
+- Clone the repo (`https://github.com/Roxkax/MyPoGoCompanion.git`) to `C:\Dev` and set `git config user.name/user.email` (see Git above).
 - When a sprint's "Current sprint" view should move on, change its filter to the next milestone (e.g. `milestone:"Sprint 1"`).
 
 ## The idea (owner's words, 2026-10-26)
@@ -212,6 +212,7 @@ Board: https://github.com/users/Roxkax/projects/2 (kept in sync by the `Project 
 | 2026-10-28 | Sprint 0 tooling (E00-F01): .NET 10 SDK pinned in `global.json`, shared `Directory.Build.props` (nullable, latest analyzers, warnings as errors in CI), `.editorconfig` code style checked by `dotnet format`; web lint with ESLint 10 + typescript-eslint and Prettier; local **PostgreSQL 17** (Neon's version) in Docker Compose. Dev seed data comes with the schema (E01-F01). |
 | 2026-10-28 | **Project board**: GitHub project "MyPoGoCompanion" created and kept in sync by the `Project sync` workflow (token secret `PROJECT_TOKEN`). Columns Todo · In progress (draft PR open) · In review (PR ready) · Done; Hours field on tasks; sprints = milestones. Feature PRs are merged by the owner **without an approval** (GitHub doesn't allow approving your own PR). |
 | 2026-10-28 | **E00-F01 done** (PRs #892, #894; issues #2–#7 closed). Progress is tracked in CLAUDE.md's **Sprint progress** section, updated with every task, PR and setup step. |
+| 2026-10-29 | Repository **renamed to `Roxkax/MyPoGoCompanion`** by the owner (old URLs redirect). Azure's GitHub sign-in uses the new name. |
 
 ## Open decisions
 

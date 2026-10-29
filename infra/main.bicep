@@ -8,8 +8,8 @@
 @description('Azure region for everything except where noted.')
 param location string = 'westeurope'
 
-@description('GitHub repository allowed to sign in to Azure (owner/name). Must match exactly, so rename the repository first if planned.')
-param githubRepository string = 'Roxkax/PoGoCompanion'
+@description('GitHub repository allowed to sign in to Azure (owner/name). Must match exactly: if the repository is renamed, deploy again with the new name.')
+param githubRepository string = 'Roxkax/MyPoGoCompanion'
 
 @description('Email for the monthly budget alerts.')
 param alertEmail string

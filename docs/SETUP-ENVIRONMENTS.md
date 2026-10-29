@@ -14,7 +14,7 @@ Container images go to **GitHub Container Registry** (free for a public reposito
 
 ## 0. Before you start
 
-- If you still plan to **rename the repository** to `MyPoGoCompanion`, do it now (GitHub → repo **Settings** → **General** → Repository name). Azure trusts the repository by its exact name, so a later rename means re-running step 2 with the new name.
+- Azure trusts the repository by its exact name (`Roxkax/MyPoGoCompanion`). If it's ever renamed, run the deployment in step 2 again with `githubRepository=<owner>/<new name>`.
 - You need an **Azure subscription**. A new free account works, but after its first 30 days Azure asks you to upgrade to pay-as-you-go to keep the free services; you're still only charged for usage above the free amounts.
 
 ## 1. Neon (database)
@@ -49,7 +49,7 @@ az provider register --namespace Microsoft.OperationalInsights --wait
 ```
 
 ```bash
-git clone https://github.com/Roxkax/PoGoCompanion.git && cd PoGoCompanion
+git clone https://github.com/Roxkax/MyPoGoCompanion.git && cd MyPoGoCompanion
 ```
 
 ```bash
@@ -70,7 +70,7 @@ az staticwebapp secrets list --name swa-mypogocompanion --query properties.apiKe
 
    This one **is** a secret: keep it private for step 3.
 
-If the repository was renamed, add `githubRepository=Roxkax/MyPoGoCompanion` after `alertEmail=…` in the deployment command. Running the deployment again is safe: it only changes what differs.
+Running the deployment again is safe: it only changes what differs.
 
 ## 3. GitHub environments
 
