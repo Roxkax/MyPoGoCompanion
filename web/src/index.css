@@ -1,0 +1,210 @@
+/* Design tokens from design/source/base.css. Dark follows the device; data-theme lets Settings override it later. */
+:root {
+  --bg: #f2f6f5;
+  --surface: #ffffff;
+  --surface-2: #e9efee;
+  --line: #d6e0de;
+  --text: #11201e;
+  --text-2: #46595a;
+  --text-3: #5b6e6e;
+  --accent: #0b7a72;
+  --accent-ink: #ffffff;
+  --accent-soft: #ddf1ee;
+  --ok: #1e7a45;
+  --ok-soft: #e1f2e8;
+  --warn: #a35a00;
+  --warn-soft: #fcefdb;
+  --danger: #b42318;
+  --danger-soft: #fde8e6;
+  --shadow: 0 1px 2px rgba(17, 32, 30, 0.06), 0 2px 8px rgba(17, 32, 30, 0.05);
+  --font: 'Nunito Variable', 'Nunito', ui-rounded, system-ui, sans-serif;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #0d1514;
+    --surface: #15201f;
+    --surface-2: #1c2928;
+    --line: #2a3937;
+    --text: #e6efee;
+    --text-2: #a9bab8;
+    --text-3: #8da09e;
+    --accent: #3cc6b6;
+    --accent-ink: #062b27;
+    --accent-soft: #12342f;
+    --ok: #5ccb8a;
+    --ok-soft: #15301f;
+    --warn: #e3a848;
+    --warn-soft: #33270f;
+    --danger: #f97066;
+    --danger-soft: #3a1714;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+    color-scheme: dark;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+}
+
+body {
+  font-family: var(--font);
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+.shell {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 56px;
+  padding: 0 18px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  font-weight: 800;
+  font-size: 17px;
+}
+
+.content {
+  flex: 1;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 28px 18px 40px;
+}
+
+h1 {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 0 0 8px;
+}
+
+.lead {
+  color: var(--text-2);
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0 0 24px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 16px 18px;
+}
+
+.card-label {
+  margin: 0 0 10px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.api-status {
+  --tone: var(--text-3);
+  --tone-soft: var(--surface-2);
+}
+.api-status[data-tone='ok'] {
+  --tone: var(--ok);
+  --tone-soft: var(--ok-soft);
+}
+.api-status[data-tone='warn'] {
+  --tone: var(--warn);
+  --tone-soft: var(--warn-soft);
+}
+.api-status[data-tone='danger'] {
+  --tone: var(--danger);
+  --tone-soft: var(--danger-soft);
+}
+
+.api-status-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.dot {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  margin-top: 5px;
+  border-radius: 50%;
+  background: var(--tone);
+  box-shadow: 0 0 0 4px var(--tone-soft);
+}
+
+.api-status-title {
+  margin: 0;
+  font-weight: 800;
+  font-size: 16px;
+}
+
+.api-status-detail {
+  margin: 2px 0 0;
+  color: var(--text-2);
+  font-size: 14px;
+}
+
+.button {
+  margin-top: 14px;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+.button:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+.button:focus-visible {
+  outline: 3px solid var(--accent-soft);
+  outline-offset: 2px;
+}
+
+.footer {
+  padding: 16px 18px 24px;
+  text-align: center;
+  color: var(--text-3);
+  font-size: 12px;
+}
+
+@media (min-width: 900px) {
+  .topbar {
+    height: 68px;
+    padding: 0 32px;
+  }
+  .content {
+    padding-top: 48px;
+  }
+}

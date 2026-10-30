@@ -1,0 +1,16 @@
+# Keep the Docker build context small: only what the images need.
+**/bin/
+**/obj/
+**/node_modules/
+**/TestResults/
+.git/
+.vs/
+.idea/
+design/
+docs/
+legacy/
+planning/
+web/dist/
+**/*.user
+.env
+.env.*
