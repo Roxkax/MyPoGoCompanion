@@ -1,0 +1,52 @@
+# Quick checks that a deployed web app + API work together (tests/smoke/smoke.sh).
+# Called by the QA and prod deploy pipelines after every deploy; can also be run by hand.
+name: Smoke test
+
+on:
+  workflow_call:
+    inputs:
+      api-url:
+        description: API address
+        type: string
+        required: true
+      web-url:
+        description: Web app address
+        type: string
+        required: true
+      expected-version:
+        description: Git commit the API should report (empty to skip)
+        type: string
+        default: ''
+  workflow_dispatch:
+    inputs:
+      api-url:
+        description: API address (e.g. https://api-qa.….azurecontainerapps.io)
+        type: string
+        required: true
+      web-url:
+        description: Web app address (e.g. https://….azurestaticapps.net)
+        type: string
+        required: true
+      expected-version:
+        description: Git commit the API should report (empty to skip)
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          sparse-checkout: tests/smoke
+
+      - name: Smoke test
+        env:
+          API_URL: ${{ inputs.api-url }}
+          WEB_URL: ${{ inputs.web-url }}
+          EXPECTED_VERSION: ${{ inputs.expected-version }}
+        run: tests/smoke/smoke.sh

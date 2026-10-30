@@ -27,6 +27,7 @@ test-results/
 .env
 .env.*
 !.env.example
+!web/.env.development
 appsettings.*.local.json
 
 # Editors and OS

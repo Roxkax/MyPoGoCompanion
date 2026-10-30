@@ -62,6 +62,12 @@ dotnet_naming_symbols.private_fields.applicable_accessibilities = private
 dotnet_naming_style.underscore_camel.required_prefix = _
 dotnet_naming_style.underscore_camel.capitalization = camel_case
 
+dotnet_naming_rule.constants.symbols = constants
+dotnet_naming_rule.constants.style = pascal
+dotnet_naming_rule.constants.severity = warning
+dotnet_naming_symbols.constants.applicable_kinds = field
+dotnet_naming_symbols.constants.required_modifiers = const
+
 dotnet_naming_rule.types_and_members.symbols = types_and_members
 dotnet_naming_rule.types_and_members.style = pascal
 dotnet_naming_rule.types_and_members.severity = warning

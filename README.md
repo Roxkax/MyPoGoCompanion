@@ -65,9 +65,56 @@ cd web && npm run lint:fix && npm run format             # fix web code
 
 The .NET build turns every analyzer warning into an error when `CI=true` (as in GitHub Actions); locally they stay warnings. Run `CI=true dotnet build` to see what CI will reject.
 
-### API, web app, jobs and tests
+### API
 
-Added in Sprint 0 as each piece lands: the API and web skeletons (E00-F03), unit tests (E00-F04), integration tests (E00-F05) and UI tests (E00-F07).
+```bash
+dotnet run --project api/MyPoGoCompanion.Api        # http://localhost:5080 (needs the local database)
+```
+
+| Address | What it is |
+|---|---|
+| `/health` | `{"status":"Healthy","version":"dev","checks":{"database":"Healthy"}}`; HTTP 503 when the database can't be reached |
+| `/health/live` | The process only, without touching the database (for container probes) |
+| `/openapi/v1.json` | OpenAPI description (the generated clients come from it) |
+
+Settings (environment variables in Azure, `appsettings.Development.json` locally):
+
+| Setting | Example | Notes |
+|---|---|---|
+| `ConnectionStrings__Database` | `postgresql://user:pass@host/db?sslmode=require` | Neon's URL or Npgsql's `Host=…;Database=…` form |
+| `Cors__AllowedOrigins` | `https://….azurestaticapps.net` | Comma-separated web app addresses allowed to call the API |
+| `APP_VERSION` | Git commit | Shown by `/health`; the Docker image sets it from the `VERSION` build argument |
+
+Docker image (build from the repository root; listens on port 8080):
+
+```bash
+docker build -f api/MyPoGoCompanion.Api/Dockerfile --build-arg VERSION=$(git rev-parse --short HEAD) -t mypogocompanion-api .
+```
+
+### Web app
+
+```bash
+cd web
+npm run dev          # http://localhost:5173, calls the API at VITE_API_URL (web/.env.development)
+npm run build        # type check + production build in web/dist
+```
+
+`VITE_API_URL` is the API's address, fixed at build time (the deploy pipelines set it for QA and prod).
+
+### Tests
+
+```bash
+dotnet test --solution MyPoGoCompanion.slnx                  # .NET unit + integration tests (integration needs Docker)
+dotnet test --project api/MyPoGoCompanion.Api.UnitTests       # .NET unit tests only
+cd web && npm test                                            # web unit tests (Vitest)
+cd tests/ui && npm ci && npx playwright install chromium && npx playwright test   # UI tests
+```
+
+- **Integration tests** start their own PostgreSQL in Docker (Testcontainers); the local database isn't used.
+- **UI tests** run on phone and desktop sizes in light and dark. Without `BASE_URL` they start the API and the web dev server themselves (the local database must be running); `BASE_URL=https://… npx playwright test` runs them against a deployed web app.
+- **Smoke test** (`tests/smoke/smoke.sh`, workflow "Smoke test"): quick checks after every deploy that the API is healthy, runs the expected version, allows the web app's address and that the web app loads. Run it by hand with `API_URL=… WEB_URL=… tests/smoke/smoke.sh`.
+
+Jobs are added with the first scheduled job (E02-F01).
 
 ### Legacy keeper-filters page
 
