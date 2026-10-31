@@ -13,9 +13,9 @@ A free companion for Pokémon GO players: a shared API, a web app and, later, na
 | `design/` | App map, screen designs and their sources |
 | `planning/` | Plan, specs, priorities, backlog and CI/CD decisions |
 | `infra/` | Azure template (`main.bicep`) for prod and QA; setup steps in `docs/SETUP-ENVIRONMENTS.md` |
-| `docs/` | Environment setup, planning process and the keeper-filters methodology |
+| `docs/` | Environment setup, prod deploy, branch rules, planning process and the keeper-filters methodology |
 | `legacy/keeper-filters/` | The original Python pipeline and its single-page output. Kept until the app's filters replace it (see `docs/KEEPER-FILTERS.md`) |
-| `.github/` | GitHub Actions workflows |
+| `.github/` | GitHub Actions workflows, the `main` ruleset, Dependabot and the PR template (`docs/BRANCH-RULES.md`) |
 
 Later: `ios/` (SwiftUI) and `android/` (Kotlin, Jetpack Compose).
 

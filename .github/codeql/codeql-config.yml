@@ -1,0 +1,7 @@
+# CodeQL settings (.github/workflows/codeql.yml). Design mock-ups, archived documents and the built keeper-filters
+# page are not app code, so they aren't scanned.
+name: MyPoGoCompanion CodeQL config
+paths-ignore:
+  - design/**
+  - docs/archive/**
+  - legacy/keeper-filters/dist/**

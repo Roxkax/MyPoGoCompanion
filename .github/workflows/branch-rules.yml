@@ -1,0 +1,38 @@
+# Branch rules check (E00-F09, docs/BRANCH-RULES.md): confirms GitHub enforces on main the ruleset kept in
+# .github/rulesets/main.json (PRs only, the four required checks, branch up to date, conversations resolved, no
+# force pushes or deletion). The rules themselves are switched on by importing that file in Settings → Rules; this
+# only reads them, with the workflow's own token. Runs by hand, when the ruleset file changes on main (a reminder to
+# import it again) and weekly, so a ruleset switched off by mistake doesn't go unnoticed.
+name: Branch rules check
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/rulesets/**
+      - .github/scripts/branch_rules.py
+      - .github/workflows/branch-rules.yml
+  schedule:
+    - cron: '41 7 * * 1'
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Branch rules
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          sparse-checkout: .github
+
+      - name: Compare the rules on main with the ruleset file
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH: main
+        run: |
+          set -o pipefail
+          python3 .github/scripts/branch_rules.py .github/rulesets/main.json | tee -a "$GITHUB_STEP_SUMMARY"
