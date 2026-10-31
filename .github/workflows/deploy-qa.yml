@@ -308,7 +308,7 @@ jobs:
       - name: Keep the UI test report
         # The HTML report holds every failed test's trace, screenshot and video.
         if: ${{ !cancelled() && steps.ui-run.outcome != 'skipped' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ui-test-report
           path: tests/ui/playwright-report/
