@@ -1,29 +1,7 @@
 import { expect, test } from '@playwright/test'
 
-// Behaviour checks only: on QA the version and data are real, so no fixed values are expected.
-
-test('the app shell loads and reaches the API', async ({ page }) => {
-  await page.goto('/')
-
-  await expect(page).toHaveTitle('MyPoGoCompanion')
-  await expect(page.getByRole('banner')).toContainText('MyPoGoCompanion')
-  const status = page.getByRole('status')
-  await expect(status).toContainText('Connected to the API', { timeout: 30_000 })
-  await expect(status).toContainText(/Version \S+ · database working/)
-})
-
-test('it follows the device theme', async ({ page }, testInfo) => {
-  await page.goto('/')
-
-  const background = await page.evaluate(() => getComputedStyle(document.body).backgroundColor)
-  const [r = 0, g = 0, b = 0] = background.match(/\d+/g)!.map(Number)
-  const luminance = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255
-  if (testInfo.project.name.endsWith('dark')) {
-    expect(luminance).toBeLessThan(0.2)
-  } else {
-    expect(luminance).toBeGreaterThan(0.8)
-  }
-})
+// Behaviour checks only: on QA the version and data are real, so no fixed values are expected. Opening the app,
+// reaching the API and following the device theme are covered by the smoke journey (journey.spec.ts).
 
 test('nothing overflows sideways', async ({ page }) => {
   await page.goto('/')

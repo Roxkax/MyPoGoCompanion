@@ -1,17 +1,20 @@
 # Required check "deploy-qa" (planning/CI-CD.md): puts a pull request on the shared QA environment.
 # API image → GitHub Container Registry; migrations → Neon "qa" branch; web app → Static Web Apps environment "qa";
-# API → container app api-qa; then the smoke test, and a comment "QA now shows PR #n" on the pull request.
+# API → container app api-qa; then the smoke test, the UI tests, and a comment "QA now shows PR #n" on the pull request.
+# Required check "ui-tests" is the job of that name below: it reports the UI tests run inside the deploy job.
 #
-# QA shows one PR at a time: every push to a ready (non-draft) PR deploys it, one run at a time (the "qa-environment"
-# queue on the deploy job). The UI tests (E00-F07) join this run as a further job, so a PR is tested on QA before
-# another one replaces it. Pushes that only change notes (Markdown, docs/, planning/, design/) skip the deploy; the
-# check still passes. To bring a PR back onto QA: re-run this workflow from the PR's checks, or Actions → QA deploy →
-# Run workflow on the PR's branch (always deploys).
+# QA deploys are opt-in (owner, 2026-10-31): only PRs with the "qa" label are deployed. Adding the label deploys the
+# PR; while it has the label, every push deploys again; removing it stops that. Without the label the jobs are
+# skipped, which branch rules count as passed, so nothing waits for QA. QA shows one PR at a time, one run at a time
+# (the "qa-environment" queue on the deploy job). The UI tests run inside that same queued job, so a PR is tested on
+# QA before another one replaces it. Pushes that only change notes (Markdown, docs/, planning/, design/) skip the
+# deploy. To bring a PR back onto QA: remove and add the "qa" label again, re-run this workflow from the PR's checks,
+# or Actions → QA deploy → Run workflow on the PR's branch (always deploys, label or not).
 name: QA deploy
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
+    types: [opened, synchronize, reopened, labeled]
   workflow_dispatch:
 
 permissions:
@@ -33,11 +36,13 @@ jobs:
   # branch rules, so the PR can still merge.
   changes:
     name: Anything to deploy?
-    # Drafts aren't deployed (QA would keep changing while work is in progress). Pull requests from forks get no
-    # secrets, so they can't deploy either.
+    # Only PRs with the "qa" label; a "labeled" event only when that label is the one just added (other labels don't
+    # redeploy). Pull requests from forks get no secrets, so they can't deploy.
     if: >-
       github.event_name == 'workflow_dispatch' ||
-      (!github.event.pull_request.draft && github.event.pull_request.head.repo.full_name == github.repository)
+      (github.event.pull_request.head.repo.full_name == github.repository &&
+       contains(github.event.pull_request.labels.*.name, 'qa') &&
+       (github.event.action != 'labeled' || github.event.label.name == 'qa'))
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -51,12 +56,14 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           EVENT: ${{ github.event_name }}
+          ACTION: ${{ github.event.action }}
           PR: ${{ github.event.pull_request.number }}
           BASE: ${{ github.event.pull_request.base.sha }}
           HEAD: ${{ github.event.pull_request.head.sha }}
         run: |
           decide() { echo "deploy=$1" >> "$GITHUB_OUTPUT"; echo "$2" | tee -a "$GITHUB_STEP_SUMMARY"; exit 0; }
           [[ $EVENT == workflow_dispatch ]] && decide true "Run by hand: deploying."
+          [[ $ACTION == labeled ]] && decide true "The \"qa\" label was added: deploying."
 
           since=$BASE
           comment=$(gh api --paginate "repos/$GITHUB_REPOSITORY/issues/$PR/comments" \
@@ -86,7 +93,7 @@ jobs:
       group: qa-environment
       cancel-in-progress: false
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     environment:
       name: qa
       url: ${{ steps.web.outputs.url }}
@@ -100,6 +107,10 @@ jobs:
       api-url: ${{ steps.api.outputs.url }}
       web-url: ${{ steps.web.outputs.url }}
       version: ${{ steps.pr.outputs.version }}
+      ui-outcome: ${{ steps.ui-run.outcome }}
+      ui-passed: ${{ steps.ui.outputs.passed }}
+      ui-failed: ${{ steps.ui.outputs.failed }}
+      ui-flaky: ${{ steps.ui.outputs.flaky }}
     steps:
       # QA runs exactly what is on the PR's branch (its head commit, the one shown on the PR).
       - name: Find the pull request
@@ -209,7 +220,9 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: npm
-          cache-dependency-path: web/package-lock.json
+          cache-dependency-path: |
+            web/package-lock.json
+            tests/ui/package-lock.json
 
       - name: Build the web app
         working-directory: web
@@ -269,6 +282,37 @@ jobs:
           EXPECTED_VERSION: ${{ steps.pr.outputs.version }}
         run: tests/smoke/smoke.sh
 
+      # --- UI tests (check "ui-tests") ------------------------------------------------------------------------
+      # Run here, while this job holds the QA queue, so no other PR can replace QA half-way through. A failure
+      # doesn't fail the deploy (QA did get the PR): the "ui-tests" job below turns it into its own red check.
+      - name: Install the UI tests
+        working-directory: tests/ui
+        run: |
+          npm ci --no-audit --no-fund
+          npx playwright install --with-deps chromium
+
+      - name: UI tests on QA
+        id: ui-run
+        continue-on-error: true
+        working-directory: tests/ui
+        env:
+          BASE_URL: ${{ steps.web.outputs.url }}
+        run: npx playwright test
+
+      - name: UI test summary
+        id: ui
+        if: ${{ !cancelled() && steps.ui-run.outcome != 'skipped' }}
+        run: python3 .github/scripts/ui_results.py tests/ui/results/results.json | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Keep the UI test report
+        # The HTML report holds every failed test's trace, screenshot and video.
+        if: ${{ !cancelled() && steps.ui-run.outcome != 'skipped' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-test-report
+          path: tests/ui/playwright-report/
+          retention-days: 14
+
       # --- Tell the pull requests -----------------------------------------------------------------------------
       - name: 'Comment "QA now shows PR #n"'
         if: ${{ !cancelled() && steps.pr.outputs.number }}
@@ -279,6 +323,40 @@ jobs:
           API_URL: ${{ steps.api.outputs.url }}
           WEB_URL: ${{ steps.web.outputs.url }}
           OUTCOME: ${{ job.status }}
+          UI_OUTCOME: ${{ steps.ui-run.outcome }}
+          UI_PASSED: ${{ steps.ui.outputs.passed }}
+          UI_FAILED: ${{ steps.ui.outputs.failed }}
+          UI_FLAKY: ${{ steps.ui.outputs.flaky }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           WORKFLOW_URL: ${{ github.server_url }}/${{ github.repository }}/actions/workflows/deploy-qa.yml
         run: python3 .github/scripts/qa_comment.py
+
+  ui-tests:
+    # The name branch rules require. The tests themselves run in deploy-qa (inside the QA queue); this job turns
+    # their result into a check of its own. Skipped, and so passed, when the deploy was skipped (no "qa" label, or
+    # only notes changed).
+    name: ui-tests
+    needs: [changes, deploy-qa]
+    if: ${{ !cancelled() && needs.changes.outputs.deploy == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Result of the UI tests on QA
+        env:
+          DEPLOY: ${{ needs.deploy-qa.result }}
+          OUTCOME: ${{ needs.deploy-qa.outputs.ui-outcome }}
+          PASSED: ${{ needs.deploy-qa.outputs.ui-passed }}
+          FAILED: ${{ needs.deploy-qa.outputs.ui-failed }}
+          FLAKY: ${{ needs.deploy-qa.outputs.ui-flaky }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          if [[ $OUTCOME == success ]]; then
+            echo "UI tests passed on QA: ${PASSED:-?} passed, ${FLAKY:-0} only on the retry."
+            exit 0
+          fi
+          if [[ $OUTCOME == failure ]]; then
+            echo "::error::UI tests failed on QA: ${FAILED:-?} failed. Summary and report (trace, screenshot, video per failed test): $RUN_URL"
+          else
+            echo "::error::The UI tests didn't run because the QA deploy ($DEPLOY) stopped first. See deploy-qa: $RUN_URL"
+          fi
+          exit 1

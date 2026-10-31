@@ -120,8 +120,8 @@ cd tests/ui && npm ci && npx playwright install chromium && npx playwright test 
 ```
 
 - **Integration tests** start their own PostgreSQL in Docker (Testcontainers); the local database isn't used. The migrations are applied once per run to a template database; `PostgresFixture.ConnectionString` is a shared copy for tests that only read, and `CreateDatabaseAsync()` gives a test that writes a fresh copy of its own. Run them alone with `dotnet test --project tests/MyPoGoCompanion.IntegrationTests`.
-- **UI tests** run on phone and desktop sizes in light and dark. Without `BASE_URL` they start the API and the web dev server themselves (the local database must be running); `BASE_URL=https://… npx playwright test` runs them against a deployed web app.
-- **QA deploy** (workflow "QA deploy", check `deploy-qa`): every push to a ready (non-draft) pull request deploys it to the shared QA environment and comments the links on the PR (pushes that only change notes skip it); QA shows one PR at a time (`planning/CI-CD.md`).
+- **UI tests** run on phone and desktop sizes in light and dark. Without `BASE_URL` they start the API and the web dev server themselves (the local database must be running); `BASE_URL=https://… npx playwright test` runs them against a deployed web app. A failed test keeps a trace, a screenshot and a video; `npm run report` opens them.
+- **QA deploy** (workflow "QA deploy", check `deploy-qa`): opt-in. Add the **`qa` label** to a pull request to deploy it to the shared QA environment (and run the UI tests); while the label is on, every push deploys again (pushes that only change notes skip it). The links are commented on the PR; QA shows one PR at a time (`planning/CI-CD.md`). **Actions → QA deploy → Run workflow** on a branch deploys it once, label or not.
 - **Smoke test** (`tests/smoke/smoke.sh`, workflow "Smoke test"): quick checks after every deploy that the API is healthy, runs the expected version, allows the web app's address and that the web app loads. Run it by hand with `API_URL=… WEB_URL=… tests/smoke/smoke.sh`.
 
 ### Code coverage
@@ -153,6 +153,10 @@ Jobs are added with the first scheduled job (E02-F01).
 ### What the `integration` check runs
 
 `.github/workflows/integration.yml`, on every pull request and on `main`: build the integration tests in Release → run them against PostgreSQL 17 in Docker (migrations applied first) → test results (totals, each failure with its error, all tests) on the run summary and as a pull-request comment; the TRX file is kept as a run artifact for 7 days.
+
+### What the `ui-tests` check runs
+
+Inside the QA deploy (`.github/workflows/deploy-qa.yml`), right after the smoke test and while that run still holds the QA queue, so no other PR replaces QA half-way through: the Playwright tests in `tests/ui` against the QA web app, on phone (393×852) and desktop (1440) sizes in light and dark, one retry per test. The results (totals, each failure with its error) go to the run summary and into the "QA now shows PR #n" comment; the HTML report, with a trace, screenshot and video for every failed test, is kept as the run artifact **ui-test-report** for 14 days (unzip and open `index.html`, or drop a `trace.zip` on https://trace.playwright.dev). The job `ui-tests` turns that result into its own check: red when a test fails or the deploy stopped before the tests; skipped (and so passed) when the deploy was skipped (no `qa` label, or only notes changed).
 
 ### Legacy keeper-filters page
 

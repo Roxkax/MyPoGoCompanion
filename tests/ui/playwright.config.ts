@@ -18,14 +18,19 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
+  // In CI: annotations on the run, the HTML report (uploaded by the QA deploy workflow) and a JSON file for the
+  // run summary and the PR comment (.github/scripts/ui_results.py).
   reporter: process.env.CI
-    ? [['github'], ['html', { open: 'never' }]]
+    ? [['github'], ['html', { open: 'never' }], ['json', { outputFile: 'results/results.json' }]]
     : [['list'], ['html', { open: 'never' }]],
   use: {
     ...devices['Desktop Chrome'],
     baseURL,
+    // Kept only for tests that fail (or pass on the retry): a trace to step through, the screen at the
+    // moment of failure and a video of the whole test. They land in test-results/ and in the HTML report.
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
     // Optional: use a Chromium already on the machine instead of Playwright's download.
     launchOptions: { executablePath: process.env.CHROMIUM_PATH || undefined },
   },
