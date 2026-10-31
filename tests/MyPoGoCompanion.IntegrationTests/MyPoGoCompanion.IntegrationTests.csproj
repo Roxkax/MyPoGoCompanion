@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\api\MyPoGoCompanion.Api\MyPoGoCompanion.Api.csproj" />
+    <ProjectReference Include="..\..\api\MyPoGoCompanion.Data\MyPoGoCompanion.Data.csproj" />
   </ItemGroup>
 
 </Project>

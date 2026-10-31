@@ -1,0 +1,78 @@
+# Required check "integration" (planning/CI-CD.md): the API and the EF Core migrations against a real
+# PostgreSQL 17 started by the tests themselves (Testcontainers; GitHub's runners have Docker).
+# The test results are shown on the run's summary page and as a comment on the pull request.
+name: Integration tests
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: integration-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  TESTS: tests/MyPoGoCompanion.IntegrationTests
+
+jobs:
+  integration:
+    # The name branch rules require.
+    name: integration
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('Directory.Packages.props', '**/*.csproj', '.config/dotnet-tools.json') }}
+          restore-keys: nuget-${{ runner.os }}-
+
+      - name: Build
+        run: dotnet build "$TESTS" --configuration Release
+
+      - name: Integration tests
+        # Migrations are applied once per run, to a template database each test database is copied from.
+        run: >
+          dotnet test --project "$TESTS" --configuration Release --no-build
+          --report-xunit-trx --report-xunit-trx-filename integration.trx
+          --results-directory "$PWD/TestResults/integration"
+
+      - name: Test results summary
+        if: ${{ !cancelled() }}
+        run: |
+          shopt -s nullglob
+          python3 .github/scripts/test_results.py "Integration tests" TestResults/integration/*.trx > summary.md
+          cat summary.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Comment on the pull request
+        # Skipped for pull requests from forks, which get a read-only token.
+        if: ${{ !cancelled() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: integration-results
+          path: summary.md
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: integration-results
+          path: TestResults/integration
+          if-no-files-found: ignore
+          retention-days: 7

@@ -2,6 +2,7 @@
   <Folder Name="/api/">
     <Project Path="api/MyPoGoCompanion.Api.UnitTests/MyPoGoCompanion.Api.UnitTests.csproj" />
     <Project Path="api/MyPoGoCompanion.Api/MyPoGoCompanion.Api.csproj" />
+    <Project Path="api/MyPoGoCompanion.Data/MyPoGoCompanion.Data.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/MyPoGoCompanion.IntegrationTests/MyPoGoCompanion.IntegrationTests.csproj" />
