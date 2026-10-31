@@ -1,5 +1,6 @@
 # Quick checks that a deployed web app + API work together (tests/smoke/smoke.sh).
-# Called by the QA and prod deploy pipelines after every deploy; can also be run by hand.
+# The QA deploy runs tests/smoke/smoke.sh inside its own job (so a failure fails the deploy-qa check); this workflow
+# is for running it by hand, or from other pipelines.
 name: Smoke test
 
 on:

@@ -11,6 +11,9 @@ Decided with the owner on 2026-10-28. Built as **Sprint 0 "Delivery pipeline"**,
 
 - **Prod deploys automatically** when a PR is merged and `main` is updated: build → database migrations → API → web.
 - **QA shows the most recently updated open PR.** Every push to an open PR deploys it to QA; the PR gets a comment "QA now shows PR #n". QA deploy + UI tests run in one queued job (one PR at a time), so two PRs never overwrite each other mid-test. A "Deploy this PR to QA" re-run brings an older PR back.
+  - As built (E00-F06, `.github/workflows/deploy-qa.yml`): API image to GitHub Container Registry (tagged with the commit) → migrations on the Neon `qa` branch (EF Core migration bundle) → web app to the Static Web Apps environment `qa` → API to `api-qa` (database URL as a Container Apps secret, the QA web address allowed by CORS) → smoke test → PR comment with the links. Other open PRs' comments change to "QA has moved on to PR #n".
+  - **Draft PRs and PRs from forks aren't deployed** (drafts are work in progress; forks get no secrets). Marking a draft "Ready for review" deploys it.
+  - The queue is GitHub's concurrency group `qa-environment`: a running deploy is never cancelled; GitHub keeps one run waiting and cancels an older waiting run when a newer push arrives (QA would show the newer PR anyway). Re-run the check, or **Actions → QA deploy → Run workflow** on the PR's branch, to bring a PR back.
 - Scheduled jobs (daily import, weekly AI researcher, backups) run only in prod; they can be started by hand against QA.
 
 ## Pipelines (required checks on every PR)
