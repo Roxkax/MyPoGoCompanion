@@ -18,7 +18,7 @@ concurrency:
 
 env:
   # Minimum line coverage (%) for .NET and for the web app; the web minimum is also in web/vite.config.ts.
-  MIN_LINE_COVERAGE: 80
+  MIN_LINE_COVERAGE: 90
   DOTNET_NOLOGO: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
 

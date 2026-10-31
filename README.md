@@ -117,7 +117,7 @@ cd tests/ui && npm ci && npx playwright install chromium && npx playwright test 
 
 ### Code coverage
 
-Unit tests must cover at least **80% of lines**, separately for .NET and for the web app; the `build-and-unit` check fails below that and posts the coverage table on the pull request. Generated code and `Program.cs` (startup wiring, exercised by the integration tests) don't count (`coverage.config`).
+Unit tests must cover at least **90% of lines**, separately for .NET and for the web app; the `build-and-unit` check fails below that and posts the coverage table on the pull request. Generated code and `Program.cs` (startup wiring, exercised by the integration tests) don't count (`coverage.config`).
 
 ```bash
 # .NET: coverage report in coverage/dotnet (open index.html)

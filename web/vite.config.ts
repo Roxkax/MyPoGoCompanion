@@ -24,7 +24,7 @@ export default defineConfig({
       reporter: ['text', 'cobertura', 'json-summary'],
       reportsDirectory: 'coverage',
       // Minimum agreed for the build-and-unit check; below it `npm run test:coverage` fails.
-      thresholds: { lines: 80, branches: 80, functions: 80, statements: 80 },
+      thresholds: { lines: 90, branches: 90, functions: 90, statements: 90 },
     },
   },
 })
