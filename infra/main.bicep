@@ -51,7 +51,7 @@ resource containerEnv 'Microsoft.App/managedEnvironments@2024-03-01' = {
   }
 }
 
-// Placeholder image until the deploy pipelines (deploy-qa.yml, E00-F08 for prod) deploy the real one; they also
+// Placeholder image until the deploy pipelines (deploy-qa.yml, deploy-prod.yml) deploy the real one; they also
 // set the target port to 8080, the database secret and the settings. Re-running this template resets all of that
 // to the placeholder until the next deploy (docs/SETUP-ENVIRONMENTS.md).
 resource api 'Microsoft.App/containerApps@2024-03-01' = [

@@ -1,0 +1,375 @@
+# Prod deploy (E00-F08, planning/CI-CD.md): every merge to main goes to prod.
+# API image → GitHub Container Registry; migrations → Neon "main" branch; API → container app api-prod; web app →
+# Static Web Apps production; then the smoke test against prod. After a good deploy the Neon "qa" branch is reset to
+# a fresh copy of prod, and the PR QA was showing is deployed again on top of it. A failure opens (or adds to) an
+# issue "Prod deploy failed" assigned to the owner; the next good deploy closes it.
+#
+# Pushes that only change notes (Markdown, docs/, planning/, design/) since what prod runs don't deploy.
+# Run by hand (Actions → Prod deploy → Run workflow, branch main) to deploy main again, or with "commit" set to an
+# earlier commit of main to roll back to it: docs/PROD-DEPLOY.md.
+name: Prod deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      commit:
+        description: Roll back to this earlier commit of main (empty = deploy the latest main)
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+# One prod deploy at a time, never cancelled half-way. GitHub keeps one run waiting; a newer merge replaces it (it
+# holds everything the waiting one had).
+concurrency:
+  group: prod-environment
+  cancel-in-progress: false
+
+env:
+  RESOURCE_GROUP: rg-mypogocompanion
+  API_APP: api-prod
+  QA_API_APP: api-qa
+  STATIC_WEB_APP: swa-mypogocompanion
+  # GitHub Container Registry names must be lowercase.
+  IMAGE: ghcr.io/roxkax/mypogocompanion-api
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+  changes:
+    name: Anything to deploy?
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      deployments: read
+    outputs:
+      deploy: ${{ steps.check.outputs.deploy }}
+      sha: ${{ steps.check.outputs.sha }}
+      rollback: ${{ steps.check.outputs.rollback }}
+    steps:
+      - name: Compare with what prod runs
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT: ${{ github.event_name }}
+          COMMIT: ${{ inputs.commit }}
+        run: |
+          decide() {
+            { echo "deploy=$1"; echo "sha=${2:-$GITHUB_SHA}"; echo "rollback=${4:-false}"; } >> "$GITHUB_OUTPUT"
+            echo "$3" | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          }
+          if [[ $GITHUB_REF != refs/heads/main ]]; then
+            echo "::error::Prod deploys only from main (this run is on $GITHUB_REF_NAME)."
+            exit 1
+          fi
+
+          if [[ $EVENT == workflow_dispatch ]]; then
+            [[ -z ${COMMIT// /} ]] && decide true "$GITHUB_SHA" "Run by hand: deploying the latest main (${GITHUB_SHA:0:7})."
+            sha=$(gh api "repos/$GITHUB_REPOSITORY/commits/${COMMIT// /}" --jq .sha 2>/dev/null) || {
+              echo "::error::No commit '$COMMIT' in this repository."
+              exit 1
+            }
+            # The commit must be on main's history: main is "ahead" of it, or it is main itself.
+            status=$(gh api "repos/$GITHUB_REPOSITORY/compare/$sha...$GITHUB_SHA" --jq .status)
+            if [[ $status != ahead && $status != identical ]]; then
+              echo "::error::Commit ${sha:0:7} isn't on main's history (compare: $status). Pick a commit from main's list of commits."
+              exit 1
+            fi
+            decide true "$sha" "Rollback by hand: putting commit ${sha:0:7} back on prod (migrations are not undone)." true
+          fi
+
+          # Push to main: what does prod run now? The commit of the latest successful prod deployment.
+          prod=""
+          for id in $(gh api "repos/$GITHUB_REPOSITORY/deployments?environment=prod&per_page=30" --jq '.[].id'); do
+            state=$(gh api "repos/$GITHUB_REPOSITORY/deployments/$id/statuses?per_page=1" --jq '.[0].state // empty')
+            if [[ $state == success ]]; then
+              prod=$(gh api "repos/$GITHUB_REPOSITORY/deployments/$id" --jq .sha)
+              break
+            fi
+          done
+          [[ -z $prod ]] && decide true "$GITHUB_SHA" "No successful prod deploy found: deploying ${GITHUB_SHA:0:7}."
+
+          json=$(gh api "repos/$GITHUB_REPOSITORY/compare/$prod...$GITHUB_SHA") \
+            || decide true "$GITHUB_SHA" "Couldn't compare with ${prod:0:7}: deploying."
+          count=$(jq '.files | length' <<<"$json")
+          # GitHub lists at most 300 files; none listed means the same commit again, which is deployed again.
+          ((count > 0 && count < 300)) || decide true "$GITHUB_SHA" "$count changed files since ${prod:0:7}: deploying."
+          notes='(^|/)[^/]+\.md$|^(docs|planning|design)/'
+          code=$(jq -r '.files[].filename' <<<"$json" | grep -vE "$notes" || true)
+          [[ -n $code ]] && decide true "$GITHUB_SHA" "Changes since ${prod:0:7} (what prod runs) beyond notes: deploying."
+          decide false "$GITHUB_SHA" "Only notes changed since ${prod:0:7} (Markdown, docs/, planning/, design/): prod deploy skipped."
+
+  deploy-prod:
+    name: deploy-prod
+    needs: changes
+    if: needs.changes.outputs.deploy == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment:
+      name: prod
+      url: ${{ steps.addresses.outputs.web-url }}
+    permissions:
+      contents: read
+      packages: write # push the API image
+      id-token: write # OIDC sign-in to Azure
+    outputs:
+      version: ${{ steps.commit.outputs.version }}
+      qa-commit: ${{ steps.qa.outputs.commit }}
+    steps:
+      - name: Commit to deploy
+        id: commit
+        env:
+          SHA: ${{ needs.changes.outputs.sha }}
+        run: |
+          echo "version=${SHA:0:7}" >> "$GITHUB_OUTPUT"
+          echo "Deploying ${SHA:0:7} to prod"
+
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.changes.outputs.sha }}
+
+      # --- API image ------------------------------------------------------------------------------------------
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+
+      - name: Is the image already built?
+        # A rollback reuses the image built when that commit first went to prod.
+        id: image
+        env:
+          TAG: ${{ env.IMAGE }}:${{ needs.changes.outputs.sha }}
+        run: |
+          if docker buildx imagetools inspect "$TAG" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Reusing $TAG"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build and push the API image
+        if: steps.image.outputs.exists != 'true'
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: api/MyPoGoCompanion.Api/Dockerfile
+          build-args: VERSION=${{ steps.commit.outputs.version }}
+          push: true
+          tags: ${{ env.IMAGE }}:${{ needs.changes.outputs.sha }}
+          labels: |
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            org.opencontainers.image.revision=${{ needs.changes.outputs.sha }}
+          cache-from: type=gha,scope=api
+          cache-to: type=gha,scope=api,mode=max
+
+      # --- Database migrations --------------------------------------------------------------------------------
+      # Before the new API starts, so it finds the tables it expects. Migrations must keep the running version
+      # working (add first, remove in a later PR): the old API serves until the new one is live, and a rollback
+      # runs old code on the new tables. A rollback doesn't run them: an older bundle never undoes newer migrations.
+      - uses: actions/setup-dotnet@v5
+        if: needs.changes.outputs.rollback != 'true'
+        with:
+          global-json-file: global.json
+
+      - name: Build the migration bundle
+        if: needs.changes.outputs.rollback != 'true'
+        run: |
+          dotnet tool restore
+          dotnet restore api/MyPoGoCompanion.Data
+          dotnet ef migrations bundle --project api/MyPoGoCompanion.Data --configuration Release --output efbundle --force
+
+      - name: Apply migrations to the prod database
+        if: needs.changes.outputs.rollback != 'true'
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          test -n "$DATABASE_URL" || { echo "::error::The prod environment has no DATABASE_URL secret"; exit 1; }
+          connection=$(python3 .github/scripts/npgsql_connection.py --direct)
+          echo "::add-mask::$connection"
+          ./efbundle --connection "$connection" || {
+            echo "::error::Migrations failed (error above); prod still runs the previous version. 'password authentication failed' means the prod DATABASE_URL secret is out of date: docs/SETUP-ENVIRONMENTS.md, 'When a database password changes'."
+            exit 1
+          }
+
+      # --- API ------------------------------------------------------------------------------------------------
+      - name: Sign in to Azure (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Addresses and what prod runs now
+        id: addresses
+        run: |
+          az config set extension.use_dynamic_install=yes_without_prompt --only-show-errors
+          api=$(az containerapp show -g "$RESOURCE_GROUP" -n "$API_APP" \
+            --query "{fqdn: properties.configuration.ingress.fqdn, image: properties.template.containers[0].image}" -o json)
+          web=$(az staticwebapp show -g "$RESOURCE_GROUP" -n "$STATIC_WEB_APP" --query defaultHostname -o tsv)
+          echo "api-url=https://$(jq -r .fqdn <<<"$api")" >> "$GITHUB_OUTPUT"
+          echo "web-url=https://$web" >> "$GITHUB_OUTPUT"
+          previous=$(jq -r .image <<<"$api")
+          echo "previous-image=$previous" >> "$GITHUB_OUTPUT"
+          echo "Prod ran \`$previous\` before this deploy." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Deploy the API to api-prod
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          WEB_URL: ${{ steps.addresses.outputs.web-url }}
+          IMAGE_TAG: ${{ env.IMAGE }}:${{ needs.changes.outputs.sha }}
+        run: |
+          # The connection string is a Container Apps secret, not a plain setting.
+          az containerapp secret set -g "$RESOURCE_GROUP" -n "$API_APP" \
+            --secrets "database-url=$DATABASE_URL" --only-show-errors -o none
+          # The API listens on 8080 (the bicep placeholder used 80).
+          az containerapp ingress update -g "$RESOURCE_GROUP" -n "$API_APP" --target-port 8080 --only-show-errors -o none
+          az containerapp update -g "$RESOURCE_GROUP" -n "$API_APP" --image "$IMAGE_TAG" --only-show-errors -o none \
+            --set-env-vars "ConnectionStrings__Database=secretref:database-url" "Cors__AllowedOrigins=$WEB_URL"
+
+      # --- Web app --------------------------------------------------------------------------------------------
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Build the web app
+        working-directory: web
+        env:
+          VITE_API_URL: ${{ steps.addresses.outputs.api-url }}
+        run: |
+          npm ci --no-audit --no-fund
+          npm run build
+
+      - name: Deploy the web app to production
+        # The Static Web Apps CLI, as in the QA deploy (same tool, same version).
+        env:
+          SWA_CLI_DEPLOYMENT_TOKEN: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+        run: npx --yes @azure/static-web-apps-cli@2.0.10 deploy web/dist --env production --no-use-keychain
+
+      - name: Smoke test
+        env:
+          API_URL: ${{ steps.addresses.outputs.api-url }}
+          WEB_URL: ${{ steps.addresses.outputs.web-url }}
+          EXPECTED_VERSION: ${{ steps.commit.outputs.version }}
+        run: tests/smoke/smoke.sh
+
+      - name: Summary
+        env:
+          VERSION: ${{ steps.commit.outputs.version }}
+          ROLLBACK: ${{ needs.changes.outputs.rollback }}
+          API_URL: ${{ steps.addresses.outputs.api-url }}
+          WEB_URL: ${{ steps.addresses.outputs.web-url }}
+        run: |
+          {
+            [[ $ROLLBACK == true ]] && echo "### Prod rolled back to \`$VERSION\`" || echo "### Prod now runs \`$VERSION\`"
+            echo
+            echo "- Web app: $WEB_URL"
+            echo "- API: $API_URL/health"
+            echo "- To roll back: docs/PROD-DEPLOY.md"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Which PR QA shows
+        # For the QA reset below: the commit api-qa runs (its image tag), so that PR can go back on QA afterwards.
+        id: qa
+        run: |
+          image=$(az containerapp show -g "$RESOURCE_GROUP" -n "$QA_API_APP" --query "properties.template.containers[0].image" -o tsv)
+          commit=${image##*:}
+          [[ $commit =~ ^[0-9a-f]{40}$ ]] || commit=""
+          echo "commit=$commit" >> "$GITHUB_OUTPUT"
+          echo "QA runs ${commit:-something other than a PR build (${image})}"
+
+  reset-qa-database:
+    name: Reset the QA database
+    needs: [changes, deploy-prod]
+    # Not after a rollback: QA keeps the migrations it has, which the newer PRs on it expect.
+    if: needs.changes.outputs.rollback != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    # Waits for a QA deploy or its UI tests to finish, so their database isn't swapped half-way.
+    concurrency:
+      group: qa-environment
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      actions: write # start the QA deploy again
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          sparse-checkout: .github/scripts
+
+      - name: Reset the Neon "qa" branch to a copy of prod
+        env:
+          NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+          NEON_PROJECT_ID: ${{ vars.NEON_PROJECT_ID }}
+        run: python3 .github/scripts/neon_reset_qa.py --branch qa --parent main
+
+      - name: Put the PR QA showed back on QA
+        # The reset removed that PR's own migrations (if any) from the QA database, so it's deployed again.
+        # Nothing to do when QA showed the PR that was just merged: prod has its migrations now.
+        env:
+          GH_TOKEN: ${{ github.token }}
+          QA_COMMIT: ${{ needs.deploy-prod.outputs.qa-commit }}
+        run: |
+          if [[ -z $QA_COMMIT ]]; then
+            echo "QA doesn't show a PR build; nothing to put back." | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          branch=$(gh api "repos/$GITHUB_REPOSITORY/commits/$QA_COMMIT/pulls" \
+            --jq "[.[] | select(.state == \"open\" and .head.sha == \"$QA_COMMIT\" and .head.repo.full_name == \"$GITHUB_REPOSITORY\")][0].head.ref // empty")
+          if [[ -z $branch ]]; then
+            echo "QA showed ${QA_COMMIT:0:7}, which no open PR has as its latest commit; nothing to put back." | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          gh workflow run deploy-qa.yml -R "$GITHUB_REPOSITORY" --ref "$branch"
+          echo "QA database reset; QA deploy started again for branch \`$branch\` (${QA_COMMIT:0:7})." | tee -a "$GITHUB_STEP_SUMMARY"
+
+  alert:
+    name: Alert the owner
+    needs: [changes, deploy-prod, reset-qa-database]
+    # After a deploy, failed or not (no deploy, nothing to say). A run by hand that stops at "Anything to deploy?"
+    # (e.g. a mistyped rollback commit) shows its error on the run the owner is looking at, so no issue for that.
+    if: >-
+      ${{ always() && !cancelled() &&
+          ((needs.changes.result == 'failure' && github.event_name == 'push') || needs.deploy-prod.result != 'skipped') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          sparse-checkout: .github/scripts
+
+      - name: Open, add to or close the "Prod deploy failed" issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CHANGES: ${{ needs.changes.result }}
+          DEPLOY: ${{ needs.deploy-prod.result }}
+          RESET: ${{ needs.reset-qa-database.result }}
+          COMMIT: ${{ needs.changes.outputs.sha || github.sha }}
+          OWNER: ${{ github.repository_owner }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          failed=()
+          [[ $CHANGES == failure ]] && failed+=("Anything to deploy?")
+          [[ $DEPLOY == failure ]] && failed+=("deploy-prod")
+          [[ $RESET == failure ]] && failed+=("Reset the QA database")
+          if ((${#failed[@]})); then
+            export OUTCOME=failure FAILED_JOBS
+            printf -v FAILED_JOBS '%s, ' "${failed[@]}"
+            FAILED_JOBS=${FAILED_JOBS%, }
+          else
+            export OUTCOME=success
+          fi
+          python3 .github/scripts/prod_alert.py
