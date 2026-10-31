@@ -174,7 +174,7 @@ jobs:
       # Before the new API starts, so it finds the tables it expects. Migrations must keep the running version
       # working (add first, remove in a later PR): the old API serves until the new one is live, and a rollback
       # runs old code on the new tables. A rollback doesn't run them: an older bundle never undoes newer migrations.
-      - uses: actions/setup-dotnet@v5
+      - uses: actions/setup-dotnet@v6
         if: needs.changes.outputs.rollback != 'true'
         with:
           global-json-file: global.json

@@ -38,7 +38,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - uses: actions/setup-dotnet@v5
+      - uses: actions/setup-dotnet@v6
         # Lets CodeQL restore the NuGet packages with the SDK in global.json, for more precise C# results.
         if: matrix.language == 'csharp'
         with:
