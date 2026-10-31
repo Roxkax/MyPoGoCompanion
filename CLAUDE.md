@@ -61,12 +61,13 @@ Board: https://github.com/users/Roxkax/projects/2 (kept in sync by the `Project 
 | Date | Work | PRs |
 |---|---|---|
 | 2026-10-28 | Project board created and synced: all 891 backlog issues added, Status (Todo · In progress · In review · Done) and Hours set; views Current sprint, Backlog, Features. Script handles GitHub's auto-added sub-issues and retries its temporary errors. | #893, #895, #896 |
+| 2026-10-31 | First Dependabot batch (major updates) rebased one by one onto the latest `main` and **rebase-merged** (owner): `github-script` 9, `upload-artifact` 7, `checkout` 7, `setup-dotnet` 6, `azure/login` 3 (tested on QA first with the `qa` label), `jsdom` 30, TypeScript 7 in `tests/ui/`; also #909. Every prod deploy green (prod on `ab9b482`). TypeScript 7 in `web/` (#911) failed `npm ci`: `typescript-eslint` 8.72 needs TypeScript < 6.1 (TS 7.0 has no API); fixed **side by side** (owner): `tsc` is TypeScript 7 (alias `@typescript/native`), the `typescript` package is `@typescript/typescript6` for ESLint (`web/README.md`). | #909, #910, #912–#917, #911 |
 
 ### Owner to-dos
 
 - Replace the `PROJECT_TOKEN` secret with a new classic token that has **only** `project` + `public_repo`, then delete the old token (the current one carries admin and delete-repo scopes).
 - Add the **`qa` label** to a PR when you want it on QA.
-- E00-F09 (merged): delete the branch `claude/proof-failing-test` (button on closed PR #908; Claude's git proxy can't delete branches). Switch on **Dependabot alerts** and **Dependabot security updates** (Settings → Advanced Security); leave CodeQL default setup off. Still to confirm: all three merge methods stay allowed, and CodeQL stays out of the required checks.
+- E00-F09 (merged): delete the branch `claude/proof-failing-test` (button on closed PR #908; Claude's git proxy can't delete branches) and the merged Dependabot branches, or switch on **Settings → General → Automatically delete head branches**. Switch on **Dependabot alerts** and **Dependabot security updates** (Settings → Advanced Security); leave CodeQL default setup off. Still to confirm: all three merge methods stay allowed, and CodeQL stays out of the required checks.
 - E00-F08 (merged): first prod run is green. Still to do from its testing steps: the **rollback test** (`docs/PROD-DEPLOY.md`) and **Environment check** for `prod` on `main` (confirms the prod `DATABASE_URL` is branch `main` of the same project).
 - Neon: the old `qa` branch had **auto-delete** on and was removed; it was re-created from `main` with auto-delete **Never**. The real project is `mypogocompanion` (`soft-lab-02601198`, the one the secrets and the QA reset use); **delete the other Neon project**.
 - Optional: delete the stale branches `claude/dreamy-ptolemy-lvqw25` and `claude/project-board` (their commits are already on `main`).
@@ -230,6 +231,7 @@ Board: https://github.com/users/Roxkax/projects/2 (kept in sync by the `Project 
 | 2026-10-31 | **Prod deploy skips merges that only change notes** (Markdown, `docs/`, `planning/`, `design/`) since what prod runs, the same rule as QA; **Run workflow** by hand always deploys (owner). |
 | 2026-10-31 | After the QA database reset, the pipeline **redeploys the PR QA was showing, only if that PR is still open** (so its own migrations are back); nothing extra runs when QA showed the PR just merged (owner). |
 | 2026-10-31 | **Dependabot runs weekly** (Monday 07:00 Lisbon) for NuGet, npm and GitHub Actions: minor and patch updates grouped per ecosystem, major updates one PR each; no major updates for the .NET 10 framework packages, Npgsql and `dotnet-ef` (owner). |
+| 2026-10-31 | **TypeScript 7 side by side with 6 in `web/`** (owner, option 2 of 2): `tsc` (type check, build) is TypeScript 7 via the alias `@typescript/native`; the `typescript` package is `@typescript/typescript6` so `typescript-eslint` keeps working; drop the alias when `typescript-eslint` supports TypeScript 7. Not chosen: staying on TypeScript 6 with a Dependabot ignore rule. |
 
 ## Open decisions
 
