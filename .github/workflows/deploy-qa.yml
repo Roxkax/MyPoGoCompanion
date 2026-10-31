@@ -234,6 +234,18 @@ jobs:
           test -n "$host" || { echo "::error::No Static Web Apps environment named '$SWA_ENVIRONMENT' after the deploy"; exit 1; }
           echo "url=https://$host" >> "$GITHUB_OUTPUT"
 
+      - name: Remove per-PR preview sites
+        # Static Web Apps names a per-PR preview site after the PR number (made by the deploy action before we used the
+        # CLI). The free plan has few environment slots, so any such leftover is removed; "qa" and production are kept.
+        run: |
+          names=$(az staticwebapp environment list -g "$RESOURCE_GROUP" -n "$STATIC_WEB_APP" --query "[].buildId" -o tsv)
+          for name in $names; do
+            if [[ $name =~ ^[0-9]+$ ]]; then
+              echo "Removing preview site '$name'"
+              az staticwebapp environment delete -g "$RESOURCE_GROUP" -n "$STATIC_WEB_APP" --environment-name "$name" --yes --only-show-errors
+            fi
+          done
+
       # --- API ------------------------------------------------------------------------------------------------
       - name: Deploy the API to api-qa
         env:
