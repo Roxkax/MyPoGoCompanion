@@ -53,7 +53,15 @@ docker compose exec db psql -U mypogocompanion   # SQL prompt
 
 Connection string for the API: `Host=localhost;Port=5432;Database=mypogocompanion;Username=mypogocompanion;Password=localdev`.
 
-The tables come from EF Core migrations and the dev seed (the design's sample trainer and data). Both arrive with the database schema (E01-F01); after that the API applies them on start-up in development.
+The tables come from EF Core migrations (`api/MyPoGoCompanion.Data/Migrations/`) and the dev seed (the design's sample trainer and data). Today there is only an empty `Baseline` migration; the schema and the seed arrive with E01-F01, and after that the API applies them on start-up in development.
+
+```bash
+dotnet tool restore                                                    # once: installs dotnet-ef
+dotnet ef migrations add <Name> --project api/MyPoGoCompanion.Data     # after changing the model
+dotnet ef database update --project api/MyPoGoCompanion.Data           # apply to the local database
+```
+
+`dotnet ef database update` uses `ConnectionStrings__Database` when it is set, and the local database otherwise. A model change without a migration fails the `integration` check.
 
 ### Formatting and lint
 
@@ -111,7 +119,7 @@ cd web && npm run test:coverage                               # web unit tests w
 cd tests/ui && npm ci && npx playwright install chromium && npx playwright test   # UI tests
 ```
 
-- **Integration tests** start their own PostgreSQL in Docker (Testcontainers); the local database isn't used.
+- **Integration tests** start their own PostgreSQL in Docker (Testcontainers); the local database isn't used. The migrations are applied once per run to a template database; `PostgresFixture.ConnectionString` is a shared copy for tests that only read, and `CreateDatabaseAsync()` gives a test that writes a fresh copy of its own. Run them alone with `dotnet test --project tests/MyPoGoCompanion.IntegrationTests`.
 - **UI tests** run on phone and desktop sizes in light and dark. Without `BASE_URL` they start the API and the web dev server themselves (the local database must be running); `BASE_URL=https://… npx playwright test` runs them against a deployed web app.
 - **Smoke test** (`tests/smoke/smoke.sh`, workflow "Smoke test"): quick checks after every deploy that the API is healthy, runs the expected version, allows the web app's address and that the web app loads. Run it by hand with `API_URL=… WEB_URL=… tests/smoke/smoke.sh`.
 
@@ -140,6 +148,10 @@ cd web && npm run test:coverage
 | `build-and-unit` | Passes only when both parts pass; writes the coverage table to the run summary and as a pull-request comment |
 
 Jobs are added with the first scheduled job (E02-F01).
+
+### What the `integration` check runs
+
+`.github/workflows/integration.yml`, on every pull request and on `main`: build the integration tests in Release → run them against PostgreSQL 17 in Docker (migrations applied first) → test results (totals, each failure with its error, all tests) on the run summary and as a pull-request comment; the TRX file is kept as a run artifact for 7 days.
 
 ### Legacy keeper-filters page
 

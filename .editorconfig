@@ -80,3 +80,7 @@ dotnet_naming_rule.types_and_members.severity = none
 dotnet_diagnostic.CA1707.severity = none
 dotnet_diagnostic.CA1822.severity = none
 dotnet_diagnostic.CA2007.severity = none
+
+# EF Core migrations are written by `dotnet ef migrations add`; style and analyzer rules don't apply
+[**/Migrations/*.cs]
+generated_code = true
