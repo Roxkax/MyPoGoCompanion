@@ -96,8 +96,22 @@ Later features add more secrets here (Google sign-in, Anthropic API key, Neon AP
 
 If a run fails, the step's error says which part: sign-in (IDs or the repository name in step 2), resources (step 2), database (`DATABASE_URL`) or token.
 
+## 5. Make the API image public (once, after the first QA deploy)
+
+The deploy pipelines push the API image to GitHub Container Registry as the package `mypogocompanion-api`. Azure pulls it without a password, so the package must be **public** (free for a public repository; the image holds no secrets: they are set on the container app). GitHub creates new packages as private, so the first **QA deploy** run stops at "Check the image is public" with an error pointing here.
+
+1. On GitHub: your profile → **Packages** → **mypogocompanion-api** → **Package settings** (bottom right).
+2. **Danger Zone** → **Change visibility** → **Public**, type the name to confirm.
+3. Still in Package settings, under **Manage Actions access**, check that `MyPoGoCompanion` is listed with the **Write** role (it's added automatically by the first push).
+4. Re-run the failed **QA deploy** check on the pull request.
+
+## Re-running the Azure template
+
+Running `infra/main.bicep` again (step 2) resets `api-prod` and `api-qa` to the placeholder image, port 80 and no settings. The next QA deploy (or prod deploy) puts everything back; until then that API shows the placeholder page. Only re-run it when Claude asks.
+
 ## What lives where
 
 - Azure template: `infra/main.bicep`
 - Check workflow: `.github/workflows/environment-check.yml`
+- QA deploy: `.github/workflows/deploy-qa.yml`
 - How the environments are used: `planning/CI-CD.md`
