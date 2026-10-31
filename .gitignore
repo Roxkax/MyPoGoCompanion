@@ -22,6 +22,7 @@ web/dist/
 *.tsbuildinfo
 playwright-report/
 test-results/
+/tests/ui/results/
 
 # Local settings and secrets
 .env
