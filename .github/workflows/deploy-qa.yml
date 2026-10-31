@@ -37,10 +37,11 @@ jobs:
   changes:
     name: Anything to deploy?
     # Only PRs with the "qa" label; a "labeled" event only when that label is the one just added (other labels don't
-    # redeploy). Pull requests from forks get no secrets, so they can't deploy.
+    # redeploy). Pull requests from forks, and runs started by Dependabot (its pushes to its own pull requests), get
+    # no secrets, so they can't deploy: to try a dependency update on QA, use Run workflow on its branch.
     if: >-
       github.event_name == 'workflow_dispatch' ||
-      (github.event.pull_request.head.repo.full_name == github.repository &&
+      (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' &&
        contains(github.event.pull_request.labels.*.name, 'qa') &&
        (github.event.action != 'labeled' || github.event.label.name == 'qa'))
     runs-on: ubuntu-latest

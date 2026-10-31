@@ -1,0 +1,62 @@
+# Dependency updates (E00-F09, docs/BRANCH-RULES.md). Once a week, Monday morning (Lisbon time). Minor and patch
+# updates come grouped, one pull request per ecosystem; a major update gets its own pull request. Each one runs the
+# required checks like any other pull request; the owner merges it (or closes it to skip that version).
+version: 2
+updates:
+  - package-ecosystem: nuget
+    # Directory.Packages.props (central versions) and the local tools in .config/dotnet-tools.json.
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '07:00'
+      timezone: Europe/Lisbon
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: 'Dependencies (NuGet)'
+    groups:
+      nuget-minor-and-patch:
+        update-types: [minor, patch]
+    ignore:
+      # The API stays on .NET 10 LTS: the framework's own packages (and the EF Core provider and tool that follow
+      # them) move to a new major version only together with the SDK in global.json, by hand.
+      - dependency-name: 'Microsoft.AspNetCore.*'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'Microsoft.EntityFrameworkCore.*'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'Microsoft.Extensions.*'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'Npgsql*'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'dotnet-ef'
+        update-types: ['version-update:semver-major']
+
+  - package-ecosystem: npm
+    directories:
+      - /web
+      - /tests/ui
+    schedule:
+      interval: weekly
+      day: monday
+      time: '07:00'
+      timezone: Europe/Lisbon
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: 'Dependencies (npm)'
+    groups:
+      npm-minor-and-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '07:00'
+      timezone: Europe/Lisbon
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: 'Dependencies (Actions)'
+    groups:
+      actions-minor-and-patch:
+        update-types: [minor, patch]

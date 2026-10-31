@@ -39,6 +39,10 @@ Switched on at **Sprint 0**, together with the pipelines (until then planning do
 - No direct pushes; changes only through pull requests; no force pushes or deletion.
 - All four checks must pass (`deploy-qa` and `ui-tests` pass as skipped on PRs without the `qa` label); the branch must be up to date with `main`; all PR conversations resolved.
 - **No approval required while the owner works alone** (GitHub doesn't allow approving your own PR, and Claude's commits are authored by the owner). When collaborators join: **1 approval required** + `CODEOWNERS` making the owner approve changes to `.github/`, infrastructure and pipeline files.
+- As built (E00-F09): the ruleset **Protect main** is kept as code in `.github/rulesets/main.json` (required checks pinned to GitHub Actions; no bypass, the owner included) and switched on by importing it in Settings → Rules; the **Branch rules check** workflow compares what GitHub enforces with the file (when the file changes on `main`, weekly, or by hand). Setup and "why can't I merge?" in `docs/BRANCH-RULES.md`.
+- PR template (`.github/pull_request_template.md`): what it does, `Closes #n` for every issue of the feature, how to test, checklist.
+- **Dependabot** (`.github/dependabot.yml`): NuGet, npm and GitHub Actions weekly on Monday; minor and patch grouped per ecosystem, majors on their own; no major updates for the .NET 10 framework packages, Npgsql and `dotnet-ef` (moved with the SDK by hand). Its PRs run the required checks; Dependabot's own runs get no secrets, so no PR comments and no QA deploy from them.
+- **CodeQL** (`.github/workflows/codeql.yml`): C#, TypeScript, Python and the workflows on every PR, on `main` and weekly; results in Security → Code scanning; not a required check.
 
 ## Secrets and access
 
@@ -59,4 +63,4 @@ Azure's free default addresses for prod and QA for now (`*.azurestaticapps.net`,
 
 1. Azure: resource group, Static Web App, Container Apps environment with `api-prod` and `api-qa`, container registry, federated credential for GitHub.
 2. Neon: project with `main` and `qa` branches.
-3. GitHub: environments `prod` and `qa` with their secrets; the `main` branch rules above (Settings → Rules).
+3. GitHub: environments `prod` and `qa` with their secrets; the `main` branch rules above (Settings → Rules → import `.github/rulesets/main.json`, `docs/BRANCH-RULES.md`).
