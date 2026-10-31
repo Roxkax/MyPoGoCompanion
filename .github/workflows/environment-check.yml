@@ -58,8 +58,11 @@ jobs:
 
       - name: Neon API for the QA reset (read only)
         # Repository secret NEON_API_KEY and variable NEON_PROJECT_ID (docs/SETUP-ENVIRONMENTS.md, step 6): the key
-        # works, the project exists and "qa" is a child of "main". Nothing is changed.
+        # works, the project exists, "qa" is a child of "main", and this environment's DATABASE_URL is that project's
+        # "qa" (QA) or "main" (prod) branch. Nothing is changed.
         env:
           NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
           NEON_PROJECT_ID: ${{ vars.NEON_PROJECT_ID }}
-        run: python3 .github/scripts/neon_reset_qa.py --branch qa --parent main --check
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABASE_BRANCH: ${{ inputs.environment == 'prod' && 'main' || 'qa' }}
+        run: python3 .github/scripts/neon_reset_qa.py --branch qa --parent main --check --database-branch "$DATABASE_BRANCH"

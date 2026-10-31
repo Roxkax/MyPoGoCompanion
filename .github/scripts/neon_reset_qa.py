@@ -4,7 +4,8 @@ prod deploy. Called by .github/workflows/deploy-prod.yml; can also be run by han
     NEON_API_KEY=… NEON_PROJECT_ID=… python3 .github/scripts/neon_reset_qa.py [--branch qa] [--parent main] [--check]
 
 With --check it changes nothing: it only confirms the key, the project and that the branch's parent is right (used by
-the Environment check workflow).
+the Environment check workflow). Add --database-branch NAME to also confirm that $DATABASE_URL points at that branch
+of this project (so the reset touches the database the app really uses).
 
 Uses Neon's "reset from parent" (POST …/branches/{qa}/restore with source_branch_id = main), then waits until Neon
 reports the operations finished. Everything on qa is replaced by prod's current data; the connection details (host,
@@ -18,6 +19,7 @@ import sys
 import time
 import urllib.error
 import urllib.request
+from urllib.parse import urlsplit
 
 API = "https://console.neon.tech/api/v2"
 DONE = {"finished", "skipped"}
@@ -76,7 +78,29 @@ def wait_for(operations: list[dict], project: str, key: str, timeout: int = 600)
             time.sleep(5)
 
 
-def reset(project: str, key: str, branch_name: str, parent_name: str, check: bool = False) -> None:
+def check_database_url(project: str, key: str, branches: dict[str, dict], expected: str) -> None:
+    url = os.environ.get("DATABASE_URL", "").strip()
+    if not url.lower().startswith(("postgres://", "postgresql://")):
+        raise NeonError("DATABASE_URL is missing or isn't a postgresql:// URL.")
+    host = (urlsplit(url).hostname or "").lower()
+    first, dot, rest = host.partition(".")
+    host = first.removesuffix("-pooler") + dot + rest
+    endpoints = call("GET", f"/projects/{project}/endpoints", key)["endpoints"]
+    match = next((e for e in endpoints if e.get("host", "").lower() == host), None)
+    if match is None:
+        raise NeonError(
+            "DATABASE_URL points at a database outside this Neon project: either NEON_PROJECT_ID names the wrong "
+            "project, or DATABASE_URL comes from the other one."
+        )
+    names = {b["id"]: n for n, b in branches.items()}
+    actual = names.get(match["branch_id"], match["branch_id"])
+    if actual != expected:
+        raise NeonError(f"DATABASE_URL points at branch '{actual}' of this project, expected '{expected}'.")
+    print(f"DATABASE_URL points at branch '{expected}' of this project.")
+
+
+def reset(project: str, key: str, branch_name: str, parent_name: str, check: bool = False,
+          database_branch: str | None = None) -> None:
     name = call("GET", f"/projects/{project}", key)["project"]["name"]
     print(f"Neon project: {name} ({project})")
     branches = call("GET", f"/projects/{project}/branches", key)["branches"]
@@ -91,6 +115,8 @@ def reset(project: str, key: str, branch_name: str, parent_name: str, check: boo
             f"Branch '{branch_name}' isn't a child of '{parent_name}', so it can't be reset from it. "
             f"Re-create '{branch_name}' from '{parent_name}' in Neon (docs/SETUP-ENVIRONMENTS.md, step 1)."
         )
+    if database_branch:
+        check_database_url(project, key, by_name, database_branch)
     if check:
         print(f"Ready: '{branch_name}' ({branch['id']}) is a child of '{parent_name}' ({parent['id']}), so it can be reset from it.")
         return
@@ -105,6 +131,7 @@ def main() -> int:
     parser.add_argument("--branch", default="qa")
     parser.add_argument("--parent", default="main")
     parser.add_argument("--check", action="store_true", help="only check the key, project and branches")
+    parser.add_argument("--database-branch", help="with --check: confirm $DATABASE_URL points at this branch")
     args = parser.parse_args()
     key, project = os.environ.get("NEON_API_KEY", "").strip(), os.environ.get("NEON_PROJECT_ID", "").strip()
     missing = [name for name, value in (("NEON_API_KEY", key), ("NEON_PROJECT_ID", project)) if not value]
@@ -112,7 +139,7 @@ def main() -> int:
         print(f"::error::{' and '.join(missing)} not set: see docs/SETUP-ENVIRONMENTS.md, step 6.")
         return 1
     try:
-        reset(project, key, args.branch, args.parent, args.check)
+        reset(project, key, args.branch, args.parent, args.check, args.database_branch)
     except NeonError as error:
         print(f"::error::{'Neon check' if args.check else 'QA database reset'}: {error}")
         return 1
