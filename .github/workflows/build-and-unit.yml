@@ -1,0 +1,178 @@
+# Required check "build-and-unit" (planning/CI-CD.md): builds the API, jobs and web app, checks
+# formatting, lint and types, runs the unit tests and enforces a minimum line coverage.
+# The coverage table is shown on the run's summary page and as a comment on the pull request.
+name: Build and unit tests
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-and-unit-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Minimum line coverage (%) for .NET and for the web app; the web minimum is also in web/vite.config.ts.
+  MIN_LINE_COVERAGE: 80
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+  dotnet:
+    name: .NET build and unit tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('Directory.Packages.props', '**/*.csproj', '.config/dotnet-tools.json') }}
+          restore-keys: nuget-${{ runner.os }}-
+
+      - name: Restore
+        run: |
+          dotnet restore MyPoGoCompanion.slnx
+          dotnet tool restore
+
+      - name: Check formatting and code style
+        run: dotnet format MyPoGoCompanion.slnx --verify-no-changes --no-restore
+
+      - name: Build (warnings fail the build)
+        run: dotnet build MyPoGoCompanion.slnx --configuration Release --no-restore
+
+      - name: Unit tests with coverage
+        # Every *.UnitTests project; integration tests run in the "integration" check.
+        run: |
+          shopt -s globstar
+          for project in **/*.UnitTests.csproj; do
+            name=$(basename "$project" .csproj)
+            dotnet test --project "$project" --configuration Release --no-build \
+              --coverage --coverage-settings coverage.config --coverage-output "$name.cobertura.xml" \
+              --results-directory "$PWD/TestResults/unit"
+          done
+
+      - name: Coverage report
+        if: ${{ !cancelled() }}
+        run: >
+          dotnet reportgenerator -reports:'TestResults/unit/**/*.cobertura.xml' -targetdir:coverage/dotnet
+          -reporttypes:'Cobertura;JsonSummary' -title:'.NET'
+
+      - name: Check the coverage minimum
+        run: python3 .github/scripts/coverage.py check coverage/dotnet/Summary.json "$MIN_LINE_COVERAGE" .NET
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: coverage-dotnet
+          path: coverage/dotnet/Cobertura.xml
+          if-no-files-found: ignore
+          retention-days: 7
+
+  web:
+    name: Web lint, type check, unit tests and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install
+        run: npm ci --no-audit --no-fund
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Unit tests with coverage (fails below the minimum)
+        run: npm run test:coverage
+
+      - name: Build
+        run: npx vite build
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: coverage-web
+          path: web/coverage/cobertura-coverage.xml
+          if-no-files-found: ignore
+          retention-days: 7
+
+  build-and-unit:
+    # The name branch rules require. Passes only when both jobs above pass.
+    name: build-and-unit
+    needs: [dotnet, web]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          sparse-checkout: |
+            .config
+            .github/scripts
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+
+      - uses: actions/download-artifact@v5
+        # Missing when a job failed before its tests; the summary says so.
+        continue-on-error: true
+        with:
+          pattern: coverage-*
+          path: coverage
+
+      - name: Coverage summary
+        run: |
+          dotnet tool restore
+          for part in dotnet web; do
+            report=$(find "coverage/coverage-$part" -name '*.xml' 2>/dev/null | head -1)
+            if [ -n "$report" ]; then
+              dotnet reportgenerator "-reports:$report" "-targetdir:coverage/summary-$part" -reporttypes:JsonSummary
+            fi
+          done
+          python3 .github/scripts/coverage.py summary "$MIN_LINE_COVERAGE" \
+            ".NET=coverage/summary-dotnet/Summary.json" "Web=coverage/summary-web/Summary.json" > summary.md
+          cat summary.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Comment on the pull request
+        # Skipped for pull requests from forks, which get a read-only token.
+        if: ${{ !cancelled() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: build-and-unit-coverage
+          path: summary.md
+
+      - name: Result
+        if: needs.dotnet.result != 'success' || needs.web.result != 'success'
+        run: |
+          echo "::error::.NET: ${{ needs.dotnet.result }} · web: ${{ needs.web.result }}"
+          exit 1
