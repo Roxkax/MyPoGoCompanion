@@ -63,7 +63,7 @@ Board: https://github.com/users/Roxkax/projects/2 (kept in sync by the `Project 
 ### Owner to-dos
 
 - Replace the `PROJECT_TOKEN` secret with a new classic token that has **only** `project` + `public_repo`, then delete the old token (the current one carries admin and delete-repo scopes).
-- On PR #904's first QA deploy: make the GHCR package `mypogocompanion-api` **public** (`docs/SETUP-ENVIRONMENTS.md` step 5), re-run the check, then review and test (steps in the PR) and merge.
+- PR #904: the QA deploy fails because the **`qa` environment's `DATABASE_URL` is out of date** (Neon rejects its password; prod's works, Environment check 2026-10-31). Copy the `qa` branch URL from Neon again, update the secret (`docs/SETUP-ENVIRONMENTS.md`, "When a database password changes"), run Environment check `qa`, re-run **QA deploy**, then review and test (steps in the PR) and merge. The GHCR package is already public.
 - Optional: delete the stale branches `claude/dreamy-ptolemy-lvqw25` and `claude/project-board` (their commits are already on `main`).
 - Clone the repo (`https://github.com/Roxkax/MyPoGoCompanion.git`) to `C:\Dev` and set `git config user.name/user.email` (see Git above).
 - When a sprint's "Current sprint" view should move on, change its filter to the next milestone (e.g. `milestone:"Sprint 1"`).
