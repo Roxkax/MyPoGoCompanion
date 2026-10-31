@@ -52,7 +52,7 @@ jobs:
           SWA_TOKEN: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
         run: test -n "$SWA_TOKEN" && echo "Static Web Apps deployment token is set" || { echo "::error::AZURE_STATIC_WEB_APPS_API_TOKEN secret is missing"; exit 1; }
 
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           sparse-checkout: .github/scripts
 

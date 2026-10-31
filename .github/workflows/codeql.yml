@@ -36,7 +36,7 @@ jobs:
         # No build needed: C# is analysed from the source ("build-mode: none").
         language: [actions, csharp, javascript-typescript, python]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-dotnet@v5
         # Lets CodeQL restore the NuGet packages with the SDK in global.json, for more precise C# results.

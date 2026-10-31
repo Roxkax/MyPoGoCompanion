@@ -31,7 +31,7 @@ jobs:
       - name: No token
         if: env.TOKEN == ''
         run: echo "::notice::Add a PROJECT_TOKEN secret (classic token with the project scope) to sync the board."
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         if: env.TOKEN != ''
         with:
           sparse-checkout: .github/scripts
