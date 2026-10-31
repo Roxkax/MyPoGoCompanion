@@ -136,7 +136,7 @@ jobs:
           echo "version=${sha:0:7}" >> "$GITHUB_OUTPUT"
           echo "Deploying PR #$number at ${sha:0:7}"
 
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           ref: ${{ steps.pr.outputs.sha }}
 
