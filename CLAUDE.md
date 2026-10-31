@@ -47,8 +47,8 @@ Board: https://github.com/users/Roxkax/projects/2 (kept in sync by the `Project 
 |---|---|---|---|
 | E00-F01 Monorepo layout and developer tooling | **Done** 2026-10-28 | #892, #894 | Tasks #3–#7 closed. Python pipeline moved to `legacy/keeper-filters/`; `.gitattributes` forces LF. The dev **seed data** is left for E01-F01 ("Initial migration and dev seed"). |
 | E00-F02 Azure, Neon and GitHub environments | **Done** 2026-10-29 | #898, #899 | Issues #8–#14 closed. Owner set up Neon (`main`, `qa`), deployed `infra/main.bicep` to `rg-mypogocompanion` (West Europe) and created the GitHub environments `prod` and `qa`; **Environment check** green for both (OIDC sign-in, resources, database, Static Web Apps token). GitHub's OIDC subject carries numeric IDs: `repo:Roxkax@3799595/MyPoGoCompanion@1434430254:environment:<env>`. |
-| E00-F03 Deployable API and web skeletons | **In review** 2026-10-30 | #901 | Issues #15–#22. API (`/health` with database check, `/health/live`, OpenAPI, CORS, accepts Neon's URL; chiseled Docker image on **port 8080**), web shell showing the API status (light/dark), xUnit v3 + Testcontainers + Vitest + Playwright tests, smoke test script and workflow. All checks green locally. Owner tests locally (steps in the PR). For E00-F06/F08: set the Container App target port to **8080** (bicep still says 80 for the placeholder) and set `ConnectionStrings__Database`, `Cors__AllowedOrigins`, `VITE_API_URL`. |
-| E00-F04 Build & unit-test pipeline | Todo | | |
+| E00-F03 Deployable API and web skeletons | **Done** 2026-10-30 | #901 | Issues #15–#22. API (`/health` with database check, `/health/live`, OpenAPI, CORS, accepts Neon's URL; chiseled Docker image on **port 8080**), web shell showing the API status (light/dark), xUnit v3 + Testcontainers + Vitest + Playwright tests, smoke test script and workflow. For E00-F06/F08: set the Container App target port to **8080** (bicep still says 80 for the placeholder) and set `ConnectionStrings__Database`, `Cors__AllowedOrigins`, `VITE_API_URL`. |
+| E00-F04 Build & unit-test pipeline | **In review** 2026-10-31 | #902 | Issues #23–#27. Workflow "Build and unit tests": .NET format check, Release build, every `*.UnitTests` project; web lint, Prettier, type check, Vitest, build; job **`build-and-unit`** is the one to require. Coverage (MS CodeCoverage + Vitest v8, ReportGenerator local tool) posted as a PR comment; **minimum 90% of lines** for .NET and for the web app (owner, 2026-10-31). .NET unit coverage 15% → 95%, web 100%. Jobs project and golden files join the check when they exist (E02-F01, E00-F10). |
 | E00-F05 Integration-test pipeline | Todo | | |
 | E00-F06 Shared QA deploy pipeline | Todo | | Until QA exists, the owner tests each feature locally. |
 | E00-F07 UI-test pipeline | Todo | | |
@@ -63,7 +63,8 @@ Board: https://github.com/users/Roxkax/projects/2 (kept in sync by the `Project 
 ### Owner to-dos
 
 - Replace the `PROJECT_TOKEN` secret with a new classic token that has **only** `project` + `public_repo`, then delete the old token (the current one carries admin and delete-repo scopes).
-- Review and test PR #901 locally (steps in the PR), then merge.
+- Review and test PR #902 (steps in the PR), then merge.
+- Optional: delete the stale branches `claude/dreamy-ptolemy-lvqw25` and `claude/project-board` (their commits are already on `main`).
 - Clone the repo (`https://github.com/Roxkax/MyPoGoCompanion.git`) to `C:\Dev` and set `git config user.name/user.email` (see Git above).
 - When a sprint's "Current sprint" view should move on, change its filter to the next milestone (e.g. `milestone:"Sprint 1"`).
 
@@ -215,6 +216,7 @@ Board: https://github.com/users/Roxkax/projects/2 (kept in sync by the `Project 
 | 2026-10-28 | **E00-F01 done** (PRs #892, #894; issues #2–#7 closed). Progress is tracked in CLAUDE.md's **Sprint progress** section, updated with every task, PR and setup step. |
 | 2026-10-29 | Repository **renamed to `Roxkax/MyPoGoCompanion`** by the owner (old URLs redirect). Azure's GitHub sign-in uses the new name. |
 | 2026-10-29 | **E00-F02 done**: environments set up and checked. As deployed by the owner: container images in **GitHub Container Registry** (no Azure registry, ~€5/month saved), Azure **West Europe** + Neon **AWS Frankfurt**, **€5/month Azure budget alert** to the owner's email, logs capped at 0.5 GB/day, GitHub → Azure sign-in by OIDC with Contributor on the resource group only. |
+| 2026-10-31 | **Unit-test coverage minimum: 90% of lines**, checked separately for .NET and for the web app; the `build-and-unit` check fails below it. Generated code and `Program.cs` (startup wiring, covered by integration tests) don't count. |
 
 ## Open decisions
 

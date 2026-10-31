@@ -107,12 +107,37 @@ npm run build        # type check + production build in web/dist
 dotnet test --solution MyPoGoCompanion.slnx                  # .NET unit + integration tests (integration needs Docker)
 dotnet test --project api/MyPoGoCompanion.Api.UnitTests       # .NET unit tests only
 cd web && npm test                                            # web unit tests (Vitest)
+cd web && npm run test:coverage                               # web unit tests with coverage
 cd tests/ui && npm ci && npx playwright install chromium && npx playwright test   # UI tests
 ```
 
 - **Integration tests** start their own PostgreSQL in Docker (Testcontainers); the local database isn't used.
 - **UI tests** run on phone and desktop sizes in light and dark. Without `BASE_URL` they start the API and the web dev server themselves (the local database must be running); `BASE_URL=https://… npx playwright test` runs them against a deployed web app.
 - **Smoke test** (`tests/smoke/smoke.sh`, workflow "Smoke test"): quick checks after every deploy that the API is healthy, runs the expected version, allows the web app's address and that the web app loads. Run it by hand with `API_URL=… WEB_URL=… tests/smoke/smoke.sh`.
+
+### Code coverage
+
+Unit tests must cover at least **90% of lines**, separately for .NET and for the web app; the `build-and-unit` check fails below that and posts the coverage table on the pull request. Generated code and `Program.cs` (startup wiring, exercised by the integration tests) don't count (`coverage.config`).
+
+```bash
+# .NET: coverage report in coverage/dotnet (open index.html)
+dotnet tool restore
+dotnet test --project api/MyPoGoCompanion.Api.UnitTests --coverage --coverage-settings coverage.config --coverage-output unit.cobertura.xml --results-directory "$PWD/TestResults/unit"
+dotnet reportgenerator -reports:'TestResults/unit/**/*.cobertura.xml' -targetdir:coverage/dotnet -reporttypes:'Html;JsonSummary'
+
+# Web: table in the terminal; fails below the minimum
+cd web && npm run test:coverage
+```
+
+### What the `build-and-unit` check runs
+
+`.github/workflows/build-and-unit.yml`, on every pull request and on `main`:
+
+| Part | Steps |
+|---|---|
+| .NET | restore → `dotnet format --verify-no-changes` → build in Release (warnings fail it) → every `*.UnitTests` project with coverage → coverage minimum |
+| Web | `npm ci` → lint → Prettier check → type check → Vitest with coverage (minimum in `web/vite.config.ts`) → production build |
+| `build-and-unit` | Passes only when both parts pass; writes the coverage table to the run summary and as a pull-request comment |
 
 Jobs are added with the first scheduled job (E02-F01).
 

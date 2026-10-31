@@ -11,6 +11,11 @@
     <InvariantGlobalization>true</InvariantGlobalization>
   </PropertyGroup>
 
+  <!-- Unit test projects collect code coverage; the build-and-unit check enforces the minimum. -->
+  <ItemGroup Condition="$(MSBuildProjectName.EndsWith('.UnitTests'))">
+    <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" />
+  </ItemGroup>
+
   <!-- Warnings fail the build in CI; locally they stay warnings so work in progress still runs. -->
   <PropertyGroup Condition="'$(CI)' == 'true'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
