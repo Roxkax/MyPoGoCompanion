@@ -2,10 +2,11 @@
 # API image → GitHub Container Registry; migrations → Neon "qa" branch; web app → Static Web Apps environment "qa";
 # API → container app api-qa; then the smoke test, and a comment "QA now shows PR #n" on the pull request.
 #
-# QA shows one PR at a time: every push to a ready (non-draft) PR deploys it, one run at a time (the "qa" queue
-# below). The UI tests (E00-F07) join this run as a second job, so a PR is tested on QA before another one replaces it.
-# To bring a PR back onto QA: re-run this workflow from the PR's checks, or Actions → QA deploy → Run workflow on the
-# PR's branch.
+# QA shows one PR at a time: every push to a ready (non-draft) PR deploys it, one run at a time (the "qa-environment"
+# queue on the deploy job). The UI tests (E00-F07) join this run as a further job, so a PR is tested on QA before
+# another one replaces it. Pushes that only change notes (Markdown, docs/, planning/, design/) skip the deploy; the
+# check still passes. To bring a PR back onto QA: re-run this workflow from the PR's checks, or Actions → QA deploy →
+# Run workflow on the PR's branch (always deploys).
 name: QA deploy
 
 on:
@@ -15,12 +16,6 @@ on:
 
 permissions:
   contents: read
-
-# One run on QA at a time, never cancelled half-way. GitHub keeps at most one run waiting: if a newer push arrives
-# meanwhile, the waiting run is cancelled (QA would show the newer PR anyway); re-run it to bring that PR back.
-concurrency:
-  group: qa-environment
-  cancel-in-progress: false
 
 env:
   RESOURCE_GROUP: rg-mypogocompanion
@@ -33,14 +28,63 @@ env:
   DOTNET_CLI_TELEMETRY_OPTOUT: true
 
 jobs:
-  deploy-qa:
-    # The name branch rules require.
-    name: deploy-qa
+  # Decides whether this push needs a deploy: not when everything that changed since what QA already shows for this PR
+  # (or, if QA shows something else, since the PR's base) is notes only. A skipped deploy-qa counts as passed for
+  # branch rules, so the PR can still merge.
+  changes:
+    name: Anything to deploy?
     # Drafts aren't deployed (QA would keep changing while work is in progress). Pull requests from forks get no
     # secrets, so they can't deploy either.
     if: >-
       github.event_name == 'workflow_dispatch' ||
       (!github.event.pull_request.draft && github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      deploy: ${{ steps.check.outputs.deploy }}
+    steps:
+      - name: Compare with what QA shows
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT: ${{ github.event_name }}
+          PR: ${{ github.event.pull_request.number }}
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          decide() { echo "deploy=$1" >> "$GITHUB_OUTPUT"; echo "$2" | tee -a "$GITHUB_STEP_SUMMARY"; exit 0; }
+          [[ $EVENT == workflow_dispatch ]] && decide true "Run by hand: deploying."
+
+          since=$BASE
+          comment=$(gh api --paginate "repos/$GITHUB_REPOSITORY/issues/$PR/comments" \
+            --jq '.[] | select(.body | contains("<!-- qa-deploy -->")) | .body')
+          if grep -qE "QA now shows PR #$PR\b" <<<"$comment"; then
+            on_qa=$(grep -oE 'Commit `[0-9a-f]{7,40}`' <<<"$comment" | head -n 1 | grep -oE '[0-9a-f]{7,40}' || true)
+            [[ -n $on_qa ]] && since=$on_qa
+          fi
+
+          json=$(gh api "repos/$GITHUB_REPOSITORY/compare/$since...$HEAD") || decide true "Couldn't compare commits: deploying."
+          count=$(jq '.files | length' <<<"$json")
+          # GitHub lists at most 300 files; nothing listed means a re-run of what QA shows, which is deployed again.
+          ((count > 0 && count < 300)) || decide true "$count changed files since ${since:0:7}: deploying."
+          notes='(^|/)[^/]+\.md$|^(docs|planning|design)/'
+          code=$(jq -r '.files[].filename' <<<"$json" | grep -vE "$notes" || true)
+          [[ -n $code ]] && decide true "Changes since ${since:0:7} beyond notes: deploying."
+          decide false "Only notes changed since ${since:0:7} (Markdown, docs/, planning/, design/): QA deploy skipped."
+
+  deploy-qa:
+    # The name branch rules require.
+    name: deploy-qa
+    needs: changes
+    if: needs.changes.outputs.deploy == 'true'
+    # One deploy on QA at a time, never cancelled half-way. GitHub keeps at most one waiting: if a newer push arrives
+    # meanwhile, the waiting one is cancelled (QA would show the newer PR anyway); re-run it to bring that PR back.
+    concurrency:
+      group: qa-environment
+      cancel-in-progress: false
     runs-on: ubuntu-latest
     timeout-minutes: 30
     environment:
