@@ -139,9 +139,12 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
           test -n "$DATABASE_URL" || { echo "::error::The qa environment has no DATABASE_URL secret"; exit 1; }
-          connection=$(python3 .github/scripts/npgsql_connection.py)
+          connection=$(python3 .github/scripts/npgsql_connection.py --direct)
           echo "::add-mask::$connection"
-          ./efbundle --connection "$connection"
+          ./efbundle --connection "$connection" || {
+            echo "::error::Migrations failed (error above). 'password authentication failed' means the qa DATABASE_URL secret is out of date: docs/SETUP-ENVIRONMENTS.md, 'When a database password changes'."
+            exit 1
+          }
 
       # --- Web app --------------------------------------------------------------------------------------------
       - name: Sign in to Azure (OIDC)

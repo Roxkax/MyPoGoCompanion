@@ -105,6 +105,14 @@ The deploy pipelines push the API image to GitHub Container Registry as the pack
 3. Still in Package settings, under **Manage Actions access**, check that `MyPoGoCompanion` is listed with the **Write** role (it's added automatically by the first push).
 4. Re-run the failed **QA deploy** check on the pull request.
 
+## When a database password changes
+
+Each Neon branch keeps its own copy of the database user, so resetting a password, or deleting and re-creating the `qa` branch, makes that environment's `DATABASE_URL` stop working ("password authentication failed" in the QA deploy or the Environment check). To fix it:
+
+1. Neon → **Dashboard** → **Connect**, pick the branch (`qa` or `main`), database `mypogocompanion`, and copy the `postgresql://…` URL (step 1). The pooled address is fine; the pipelines use the direct one for migrations themselves.
+2. GitHub → **Settings** → **Environments** → `qa` (or `prod`) → `DATABASE_URL` → **Update secret**, paste it.
+3. Run the **Environment check** for that environment, then re-run the failed deploy.
+
 ## Re-running the Azure template
 
 Running `infra/main.bicep` again (step 2) resets `api-prod` and `api-qa` to the placeholder image, port 80 and no settings. The next QA deploy (or prod deploy) puts everything back; until then that API shows the placeholder page. Only re-run it when Claude asks.
