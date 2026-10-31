@@ -3,16 +3,18 @@
 # API → container app api-qa; then the smoke test, the UI tests, and a comment "QA now shows PR #n" on the pull request.
 # Required check "ui-tests" is the job of that name below: it reports the UI tests run inside the deploy job.
 #
-# QA shows one PR at a time: every push to a ready (non-draft) PR deploys it, one run at a time (the "qa-environment"
-# queue on the deploy job). The UI tests run inside that same queued job, so a PR is tested on QA before another one
-# replaces it. Pushes that only change notes (Markdown, docs/, planning/, design/) skip the deploy; the
-# check still passes. To bring a PR back onto QA: re-run this workflow from the PR's checks, or Actions → QA deploy →
-# Run workflow on the PR's branch (always deploys).
+# QA deploys are opt-in (owner, 2026-10-31): only PRs with the "qa" label are deployed. Adding the label deploys the
+# PR; while it has the label, every push deploys again; removing it stops that. Without the label the jobs are
+# skipped, which branch rules count as passed, so nothing waits for QA. QA shows one PR at a time, one run at a time
+# (the "qa-environment" queue on the deploy job). The UI tests run inside that same queued job, so a PR is tested on
+# QA before another one replaces it. Pushes that only change notes (Markdown, docs/, planning/, design/) skip the
+# deploy. To bring a PR back onto QA: remove and add the "qa" label again, re-run this workflow from the PR's checks,
+# or Actions → QA deploy → Run workflow on the PR's branch (always deploys, label or not).
 name: QA deploy
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
+    types: [opened, synchronize, reopened, labeled]
   workflow_dispatch:
 
 permissions:
@@ -34,11 +36,13 @@ jobs:
   # branch rules, so the PR can still merge.
   changes:
     name: Anything to deploy?
-    # Drafts aren't deployed (QA would keep changing while work is in progress). Pull requests from forks get no
-    # secrets, so they can't deploy either.
+    # Only PRs with the "qa" label; a "labeled" event only when that label is the one just added (other labels don't
+    # redeploy). Pull requests from forks get no secrets, so they can't deploy.
     if: >-
       github.event_name == 'workflow_dispatch' ||
-      (!github.event.pull_request.draft && github.event.pull_request.head.repo.full_name == github.repository)
+      (github.event.pull_request.head.repo.full_name == github.repository &&
+       contains(github.event.pull_request.labels.*.name, 'qa') &&
+       (github.event.action != 'labeled' || github.event.label.name == 'qa'))
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -52,12 +56,14 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           EVENT: ${{ github.event_name }}
+          ACTION: ${{ github.event.action }}
           PR: ${{ github.event.pull_request.number }}
           BASE: ${{ github.event.pull_request.base.sha }}
           HEAD: ${{ github.event.pull_request.head.sha }}
         run: |
           decide() { echo "deploy=$1" >> "$GITHUB_OUTPUT"; echo "$2" | tee -a "$GITHUB_STEP_SUMMARY"; exit 0; }
           [[ $EVENT == workflow_dispatch ]] && decide true "Run by hand: deploying."
+          [[ $ACTION == labeled ]] && decide true "The \"qa\" label was added: deploying."
 
           since=$BASE
           comment=$(gh api --paginate "repos/$GITHUB_REPOSITORY/issues/$PR/comments" \
@@ -327,7 +333,8 @@ jobs:
 
   ui-tests:
     # The name branch rules require. The tests themselves run in deploy-qa (inside the QA queue); this job turns
-    # their result into a check of its own. Skipped, and so passed, when the deploy was skipped (notes only).
+    # their result into a check of its own. Skipped, and so passed, when the deploy was skipped (no "qa" label, or
+    # only notes changed).
     name: ui-tests
     needs: [changes, deploy-qa]
     if: ${{ !cancelled() && needs.changes.outputs.deploy == 'true' }}

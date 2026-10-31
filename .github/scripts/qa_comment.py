@@ -76,7 +76,8 @@ def deployed_body(env: dict[str, str]) -> str:
 def moved_on_body(env: dict[str, str], branch: str) -> str:
     return (
         f"{MARKER}\n### QA has moved on to PR #{env['PR']}\n\n"
-        "QA shows one pull request at a time. To bring this one back: **re-run** the *QA deploy* check on this PR, "
+        "QA shows one pull request at a time. To bring this one back: remove and add the `qa` label again, "
+        "**re-run** the *QA deploy* check on this PR, "
         f"or [Actions → QA deploy → Run workflow]({env['WORKFLOW_URL']}) on branch `{branch}`.\n"
     )
 
