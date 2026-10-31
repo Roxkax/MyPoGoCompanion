@@ -35,7 +35,7 @@ jobs:
         if: env.TOKEN != ''
         with:
           sparse-checkout: .github/scripts
-      - uses: actions/github-script@v8
+      - uses: actions/github-script@v9
         if: env.TOKEN != ''
         with:
           github-token: ${{ env.TOKEN }}
