@@ -88,7 +88,7 @@ In the repository: **Settings** → **Environments** → **New environment**.
 
 **`prod`**: the same five secrets, but `DATABASE_URL` is the **main** branch URL. Then, under **Deployment branches and tags**, choose **Selected branches and tags** → **Add deployment branch or tag rule** → `main`. Only `main` can deploy to prod.
 
-Later features add more secrets here (Google sign-in, Anthropic API key, Neon API key for the QA reset); each comes with its own short instructions.
+Later features add more secrets here (Google sign-in, Anthropic API key); each comes with its own short instructions. The Neon API key for the QA reset is a repository secret (step 6).
 
 ## 4. Check
 
@@ -104,6 +104,26 @@ The deploy pipelines push the API image to GitHub Container Registry as the pack
 2. **Danger Zone** → **Change visibility** → **Public**, type the name to confirm.
 3. Still in Package settings, under **Manage Actions access**, check that `MyPoGoCompanion` is listed with the **Write** role (it's added automatically by the first push).
 4. Re-run the failed **QA deploy** check on the pull request.
+
+## 6. Neon API key for the QA reset (before the first prod deploy)
+
+After every prod deploy the pipeline resets the Neon `qa` branch to a fresh copy of `main` (`docs/PROD-DEPLOY.md`). It needs a Neon API key and the project's ID.
+
+1. Neon → open the project **`mypogocompanion`** that holds the `main` and `qa` branches the environment secrets point to (if you have two projects, this is the real one; the other can be deleted afterwards).
+2. **Settings** → **General**: copy the **Project ID** (looks like `fancy-name-12345678`). It isn't a secret.
+3. Create the API key:
+   - If your Neon account has an **organization** (Neon's top-left menu shows one): organization **Settings** → **API keys** → **Create new** → choose **Project-scoped** and the project `mypogocompanion`, name `github-qa-reset`. A project-scoped key can only touch this project.
+   - Otherwise: your avatar → **Account settings** → **API keys** → **Create new API key**, name `github-qa-reset`.
+
+   Copy the key now (Neon shows it once). It **is** a secret.
+4. GitHub → **Settings** → **Secrets and variables** → **Actions**:
+   - **Secrets** tab → **New repository secret**: name `NEON_API_KEY`, value the key.
+   - **Variables** tab → **New repository variable**: name `NEON_PROJECT_ID`, value the Project ID.
+5. Check that the `qa` branch's parent is `main` (Neon → **Branches**: `qa` shows `main` as its parent). The reset copies from the parent.
+
+A reset keeps the `qa` connection details (host, user, password), so the qa `DATABASE_URL` secret stays valid.
+
+To check: run the **Environment check** workflow (either environment). Its last step, "Neon API for the QA reset", prints the project's name and confirms `qa` is a child of `main`, without changing anything.
 
 ## When a database password changes
 
@@ -122,4 +142,5 @@ Running `infra/main.bicep` again (step 2) resets `api-prod` and `api-qa` to the 
 - Azure template: `infra/main.bicep`
 - Check workflow: `.github/workflows/environment-check.yml`
 - QA deploy: `.github/workflows/deploy-qa.yml`
+- Prod deploy, QA database reset and alerts: `.github/workflows/deploy-prod.yml` (guide: `docs/PROD-DEPLOY.md`)
 - How the environments are used: `planning/CI-CD.md`
