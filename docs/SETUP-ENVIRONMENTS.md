@@ -123,6 +123,8 @@ After every prod deploy the pipeline resets the Neon `qa` branch to a fresh copy
 
 A reset keeps the `qa` connection details (host, user, password), so the qa `DATABASE_URL` secret stays valid.
 
+To check: run the **Environment check** workflow (either environment). Its last step, "Neon API for the QA reset", prints the project's name and confirms `qa` is a child of `main`, without changing anything.
+
 ## When a database password changes
 
 Each Neon branch keeps its own copy of the database user, so resetting a password, or deleting and re-creating the `qa` branch, makes that environment's `DATABASE_URL` stop working ("password authentication failed" in the QA deploy or the Environment check). To fix it:

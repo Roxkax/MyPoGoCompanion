@@ -1,7 +1,10 @@
 """Resets the Neon "qa" branch to a fresh copy of its parent "main" (prod), as planning/CI-CD.md asks after every
 prod deploy. Called by .github/workflows/deploy-prod.yml; can also be run by hand.
 
-    NEON_API_KEY=… NEON_PROJECT_ID=… python3 .github/scripts/neon_reset_qa.py [--branch qa] [--parent main]
+    NEON_API_KEY=… NEON_PROJECT_ID=… python3 .github/scripts/neon_reset_qa.py [--branch qa] [--parent main] [--check]
+
+With --check it changes nothing: it only confirms the key, the project and that the branch's parent is right (used by
+the Environment check workflow).
 
 Uses Neon's "reset from parent" (POST …/branches/{qa}/restore with source_branch_id = main), then waits until Neon
 reports the operations finished. Everything on qa is replaced by prod's current data; the connection details (host,
@@ -73,7 +76,9 @@ def wait_for(operations: list[dict], project: str, key: str, timeout: int = 600)
             time.sleep(5)
 
 
-def reset(project: str, key: str, branch_name: str, parent_name: str) -> None:
+def reset(project: str, key: str, branch_name: str, parent_name: str, check: bool = False) -> None:
+    name = call("GET", f"/projects/{project}", key)["project"]["name"]
+    print(f"Neon project: {name} ({project})")
     branches = call("GET", f"/projects/{project}/branches", key)["branches"]
     by_name = {b["name"]: b for b in branches}
     if parent_name not in by_name:
@@ -86,6 +91,9 @@ def reset(project: str, key: str, branch_name: str, parent_name: str) -> None:
             f"Branch '{branch_name}' isn't a child of '{parent_name}', so it can't be reset from it. "
             f"Re-create '{branch_name}' from '{parent_name}' in Neon (docs/SETUP-ENVIRONMENTS.md, step 1)."
         )
+    if check:
+        print(f"Ready: '{branch_name}' ({branch['id']}) is a child of '{parent_name}' ({parent['id']}), so it can be reset from it.")
+        return
     print(f"Resetting Neon branch '{branch_name}' ({branch['id']}) to the latest state of '{parent_name}' ({parent['id']})")
     result = call("POST", f"/projects/{project}/branches/{branch['id']}/restore", key, {"source_branch_id": parent["id"]})
     wait_for(result.get("operations", []), project, key)
@@ -96,6 +104,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--branch", default="qa")
     parser.add_argument("--parent", default="main")
+    parser.add_argument("--check", action="store_true", help="only check the key, project and branches")
     args = parser.parse_args()
     key, project = os.environ.get("NEON_API_KEY", "").strip(), os.environ.get("NEON_PROJECT_ID", "").strip()
     missing = [name for name, value in (("NEON_API_KEY", key), ("NEON_PROJECT_ID", project)) if not value]
@@ -103,9 +112,9 @@ def main() -> int:
         print(f"::error::{' and '.join(missing)} not set: see docs/SETUP-ENVIRONMENTS.md, step 6.")
         return 1
     try:
-        reset(project, key, args.branch, args.parent)
+        reset(project, key, args.branch, args.parent, args.check)
     except NeonError as error:
-        print(f"::error::QA database reset: {error}")
+        print(f"::error::{'Neon check' if args.check else 'QA database reset'}: {error}")
         return 1
     return 0
 

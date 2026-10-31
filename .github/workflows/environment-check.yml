@@ -1,6 +1,7 @@
 # Checks that a GitHub environment (qa or prod) is set up: signs in to Azure with OIDC (no stored password),
 # finds the resources from infra/main.bicep, connects to the environment's Neon database and confirms the
-# Static Web Apps token is there. Run it by hand after the setup in docs/SETUP-ENVIRONMENTS.md.
+# Static Web Apps token is there, and that the Neon API key for the QA reset works (read only).
+# Run it by hand after the setup in docs/SETUP-ENVIRONMENTS.md.
 name: Environment check
 
 on:
@@ -50,3 +51,15 @@ jobs:
         env:
           SWA_TOKEN: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
         run: test -n "$SWA_TOKEN" && echo "Static Web Apps deployment token is set" || { echo "::error::AZURE_STATIC_WEB_APPS_API_TOKEN secret is missing"; exit 1; }
+
+      - uses: actions/checkout@v5
+        with:
+          sparse-checkout: .github/scripts
+
+      - name: Neon API for the QA reset (read only)
+        # Repository secret NEON_API_KEY and variable NEON_PROJECT_ID (docs/SETUP-ENVIRONMENTS.md, step 6): the key
+        # works, the project exists and "qa" is a child of "main". Nothing is changed.
+        env:
+          NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+          NEON_PROJECT_ID: ${{ vars.NEON_PROJECT_ID }}
+        run: python3 .github/scripts/neon_reset_qa.py --branch qa --parent main --check
