@@ -15,6 +15,11 @@ const config = JSON.parse(
   routes: { route: string; headers: Record<string, string> }[]
 }
 
+const indexHtml = readFileSync(
+  resolve(dirname(fileURLToPath(import.meta.url)), '../../index.html'),
+  'utf8',
+)
+
 const headersOf = (route: string) => config.routes.find((entry) => entry.route === route)?.headers
 
 describe('hosting the installable app', () => {
@@ -33,5 +38,10 @@ describe('hosting the installable app', () => {
     expect(
       config.navigationFallback.exclude.some((pattern) => pattern.includes('webmanifest')),
     ).toBe(true)
+  })
+
+  it('lets the installed app use the whole screen, so the bars can keep clear of the phone’s own', () => {
+    // Without viewport-fit=cover, iOS reports no safe areas and the tab bar sits under the home indicator.
+    expect(indexHtml).toMatch(/<meta name="viewport" content="[^"]*viewport-fit=cover/)
   })
 })
