@@ -34,7 +34,7 @@ Planning (stages 1–11 of `docs/PLANNING-PROCESS.md`) is done; we are **buildin
 | 9 Backlog (Epic → Feature → Task, 100-hour sprints) | Moved after the design (built in stage 11) |
 | 10 Design: app map, then realistic screens one by one | Done 2026-10-28 (25 MVP screens + dark mode; `design/`) |
 | 11 Rebuild the backlog from the design | Done 2026-10-28 (`planning/BACKLOG.md`, GitHub issues) |
-| 12 Start sprints | **In progress** — Sprint 0 started 2026-10-28 |
+| 12 Start sprints | **In progress** — Sprint 0 done 2026-11-01; **Sprint 1** (Foundations) current |
 
 Earlier product work (feature list F01–F25 with priorities, UI choices, first wireframes) is archived in `docs/archive/` for reference only. It is **not** decided: the product is being redone with this process.
 
@@ -71,6 +71,7 @@ Board: https://github.com/users/Roxkax/projects/2 (kept in sync by the `Project 
 | 2026-10-31 | First Dependabot batch (major updates) rebased one by one onto the latest `main` and **rebase-merged** (owner): `github-script` 9, `upload-artifact` 7, `checkout` 7, `setup-dotnet` 6, `azure/login` 3 (tested on QA first with the `qa` label), `jsdom` 30, TypeScript 7 in `tests/ui/`; also #909. Every prod deploy green (prod on `ab9b482`). TypeScript 7 in `web/` (#911) failed `npm ci`: `typescript-eslint` 8.72 needs TypeScript < 6.1 (TS 7.0 has no API); fixed **side by side** (owner): `tsc` is TypeScript 7 (alias `@typescript/native`), the `typescript` package is `@typescript/typescript6` for ESLint (`web/README.md`). | #909, #910, #912–#917, #911 |
 | 2026-11-01 | Merge rule: merge commits only, required check **`rebased`** (branch rebased on the latest `main`, no merge commits). | #918 |
 | 2026-11-01 | **Fix: prod and QA deploys after #920 failed** at "Apply migrations" (`42703: column "migration_id" does not exist`, alert issue #922): the snake_case naming also renamed EF's history-table columns, which QA and prod created earlier as `"MigrationId"`/`"ProductVersion"`. The history table now keeps EF's names (`MigrationHistory.cs`); new integration test migrates a database made the old way, and a real migration bundle was checked against one. Prod stayed on the previous version (migrations run before the API deploy). | #923 |
+| 2026-11-01 | **QA and local copies of the web app are marked** (owner's request): orange "QA" strip with the PR number and commit, "QA" pill, orange tab icon and "QA · " tab title; grey "Local" for the dev server; nothing in production. Build setting `VITE_APP_ENV` set by the QA and prod deploys. Also: Sprint 0 epic #1 closed, Sprint 1 is the current sprint (`project-sync.js` view default). | (this PR) |
 
 ### Owner to-dos
 
@@ -82,7 +83,7 @@ Board: https://github.com/users/Roxkax/projects/2 (kept in sync by the `Project 
 - Neon: the old `qa` branch had **auto-delete** on and was removed; it was re-created from `main` with auto-delete **Never**. The real project is `mypogocompanion` (`soft-lab-02601198`, the one the secrets and the QA reset use); **delete the other Neon project**.
 - Optional: delete the stale branches `claude/dreamy-ptolemy-lvqw25` and `claude/project-board` (their commits are already on `main`).
 - Clone the repo (`https://github.com/Roxkax/MyPoGoCompanion.git`) to `C:\Dev` and set `git config user.name/user.email` (see Git above).
-- When a sprint's "Current sprint" view should move on, change its filter to the next milestone (e.g. `milestone:"Sprint 1"`).
+- **Sprint 1 is current**: on the board, open the **Current sprint** view, change its filter from `milestone:"Sprint 0"` to `milestone:"Sprint 1" -label:"type: epic"` and click **Save** (GitHub's API can't edit a view, so this one is by hand). Optionally close the **Sprint 0** milestone (Issues → Milestones). Do the same at each sprint change.
 
 ## The idea (owner's words, 2026-10-26)
 

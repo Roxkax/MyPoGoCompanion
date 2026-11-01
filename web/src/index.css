@@ -14,6 +14,7 @@
   --ok-soft: #e1f2e8;
   --warn: #a35a00;
   --warn-soft: #fcefdb;
+  --warn-ink: #ffffff;
   --danger: #b42318;
   --danger-soft: #fde8e6;
   --shadow: 0 1px 2px rgba(17, 32, 30, 0.06), 0 2px 8px rgba(17, 32, 30, 0.05);
@@ -37,6 +38,7 @@
     --ok-soft: #15301f;
     --warn: #e3a848;
     --warn-soft: #33270f;
+    --warn-ink: #241500;
     --danger: #f97066;
     --danger-soft: #3a1714;
     --shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
@@ -80,6 +82,55 @@ body {
   padding: 0 18px;
   background: var(--surface);
   border-bottom: 1px solid var(--line);
+}
+
+/* Which copy of the app this is (src/environment.ts): an orange strip on QA, a grey one locally, nothing in prod. */
+.env-banner {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 4px 10px;
+  min-height: 30px;
+  padding: 5px 18px;
+  font-size: 13px;
+  line-height: 1.3;
+  text-align: center;
+}
+.env-banner[data-env='qa'] {
+  background: var(--warn);
+  color: var(--warn-ink);
+}
+.env-banner[data-env='local'] {
+  background: var(--surface-2);
+  color: var(--text-2);
+  border-bottom: 1px solid var(--line);
+}
+.env-banner-label {
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+.env-banner-detail {
+  opacity: 0.85;
+}
+
+.env-pill {
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+.env-pill[data-env='qa'] {
+  background: var(--warn-soft);
+  color: var(--warn);
+}
+.env-pill[data-env='local'] {
+  background: var(--surface-2);
+  color: var(--text-2);
 }
 
 .brand {

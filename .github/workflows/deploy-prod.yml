@@ -245,6 +245,9 @@ jobs:
         working-directory: web
         env:
           VITE_API_URL: ${{ steps.addresses.outputs.api-url }}
+          # No environment strip in production (web/src/environment.ts); a build without it would say "Local".
+          VITE_APP_ENV: production
+          VITE_APP_VERSION: ${{ steps.commit.outputs.version }}
         run: |
           npm ci --no-audit --no-fund
           npm run build

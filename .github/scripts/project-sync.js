@@ -15,8 +15,10 @@ const STATUSES = [
   { name: 'In review', color: 'BLUE', description: 'Pull request ready for the owner to review and test' },
   { name: 'Done', color: 'GREEN', description: 'Merged or closed' },
 ];
+// Views are only created when missing: GitHub's API can't change an existing view, so when a sprint ends the owner
+// edits the "Current sprint" filter by hand, and this default follows (it only matters if the view is re-created).
 const VIEWS = [
-  { name: 'Current sprint', layout: 'board', filter: 'milestone:"Sprint 0" -label:"type: epic"' },
+  { name: 'Current sprint', layout: 'board', filter: 'milestone:"Sprint 1" -label:"type: epic"' },
   { name: 'Backlog', layout: 'table', filter: 'is:issue -label:"type: epic"' },
   { name: 'Features', layout: 'table', filter: 'label:"type: feature"' },
 ];

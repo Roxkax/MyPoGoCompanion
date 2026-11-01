@@ -109,6 +109,8 @@ npm run build        # type check + production build in web/dist
 
 `VITE_API_URL` is the API's address, fixed at build time (the deploy pipelines set it for QA and prod).
 
+**Which copy you're looking at.** `VITE_APP_ENV` (also fixed at build time) marks QA and local copies so they can't be mistaken for the real app: on **QA** an orange strip across the top ("QA · Test version, not the real app · PR #n · commit"), a "QA" pill next to the name, an orange tab icon and the tab title "QA · MyPoGoCompanion"; **locally** the same in grey with "Local"; in **production** nothing extra. The QA deploy sets `qa` with the PR number and commit, the prod deploy sets `production`; a build that doesn't say counts as local (`web/src/environment.ts`).
+
 ### Tests
 
 ```bash

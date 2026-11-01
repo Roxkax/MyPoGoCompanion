@@ -229,6 +229,10 @@ jobs:
         working-directory: web
         env:
           VITE_API_URL: ${{ steps.api.outputs.url }}
+          # The orange "QA" strip, tab title and icon, with the PR and commit QA shows (web/src/environment.ts).
+          VITE_APP_ENV: qa
+          VITE_PR_NUMBER: ${{ steps.pr.outputs.number }}
+          VITE_APP_VERSION: ${{ steps.pr.outputs.version }}
         run: |
           npm ci --no-audit --no-fund
           npm run build
@@ -298,6 +302,7 @@ jobs:
         working-directory: tests/ui
         env:
           BASE_URL: ${{ steps.web.outputs.url }}
+          EXPECTED_ENV: qa
         run: npx playwright test
 
       - name: UI test summary

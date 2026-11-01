@@ -2,6 +2,8 @@
 
 The web app: a Vite single-page React + TypeScript app, installable (PWA) with a read-only offline cache. Calls the API through the client generated from its OpenAPI description. Deployed to Azure Static Web Apps (production and the `qa` environment).
 
+QA and local copies show which copy they are (orange "QA" strip, grey "Local" strip, tab title and icon); production shows nothing extra. Set at build time with `VITE_APP_ENV` (`production`, `qa`, otherwise local) plus `VITE_PR_NUMBER` and `VITE_APP_VERSION` on QA: `src/environment.ts`.
+
 Unit and component tests (Vitest) sit next to the code they test as `*.test.ts(x)`. End-to-end tests are in `tests/ui/`.
 
 The screens it implements are designed in `design/` (25 MVP screens, phone and desktop, light and dark).
