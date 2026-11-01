@@ -2,6 +2,7 @@ using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using MyPoGoCompanion.Data;
 using MyPoGoCompanion.Data.GameData;
 using MyPoGoCompanion.Data.LiveData;
@@ -21,6 +22,18 @@ public partial class ModelTests
     public void Migrations_MatchTheModel()
     {
         Assert.False(_context.Database.HasPendingModelChanges(), "The model changed without a migration: run dotnet ef migrations add.");
+    }
+
+    [Fact]
+    public void MigrationHistory_KeepsEfsOwnColumnNames()
+    {
+        // QA and prod created this table before snake_case names; renaming its columns breaks every later deploy.
+        var script = _context.GetService<IHistoryRepository>().GetCreateScript();
+
+        Assert.Contains("\"__EFMigrationsHistory\"", script, StringComparison.Ordinal);
+        Assert.Contains("\"MigrationId\"", script, StringComparison.Ordinal);
+        Assert.Contains("\"ProductVersion\"", script, StringComparison.Ordinal);
+        Assert.DoesNotContain("migration_id", script, StringComparison.Ordinal);
     }
 
     [Fact]

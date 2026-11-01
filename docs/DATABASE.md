@@ -4,7 +4,7 @@ The app's PostgreSQL 17 database (Neon in QA and prod, Docker locally). The sche
 
 ## Conventions
 
-- **Names** are snake_case (`collection_pokemon.attack_iv`); constraints are `pk_`, `fk_`, `ix_`, `ck_` + table.
+- **Names** are snake_case (`collection_pokemon.attack_iv`); constraints are `pk_`, `fk_`, `ix_`, `ck_` + table. The one exception is EF's own history table, `__EFMigrationsHistory`, which keeps `"MigrationId"` and `"ProductVersion"` (`MigrationHistory.cs`): QA and prod created it before snake_case names, and renaming its columns stops every later deploy from reading which migrations ran.
 - **Keys.** Game data keeps the game's own ids, so the daily import can update rows in place: types `ground`, moves `EARTH_POWER`, families `FAMILY_GIBLE`, forms PvPoke's ids (`garchomp`, `garchomp_mega`, `vulpix_alolan`), species their Pokédex number. Everything else uses time-ordered UUIDs (version 7), created by the app.
 - **Enums** are stored as their names (`FiveStar`, `Shadow`), so the data reads without the code.
 - **Moments** (when something happened: uploads, job runs, fixes) are `timestamp with time zone`, in UTC.
