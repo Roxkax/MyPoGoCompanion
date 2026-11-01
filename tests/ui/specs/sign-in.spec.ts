@@ -192,3 +192,26 @@ test('the real API answers the sign-in set-up question', async ({ page, request 
     expect((await response.json()).clientId).toBeTruthy()
   }
 })
+
+test('an admin opens Admin from the profile menu and Back returns where they were', async ({
+  page,
+}) => {
+  await fakeSignInApi(page)
+  await page.addInitScript((stored) => {
+    if (!sessionStorage.getItem('seeded')) {
+      localStorage.setItem('mpgc.refreshToken', stored)
+      sessionStorage.setItem('seeded', '1')
+    }
+  }, token('a'))
+  await page.goto('/filters')
+
+  await page.getByRole('button', { name: 'Account: Test Owner' }).click()
+  await page.getByRole('menu', { name: 'Account' }).getByRole('menuitem', { name: 'Admin' }).click()
+  await expect(page).toHaveURL(/\/admin$/)
+  await expect(page.getByRole('region', { name: 'Data status' })).toBeVisible()
+
+  await page.getByRole('button', { name: 'Back' }).click()
+
+  await expect(page).toHaveURL(/\/filters$/)
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Filters')
+})

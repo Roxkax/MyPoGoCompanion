@@ -56,7 +56,6 @@ const pokedexBack = { to: '/pokedex', label: 'Pokédex' }
 const moves = { to: '/pokedex/moves', label: 'Moves' }
 const raids = { to: '/battle/raids', label: 'Raids' }
 const collection = { to: '/collection', label: 'Collection' }
-const settings = { to: '/settings', label: 'Settings' }
 
 function screen(path: string, element: ReactNode, handle: ScreenHandle): RouteObject {
   return { path, element, handle }
@@ -343,11 +342,13 @@ export function appRoutes(environment: AppEnvironment): RouteObject[] {
     },
     screen('settings', <SettingsScreen />, { title: 'Settings', hideTabBar: true }),
 
-    // G. Admin (admins only; everyone else gets "Page not found")
+    // G. Admin (admins only; everyone else gets "Page not found"). Back returns to where the admin came from (the
+    // profile menu or the sidebar): a fixed "‹ Settings" would bounce between Admin and Settings, which both hide the
+    // phone's tab bar. The design's "‹ Settings" fits once Settings has its Admin row (E09-F01).
     screen(
       'admin',
       detail(
-        settings,
+        'history',
         'Admin',
         <AdminOnly>
           {soon({
@@ -363,7 +364,7 @@ export function appRoutes(environment: AppEnvironment): RouteObject[] {
     screen(
       'admin/entries',
       detail(
-        settings,
+        'history',
         'Admin',
         <AdminOnly>
           {soon({

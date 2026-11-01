@@ -112,10 +112,26 @@ describe('routes', () => {
       expect(screen.queryByRole('region')).not.toBeInTheDocument()
     })
 
-    it('back goes to Settings', () => {
-      renderApp('/admin', { user: { ...ash, role: 'SuperAdmin' } })
+    it('on a phone, Back returns to where Admin was opened from (no loop with Settings)', async () => {
+      renderApp('/battle/raids', { user: { ...ash, role: 'SuperAdmin' } })
 
-      expect(screen.getByRole('link', { name: 'Settings' })).toHaveAttribute('href', '/settings')
+      await userEvent.click(screen.getByRole('button', { name: 'Account: Ash' }))
+      await userEvent.click(screen.getByRole('menuitem', { name: 'Admin' }))
+      expect(currentAddress()).toBe('/admin')
+      expect(screen.queryByRole('navigation', { name: 'Tabs' })).not.toBeInTheDocument()
+
+      await userEvent.click(screen.getByRole('button', { name: 'Back' }))
+
+      await waitFor(() => expect(currentAddress()).toBe('/battle/raids'))
+      expect(screen.getByRole('navigation', { name: 'Tabs' })).toBeInTheDocument()
+    })
+
+    it('opened directly, Back goes to Today', async () => {
+      renderApp('/admin/entries', { user: admin })
+
+      await userEvent.click(screen.getByRole('button', { name: 'Back' }))
+
+      await waitFor(() => expect(currentAddress()).toBe('/'))
     })
   })
 
