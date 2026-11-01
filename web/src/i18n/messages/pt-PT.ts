@@ -238,6 +238,37 @@ export const ptPT: Messages<typeof en> = {
     disclaimer:
       'O MyPoGoCompanion é um projeto de fãs não oficial, sem ligação à Niantic, Nintendo, Creatures, Game Freak nem à The Pokémon Company.',
   },
+  offline: {
+    title: 'Estás sem ligação',
+    text: 'Por agora, o MyPoGoCompanion precisa de ligação à internet. Verifica o Wi-Fi ou os dados móveis; a app recarrega sozinha quando a ligação voltar.',
+    tryAgain: 'Tentar de novo',
+    checking: 'A verificar…',
+    stillOffline:
+      'Continuas sem ligação. A app continua a verificar e recarrega sozinha quando a ligação voltar.',
+    later:
+      'Consultar a Pokédex, os teus filtros e a tua coleção sem rede está previsto para uma versão futura.',
+  },
+  install: {
+    more: 'Mais',
+    row: 'Instalar a app',
+    rowPhone: 'Adicionar ao ecrã principal',
+    rowDesktop: 'Adicionar ao computador',
+    guideTitle: 'Instalar o MyPoGoCompanion',
+    iosStep1:
+      'Toca no botão Partilhar: em baixo no Safari do iPhone, em cima no iPad, na barra de endereço noutros browsers.',
+    iosStep2: 'Desliza a lista e escolhe Adicionar ao ecrã principal.',
+    iosStep3:
+      'Toca em Adicionar. A app passa a abrir em ecrã inteiro a partir do seu próprio ícone.',
+    menuText: 'Abre o menu do browser e escolhe Instalar app (ou Adicionar ao ecrã principal).',
+    menuMac: 'Safari num Mac: Ficheiro → Adicionar à Dock.',
+    menuFirefox:
+      'O Firefox num computador não instala apps: abre o MyPoGoCompanion no Chrome, no Edge ou no Safari.',
+    done: 'Percebi',
+    hintTitle: 'Instala a app',
+    hintText: 'Adiciona o MyPoGoCompanion ao ecrã principal.',
+    hintInstall: 'Instalar',
+    hintClose: 'Não mostrar de novo',
+  },
   apiStatus: {
     title: 'Estado da API',
     checking: 'A verificar a API…',

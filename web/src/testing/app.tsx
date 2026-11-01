@@ -10,6 +10,11 @@ import { ThemeProvider } from '../theme/ThemeProvider'
 import { ThemeStore } from '../theme/theme'
 import { LanguageStore } from '../i18n/language'
 import { LanguageProvider } from '../i18n/LanguageProvider'
+import { ConnectionWatch } from '../pwa/connection'
+import { InstallWatch } from '../pwa/install'
+import { InstallHintStore } from '../pwa/installHint'
+import type { Pwa } from '../pwa/pwaContext'
+import { PwaProvider } from '../pwa/PwaProvider'
 import { ash, MemoryStorage, sessionFor, testSession } from './auth'
 
 /**
@@ -49,6 +54,24 @@ interface AppOptions {
   /** This device's language (English, nothing saved, when left out). */
   languages?: LanguageStore
   navigate?: (url: string) => void
+  /** Install, hint and connection; online, not installable, first visit when left out. */
+  pwa?: Partial<Pwa>
+}
+
+/**
+ * The installable app's parts for a test: online (the site always answers, reload does nothing), nothing announced
+ * by the browser, and the hint's storage in memory. Pass your own to test going offline or installing.
+ */
+export function testPwa(parts: Partial<Pwa> = {}): Pwa {
+  return {
+    install:
+      parts.install ??
+      new InstallWatch(window as unknown as ConstructorParameters<typeof InstallWatch>[0]),
+    hint: parts.hint ?? new InstallHintStore(new MemoryStorage(), new MemoryStorage()),
+    connection:
+      parts.connection ??
+      new ConnectionWatch({ check: () => Promise.resolve(true), reload: () => {} }),
+  }
 }
 
 /** The whole app at an address, as the browser shows it: providers, router, shell and screen. */
@@ -58,6 +81,7 @@ export function renderApp(path = '/', options: AppOptions = {}) {
   const { session } = options.session ? { session: options.session } : testSession()
   const themes = options.themes ?? new ThemeStore(new MemoryStorage())
   const languages = options.languages ?? new LanguageStore(new MemoryStorage(), ['en-GB'])
+  const pwa = testPwa(options.pwa)
   const result = render(
     <ThemeProvider store={themes}>
       <LanguageProvider store={languages}>
@@ -69,9 +93,11 @@ export function renderApp(path = '/', options: AppOptions = {}) {
             navigate={options.navigate ?? (() => {})}
             pathname={new URL(path, 'http://localhost').pathname}
           >
-            <App
-              environment={options.environment ?? readEnvironment({ VITE_APP_ENV: 'production' })}
-            />
+            <PwaProvider pwa={pwa}>
+              <App
+                environment={options.environment ?? readEnvironment({ VITE_APP_ENV: 'production' })}
+              />
+            </PwaProvider>
           </AuthProvider>
         </QueryClientProvider>
       </LanguageProvider>
@@ -80,7 +106,7 @@ export function renderApp(path = '/', options: AppOptions = {}) {
   if (options.user) {
     act(() => session.accept(sessionFor(options.user)))
   }
-  return { ...result, session, themes, languages, viewport }
+  return { ...result, session, themes, languages, viewport, pwa }
 }
 
 export const admin: Me = { ...ash, role: 'Admin' }

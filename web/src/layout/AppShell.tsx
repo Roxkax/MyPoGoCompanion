@@ -5,6 +5,9 @@ import { SignInDialog } from '../components/SignInDialog'
 import { EnvironmentBanner } from '../components/EnvironmentBanner'
 import type { AppEnvironment } from '../environment'
 import type { TitleKey } from '../i18n/keys'
+import { InstallHint } from '../pwa/InstallHint'
+import { useConnection } from '../pwa/pwaContext'
+import { OfflineScreen } from '../screens/OfflineScreen'
 import { Overlays } from './Overlays'
 import { useOverlay } from './overlay'
 import { Sidebar } from './Sidebar'
@@ -30,14 +33,17 @@ function useScreenHandle(): ScreenHandle {
 
 /**
  * The frame around every screen. Phone: the screen (with its own header) and the bottom tab bar. Desktop: the
- * sidebar and the top bar around the screen. Both: the QA/local strip, the sign-in window, search and Ask.
+ * sidebar and the top bar around the screen. Both: the QA/local strip, the sign-in window, search and Ask. Without a
+ * connection the "You're offline" screen (H3) takes the screen's place; the phone also has the one-time install hint.
  */
 export function AppShell({ environment }: { environment: AppEnvironment }) {
   const desktop = useIsDesktop()
   const handle = useScreenHandle()
   const { open, current } = useOverlay()
   const { t } = useTranslation()
+  const { offline } = useConnection()
   const title = handle.title && t(`titles.${handle.title}`)
+  const screen = offline ? <OfflineScreen /> : <Outlet />
 
   useEffect(() => {
     document.title = title ? `${title} · ${environment.title}` : environment.title
@@ -65,12 +71,13 @@ export function AppShell({ environment }: { environment: AppEnvironment }) {
           <Sidebar environment={environment} />
           <div className="desktop-main">
             <TopBar />
-            <Outlet />
+            {screen}
           </div>
         </div>
       ) : (
         <div className="phone" data-tab-bar={handle.hideTabBar ? undefined : true}>
-          <Outlet />
+          {screen}
+          {!handle.hideTabBar && <InstallHint icon={environment.icon} />}
           {!handle.hideTabBar && <TabBar />}
         </div>
       )}

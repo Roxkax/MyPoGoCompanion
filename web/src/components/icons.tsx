@@ -65,6 +65,26 @@ const paths = {
   chevron: <path d="m9 6 6 6-6 6" />,
   back: <path d="m15 6-6 6 6 6" />,
   star: <path d="M12 2.5l1.9 5.6 5.6 1.9-5.6 1.9L12 17.5l-1.9-5.6L4.5 10l5.6-1.9z" />,
+  // H3: Wi-Fi with a line through it.
+  offline: (
+    <>
+      <path d="M2 8.5a15 15 0 0 1 20 0M5 12a10 10 0 0 1 14 0M8.5 15.5a5 5 0 0 1 7 0" />
+      <circle cx="12" cy="19" r="1.2" fill="currentColor" />
+      <path d="M3 3l18 18" />
+    </>
+  ),
+  // iOS's Share button: a box with an arrow out of it.
+  share: (
+    <path d="M12 3v12M8 7l4-4 4 4M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1" />
+  ),
+  // iOS's Add to Home Screen: a plus in a rounded square.
+  addBox: (
+    <>
+      <rect x="4" y="4" width="16" height="16" rx="4" />
+      <path d="M12 8v8M8 12h8" />
+    </>
+  ),
+  check: <path d="m5 12.5 4.5 4.5L19 7.5" />,
 } satisfies Record<string, ReactNode>
 
 export type IconName = keyof typeof paths
