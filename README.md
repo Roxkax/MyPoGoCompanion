@@ -114,6 +114,7 @@ npm run build        # type check + production build in web/dist
 ```bash
 dotnet test --solution MyPoGoCompanion.slnx                  # .NET unit + integration tests (integration needs Docker)
 dotnet test --project api/MyPoGoCompanion.Api.UnitTests       # .NET unit tests only
+dotnet test --project tests/MyPoGoCompanion.GoldenFiles.UnitTests   # golden-file harness and the frozen files
 cd web && npm test                                            # web unit tests (Vitest)
 cd web && npm run test:coverage                               # web unit tests with coverage
 cd tests/ui && npm ci && npx playwright install chromium && npx playwright test   # UI tests
@@ -147,7 +148,8 @@ cd web && npm run test:coverage
 |---|---|
 | .NET | restore → `dotnet format --verify-no-changes` → build in Release (warnings fail it) → every `*.UnitTests` project with coverage → coverage minimum |
 | Web | `npm ci` → lint → Prettier check → type check → Vitest with coverage (minimum in `web/vite.config.ts`) → production build |
-| `build-and-unit` | Passes only when both parts pass; writes the coverage table to the run summary and as a pull-request comment |
+| Golden files | Python 3.13 → `legacy/keeper-filters/scripts/golden.py check`: the Python keeper-filters build, run on the frozen inputs, must still reproduce the frozen outputs in `tests/golden/keeper-filters/` |
+| `build-and-unit` | Passes only when all three parts pass; writes the coverage table to the run summary and as a pull-request comment |
 
 Jobs are added with the first scheduled job (E02-F01).
 
@@ -165,6 +167,8 @@ Inside the QA deploy (`.github/workflows/deploy-qa.yml`), right after the smoke 
 cd legacy/keeper-filters
 pip install -r requirements.txt
 python build.py            # fetch data, rebuild every string, write dist/pvp-keeper-filters.html
+python scripts/golden.py check    # rebuild from the frozen inputs and compare with the golden files (offline)
+python scripts/golden.py freeze   # after build.py: freeze today's data and outputs as the new golden files
 ```
 
-See `docs/KEEPER-FILTERS.md`.
+See `docs/KEEPER-FILTERS.md` and `tests/golden/keeper-filters/README.md`.

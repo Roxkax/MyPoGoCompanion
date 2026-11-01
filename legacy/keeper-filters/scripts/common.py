@@ -1,12 +1,15 @@
 """Shared paths, data loading and Pokémon GO stat helpers."""
 import json
+import os
 import re
 from functools import lru_cache
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-DATA = ROOT / "data"
-BUILD = ROOT / "build"
+# KEEPER_DATA / KEEPER_BUILD point the pipeline at other folders (scripts/golden.py uses them
+# to build from the frozen inputs in tests/golden/keeper-filters/ into a temporary folder).
+DATA = Path(os.environ.get("KEEPER_DATA") or ROOT / "data")
+BUILD = Path(os.environ.get("KEEPER_BUILD") or ROOT / "build")
 DIST = ROOT / "dist"
 WEB = ROOT / "web"
 

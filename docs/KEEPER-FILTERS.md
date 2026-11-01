@@ -29,6 +29,8 @@ python build.py --only pvp|raid|mega|page
 ```
 The full build takes about 20 s. Every stage verifies its strings and exits non-zero on a mismatch, so a passing build means the strings are correct.
 
+**Golden files** (E00-F10): the C# port (E02-F03) must produce exactly what this pipeline produces. `python scripts/golden.py freeze` (after `python build.py`) saves the source data, trimmed to what the pipeline reads, and the `build/` JSON outputs plus search-simulator cases to `tests/golden/keeper-filters/`, with the source commits in `manifest.json`. `python scripts/golden.py check` rebuilds from those frozen inputs, without network, and compares; the `build-and-unit` check runs it on every pull request, so the pipeline stays runnable until the C# port matches. `KEEPER_DATA` and `KEEPER_BUILD` point the pipeline at other data and build folders; `--only` takes several stages (`--only pvp,raid,mega`). Details: `tests/golden/keeper-filters/README.md`.
+
 Pipeline (all in `scripts/`, the intermediate output goes to `build/`):
 1. `pvp_compute.py` → `pvp_boxes.json`: the best appraisal box per Pokédex number per league.
 2. `pvp_strings.py` → `pvp_strings.json`: joined, split and verified strings. Also importable, since `build()` is reused.

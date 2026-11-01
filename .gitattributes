@@ -14,3 +14,7 @@
 *.woff binary
 *.woff2 binary
 *.pdf binary
+
+# Golden files: frozen bytes (manifest.json holds their SHA-256); collapsed in pull-request diffs
+tests/golden/**/inputs/** linguist-generated=true
+tests/golden/**/outputs/** linguist-generated=true
