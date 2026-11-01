@@ -1,9 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using MyPoGoCompanion.Data;
+using Npgsql;
+
 namespace MyPoGoCompanion.Api.Configuration;
 
 internal static class DatabaseSetup
 {
     /// <summary>
-    /// Registers the PostgreSQL data source from <c>ConnectionStrings:Database</c>
+    /// Registers the PostgreSQL data source and <see cref="AppDbContext"/> from <c>ConnectionStrings:Database</c>
     /// (environment variable <c>ConnectionStrings__Database</c>). Without one, the API still starts
     /// and <c>/health</c> reports the database as unhealthy.
     /// </summary>
@@ -13,6 +17,7 @@ internal static class DatabaseSetup
         if (!string.IsNullOrWhiteSpace(connectionString))
         {
             services.AddNpgsqlDataSource(DatabaseConnectionString.Normalize(connectionString));
+            services.AddDbContext<AppDbContext>((provider, options) => options.UseNpgsql(provider.GetRequiredService<NpgsqlDataSource>()));
         }
 
         return services;

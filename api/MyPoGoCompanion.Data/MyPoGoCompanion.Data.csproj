@@ -2,10 +2,22 @@
 
   <ItemGroup>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <!-- snake_case table and column names, the PostgreSQL convention. -->
+    <PackageReference Include="EFCore.NamingConventions" />
     <!-- Lifts EF Core from the provider's minimum to the same patch as the Design package. -->
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
     <!-- Only for the dotnet-ef tool (adding migrations); not shipped with the app. -->
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The dev seed's game data (Seed/make_dev_game_data.py writes it). -->
+    <EmbeddedResource Include="Seed/dev-game-data.json" LogicalName="MyPoGoCompanion.Data.Seed.dev-game-data.json" />
+    <None Remove="Seed/make_dev_game_data.py" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="MyPoGoCompanion.Data.UnitTests" />
   </ItemGroup>
 
 </Project>

@@ -13,7 +13,7 @@ A free companion for Pokémon GO players: a shared API, a web app and, later, na
 | `design/` | App map, screen designs and their sources |
 | `planning/` | Plan, specs, priorities, backlog and CI/CD decisions |
 | `infra/` | Azure template (`main.bicep`) for prod and QA; setup steps in `docs/SETUP-ENVIRONMENTS.md` |
-| `docs/` | Environment setup, prod deploy, branch rules, planning process and the keeper-filters methodology |
+| `docs/` | Database, environment setup, prod deploy, branch rules, planning process and the keeper-filters methodology |
 | `legacy/keeper-filters/` | The original Python pipeline and its single-page output. Kept until the app's filters replace it (see `docs/KEEPER-FILTERS.md`) |
 | `.github/` | GitHub Actions workflows, the `main` ruleset, Dependabot and the PR template (`docs/BRANCH-RULES.md`) |
 
@@ -53,7 +53,7 @@ docker compose exec db psql -U mypogocompanion   # SQL prompt
 
 Connection string for the API: `Host=localhost;Port=5432;Database=mypogocompanion;Username=mypogocompanion;Password=localdev`.
 
-The tables come from EF Core migrations (`api/MyPoGoCompanion.Data/Migrations/`) and the dev seed (the design's sample trainer and data). Today there is only an empty `Baseline` migration; the schema and the seed arrive with E01-F01, and after that the API applies them on start-up in development.
+The tables come from EF Core migrations (`api/MyPoGoCompanion.Data/Migrations/`); what each table holds and the rules they follow are in `docs/DATABASE.md`. When the API starts in development it applies the migrations and, if the database is empty, adds the **dev seed**: the design's sample dataset (trainer Ash_PT, Kyogre in raids, Community Day: Gible…) with a real slice of game data, its dates moved so that today is the sample's Tuesday. To start again from a fresh seed: `docker compose down -v`, `docker compose up -d --wait`, run the API.
 
 ```bash
 dotnet tool restore                                                    # once: installs dotnet-ef
@@ -113,7 +113,7 @@ npm run build        # type check + production build in web/dist
 
 ```bash
 dotnet test --solution MyPoGoCompanion.slnx                  # .NET unit + integration tests (integration needs Docker)
-dotnet test --project api/MyPoGoCompanion.Api.UnitTests       # .NET unit tests only
+dotnet test --project api/MyPoGoCompanion.Api.UnitTests       # .NET unit tests only (also Data.UnitTests: model rules, dev seed)
 dotnet test --project tests/MyPoGoCompanion.GoldenFiles.UnitTests   # golden-file harness and the frozen files
 cd web && npm test                                            # web unit tests (Vitest)
 cd web && npm run test:coverage                               # web unit tests with coverage
