@@ -62,8 +62,8 @@ Board: https://github.com/users/Roxkax/projects/2 (kept in sync by the `Project 
 | Date | Work | PRs |
 |---|---|---|
 | 2026-10-28 | Project board created and synced: all 891 backlog issues added, Status (Todo · In progress · In review · Done) and Hours set; views Current sprint, Backlog, Features. Script handles GitHub's auto-added sub-issues and retries its temporary errors. | #893, #895, #896 |
-| 2026-11-01 | Merge rule: merge commits only, required check **`rebased`** (branch rebased on the latest `main`, no merge commits). | #918 |
 | 2026-10-31 | First Dependabot batch (major updates) rebased one by one onto the latest `main` and **rebase-merged** (owner): `github-script` 9, `upload-artifact` 7, `checkout` 7, `setup-dotnet` 6, `azure/login` 3 (tested on QA first with the `qa` label), `jsdom` 30, TypeScript 7 in `tests/ui/`; also #909. Every prod deploy green (prod on `ab9b482`). TypeScript 7 in `web/` (#911) failed `npm ci`: `typescript-eslint` 8.72 needs TypeScript < 6.1 (TS 7.0 has no API); fixed **side by side** (owner): `tsc` is TypeScript 7 (alias `@typescript/native`), the `typescript` package is `@typescript/typescript6` for ESLint (`web/README.md`). | #909, #910, #912–#917, #911 |
+| 2026-11-01 | Merge rule: merge commits only, required check **`rebased`** (branch rebased on the latest `main`, no merge commits). | #918 |
 
 ### Owner to-dos
 
