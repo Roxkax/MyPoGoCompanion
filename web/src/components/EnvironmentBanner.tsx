@@ -1,7 +1,10 @@
 import { useTranslation } from 'react-i18next'
 import type { AppEnvironment } from '../environment'
 
-/** A strip across the top on QA and local copies of the app; nothing in production. */
+/**
+ * A strip across the top on QA and local copies of the app; nothing in production. Always one line: when it's too
+ * narrow (Portuguese on a phone) the sentence is shortened with "…", never the label or the PR and commit.
+ */
 export function EnvironmentBanner({ environment }: { environment: AppEnvironment }) {
   const { t } = useTranslation()
   if (environment.kind === 'production') {
@@ -16,7 +19,7 @@ export function EnvironmentBanner({ environment }: { environment: AppEnvironment
       aria-label={t('environment.label', { name: environment.label })}
     >
       <strong className="env-banner-label">{environment.label}</strong>
-      <span>{t(`environment.${environment.kind}`)}</span>
+      <span className="env-banner-text">{t(`environment.${environment.kind}`)}</span>
       {environment.detail && <span className="env-banner-detail num">{environment.detail}</span>}
     </div>
   )

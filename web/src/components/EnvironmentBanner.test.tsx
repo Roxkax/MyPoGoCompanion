@@ -30,6 +30,21 @@ describe('EnvironmentBanner', () => {
     expect(banner).toHaveTextContent('PR #920 · abc1234')
   })
 
+  it('keeps the label and the PR · commit whole; only the sentence may be shortened to fit one line', () => {
+    const { container } = render(
+      <EnvironmentBanner
+        environment={readEnvironment({
+          VITE_APP_ENV: 'qa',
+          VITE_PR_NUMBER: '929',
+          VITE_APP_VERSION: 'abc1234',
+        })}
+      />,
+    )
+
+    const parts = [...container.querySelectorAll('.env-banner > *')].map((part) => part.className)
+    expect(parts).toEqual(['env-banner-label', 'env-banner-text', 'env-banner-detail num'])
+  })
+
   it('locally: says it runs on this computer', () => {
     render(<EnvironmentBanner environment={readEnvironment({ VITE_APP_ENV: 'local' })} />)
 

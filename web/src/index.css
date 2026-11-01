@@ -33,11 +33,13 @@ body {
   height: var(--banner-h);
   overflow: hidden;
   white-space: nowrap;
+  /* Always one line: the label and the PR · commit stay whole; the sentence between them gives way with "…"
+     (Portuguese on a phone is longer than the strip). */
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: center;
-  gap: 4px 10px;
+  gap: 10px;
   padding: 0 18px;
   font-size: 13px;
   line-height: 1.3;
@@ -53,10 +55,17 @@ body {
   border-bottom: 1px solid var(--line);
 }
 .env-banner-label {
+  flex: none;
   font-weight: 800;
   letter-spacing: 0.06em;
 }
+.env-banner-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .env-banner-detail {
+  flex: none;
   opacity: 0.85;
 }
 
