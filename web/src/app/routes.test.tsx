@@ -123,7 +123,8 @@ describe('routes', () => {
       await userEvent.click(screen.getByRole('button', { name: 'Back' }))
 
       await waitFor(() => expect(currentAddress()).toBe('/battle/raids'))
-      expect(screen.getByRole('navigation', { name: 'Tabs' })).toBeInTheDocument()
+      // The address changes just before the page redraws: wait for the tab bar to come back.
+      expect(await screen.findByRole('navigation', { name: 'Tabs' })).toBeInTheDocument()
     })
 
     it('opened directly, Back goes to Today', async () => {
