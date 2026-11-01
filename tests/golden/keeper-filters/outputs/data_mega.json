@@ -1,0 +1,460 @@
+{
+ "string": "mega0-,36,154,160,358,382-383,478,485,491,500,530,545,560,604,609,623,668,670,678,689,691,701,718,740,768,780,801,807,952,970,978,998",
+ "stringWithPre": "mega0-,36,154,160,358,382-383,478,485,491,500,530,545,560,604,609,623,668,670,678,689,691,701,718,740,768,780,801,807,952,970,978,998,1-2,4-5,7-8,13-14,16-17,25,35,63-64,69-70,79,92-93,95,120,123,129,147-148,152-153,158-159,172-173,179-180,228,246-247,252-253,255-256,258-259,280-281,304-305,307,309,318,322,333,353,361,371-372,374-375,396-397,427,433,443-444,447,459,498-499,529,543-544,559,602-603,607-608,622,650-651,653-654,656-657,667,669,677,686,688,690,739,767,951,969,996-997",
+ "released": [
+  {
+   "dex": 3,
+   "name": "Venusaur"
+  },
+  {
+   "dex": 6,
+   "name": "Charizard"
+  },
+  {
+   "dex": 9,
+   "name": "Blastoise"
+  },
+  {
+   "dex": 15,
+   "name": "Beedrill"
+  },
+  {
+   "dex": 18,
+   "name": "Pidgeot"
+  },
+  {
+   "dex": 26,
+   "name": "Raichu"
+  },
+  {
+   "dex": 65,
+   "name": "Alakazam"
+  },
+  {
+   "dex": 71,
+   "name": "Victreebel"
+  },
+  {
+   "dex": 80,
+   "name": "Slowbro"
+  },
+  {
+   "dex": 94,
+   "name": "Gengar"
+  },
+  {
+   "dex": 115,
+   "name": "Kangaskhan"
+  },
+  {
+   "dex": 121,
+   "name": "Starmie"
+  },
+  {
+   "dex": 127,
+   "name": "Pinsir"
+  },
+  {
+   "dex": 130,
+   "name": "Gyarados"
+  },
+  {
+   "dex": 142,
+   "name": "Aerodactyl"
+  },
+  {
+   "dex": 149,
+   "name": "Dragonite"
+  },
+  {
+   "dex": 150,
+   "name": "Mewtwo"
+  },
+  {
+   "dex": 181,
+   "name": "Ampharos"
+  },
+  {
+   "dex": 208,
+   "name": "Steelix"
+  },
+  {
+   "dex": 212,
+   "name": "Scizor"
+  },
+  {
+   "dex": 214,
+   "name": "Heracross"
+  },
+  {
+   "dex": 227,
+   "name": "Skarmory"
+  },
+  {
+   "dex": 229,
+   "name": "Houndoom"
+  },
+  {
+   "dex": 248,
+   "name": "Tyranitar"
+  },
+  {
+   "dex": 254,
+   "name": "Sceptile"
+  },
+  {
+   "dex": 257,
+   "name": "Blaziken"
+  },
+  {
+   "dex": 260,
+   "name": "Swampert"
+  },
+  {
+   "dex": 282,
+   "name": "Gardevoir"
+  },
+  {
+   "dex": 302,
+   "name": "Sableye"
+  },
+  {
+   "dex": 303,
+   "name": "Mawile"
+  },
+  {
+   "dex": 306,
+   "name": "Aggron"
+  },
+  {
+   "dex": 308,
+   "name": "Medicham"
+  },
+  {
+   "dex": 310,
+   "name": "Manectric"
+  },
+  {
+   "dex": 319,
+   "name": "Sharpedo"
+  },
+  {
+   "dex": 323,
+   "name": "Camerupt"
+  },
+  {
+   "dex": 334,
+   "name": "Altaria"
+  },
+  {
+   "dex": 354,
+   "name": "Banette"
+  },
+  {
+   "dex": 359,
+   "name": "Absol"
+  },
+  {
+   "dex": 362,
+   "name": "Glalie"
+  },
+  {
+   "dex": 373,
+   "name": "Salamence"
+  },
+  {
+   "dex": 376,
+   "name": "Metagross"
+  },
+  {
+   "dex": 380,
+   "name": "Latias"
+  },
+  {
+   "dex": 381,
+   "name": "Latios"
+  },
+  {
+   "dex": 382,
+   "name": "Kyogre"
+  },
+  {
+   "dex": 383,
+   "name": "Groudon"
+  },
+  {
+   "dex": 384,
+   "name": "Rayquaza"
+  },
+  {
+   "dex": 398,
+   "name": "Staraptor"
+  },
+  {
+   "dex": 428,
+   "name": "Lopunny"
+  },
+  {
+   "dex": 445,
+   "name": "Garchomp"
+  },
+  {
+   "dex": 448,
+   "name": "Lucario"
+  },
+  {
+   "dex": 460,
+   "name": "Abomasnow"
+  },
+  {
+   "dex": 475,
+   "name": "Gallade"
+  },
+  {
+   "dex": 531,
+   "name": "Audino"
+  },
+  {
+   "dex": 609,
+   "name": "Chandelure"
+  },
+  {
+   "dex": 652,
+   "name": "Chesnaught"
+  },
+  {
+   "dex": 655,
+   "name": "Delphox"
+  },
+  {
+   "dex": 658,
+   "name": "Greninja"
+  },
+  {
+   "dex": 687,
+   "name": "Malamar"
+  },
+  {
+   "dex": 719,
+   "name": "Diancie"
+  },
+  {
+   "dex": 870,
+   "name": "Falinks"
+  }
+ ],
+ "releasedForms": ["Abomasnow (Mega)", "Absol (Mega)", "Aerodactyl (Mega)", "Aggron (Mega)", "Alakazam (Mega)", "Altaria (Mega)", "Ampharos (Mega)", "Audino (Mega)", "Banette (Mega)", "Beedrill (Mega)", "Blastoise (Mega)", "Blaziken (Mega)", "Camerupt (Mega)", "Chandelure (Mega)", "Charizard (Mega X)", "Charizard (Mega Y)", "Chesnaught (Mega)", "Delphox (Mega)", "Diancie (Mega)", "Dragonite (Mega)", "Falinks (Mega)", "Gallade (Mega)", "Garchomp (Mega)", "Gardevoir (Mega)", "Gengar (Mega)", "Glalie (Mega)", "Greninja (Mega)", "Groudon (Primal)", "Gyarados (Mega)", "Heracross (Mega)", "Houndoom (Mega)", "Kangaskhan (Mega)", "Kyogre (Primal)", "Latias (Mega)", "Latios (Mega)", "Lopunny (Mega)", "Lucario (Mega)", "Malamar (Mega)", "Manectric (Mega)", "Mawile (Mega)", "Medicham (Mega)", "Metagross (Mega)", "Mewtwo (Mega X)", "Mewtwo (Mega Y)", "Pidgeot (Mega)", "Pinsir (Mega)", "Raichu (Mega X)", "Raichu (Mega Y)", "Rayquaza (Mega)", "Sableye (Mega)", "Salamence (Mega)", "Sceptile (Mega)", "Scizor (Mega)", "Sharpedo (Mega)", "Skarmory (Mega)", "Slowbro (Mega)", "Staraptor (Mega)", "Starmie (Mega)", "Steelix (Mega)", "Swampert (Mega)", "Tyranitar (Mega)", "Venusaur (Mega)", "Victreebel (Mega)"],
+ "notYet": [
+  {
+   "dex": 36,
+   "name": "Clefable",
+   "source": "Legends: Z-A",
+   "soon": null,
+   "inGoFiles": false
+  },
+  {
+   "dex": 154,
+   "name": "Meganium",
+   "source": "Legends: Z-A",
+   "soon": null,
+   "inGoFiles": false
+  },
+  {
+   "dex": 160,
+   "name": "Feraligatr",
+   "source": "Legends: Z-A",
+   "soon": null,
+   "inGoFiles": false
+  },
+  {
+   "dex": 358,
+   "name": "Chimecho",
+   "source": "Mega Dimension DLC",
+   "soon": null,
+   "inGoFiles": false
+  },
+  {
+   "dex": 478,
+   "name": "Froslass",
+   "source": "Legends: Z-A",
+   "soon": null,
+   "inGoFiles": false
+  },
+  {
+   "dex": 485,
+   "name": "Heatran",
+   "source": "Mega Dimension DLC",
+   "soon": null,
+   "inGoFiles": false
+  },
+  {
+   "dex": 491,
+   "name": "Darkrai",
+   "source": "Mega Dimension DLC",
+   "soon": null,
+   "inGoFiles": false
+  },
+  {
+   "dex": 500,
+   "name": "Emboar",
+   "source": "Legends: Z-A",
+   "soon": null,
+   "inGoFiles": false
+  },
+  {
+   "dex": 530,
+   "name": "Excadrill",
+   "source": "Legends: Z-A",
+   "soon": null,
+   "inGoFiles": false
+  },
+  {
+   "dex": 545,
+   "name": "Scolipede",
+   "source": "Legends: Z-A",
+   "soon": null,
+   "inGoFiles": false
+  },
+  {
+   "dex": 560,
+   "name": "Scrafty",
+   "source": "Legends: Z-A",
+   "soon": null,
+   "inGoFiles": false
+  },
+  {
+   "dex": 604,
+   "name": "Eelektross",
+   "source": "Legends: Z-A",
+   "soon": null,
+   "inGoFiles": false
+  },
+  {
+   "dex": 609,
+   "name": "Chandelure",
+   "source": "Legends: Z-A",
+   "soon": "2026-10-31",
+   "inGoFiles": true
+  },
+  {
+   "dex": 623,
+   "name": "Golurk",
+   "source": "Mega Dimension DLC",
+   "soon": null,
+   "inGoFiles": false
+  },
+  {
+   "dex": 668,
+   "name": "Pyroar",
+   "source": "Legends: Z-A",
+   "soon": null,
+   "inGoFiles": false
+  },
+  {
+   "dex": 670,
+   "name": "Floette",
+   "source": "Legends: Z-A",
+   "soon": null,
+   "inGoFiles": false
+  },
+  {
+   "dex": 678,
+   "name": "Meowstic (Male)",
+   "source": "Mega Dimension DLC",
+   "soon": null,
+   "inGoFiles": false
+  },
+  {
+   "dex": 689,
+   "name": "Barbaracle",
+   "source": "Legends: Z-A",
+   "soon": null,
+   "inGoFiles": false
+  },
+  {
+   "dex": 691,
+   "name": "Dragalge",
+   "source": "Legends: Z-A",
+   "soon": null,
+   "inGoFiles": false
+  },
+  {
+   "dex": 701,
+   "name": "Hawlucha",
+   "source": "Legends: Z-A",
+   "soon": null,
+   "inGoFiles": false
+  },
+  {
+   "dex": 718,
+   "name": "Zygarde (50% Forme)",
+   "source": "Legends: Z-A",
+   "soon": null,
+   "inGoFiles": false
+  },
+  {
+   "dex": 740,
+   "name": "Crabominable",
+   "source": "Mega Dimension DLC",
+   "soon": null,
+   "inGoFiles": false
+  },
+  {
+   "dex": 768,
+   "name": "Golisopod",
+   "source": "Mega Dimension DLC",
+   "soon": null,
+   "inGoFiles": false
+  },
+  {
+   "dex": 780,
+   "name": "Drampa",
+   "source": "Legends: Z-A",
+   "soon": null,
+   "inGoFiles": false
+  },
+  {
+   "dex": 801,
+   "name": "Magearna",
+   "source": "Mega Dimension DLC",
+   "soon": null,
+   "inGoFiles": false
+  },
+  {
+   "dex": 807,
+   "name": "Zeraora",
+   "source": "Mega Dimension DLC",
+   "soon": null,
+   "inGoFiles": false
+  },
+  {
+   "dex": 952,
+   "name": "Scovillain",
+   "source": "Mega Dimension DLC",
+   "soon": null,
+   "inGoFiles": false
+  },
+  {
+   "dex": 970,
+   "name": "Glimmora",
+   "source": "Mega Dimension DLC",
+   "soon": null,
+   "inGoFiles": false
+  },
+  {
+   "dex": 978,
+   "name": "Tatsugiri (Curly)",
+   "source": "Mega Dimension DLC",
+   "soon": null,
+   "inGoFiles": false
+  },
+  {
+   "dex": 998,
+   "name": "Baxcalibur",
+   "source": "Mega Dimension DLC",
+   "soon": null,
+   "inGoFiles": false
+  }
+ ],
+ "preEvoCount": 94
+}

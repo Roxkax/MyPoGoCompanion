@@ -1,5 +1,6 @@
 # Required check "build-and-unit" (planning/CI-CD.md): builds the API, jobs and web app, checks
-# formatting, lint and types, runs the unit tests and enforces a minimum line coverage.
+# formatting, lint and types, runs the unit tests and enforces a minimum line coverage, and checks
+# that the Python keeper-filters build still reproduces its golden files (tests/golden/).
 # The coverage table is shown on the run's summary page and as a comment on the pull request.
 name: Build and unit tests
 
@@ -122,10 +123,31 @@ jobs:
           if-no-files-found: ignore
           retention-days: 7
 
+  golden:
+    # The legacy Python build stays runnable until the C# port matches it: rebuilt from the frozen
+    # inputs (no network) and compared with the frozen outputs.
+    name: Python keeper build reproduces the golden files
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: legacy/keeper-filters/requirements.txt
+
+      - name: Install
+        run: pip install -r legacy/keeper-filters/requirements.txt
+
+      - name: Rebuild and compare
+        run: python legacy/keeper-filters/scripts/golden.py check
+
   build-and-unit:
-    # The name branch rules require. Passes only when both jobs above pass.
+    # The name branch rules require. Passes only when every job above passes.
     name: build-and-unit
-    needs: [dotnet, web]
+    needs: [dotnet, web, golden]
     if: ${{ always() }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -172,7 +194,7 @@ jobs:
           path: summary.md
 
       - name: Result
-        if: needs.dotnet.result != 'success' || needs.web.result != 'success'
+        if: needs.dotnet.result != 'success' || needs.web.result != 'success' || needs.golden.result != 'success'
         run: |
-          echo "::error::.NET: ${{ needs.dotnet.result }} · web: ${{ needs.web.result }}"
+          echo "::error::.NET: ${{ needs.dotnet.result }} · web: ${{ needs.web.result }} · golden files: ${{ needs.golden.result }}"
           exit 1

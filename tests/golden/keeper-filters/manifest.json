@@ -1,0 +1,68 @@
+{
+ "sources": {
+  "pvpoke": {
+   "url": "https://github.com/pvpoke/pvpoke",
+   "commit": "c1d4bfb35ba1d0aa98b2fe36a29567f992303218",
+   "date": "2026-10-30"
+  },
+  "gm": {
+   "url": "https://github.com/alexelgt/game_masters",
+   "commit": "b4a31cc552a1a089335dce0156b6c236d6f7f62d",
+   "date": "2026-10-29"
+  }
+ },
+ "python": {
+  "version": "3.13.18",
+  "numpy": "2.5.3"
+ },
+ "files": {
+  "inputs/gm/GAME_MASTER.json": {
+   "bytes": 433847,
+   "sha256": "3ac221ea28389d816b10f12ee8458198335bc3fc466263371784e693bb63a54b"
+  },
+  "inputs/pvpoke/src/data/gamemaster.json": {
+   "bytes": 1710397,
+   "sha256": "43ec6a2b08711eb9912eef6e98e92a38157777eda68e24d4d41bdf25f99f20d2"
+  },
+  "inputs/pvpoke/src/data/rankings/all/overall/rankings-1500.json": {
+   "bytes": 31993,
+   "sha256": "70d74458d8b0571fa40f85e2d994a44d6e7f5a966b232a2e4c3724fb971e4aaa"
+  },
+  "inputs/pvpoke/src/data/rankings/all/overall/rankings-2500.json": {
+   "bytes": 23770,
+   "sha256": "99e7a771dadcd0cd7b80018c0c9126eae7b77c1e9e2bbebd653cb6f0b39531b4"
+  },
+  "inputs/pvpoke/src/js/pokemon/Pokemon.js": {
+   "bytes": 78325,
+   "sha256": "10893308f8e8b408d396d19e541d7482c9657dd9c07fd6c8c9bf8f783669c47d"
+  },
+  "outputs/data_mega.json": {
+   "bytes": 8212,
+   "sha256": "4ebc1032e82fd6f67d61fd800322d8eb5a04c128aecb958665920f654bd70549"
+  },
+  "outputs/data_pvp.json": {
+   "bytes": 777199,
+   "sha256": "89a3ad0719f7fb28f00a5e220eb7d8637ad56fbd1ba6d60ddacdb6af139b60d0"
+  },
+  "outputs/data_raid.json": {
+   "bytes": 209328,
+   "sha256": "7746cb9110039ee7fe988b97927e6812cab5c15399909e4cf71de3ac747cba5a"
+  },
+  "outputs/pvp_boxes.json": {
+   "bytes": 687856,
+   "sha256": "0ab7c4ddf7205f974bb1a8887ae7a0814aaea4fd784f7a4f2d616923ee9080a7"
+  },
+  "outputs/pvp_strings.json": {
+   "bytes": 9033,
+   "sha256": "ccaaca4b9fb3f3bcf8826c06b269b7106844a88f7cdac8311258200939f16b66"
+  },
+  "outputs/raiders.json": {
+   "bytes": 2245074,
+   "sha256": "bd00b3b7606275d277adcfa0da7b03dc33fa33ee3c66b39af8c8d451434b6cbc"
+  },
+  "outputs/searchsim.json": {
+   "bytes": 148535,
+   "sha256": "662db9dd912d3196bd87a6b9d59d08c9cf8db003c09eca978d68488a27d589e6"
+  }
+ }
+}

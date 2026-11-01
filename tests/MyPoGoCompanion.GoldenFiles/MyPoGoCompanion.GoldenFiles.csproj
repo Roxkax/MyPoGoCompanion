@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Golden-file harness: reads the outputs frozen from the Python keeper-filters build
+    (tests/golden/keeper-filters/) and compares C# output with them, with a readable diff.
+    Test-framework neutral: a mismatch throws GoldenFileMismatchException.
+  -->
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+</Project>
