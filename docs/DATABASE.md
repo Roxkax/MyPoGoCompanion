@@ -58,7 +58,7 @@ Every live-data row carries the researcher's stable `key` (so a later run update
 
 | Table | One row per | Notes |
 |---|---|---|
-| `users` | Google account | Google id, email, name, picture; language and theme; role (user or admin, with who granted it and when). The super admin is not stored: it comes from configuration |
+| `users` | Google account | Google id, email, name, picture; language and theme (the theme column is unused for now: the web app keeps the theme per device, decision 2026-11-01); role (user or admin, with who granted it and when). The super admin is not stored: it comes from configuration |
 | `saved_filters` | saved search string | name, string, the builder's conditions (JSON) |
 | `collection_imports` | Poke Genie upload | status (for the progress steps), counts for the report, error |
 | `unrecognised_rows` | row that didn't match | row number, name, form, CP, reason |
