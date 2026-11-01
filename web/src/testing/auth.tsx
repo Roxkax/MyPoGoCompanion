@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { render } from '@testing-library/react'
 import type { ReactElement } from 'react'
+import { MemoryRouter } from 'react-router'
 import type { Me, SessionResponse } from '../auth/authApi'
 import { AuthProvider } from '../auth/AuthProvider'
 import { SessionManager, type SessionDependencies } from '../auth/session'
@@ -67,7 +68,13 @@ export function testSession(deps: Partial<SessionDependencies> = {}) {
 
 export function renderWithAuth(
   ui: ReactElement,
-  options: { session?: SessionManager; navigate?: (url: string) => void; pathname?: string } = {},
+  options: {
+    session?: SessionManager
+    navigate?: (url: string) => void
+    pathname?: string
+    /** The address the component is shown at (it sits inside a router, as in the app). */
+    route?: string
+  } = {},
 ) {
   const session = options.session ?? testSession().session
   const result = render(
@@ -77,7 +84,7 @@ export function renderWithAuth(
         navigate={options.navigate ?? (() => {})}
         pathname={options.pathname ?? '/'}
       >
-        {ui}
+        <MemoryRouter initialEntries={[options.route ?? '/']}>{ui}</MemoryRouter>
       </AuthProvider>
     </QueryClientProvider>,
   )

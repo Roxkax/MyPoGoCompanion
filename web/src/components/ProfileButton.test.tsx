@@ -1,4 +1,4 @@
-import { act, screen } from '@testing-library/react'
+import { act, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import type { Role } from '../auth/authApi'
@@ -14,7 +14,7 @@ function signedIn(role: Role = 'User', pictureUrl: string | null = null, api = {
 }
 
 describe('ProfileButton', () => {
-  it('signed out: opens the sign-in screen', async () => {
+  it('signed out: a menu with Sign in (opens the sign-in screen) and Settings', async () => {
     renderWithAuth(
       <>
         <ProfileButton />
@@ -22,9 +22,32 @@ describe('ProfileButton', () => {
       </>,
     )
 
-    await userEvent.click(await screen.findByRole('button', { name: 'Sign in' }))
+    const button = await screen.findByRole('button', { name: 'Profile' })
+    await waitFor(() => expect(button).toBeEnabled())
+    await userEvent.click(button)
+    const menu = screen.getByRole('menu', { name: 'Profile' })
+    expect(
+      within(menu)
+        .getAllByRole('menuitem')
+        .map((item) => item.textContent),
+    ).toEqual(['Sign in', 'Settings'])
+    expect(screen.getByRole('menuitem', { name: 'Settings' })).toHaveAttribute('href', '/settings')
+
+    await userEvent.click(screen.getByRole('menuitem', { name: 'Sign in' }))
 
     expect(screen.getByRole('dialog')).toBeInTheDocument()
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument()
+  })
+
+  it('signed out: Settings closes the menu', async () => {
+    renderWithAuth(<ProfileButton />)
+    const button = await screen.findByRole('button', { name: 'Profile' })
+    await waitFor(() => expect(button).toBeEnabled())
+
+    await userEvent.click(button)
+    await userEvent.click(screen.getByRole('menuitem', { name: 'Settings' }))
+
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument()
   })
 
   it('while loading: waits', () => {
@@ -32,7 +55,7 @@ describe('ProfileButton', () => {
     session.start = () => new Promise(() => {})
     renderWithAuth(<ProfileButton />, { session })
 
-    expect(screen.getByRole('button', { name: 'Sign in' })).toBeDisabled()
+    expect(screen.getByRole('button', { name: 'Profile' })).toBeDisabled()
   })
 
   it('signed in: the initial, then a menu with name, email and the two sign-outs', async () => {
@@ -47,6 +70,7 @@ describe('ProfileButton', () => {
     expect(menu).toHaveTextContent('Ash')
     expect(menu).toHaveTextContent('ash@example.com')
     expect(screen.getAllByRole('menuitem').map((item) => item.textContent)).toEqual([
+      'Settings',
       'Sign out',
       'Sign out everywhere',
     ])
@@ -65,12 +89,16 @@ describe('ProfileButton', () => {
   it.each([
     ['Admin', 'Admin'],
     ['SuperAdmin', 'Super admin'],
-  ] as const)('shows the %s badge', async (role, badge) => {
+  ] as const)('shows the %s badge and the Admin link', async (role, badge) => {
     signedIn(role)
 
     await userEvent.click(screen.getByRole('button', { name: 'Account: Ash' }))
 
-    expect(screen.getByText(badge)).toBeInTheDocument()
+    expect(screen.getByText(badge, { selector: '.role-badge' })).toBeInTheDocument()
+    const adminLink = screen.getByRole('menuitem', { name: 'Admin' })
+    expect(adminLink).toHaveAttribute('href', '/admin')
+    await userEvent.click(adminLink)
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument()
   })
 
   it('Sign out signs out on this device', async () => {
@@ -81,7 +109,7 @@ describe('ProfileButton', () => {
     await userEvent.click(screen.getByRole('menuitem', { name: 'Sign out' }))
 
     expect(signOut).toHaveBeenCalledWith('refresh-2')
-    expect(await screen.findByRole('button', { name: 'Sign in' })).toBeInTheDocument()
+    expect(await screen.findByRole('button', { name: 'Profile' })).toBeInTheDocument()
   })
 
   it('Sign out everywhere signs out every device', async () => {
@@ -92,7 +120,7 @@ describe('ProfileButton', () => {
     await userEvent.click(screen.getByRole('menuitem', { name: 'Sign out everywhere' }))
 
     expect(signOutEverywhere).toHaveBeenCalledWith('access-for-refresh-2')
-    expect(await screen.findByRole('button', { name: 'Sign in' })).toBeInTheDocument()
+    expect(await screen.findByRole('button', { name: 'Profile' })).toBeInTheDocument()
   })
 
   it('Sign out everywhere failing says so and stays signed in', async () => {

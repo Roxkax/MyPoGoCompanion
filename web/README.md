@@ -8,6 +8,16 @@ Unit and component tests (Vitest) sit next to the code they test as `*.test.ts(x
 
 The screens it implements are designed in `design/` (25 MVP screens, phone and desktop, light and dark).
 
+## App shell and design system (E01-F03)
+
+| Where                   | What                                                                                                                                                                                                                                        |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/app/routes.tsx`    | Every screen's address (React Router 7). Screens not built yet show "Coming soon" inside the real shell; each feature swaps in its screen here. `/design` (all shared components on one page) exists on QA and local copies only.           |
+| `src/layout/`           | The shell: phone (screen header + bottom tab bar) or desktop (sidebar + top bar) from 900 px wide; `TabScreen` / `DetailScreen` frames; search and Ask panels, which open over the page without an address of their own (Back closes them). |
+| `src/styles/tokens.css` | Design tokens from `design/source/base.css`. Every colour is `light-dark(<light>, <dark>)`, so it always has a dark version (checked by `tokens.test.ts`); type colours are the same in both.                                               |
+| `src/theme/`            | Settings → Theme (Follow device · Light · Dark), saved per device in `localStorage` (`mpgc.theme`). `public/theme.js` applies it before the page draws.                                                                                     |
+| `src/ui/`               | Shared components: card, chip, pill, segmented switch and section links, type badge, version marker, sprite box.                                                                                                                            |
+
 ## TypeScript: two versions side by side
 
 `tsc` (type check and build) is **TypeScript 7**, the fast native compiler. TypeScript 7.0 has no programmatic API yet, and `typescript-eslint` needs one, so the package named `typescript` is Microsoft's compatibility package with the **TypeScript 6** API (`@typescript/typescript6`, which also gives a `tsc6` command). In `package.json`:

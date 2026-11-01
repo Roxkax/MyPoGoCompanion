@@ -16,7 +16,8 @@ function Probe() {
         dialog: {String(dialog.open)} {dialog.returnTo}
       </p>
       <p>error: {signInError ?? 'none'}</p>
-      <button onClick={openSignIn}>open</button>
+      <button onClick={() => openSignIn()}>open</button>
+      <button onClick={() => openSignIn('/eggs')}>open for eggs</button>
       <button onClick={closeSignIn}>close</button>
       <button onClick={() => void continueWithGoogle('/raids')}>google</button>
       <button onClick={() => void continueWithGoogle()}>google here</button>

@@ -11,8 +11,8 @@ export interface AuthContextValue {
   state: AuthState
   session: SessionManager
   dialog: SignInDialogState
-  /** Opens the sign-in screen; after signing in the person comes back to the current page. */
-  openSignIn: () => void
+  /** Opens the sign-in screen; after signing in the person comes back to `returnTo` (default: the current page). */
+  openSignIn: (returnTo?: string) => void
   closeSignIn: () => void
   /** Leaves for Google's sign-in. Resolves only on failure (sign-in not set up, API unreachable). */
   continueWithGoogle: (returnTo?: string) => Promise<void>

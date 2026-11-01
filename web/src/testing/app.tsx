@@ -1,0 +1,84 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { act, render } from '@testing-library/react'
+import { App } from '../App'
+import type { Me } from '../auth/authApi'
+import { AuthProvider } from '../auth/AuthProvider'
+import type { SessionManager } from '../auth/session'
+import { readEnvironment, type AppEnvironment } from '../environment'
+import { desktopQuery } from '../layout/useMediaQuery'
+import { ThemeProvider } from '../theme/ThemeProvider'
+import { ThemeStore } from '../theme/theme'
+import { ash, MemoryStorage, sessionFor, testSession } from './auth'
+
+/**
+ * A pretend screen size: window.matchMedia answers the desktop query as asked, and resize() changes it later (as
+ * when a window is resized), telling everything listening. Removed after each test (src/test-setup.ts).
+ */
+export function setViewport(layout: 'phone' | 'desktop') {
+  let desktop = layout === 'desktop'
+  const listeners = new Set<() => void>()
+  Object.defineProperty(window, 'matchMedia', {
+    configurable: true,
+    writable: true,
+    value: (query: string) => ({
+      get matches() {
+        return query === desktopQuery && desktop
+      },
+      media: query,
+      addEventListener: (_: string, listener: () => void) => listeners.add(listener),
+      removeEventListener: (_: string, listener: () => void) => listeners.delete(listener),
+    }),
+  })
+  return {
+    resize(to: 'phone' | 'desktop') {
+      desktop = to === 'desktop'
+      act(() => listeners.forEach((listener) => listener()))
+    },
+  }
+}
+
+interface AppOptions {
+  layout?: 'phone' | 'desktop'
+  /** Signed in as this person; signed out when left out. */
+  user?: Me
+  session?: SessionManager
+  environment?: AppEnvironment
+  themes?: ThemeStore
+  navigate?: (url: string) => void
+}
+
+/** The whole app at an address, as the browser shows it: providers, router, shell and screen. */
+export function renderApp(path = '/', options: AppOptions = {}) {
+  const viewport = setViewport(options.layout ?? 'phone')
+  window.history.replaceState(null, '', path)
+  const { session } = options.session ? { session: options.session } : testSession()
+  const themes = options.themes ?? new ThemeStore(new MemoryStorage())
+  const result = render(
+    <ThemeProvider store={themes}>
+      <QueryClientProvider
+        client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}
+      >
+        <AuthProvider
+          session={session}
+          navigate={options.navigate ?? (() => {})}
+          pathname={new URL(path, 'http://localhost').pathname}
+        >
+          <App
+            environment={options.environment ?? readEnvironment({ VITE_APP_ENV: 'production' })}
+          />
+        </AuthProvider>
+      </QueryClientProvider>
+    </ThemeProvider>,
+  )
+  if (options.user) {
+    act(() => session.accept(sessionFor(options.user)))
+  }
+  return { ...result, session, themes, viewport }
+}
+
+export const admin: Me = { ...ash, role: 'Admin' }
+
+/** The address the app is showing now. */
+export function currentAddress(): string {
+  return window.location.pathname + window.location.search
+}

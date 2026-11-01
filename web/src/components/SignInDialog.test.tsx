@@ -9,7 +9,7 @@ afterEach(() => vi.unstubAllGlobals())
 
 function Opener() {
   const { openSignIn } = useAuth()
-  return <button onClick={openSignIn}>Sign in</button>
+  return <button onClick={() => openSignIn()}>Sign in</button>
 }
 
 async function openDialog(options: Parameters<typeof renderWithAuth>[1] = {}) {
