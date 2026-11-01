@@ -2,7 +2,7 @@
 
 The words the app uses in Portuguese (E01-F04), so every screen says the same thing. The texts themselves are in `web/src/i18n/messages/pt-PT.ts`.
 
-**Rule:** spelling, grammar and everyday words are Portugal's (ecrã, equipa, definições, iniciar sessão, utilizador, carregar). Pokémon GO's own terms follow the game's Portuguese text, the same text the Pokémon and move names will come from (E02), so the app matches what the player sees in the game. The interface talks to the player as *tu* (informal), like the game.
+**Rule** (owner, 2026-11-01): spelling, grammar and everyday words are Portugal's (ecrã, equipa, definições, iniciar sessão, utilizador, carregar). Pokémon GO's own terms follow the game's Portuguese text, the same text the Pokémon and move names will come from (E02), so the app matches what the player sees in the game. The interface talks to the player as *tu* (informal), like the game.
 
 | English | Português (Portugal) | Why |
 |---|---|---|
