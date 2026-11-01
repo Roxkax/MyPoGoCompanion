@@ -92,6 +92,12 @@ Settings (environment variables in Azure, `appsettings.Development.json` locally
 | `ConnectionStrings__Database` | `postgresql://user:pass@host/db?sslmode=require` | Neon's URL or Npgsql's `Host=…;Database=…` form |
 | `Cors__AllowedOrigins` | `https://….azurestaticapps.net` | Comma-separated web app addresses allowed to call the API |
 | `APP_VERSION` | Git commit | Shown by `/health`; the Docker image sets it from the `VERSION` build argument |
+| `Auth__Google__ClientId` | `123….apps.googleusercontent.com` | Google OAuth client (sign-in); see [`docs/SIGN-IN.md`](docs/SIGN-IN.md) |
+| `Auth__Google__ClientSecret` | secret | Only the API sees it; a Container Apps secret |
+| `Auth__SigningKey` | base64, 32+ bytes | Signs the API's access tokens; different per environment |
+| `Auth__SuperAdminEmail` | the owner's Google email | The super admin, who makes other users admin |
+
+Without the three sign-in secrets the API still runs and answers `503` to sign-in. Locally, keep them in .NET user secrets (`docs/SIGN-IN.md`, "Signing in on your computer").
 
 Docker image (build from the repository root; listens on port 8080):
 

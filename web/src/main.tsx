@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { App } from './App'
+import { AuthProvider } from './auth/AuthProvider'
 import { applyEnvironment, readEnvironment } from './environment'
 
 const queryClient = new QueryClient()
@@ -13,7 +14,9 @@ applyEnvironment(environment)
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <App environment={environment} />
+      <AuthProvider>
+        <App environment={environment} />
+      </AuthProvider>
     </QueryClientProvider>
   </StrictMode>,
 )

@@ -1,6 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
+  <PropertyGroup>
+    <!-- Local sign-in secrets live outside the repository: dotnet user-secrets (docs/SIGN-IN.md). -->
+    <UserSecretsId>mypogocompanion-api</UserSecretsId>
+  </PropertyGroup>
+
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
     <PackageReference Include="Npgsql.DependencyInjection" />
   </ItemGroup>

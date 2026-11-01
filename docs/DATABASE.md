@@ -58,7 +58,7 @@ Every live-data row carries the researcher's stable `key` (so a later run update
 
 | Table | One row per | Notes |
 |---|---|---|
-| `users` | Google account | Google id, email, name, picture; language and theme. The admin role is not stored: it comes from configuration |
+| `users` | Google account | Google id, email, name, picture; language and theme; role (user or admin, with who granted it and when). The super admin is not stored: it comes from configuration |
 | `saved_filters` | saved search string | name, string, the builder's conditions (JSON) |
 | `collection_imports` | Poke Genie upload | status (for the progress steps), counts for the report, error |
 | `unrecognised_rows` | row that didn't match | row number, name, form, CP, reason |
@@ -67,7 +67,14 @@ Every live-data row carries the researcher's stable `key` (so a later run update
 
 **The uploaded file is not kept**: its rows become `collection_pokemon`, unmatched rows are kept with their reason, and the differences are kept per upload, so the upload history is those diffs.
 
-Sign-in tokens get their own table with the sign-in feature (E01-F02).
+### Signing in and roles (E01-F02, migration `SignInAndRoles`)
+
+| Table | One row per | Notes |
+|---|---|---|
+| `refresh_tokens` | refresh token | the user, the sign-in it belongs to (`session_id`: one browser or device), the token's **SHA-256 hash only**, created / expires (30 days), used (swapped for the next token) and revoked. Each refresh replaces the token, so a sign-in is a chain with one live token; a used or revoked token presented again ends the whole sign-in (it was copied) |
+| `role_changes` | grant or removal of the admin role | whose role, who changed it, from and to, when. Kept with the person's account; the person who made the change is emptied if their account is deleted |
+
+The **super admin** is not stored: it is the account whose Google-confirmed email matches `Auth:SuperAdminEmail`, checked at every sign-in and admin request, so no database change (or QA reset) can remove it. Admins are `users.role = 'Admin'`, granted by the super admin.
 
 ### Running the system
 
@@ -79,7 +86,7 @@ Sign-in tokens get their own table with the sign-in feature (E01-F02).
 
 ## What deleting does
 
-- **A user**: their saved filters, uploads (with unrecognised rows and changes) and collection go with them. Records that only mention them stay, with the user emptied: AI usage, job runs they started, entries they fixed and the audit of their fixes.
+- **A user**: their saved filters, uploads (with unrecognised rows and changes), collection, refresh tokens and role history go with them. Records that only mention them stay, with the user emptied: AI usage, job runs they started, entries they fixed, the audit of their fixes, and roles they granted to others.
 - **Game data**: inside game data, rows cascade (a deleted form takes its movepool, evolutions and rankings). A form or move that live data or a collection points at **can't be deleted**: the import marks it (not released) instead.
 - **An upload**: refused while the collection still comes from it.
 - **An event**: its featured Pokémon, moves and bonuses go with it; raids, eggs and research that belonged to it stay, unlinked.

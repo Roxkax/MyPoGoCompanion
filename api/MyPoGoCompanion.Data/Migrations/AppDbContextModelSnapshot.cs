@@ -1744,6 +1744,110 @@ namespace MyPoGoCompanion.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("MyPoGoCompanion.Data.Users.RefreshToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTimeOffset>("ExpiresAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("expires_at");
+
+                    b.Property<DateTimeOffset?>("RevokedAt")
+                        .IsConcurrencyToken()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("revoked_at");
+
+                    b.Property<Guid>("SessionId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("session_id");
+
+                    b.Property<string>("TokenHash")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)")
+                        .HasColumnName("token_hash");
+
+                    b.Property<DateTimeOffset?>("UsedAt")
+                        .IsConcurrencyToken()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("used_at");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_refresh_tokens");
+
+                    b.HasIndex("SessionId")
+                        .HasDatabaseName("ix_refresh_tokens_session_id");
+
+                    b.HasIndex("TokenHash")
+                        .IsUnique()
+                        .HasDatabaseName("ix_refresh_tokens_token_hash");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_refresh_tokens_user_id");
+
+                    b.ToTable("refresh_tokens", null, t =>
+                        {
+                            t.HasCheckConstraint("ck_refresh_tokens_expiry", "expires_at > created_at");
+
+                            t.HasCheckConstraint("ck_refresh_tokens_hash", "token_hash ~ '^[0-9a-f]{64}$'");
+                        });
+                });
+
+            modelBuilder.Entity("MyPoGoCompanion.Data.Users.RoleChange", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTimeOffset>("At")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("at");
+
+                    b.Property<Guid?>("ChangedByUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("changed_by_user_id");
+
+                    b.Property<string>("From")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("from");
+
+                    b.Property<string>("To")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("to");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_role_changes");
+
+                    b.HasIndex("ChangedByUserId")
+                        .HasDatabaseName("ix_role_changes_changed_by_user_id");
+
+                    b.HasIndex("UserId", "At")
+                        .HasDatabaseName("ix_role_changes_user_id_at");
+
+                    b.ToTable("role_changes", null, t =>
+                        {
+                            t.HasCheckConstraint("ck_role_changes_change", "\"from\" <> \"to\"");
+                        });
+                });
+
             modelBuilder.Entity("MyPoGoCompanion.Data.Users.SavedFilter", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1862,6 +1966,21 @@ namespace MyPoGoCompanion.Data.Migrations
                         .HasColumnType("text")
                         .HasColumnName("picture_url");
 
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("text")
+                        .HasDefaultValue("User")
+                        .HasColumnName("role");
+
+                    b.Property<DateTimeOffset?>("RoleGrantedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("role_granted_at");
+
+                    b.Property<Guid?>("RoleGrantedByUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("role_granted_by_user_id");
+
                     b.Property<string>("Theme")
                         .IsRequired()
                         .HasColumnType("text")
@@ -1873,6 +1992,9 @@ namespace MyPoGoCompanion.Data.Migrations
                     b.HasIndex("GoogleSubject")
                         .IsUnique()
                         .HasDatabaseName("ix_users_google_subject");
+
+                    b.HasIndex("RoleGrantedByUserId")
+                        .HasDatabaseName("ix_users_role_granted_by_user_id");
 
                     b.ToTable("users", null, t =>
                         {
@@ -2423,6 +2545,38 @@ namespace MyPoGoCompanion.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("MyPoGoCompanion.Data.Users.RefreshToken", b =>
+                {
+                    b.HasOne("MyPoGoCompanion.Data.Users.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_refresh_tokens_users_user_id");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MyPoGoCompanion.Data.Users.RoleChange", b =>
+                {
+                    b.HasOne("MyPoGoCompanion.Data.Users.User", "ChangedBy")
+                        .WithMany()
+                        .HasForeignKey("ChangedByUserId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .HasConstraintName("fk_role_changes_users_changed_by_user_id");
+
+                    b.HasOne("MyPoGoCompanion.Data.Users.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_role_changes_users_user_id");
+
+                    b.Navigation("ChangedBy");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MyPoGoCompanion.Data.Users.SavedFilter", b =>
                 {
                     b.HasOne("MyPoGoCompanion.Data.Users.User", "User")
@@ -2445,6 +2599,17 @@ namespace MyPoGoCompanion.Data.Migrations
                         .HasConstraintName("fk_unrecognised_rows_collection_imports_import_id");
 
                     b.Navigation("Import");
+                });
+
+            modelBuilder.Entity("MyPoGoCompanion.Data.Users.User", b =>
+                {
+                    b.HasOne("MyPoGoCompanion.Data.Users.User", "RoleGrantedBy")
+                        .WithMany()
+                        .HasForeignKey("RoleGrantedByUserId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .HasConstraintName("fk_users_users_role_granted_by_user_id");
+
+                    b.Navigation("RoleGrantedBy");
                 });
 
             modelBuilder.Entity("MyPoGoCompanion.Data.GameData.Family", b =>

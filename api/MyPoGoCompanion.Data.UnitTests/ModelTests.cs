@@ -44,8 +44,8 @@ public partial class ModelTests
             "admin_fixes", "ai_usage", "collection_changes", "collection_imports", "collection_pokemon", "cp_multipliers",
             "egg_pool_entries", "event_bonuses", "event_moves", "event_pokemon", "events", "evolutions", "families",
             "form_moves", "forms", "job_runs", "keeper_filters", "max_bosses", "moves", "pvp_best_ivs", "pvp_keeper_boxes",
-            "pvp_rankings", "raid_bosses", "raid_movesets", "raid_rankings", "research_rewards", "research_tasks",
-            "saved_filters", "species", "types", "unrecognised_rows", "users",
+            "pvp_rankings", "raid_bosses", "raid_movesets", "raid_rankings", "refresh_tokens", "research_rewards", "research_tasks",
+            "role_changes", "saved_filters", "species", "types", "unrecognised_rows", "users",
         ];
 
         Assert.Equal(expected, Model.GetEntityTypes().Select(entity => entity.GetTableName()).Order(StringComparer.Ordinal));
@@ -100,6 +100,7 @@ public partial class ModelTests
     [InlineData(typeof(SavedFilter))]
     [InlineData(typeof(CollectionImport))]
     [InlineData(typeof(CollectionPokemon))]
+    [InlineData(typeof(RefreshToken))]
     public void UserData_IsDeletedWithTheUser(Type owned)
     {
         var key = Model.FindEntityType(owned)!.GetForeignKeys().Single(foreignKey => foreignKey.PrincipalEntityType.ClrType == typeof(User));
@@ -108,12 +109,22 @@ public partial class ModelTests
     }
 
     [Fact]
+    public void RoleHistory_GoesWithThePersonButKeepsWhoChangedIt()
+    {
+        var keys = Model.FindEntityType(typeof(RoleChange))!.GetForeignKeys().ToDictionary(key => key.Properties.Single().Name);
+
+        Assert.Equal(DeleteBehavior.Cascade, keys[nameof(RoleChange.UserId)].DeleteBehavior);
+        Assert.Equal(DeleteBehavior.SetNull, keys[nameof(RoleChange.ChangedByUserId)].DeleteBehavior);
+    }
+
+    [Fact]
     public void RecordsMentioningAUser_KeepTheRecordWhenTheUserIsDeleted()
     {
-        var owned = new[] { typeof(SavedFilter), typeof(CollectionImport), typeof(CollectionPokemon) };
+        var owned = new[] { typeof(SavedFilter), typeof(CollectionImport), typeof(CollectionPokemon), typeof(RefreshToken) };
         var others = Model.GetEntityTypes().Where(entity => !owned.Contains(entity.ClrType))
             .SelectMany(entity => entity.GetForeignKeys())
             .Where(key => key.PrincipalEntityType.ClrType == typeof(User))
+            .Where(key => !(key.DeclaringEntityType.ClrType == typeof(RoleChange) && key.Properties.Single().Name == nameof(RoleChange.UserId)))
             .ToList();
 
         Assert.NotEmpty(others);

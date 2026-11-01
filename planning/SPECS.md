@@ -258,7 +258,7 @@ How each feature works from the user's side, as signed off by the owner. Priorit
 
 **MVP — two screens.** (1) **Data status & re-run**: last daily import and weekly AI researcher runs, success/errors, what changed, a "Run now" button for each. (2) **Fix fetched entries** (14.12): bosses, Max bosses and events published by the AI researcher, with source links; edit details or remove. A fixed entry is marked "Fixed by you" and the next AI run won't overwrite it; if the source later changes, it shows "Source changed since your fix" for the admin to decide.
 
-**Simple in the MVP.** Admin role set in configuration (no user screen); the $5 AI cap is a configuration setting (spend visible); "Megas not yet in GO" stays in configuration or is updated by the AI researcher.
+**Simple in the MVP.** The owner's account is the super admin (set in configuration) and makes other users admin (screen "Users & roles" with the data status screens); the $5 AI cap is a configuration setting (spend visible); "Megas not yet in GO" stays in configuration or is updated by the AI researcher.
 
 **Later (Good to have).** Review queue (feature 12); direct data edits (logged); hand-maintained lists on screen; AI usage and cap on screen; audit log; users & roles; content editor (EN/PT); health & limits; downloadable backups; feature switches.
 

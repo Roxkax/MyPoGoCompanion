@@ -270,15 +270,12 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           WEB_URL: ${{ steps.web.outputs.url }}
           IMAGE_TAG: ${{ env.IMAGE }}:${{ steps.pr.outputs.sha }}
+          GOOGLE_CLIENT_ID: ${{ vars.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          AUTH_SIGNING_KEY: ${{ secrets.AUTH_SIGNING_KEY }}
+          SUPER_ADMIN_EMAIL: ${{ vars.SUPER_ADMIN_EMAIL }}
         run: |
-          # The connection string is a Container Apps secret, not a plain setting.
-          az containerapp secret set -g "$RESOURCE_GROUP" -n "$API_APP" \
-            --secrets "database-url=$DATABASE_URL" --only-show-errors -o none
-          # The API listens on 8080 (the bicep placeholder used 80).
-          az containerapp ingress update -g "$RESOURCE_GROUP" -n "$API_APP" --target-port 8080 --only-show-errors -o none
-          origin=$(sed -E 's#^(https?://[^/]+).*#\1#' <<<"$WEB_URL")
-          az containerapp update -g "$RESOURCE_GROUP" -n "$API_APP" --image "$IMAGE_TAG" --only-show-errors -o none \
-            --set-env-vars "ConnectionStrings__Database=secretref:database-url" "Cors__AllowedOrigins=$origin"
+          WEB_ORIGIN=$(sed -E 's#^(https?://[^/]+).*#\1#' <<<"$WEB_URL") .github/scripts/deploy_api.sh
 
       - name: Smoke test
         env:

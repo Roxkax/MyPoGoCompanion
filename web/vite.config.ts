@@ -1,9 +1,24 @@
 /// <reference types="vitest/config" />
+import { readFileSync, writeFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv, type Plugin } from 'vite'
+import { withContentSecurityPolicy } from './src/security/contentSecurityPolicy.ts'
 
-export default defineConfig({
-  plugins: [react()],
+/** Writes the Content Security Policy for this build's API address into dist/staticwebapp.config.json. */
+function contentSecurityPolicy(apiUrl: string | undefined): Plugin {
+  return {
+    name: 'content-security-policy',
+    apply: 'build',
+    writeBundle(options) {
+      const file = resolve(options.dir ?? 'dist', 'staticwebapp.config.json')
+      writeFileSync(file, withContentSecurityPolicy(readFileSync(file, 'utf8'), apiUrl))
+    },
+  }
+}
+
+export default defineConfig(({ mode }) => ({
+  plugins: [react(), contentSecurityPolicy(loadEnv(mode, process.cwd(), 'VITE_').VITE_API_URL)],
   server: { port: 5173, strictPort: true },
   preview: { port: 4173, strictPort: true },
   test: {
@@ -20,6 +35,7 @@ export default defineConfig({
         'src/test-setup.ts',
         'src/main.tsx',
         'src/api/generated/**',
+        'src/testing/**',
       ],
       reporter: ['text', 'cobertura', 'json-summary'],
       reportsDirectory: 'coverage',
@@ -27,4 +43,4 @@ export default defineConfig({
       thresholds: { lines: 90, branches: 90, functions: 90, statements: 90 },
     },
   },
-})
+}))
