@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OpenApi;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi;
@@ -110,6 +109,33 @@ public class OpenApiSetupTests
     }
 
     [Fact]
+    public void AddProblemExamples_EachErrorShowsItsOwnStatus()
+    {
+        var problem = () => new OpenApiResponse
+        {
+            Content = new Dictionary<string, OpenApiMediaType> { ["application/problem+json"] = new() },
+        };
+        var operation = new OpenApiOperation
+        {
+            Responses = new OpenApiResponses
+            {
+                ["200"] = new OpenApiResponse { Content = new Dictionary<string, OpenApiMediaType> { ["application/json"] = new() } },
+                ["401"] = problem(),
+                ["429"] = problem(),
+                ["418"] = problem(),
+            },
+        };
+
+        OpenApiSetup.AddProblemExamples(operation, _json);
+
+        var content = (string status) => ((OpenApiResponse)operation.Responses[status]).Content!;
+        Assert.Null(content("200")["application/json"].Example);
+        Assert.Equal(401, content("401")["application/problem+json"].Example!["status"]!.GetValue<int>());
+        Assert.Equal("Too Many Requests", content("429")["application/problem+json"].Example!["title"]!.GetValue<string>());
+        Assert.Null(content("418")["application/problem+json"].Example);
+    }
+
+    [Fact]
     public void AddExample_TypeWithoutOne_AddsNothing()
     {
         var schema = new OpenApiSchema();
@@ -187,14 +213,13 @@ public class OpenApiSetupTests
     public async Task MapApiDocument_DocsPageOnlyWhenSwitchedOn(bool enabled)
     {
         await using var app = App(enabled);
+        await app.StartAsync(TestContext.Current.CancellationToken);
+        using var client = new HttpClient { BaseAddress = new Uri(app.Urls.First()) };
 
-        var routes = ((IEndpointRouteBuilder)app).DataSources
-            .SelectMany(source => source.Endpoints)
-            .OfType<RouteEndpoint>()
-            .Select(endpoint => endpoint.RoutePattern.RawText ?? string.Empty)
-            .ToList();
+        var page = await client.GetAsync(new Uri("/docs/index.html", UriKind.Relative), TestContext.Current.CancellationToken);
+        var document = await client.GetAsync(new Uri("/openapi/v1.json", UriKind.Relative), TestContext.Current.CancellationToken);
 
-        Assert.Contains(routes, route => route.StartsWith("/openapi/", StringComparison.Ordinal));
-        Assert.Equal(enabled, routes.Exists(route => route.StartsWith(OpenApiSetup.DocsPath, StringComparison.Ordinal)));
+        Assert.Equal(enabled ? System.Net.HttpStatusCode.OK : System.Net.HttpStatusCode.NotFound, page.StatusCode);
+        Assert.Equal(System.Net.HttpStatusCode.OK, document.StatusCode);
     }
 }

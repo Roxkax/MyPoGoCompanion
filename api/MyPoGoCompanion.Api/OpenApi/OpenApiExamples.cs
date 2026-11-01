@@ -37,14 +37,25 @@ internal static class OpenApiExamples
         [typeof(AdminUserResponse)] = new AdminUserResponse(
             _ashId, "Ash_PT", "ash.pt@example.com", "https://lh3.googleusercontent.com/a/ash-pt", EffectiveRole.Admin, _now.AddHours(-2)),
         [typeof(SetRoleRequest)] = new SetRoleRequest(UserRole.Admin),
-        [typeof(ProblemDetails)] = new ProblemDetails
-        {
-            Type = "https://tools.ietf.org/html/rfc9110#section-15.5.1",
-            Title = "Bad Request",
-            Status = StatusCodes.Status400BadRequest,
-            Detail = "The language must be one of: en, pt-PT.",
-        },
+        [typeof(ProblemDetails)] = Problem("rfc9110#section-15.5.1", "Bad Request", 400, "The language must be one of: en, pt-PT."),
     };
+
+    /// <summary>What the API answers for each error status (title and type as ASP.NET Core writes them).</summary>
+    private static readonly Dictionary<int, ProblemDetails> _problems = new()
+    {
+        [StatusCodes.Status400BadRequest] = Problem("rfc9110#section-15.5.1", "Bad Request", 400, "What was wrong with the request, written for people."),
+        [StatusCodes.Status401Unauthorized] = Problem("rfc9110#section-15.5.2", "Unauthorized", 401, null),
+        [StatusCodes.Status403Forbidden] = Problem("rfc9110#section-15.5.4", "Forbidden", 403, null),
+        [StatusCodes.Status404NotFound] = Problem("rfc9110#section-15.5.5", "Not Found", 404, null),
+        [StatusCodes.Status429TooManyRequests] = Problem("rfc6585#section-4", "Too Many Requests", 429, null),
+        [StatusCodes.Status503ServiceUnavailable] = Problem("rfc9110#section-15.6.4", "Service Unavailable", 503, "Sign-in isn't set up on this server yet."),
+    };
+
+    private static ProblemDetails Problem(string section, string title, int status, string? detail) =>
+        new() { Type = "https://tools.ietf.org/html/" + section, Title = title, Status = status, Detail = detail };
+
+    /// <summary>The example error for this status, or null for a status without one.</summary>
+    public static ProblemDetails? ForProblem(int status) => _problems.GetValueOrDefault(status);
 
     /// <summary>The example for this type, or null when it has none (simple values, enums, collections).</summary>
     public static object? For(Type type) => _examples.GetValueOrDefault(type);

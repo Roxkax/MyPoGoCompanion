@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Mvc.Testing;
 using MyPoGoCompanion.Api.Auth;
 
 namespace MyPoGoCompanion.IntegrationTests;
@@ -183,15 +184,20 @@ public sealed partial class OpenApiTests(PostgresFixture postgres)
     {
         await using var on = new ApiFactory(postgres.ConnectionString, settings: new Dictionary<string, string?> { ["ApiDocs:Enabled"] = "true" });
         await using var off = new ApiFactory(postgres.ConnectionString);
-        using var onClient = on.CreateClient();
+        using var onClient = on.CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
         using var offClient = off.CreateClient();
 
-        var page = await onClient.GetAsync(new Uri("/docs/v1", UriKind.Relative), Ct);
+        // Swagger UI: /docs sends the browser on to /docs/index.html, which reads /openapi/v1.json.
+        var start = await onClient.GetAsync(new Uri("/docs", UriKind.Relative), Ct);
+        Assert.Equal(HttpStatusCode.MovedPermanently, start.StatusCode);
+        var page = await onClient.GetAsync(new Uri("/docs/index.html", UriKind.Relative), Ct);
         Assert.Equal(HttpStatusCode.OK, page.StatusCode);
         Assert.Equal("text/html", page.Content.Headers.ContentType?.MediaType);
-        Assert.Contains("MyPoGoCompanion API", await page.Content.ReadAsStringAsync(Ct), StringComparison.Ordinal);
+        Assert.Contains("<title>MyPoGoCompanion API</title>", await page.Content.ReadAsStringAsync(Ct), StringComparison.Ordinal);
+        var settings = await onClient.GetStringAsync(new Uri("/docs/index.js", UriKind.Relative), Ct);
+        Assert.Contains("/openapi/v1.json", settings, StringComparison.Ordinal);
 
-        Assert.Equal(HttpStatusCode.NotFound, (await offClient.GetAsync(new Uri("/docs/v1", UriKind.Relative), Ct)).StatusCode);
+        Assert.Equal(HttpStatusCode.NotFound, (await offClient.GetAsync(new Uri("/docs/index.html", UriKind.Relative), Ct)).StatusCode);
         // The document itself is served everywhere (the smoke test checks it on prod).
         Assert.Equal(HttpStatusCode.OK, (await offClient.GetAsync(new Uri("/openapi/v1.json", UriKind.Relative), Ct)).StatusCode);
     }

@@ -4,13 +4,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi;
-using Scalar.AspNetCore;
 
 namespace MyPoGoCompanion.Api.OpenApi;
 
 /// <summary>
 /// The OpenAPI document (<c>/openapi/v1.json</c>, committed as <c>api/openapi.json</c>) that the web app's client and,
-/// later, the mobile apps' clients are generated from, and the interactive docs page on QA and local copies.
+/// later, the mobile apps' clients are generated from, and the interactive docs page (Swagger UI) on QA and local copies.
 /// </summary>
 internal static class OpenApiSetup
 {
@@ -40,6 +39,8 @@ internal static class OpenApiSetup
             {
                 RequireBearer(operation, context);
                 SortResponses(operation);
+                var json = context.ApplicationServices.GetRequiredService<IOptions<Microsoft.AspNetCore.Http.Json.JsonOptions>>();
+                AddProblemExamples(operation, json.Value.SerializerOptions);
                 return Task.CompletedTask;
             });
             options.AddSchemaTransformer((schema, context, _) =>
@@ -59,15 +60,15 @@ internal static class OpenApiSetup
         app.MapOpenApi();
         if (app.Configuration.GetValue<bool>("ApiDocs:Enabled"))
         {
-            // Scalar's page, served from the package (no CDN). Its cloud extras (AI agent, MCP, telemetry) stay off.
-            app.MapScalarApiReference(DocsPath, options => options
-                .WithTitle("MyPoGoCompanion API")
-                .AddPreferredSecuritySchemes(BearerScheme)
-                .ShowOperationId()
-                .HideDeveloperTools()
-                .DisableAgent()
-                .DisableMcp()
-                .DisableTelemetry());
+            // Swagger UI, served from the package (no CDN), over the same document: /docs.
+            app.UseSwaggerUI(options =>
+            {
+                options.RoutePrefix = DocsPath.TrimStart('/');
+                options.SwaggerEndpoint("/openapi/v1.json", "MyPoGoCompanion API");
+                options.DocumentTitle = "MyPoGoCompanion API";
+                options.EnableTryItOutByDefault();
+                options.DisplayRequestDuration();
+            });
         }
 
         return app;
@@ -119,6 +120,24 @@ internal static class OpenApiSetup
         foreach (var (status, response) in sorted)
         {
             responses.Add(status, response);
+        }
+    }
+
+    /// <summary>
+    /// Each error answer shows an example with its own status (otherwise every error would show the one shared
+    /// problem-details example, e.g. a 400 under 401).
+    /// </summary>
+    internal static void AddProblemExamples(OpenApiOperation operation, JsonSerializerOptions options)
+    {
+        foreach (var (status, response) in operation.Responses ?? [])
+        {
+            if (response is OpenApiResponse { Content: { } content }
+                && content.TryGetValue("application/problem+json", out var media)
+                && int.TryParse(status, System.Globalization.CultureInfo.InvariantCulture, out var code)
+                && OpenApiExamples.ForProblem(code) is { } problem)
+            {
+                media.Example = JsonSerializer.SerializeToNode(problem, options);
+            }
         }
     }
 

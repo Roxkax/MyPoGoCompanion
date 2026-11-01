@@ -443,6 +443,13 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.2",
+                     *       "title": "Unauthorized",
+                     *       "status": 401
+                     *     }
+                     */
                     "application/problem+json": components["schemas"]["ProblemDetails"];
                 };
             };
@@ -474,6 +481,14 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+                     *       "title": "Bad Request",
+                     *       "status": 400,
+                     *       "detail": "What was wrong with the request, written for people."
+                     *     }
+                     */
                     "application/problem+json": components["schemas"]["ProblemDetails"];
                 };
             };
@@ -483,6 +498,13 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.2",
+                     *       "title": "Unauthorized",
+                     *       "status": 401
+                     *     }
+                     */
                     "application/problem+json": components["schemas"]["ProblemDetails"];
                 };
             };
@@ -512,6 +534,13 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc6585#section-4",
+                     *       "title": "Too Many Requests",
+                     *       "status": 429
+                     *     }
+                     */
                     "application/problem+json": components["schemas"]["ProblemDetails"];
                 };
             };
@@ -521,6 +550,14 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.6.4",
+                     *       "title": "Service Unavailable",
+                     *       "status": 503,
+                     *       "detail": "Sign-in isn't set up on this server yet."
+                     *     }
+                     */
                     "application/problem+json": components["schemas"]["ProblemDetails"];
                 };
             };
@@ -554,6 +591,14 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+                     *       "title": "Bad Request",
+                     *       "status": 400,
+                     *       "detail": "What was wrong with the request, written for people."
+                     *     }
+                     */
                     "application/problem+json": components["schemas"]["ProblemDetails"];
                 };
             };
@@ -563,6 +608,13 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc6585#section-4",
+                     *       "title": "Too Many Requests",
+                     *       "status": 429
+                     *     }
+                     */
                     "application/problem+json": components["schemas"]["ProblemDetails"];
                 };
             };
@@ -572,6 +624,14 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.6.4",
+                     *       "title": "Service Unavailable",
+                     *       "status": 503,
+                     *       "detail": "Sign-in isn't set up on this server yet."
+                     *     }
+                     */
                     "application/problem+json": components["schemas"]["ProblemDetails"];
                 };
             };
@@ -605,6 +665,13 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.2",
+                     *       "title": "Unauthorized",
+                     *       "status": 401
+                     *     }
+                     */
                     "application/problem+json": components["schemas"]["ProblemDetails"];
                 };
             };
@@ -614,6 +681,13 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc6585#section-4",
+                     *       "title": "Too Many Requests",
+                     *       "status": 429
+                     *     }
+                     */
                     "application/problem+json": components["schemas"]["ProblemDetails"];
                 };
             };
@@ -645,6 +719,13 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc6585#section-4",
+                     *       "title": "Too Many Requests",
+                     *       "status": 429
+                     *     }
+                     */
                     "application/problem+json": components["schemas"]["ProblemDetails"];
                 };
             };
@@ -672,6 +753,13 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.2",
+                     *       "title": "Unauthorized",
+                     *       "status": 401
+                     *     }
+                     */
                     "application/problem+json": components["schemas"]["ProblemDetails"];
                 };
             };
@@ -681,6 +769,13 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc6585#section-4",
+                     *       "title": "Too Many Requests",
+                     *       "status": 429
+                     *     }
+                     */
                     "application/problem+json": components["schemas"]["ProblemDetails"];
                 };
             };
@@ -715,6 +810,13 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.2",
+                     *       "title": "Unauthorized",
+                     *       "status": 401
+                     *     }
+                     */
                     "application/problem+json": components["schemas"]["ProblemDetails"];
                 };
             };
@@ -724,6 +826,13 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.4",
+                     *       "title": "Forbidden",
+                     *       "status": 403
+                     *     }
+                     */
                     "application/problem+json": components["schemas"]["ProblemDetails"];
                 };
             };
@@ -759,6 +868,14 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+                     *       "title": "Bad Request",
+                     *       "status": 400,
+                     *       "detail": "What was wrong with the request, written for people."
+                     *     }
+                     */
                     "application/problem+json": components["schemas"]["ProblemDetails"];
                 };
             };
@@ -768,6 +885,13 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.2",
+                     *       "title": "Unauthorized",
+                     *       "status": 401
+                     *     }
+                     */
                     "application/problem+json": components["schemas"]["ProblemDetails"];
                 };
             };
@@ -777,6 +901,13 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.4",
+                     *       "title": "Forbidden",
+                     *       "status": 403
+                     *     }
+                     */
                     "application/problem+json": components["schemas"]["ProblemDetails"];
                 };
             };
@@ -786,6 +917,13 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.5",
+                     *       "title": "Not Found",
+                     *       "status": 404
+                     *     }
+                     */
                     "application/problem+json": components["schemas"]["ProblemDetails"];
                 };
             };

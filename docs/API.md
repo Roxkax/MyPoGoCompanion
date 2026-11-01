@@ -6,8 +6,8 @@ The API describes itself in an OpenAPI 3.1 document. That document is the **cont
 |---|---|
 | The document, committed | `api/openapi.json` |
 | The document, served | `/openapi/v1.json` on every copy (local, QA, prod) |
-| Interactive docs page (Scalar) | `/docs` on **local and QA only** (`ApiDocs:Enabled`; decision 2026-10-31). Locally: http://localhost:5080/docs |
-| How it's built | `api/MyPoGoCompanion.Api/OpenApi/`: title and description, the bearer scheme, which operations need a token, responses in order, string enums, and an example for every request and response type (`OpenApiExamples.cs`) |
+| Interactive docs page (**Swagger UI**) | `/docs` on **local and QA only** (`ApiDocs:Enabled`; decisions 2026-10-31 and 2026-11-01). Locally: http://localhost:5080/docs. **Authorize** takes an access token (copy it from the sign-in answer); every operation has *Try it out* on |
+| How it's built | `api/MyPoGoCompanion.Api/OpenApi/`: title and description, the bearer scheme, which operations need a token, responses in order, string enums, and an example for every request and response type, plus one per error status (`OpenApiExamples.cs`) |
 
 ## Changing the API
 
