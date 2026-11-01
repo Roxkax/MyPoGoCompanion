@@ -18,6 +18,7 @@ Closes #
 ## Checklist
 
 - [ ] Every issue of the feature has a `Closes #n` line (feature, tasks, owner review)
+- [ ] Branch rebased on the latest `main`, no merge commits (the `rebased` check)
 - [ ] Unit tests added or updated; line coverage stays at 90% or more (.NET and web)
 - [ ] Integration tests for new endpoints, queries and migrations
 - [ ] UI tests for new screens and flows

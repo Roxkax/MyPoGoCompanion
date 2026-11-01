@@ -1,0 +1,35 @@
+# Required check "rebased" (docs/BRANCH-RULES.md): pull requests are merged with a merge commit, and the branch must
+# first be rebased on the latest main: main's newest commit is in the branch and the branch has no merge commits
+# ("Update branch" merges, "git merge main"). Together with "branch up to date" in the ruleset, every merge brings
+# in a straight line of commits on top of main. Reads GitHub's comparison only; no checkout of the code.
+name: Rebased on main
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rebased-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  rebased:
+    # The name branch rules require.
+    name: rebased
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          sparse-checkout: .github/scripts
+
+      - name: Is the branch rebased on the latest main?
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -o pipefail
+          python3 .github/scripts/rebased.py | tee -a "$GITHUB_STEP_SUMMARY"

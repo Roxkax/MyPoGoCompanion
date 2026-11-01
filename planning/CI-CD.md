@@ -30,6 +30,7 @@ Decided with the owner on 2026-10-28. Built as **Sprint 0 "Delivery pipeline"**,
 | **integration** | API against a real PostgreSQL started in the pipeline (Testcontainers): endpoints, EF migrations, Poke Genie import, search-string simulator; fixed test data, exact numbers |
 | **deploy-qa** | Deploys the PR to the shared QA environment (only PRs with the `qa` label; skipped, so passed, otherwise) |
 | **ui-tests** | Playwright end-to-end on phone and desktop sizes against QA (real prod-copy data, so tests check behaviour rather than fixed values); runs with the QA deploy |
+| **rebased** | The PR branch is a straight line of commits on top of the latest `main` (not behind, no merge commits); added 2026-11-01 |
 
 ## Merge rules on `main`
 
@@ -37,7 +38,8 @@ Switched on at **Sprint 0**, together with the pipelines (until then planning do
 
 
 - No direct pushes; changes only through pull requests; no force pushes or deletion.
-- All four checks must pass (`deploy-qa` and `ui-tests` pass as skipped on PRs without the `qa` label); the branch must be up to date with `main`; all PR conversations resolved.
+- All required checks must pass (`deploy-qa` and `ui-tests` pass as skipped on PRs without the `qa` label); the branch must be up to date with `main`; all PR conversations resolved.
+- **Merge commits only, and the branch rebased first** (owner, 2026-11-01): the fifth required check `rebased` fails when the branch is behind `main` or contains merge commits; squash and rebase merges are off. The owner writes the merge commit's message when merging.
 - **No approval required while the owner works alone** (GitHub doesn't allow approving your own PR, and Claude's commits are authored by the owner). When collaborators join: **1 approval required** + `CODEOWNERS` making the owner approve changes to `.github/`, infrastructure and pipeline files.
 - As built (E00-F09): the ruleset **Protect main** is kept as code in `.github/rulesets/main.json` (required checks pinned to GitHub Actions; no bypass, the owner included) and switched on by importing it in Settings → Rules; the **Branch rules check** workflow compares what GitHub enforces with the file (when the file changes on `main`, weekly, or by hand). Setup and "why can't I merge?" in `docs/BRANCH-RULES.md`.
 - PR template (`.github/pull_request_template.md`): what it does, `Closes #n` for every issue of the feature, how to test, checklist.
