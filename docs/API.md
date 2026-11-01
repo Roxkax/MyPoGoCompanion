@@ -6,8 +6,18 @@ The API describes itself in an OpenAPI 3.1 document. That document is the **cont
 |---|---|
 | The document, committed | `api/openapi.json` |
 | The document, served | `/openapi/v1.json` on every copy (local, QA, prod) |
-| Interactive docs page (**Swagger UI**) | `/docs` on **local and QA only** (`ApiDocs:Enabled`; decisions 2026-10-31 and 2026-11-01). Locally: http://localhost:5080/docs. **Authorize** takes an access token (copy it from the sign-in answer); every operation has *Try it out* on |
+| Interactive docs page (**Swagger UI**) | `/docs` on **local and QA only** (`ApiDocs:Enabled`; decisions 2026-10-31 and 2026-11-01). Locally: http://localhost:5080/docs. every operation has *Try it out* on; for calls that need sign-in see below |
 | How it's built | `api/MyPoGoCompanion.Api/OpenApi/`: title and description, the bearer scheme, which operations need a token, responses in order, string enums, and an example for every request and response type, plus one per error status (`OpenApiExamples.cs`) |
+
+## Trying signed-in calls on the docs page
+
+Swagger UI can't do the Google sign-in itself (Google sends people back to the web app, which swaps the code for our tokens). Instead, on QA or locally:
+
+1. Sign in on the web app (same copy: QA web app for the QA API, local for local).
+2. Profile menu → **Copy API token** (only on QA and local copies, never in production). It copies the current access token, refreshed first if it's nearly out.
+3. On `/docs`, press **Authorize**, paste it and press *Authorize*. Calls with a lock now send it, for up to 15 minutes; copy a new one after that.
+
+Don't use `POST /auth/refresh` on the docs page with the web app's refresh token: a refresh token works once, so the web app's copy would then count as reused and that sign-in ends.
 
 ## Changing the API
 

@@ -163,6 +163,10 @@ export const en = {
     signOutEverywhere: 'Sign out everywhere',
     admin: 'Admin',
     superAdmin: 'Super admin',
+    copyApiToken: 'Copy API token',
+    apiTokenCopied:
+      'Copied. Paste it into Authorize on the API docs page (/docs); it works for up to 15 minutes.',
+    apiTokenFailed: 'Couldn’t copy the token. Try again.',
     unreachable: 'Couldn’t reach the server. Try again.',
   },
   signIn: {

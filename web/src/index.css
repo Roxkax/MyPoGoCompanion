@@ -423,8 +423,15 @@ body {
 .profile-menu :is(button, a):hover {
   background: var(--surface-2);
 }
-.profile-menu .sign-in-error {
+.profile-menu .sign-in-error,
+.profile-menu .profile-note {
   padding: 6px 10px;
+  max-width: 260px;
+}
+.profile-menu .profile-note {
+  margin: 0;
+  color: var(--text-2);
+  font-size: 0.85rem;
 }
 
 .callback {

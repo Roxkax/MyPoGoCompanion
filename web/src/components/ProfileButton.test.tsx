@@ -6,9 +6,14 @@ import { ash, renderWithAuth, sessionFor, testSession } from '../testing/auth'
 import { ProfileButton } from './ProfileButton'
 import { SignInDialog } from './SignInDialog'
 
-function signedIn(role: Role = 'User', pictureUrl: string | null = null, api = {}) {
+function signedIn(
+  role: Role = 'User',
+  pictureUrl: string | null = null,
+  api = {},
+  apiToken?: boolean,
+) {
   const { session } = testSession({ api: api as never })
-  const result = renderWithAuth(<ProfileButton />, { session })
+  const result = renderWithAuth(<ProfileButton apiToken={apiToken} />, { session })
   act(() => session.accept(sessionFor({ ...ash, role, pictureUrl })))
   return result
 }
@@ -58,7 +63,7 @@ describe('ProfileButton', () => {
     expect(screen.getByRole('button', { name: 'Profile' })).toBeDisabled()
   })
 
-  it('signed in: the initial, then a menu with name, email and the two sign-outs', async () => {
+  it('signed in: the initial, then a menu with name, email, the API token (test copies) and the two sign-outs', async () => {
     signedIn()
 
     const button = screen.getByRole('button', { name: 'Account: Ash' })
@@ -71,10 +76,49 @@ describe('ProfileButton', () => {
     expect(menu).toHaveTextContent('ash@example.com')
     expect(screen.getAllByRole('menuitem').map((item) => item.textContent)).toEqual([
       'Settings',
+      'Copy API token',
       'Sign out',
       'Sign out everywhere',
     ])
     expect(menu).not.toHaveTextContent('Admin')
+  })
+
+  it('production: no API token in the menu', async () => {
+    signedIn('User', null, {}, false)
+
+    await userEvent.click(screen.getByRole('button', { name: 'Account: Ash' }))
+
+    expect(screen.queryByRole('menuitem', { name: 'Copy API token' })).not.toBeInTheDocument()
+  })
+
+  it('Copy API token puts the access token on the clipboard and says how to use it', async () => {
+    const user = userEvent.setup()
+    signedIn()
+    await user.click(screen.getByRole('button', { name: 'Account: Ash' }))
+
+    await user.click(screen.getByRole('menuitem', { name: 'Copy API token' }))
+
+    expect(await screen.findByRole('status')).toHaveTextContent(
+      'Copied. Paste it into Authorize on the API docs page',
+    )
+    expect(await navigator.clipboard.readText()).toBe('access-for-refresh-2')
+
+    await user.click(screen.getByRole('button', { name: 'Account: Ash' }))
+    await user.click(screen.getByRole('button', { name: 'Account: Ash' }))
+    expect(screen.queryByRole('status')).not.toBeInTheDocument()
+  })
+
+  it('Copy API token says so when the token can’t be had', async () => {
+    const user = userEvent.setup()
+    signedIn('User', null, {
+      refreshSession: async () => Promise.reject(new TypeError('offline')),
+    })
+    await user.click(screen.getByRole('button', { name: 'Account: Ash' }))
+    vi.spyOn(navigator.clipboard, 'writeText').mockRejectedValueOnce(new Error('denied'))
+
+    await user.click(screen.getByRole('menuitem', { name: 'Copy API token' }))
+
+    expect(await screen.findByRole('status')).toHaveTextContent('Couldn’t copy the token.')
   })
 
   it('shows the Google picture when there is one', () => {

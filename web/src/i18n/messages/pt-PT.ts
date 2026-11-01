@@ -184,6 +184,10 @@ export const ptPT: Messages<typeof en> = {
     signOutEverywhere: 'Terminar sessão em todo o lado',
     admin: 'Admin',
     superAdmin: 'Super admin',
+    copyApiToken: 'Copiar token da API',
+    apiTokenCopied:
+      'Copiado. Cola-o em Authorize na página da documentação da API (/docs); funciona durante até 15 minutos.',
+    apiTokenFailed: 'Não foi possível copiar o token. Tenta de novo.',
     unreachable: 'Não foi possível contactar o servidor. Tenta de novo.',
   },
   signIn: {
