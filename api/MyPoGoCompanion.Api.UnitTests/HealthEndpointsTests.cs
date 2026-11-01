@@ -14,9 +14,9 @@ public class HealthEndpointsTests
             new FixedHealthCheckService(HealthStatus.Healthy), new AppVersion("abc1234"), TestContext.Current.CancellationToken);
 
         var ok = Assert.IsType<Ok<HealthResponse>>(result.Result);
-        Assert.Equal("Healthy", ok.Value!.Status);
+        Assert.Equal(HealthStatus.Healthy, ok.Value!.Status);
         Assert.Equal("abc1234", ok.Value.Version);
-        Assert.Equal("Healthy", ok.Value.Checks["database"]);
+        Assert.Equal(HealthStatus.Healthy, ok.Value.Checks["database"]);
     }
 
     [Fact]
@@ -27,8 +27,8 @@ public class HealthEndpointsTests
 
         var json = Assert.IsType<JsonHttpResult<HealthResponse>>(result.Result);
         Assert.Equal(StatusCodes.Status503ServiceUnavailable, json.StatusCode);
-        Assert.Equal("Unhealthy", json.Value!.Status);
-        Assert.Equal(new Dictionary<string, string> { ["database"] = "Unhealthy" }, json.Value.Checks);
+        Assert.Equal(HealthStatus.Unhealthy, json.Value!.Status);
+        Assert.Equal(new Dictionary<string, HealthStatus> { ["database"] = HealthStatus.Unhealthy }, json.Value.Checks);
     }
 
     [Fact]
@@ -37,7 +37,7 @@ public class HealthEndpointsTests
         var result = await HealthEndpoints.GetHealthAsync(
             new FixedHealthCheckService(HealthStatus.Degraded), new AppVersion("dev"), TestContext.Current.CancellationToken);
 
-        Assert.Equal("Degraded", Assert.IsType<Ok<HealthResponse>>(result.Result).Value!.Status);
+        Assert.Equal(HealthStatus.Degraded, Assert.IsType<Ok<HealthResponse>>(result.Result).Value!.Status);
     }
 
     private sealed class FixedHealthCheckService(HealthStatus status) : HealthCheckService

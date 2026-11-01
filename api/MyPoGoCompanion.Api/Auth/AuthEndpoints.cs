@@ -7,11 +7,19 @@ using MyPoGoCompanion.Data;
 
 namespace MyPoGoCompanion.Api.Auth;
 
+/// <summary>Where the web app sends people to sign in with Google.</summary>
+/// <param name="ClientId">The Google OAuth client id.</param>
 public sealed record GoogleClientResponse(string ClientId);
 
+/// <summary>Google's answer after the person signed in there, to swap for our own tokens.</summary>
+/// <param name="Code">Google's one-time authorization code.</param>
+/// <param name="CodeVerifier">The PKCE code verifier the web app made before sending the person to Google (43–128 characters).</param>
+/// <param name="RedirectUri">The web app's <c>/auth/callback</c> address the person came back to (must be one of the app's addresses).</param>
 /// <param name="Language">The language the device is showing (<c>en</c> or <c>pt-PT</c>): a new account starts with it.</param>
 public sealed record GoogleSignInRequest(string? Code, string? CodeVerifier, string? RedirectUri, string? Language = null);
 
+/// <summary>This device's refresh token.</summary>
+/// <param name="RefreshToken">The latest refresh token from a sign-in or refresh.</param>
 public sealed record RefreshRequest(string? RefreshToken);
 
 internal static class AuthEndpoints
@@ -20,33 +28,44 @@ internal static class AuthEndpoints
 
     public static IEndpointRouteBuilder MapAuthEndpoints(this IEndpointRouteBuilder app)
     {
-        var auth = app.MapGroup("/auth").WithTags("Sign-in").RequireRateLimiting(RateLimitPolicy);
+        // Every /auth request counts towards the per-address limit (429 with Retry-After when it's used up).
+        var auth = app.MapGroup("/auth").WithTags("Sign-in").RequireRateLimiting(RateLimitPolicy)
+            .ProducesProblem(StatusCodes.Status429TooManyRequests);
 
         auth.MapGet("/google/client", GetGoogleClient)
             .WithName("GetGoogleClient")
+            .ProducesProblem(StatusCodes.Status503ServiceUnavailable)
             .WithSummary("The Google OAuth client id the web app sends people to Google with (503 when sign-in isn't set up).");
 
         auth.MapPost("/google", SignInWithGoogleAsync)
             .WithName("SignInWithGoogle")
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesProblem(StatusCodes.Status503ServiceUnavailable)
             .WithSummary("Swaps Google's one-time code (authorization code + PKCE) for our own access and refresh tokens.");
 
         auth.MapPost("/refresh", RefreshAsync)
             .WithName("Refresh")
-            .WithSummary("Swaps a refresh token for a new access token and the next refresh token (401: sign in again).");
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
+            .WithSummary("Swaps a refresh token for a new access token and the next refresh token (401: sign in again).")
+            .WithDescription("Each refresh token works once. Presenting one that was already swapped ends that sign-in " +
+                "(it was copied), so clients must keep only the latest token and refresh one request at a time.");
 
         auth.MapPost("/sign-out", SignOutAsync)
             .WithName("SignOut")
-            .WithSummary("Ends this device's sign-in.");
+            .WithSummary("Ends this device's sign-in.")
+            .WithDescription("Always 204, also for a token that is unknown or already ended, so it can be retried safely.");
 
         auth.MapPost("/sign-out-everywhere", SignOutEverywhereAsync)
             .RequireAuthorization()
             .WithName("SignOutEverywhere")
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
             .WithSummary("Ends every sign-in of the signed-in user, on every device.");
 
         app.MapGet("/me", GetMeAsync)
             .RequireAuthorization()
             .WithTags("Account")
             .WithName("GetMe")
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
             .WithSummary("The signed-in user: name, email, picture, role and settings.");
 
         return app;

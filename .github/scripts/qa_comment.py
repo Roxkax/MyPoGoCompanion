@@ -68,6 +68,7 @@ def deployed_body(env: dict[str, str]) -> str:
         "| | |\n|---|---|\n"
         f"| Web app | {web} |\n"
         f"| API health | {api}/health |\n"
+        f"| API docs | {api}/docs |\n"
         f"| API description | {api}/openapi/v1.json |\n\n"
         "The first visit after a quiet spell can take a few seconds while the API and database wake up.\n"
     )

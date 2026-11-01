@@ -4,16 +4,18 @@ using MyPoGoCompanion.Api.Admin;
 using MyPoGoCompanion.Api.Auth;
 using MyPoGoCompanion.Api.Configuration;
 using MyPoGoCompanion.Api.Health;
+using MyPoGoCompanion.Api.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddProblemDetails();
-builder.Services.ConfigureHttpJsonOptions(options => options.SerializerOptions.Converters.Add(new JsonStringEnumConverter()));
-builder.Services.AddOpenApi(options => options.AddDocumentTransformer((document, _, _) =>
+builder.Services.ConfigureHttpJsonOptions(options =>
 {
-    document.Info.Title = "MyPoGoCompanion API";
-    return Task.CompletedTask;
-}));
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    // Numbers are numbers: no "42" for 42, so the OpenAPI document says integer, not integer-or-string.
+    options.SerializerOptions.NumberHandling = JsonNumberHandling.Strict;
+});
+builder.Services.AddApiDocument();
 builder.Services.AddDatabase(builder.Configuration);
 builder.Services.AddWebAppCors(builder.Configuration);
 builder.Services.AddApiHealthChecks(builder.Configuration);
@@ -29,7 +31,7 @@ app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapOpenApi();
+app.MapApiDocument();
 app.MapHealthEndpoints();
 app.MapAuthEndpoints();
 app.MapAccountEndpoints();

@@ -9,9 +9,12 @@ namespace MyPoGoCompanion.IntegrationTests;
 
 /// <summary>
 /// The real API in memory, pointed at the given database and allowing calls from <see cref="WebOrigin"/>. Sign-in is
-/// configured with test secrets; <paramref name="google"/> stands in for Google's token endpoint when given.
+/// configured with test secrets; <paramref name="google"/> stands in for Google's token endpoint when given;
+/// <paramref name="settings"/> adds or overrides configuration (e.g. <c>ApiDocs:Enabled</c>).
 /// </summary>
-public sealed class ApiFactory(string connectionString, IGoogleTokenExchange? google = null, bool signInConfigured = true)
+public sealed class ApiFactory(
+    string connectionString, IGoogleTokenExchange? google = null, bool signInConfigured = true,
+    IReadOnlyDictionary<string, string?>? settings = null)
     : WebApplicationFactory<Program>
 {
     public const string WebOrigin = "https://web.example.test";
@@ -30,6 +33,11 @@ public sealed class ApiFactory(string connectionString, IGoogleTokenExchange? go
             builder.UseSetting("Auth:Google:ClientSecret", "test-secret");
             builder.UseSetting("Auth:SigningKey", SigningKey);
             builder.UseSetting("Auth:SuperAdminEmail", SuperAdminEmail);
+        }
+
+        foreach (var (key, value) in settings ?? new Dictionary<string, string?>())
+        {
+            builder.UseSetting(key, value);
         }
 
         if (google is not null)

@@ -1,12 +1,17 @@
 using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using MyPoGoCompanion.Api.Health;
 
 namespace MyPoGoCompanion.IntegrationTests;
 
 public sealed class HealthTests(PostgresFixture postgres)
 {
+    /// <summary>The API writes statuses as their names ("Healthy").</summary>
+    private static readonly JsonSerializerOptions _json = new(JsonSerializerOptions.Web) { Converters = { new JsonStringEnumConverter() } };
+
     [Fact]
     public async Task Health_RealDatabase_ReturnsHealthyWithVersion()
     {
@@ -16,10 +21,10 @@ public sealed class HealthTests(PostgresFixture postgres)
         var response = await client.GetAsync(new Uri("/health", UriKind.Relative), TestContext.Current.CancellationToken);
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        var body = await response.Content.ReadFromJsonAsync<HealthResponse>(TestContext.Current.CancellationToken);
-        Assert.Equal("Healthy", body!.Status);
+        var body = await response.Content.ReadFromJsonAsync<HealthResponse>(_json, TestContext.Current.CancellationToken);
+        Assert.Equal(HealthStatus.Healthy, body!.Status);
         Assert.Equal("test-version", body.Version);
-        Assert.Equal("Healthy", body.Checks["database"]);
+        Assert.Equal(HealthStatus.Healthy, body.Checks["database"]);
     }
 
     [Fact]
@@ -33,8 +38,9 @@ public sealed class HealthTests(PostgresFixture postgres)
 
         Assert.Equal(HttpStatusCode.ServiceUnavailable, response.StatusCode);
         var text = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
-        var body = JsonSerializer.Deserialize<HealthResponse>(text, JsonSerializerOptions.Web);
-        Assert.Equal("Unhealthy", body!.Checks["database"]);
+        var body = JsonSerializer.Deserialize<HealthResponse>(text, _json);
+        Assert.Equal(HealthStatus.Unhealthy, body!.Checks["database"]);
+        Assert.Contains("\"database\":\"Unhealthy\"", text, StringComparison.Ordinal);
         Assert.DoesNotContain("hunter2", text, StringComparison.Ordinal);
         Assert.DoesNotContain("127.0.0.1", text, StringComparison.Ordinal);
     }

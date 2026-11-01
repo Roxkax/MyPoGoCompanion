@@ -8,12 +8,21 @@ using MyPoGoCompanion.Data.Users;
 
 namespace MyPoGoCompanion.Api.Admin;
 
+/// <summary>A user as the super admin sees them in Users &amp; roles.</summary>
+/// <param name="Id">The user's id.</param>
+/// <param name="Name">The name from their Google account.</param>
+/// <param name="Email">The email Google confirmed.</param>
+/// <param name="PictureUrl">Their Google profile picture, if any.</param>
+/// <param name="Role">User, Admin or SuperAdmin (the super admin comes from configuration).</param>
+/// <param name="LastSignInAt">When they last signed in.</param>
 public sealed record AdminUserResponse(Guid Id, string Name, string Email, string? PictureUrl, EffectiveRole Role, DateTimeOffset LastSignInAt);
 
+/// <summary>The role to give: User (removes admin) or Admin.</summary>
+/// <param name="Role">User or Admin.</param>
 public sealed record SetRoleRequest(UserRole? Role);
 
 /// <summary>
-/// Users & roles, super admin only: list users and make someone admin or remove it. The screen comes with the
+/// Users &amp; roles, super admin only: list users and make someone admin or remove it. The screen comes with the
 /// admin panel (E10-F01, issue #924); these endpoints are what it will call.
 /// </summary>
 internal static class UserRoleEndpoints
@@ -23,7 +32,9 @@ internal static class UserRoleEndpoints
 
     public static IEndpointRouteBuilder MapUserRoleEndpoints(this IEndpointRouteBuilder app)
     {
-        var users = app.MapGroup("/admin/users").WithTags("Admin").RequireAuthorization(Policies.SuperAdmin);
+        var users = app.MapGroup("/admin/users").WithTags("Admin").RequireAuthorization(Policies.SuperAdmin)
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
+            .ProducesProblem(StatusCodes.Status403Forbidden);
 
         users.MapGet("/", ListUsersAsync)
             .WithName("ListUsers")
@@ -31,11 +42,18 @@ internal static class UserRoleEndpoints
 
         users.MapPut("/{id:guid}/role", SetRoleAsync)
             .WithName("SetUserRole")
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesProblem(StatusCodes.Status404NotFound)
             .WithSummary("Makes a user admin or removes it (super admin only). Every change is kept.");
 
         return app;
     }
 
+    /// <param name="db">The database.</param>
+    /// <param name="options">Sign-in settings (who the super admin is).</param>
+    /// <param name="search">Part of a name or email, any case.</param>
+    /// <param name="limit">How many users to return: 1–200, 50 when left out.</param>
+    /// <param name="cancellationToken">Cancels the query.</param>
     internal static async Task<Ok<AdminUserResponse[]>> ListUsersAsync(
         AppDbContext db, IOptions<AuthOptions> options, string? search, int? limit, CancellationToken cancellationToken)
     {
