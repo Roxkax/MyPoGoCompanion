@@ -496,3 +496,6 @@ kbd {
   font-weight: 600;
   color: var(--text-3);
 }
+.settings-warning {
+  color: var(--warn);
+}

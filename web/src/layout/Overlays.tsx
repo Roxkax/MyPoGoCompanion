@@ -1,4 +1,5 @@
 import { useEffect, useRef, type ReactNode } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '../auth/authContext'
 import { Icon } from '../components/icons'
 import { SignedOutPrompt } from '../components/SignedOutPrompt'
@@ -17,6 +18,7 @@ function Panel({
   children: ReactNode
 }) {
   const panel = useRef<HTMLDivElement>(null)
+  const { t } = useTranslation()
 
   useEffect(() => {
     const previous = document.activeElement as HTMLElement | null
@@ -46,7 +48,12 @@ function Panel({
       >
         <header className="overlay-head">
           <h2 id={`overlay-${name}-title`}>{title}</h2>
-          <button type="button" className="icon-button" aria-label="Close" onClick={onClose}>
+          <button
+            type="button"
+            className="icon-button"
+            aria-label={t('header.close')}
+            onClick={onClose}
+          >
             <Icon name="close" size={20} />
           </button>
         </header>
@@ -63,31 +70,22 @@ function Panel({
 export function Overlays() {
   const { current, close } = useOverlay()
   const { state } = useAuth()
+  const { t } = useTranslation()
 
   if (current === 'search') {
     return (
-      <Panel name="search" title="Search" onClose={close}>
-        <ComingSoon
-          screen="H2"
-          name="Search"
-          feature="E12-F01 Search everywhere"
-          text="Find any Pokémon, move, raid boss or event from here."
-        />
+      <Panel name="search" title={t('header.search')} onClose={close}>
+        <ComingSoon id="search" screen="H2" feature="E12-F01 Search everywhere" />
       </Panel>
     )
   }
   if (current === 'ask') {
     return (
-      <Panel name="ask" title="Ask" onClose={close}>
+      <Panel name="ask" title={t('header.ask')} onClose={close}>
         {state.status === 'signedOut' ? (
           <SignedOutPrompt feature="ai" />
         ) : (
-          <ComingSoon
-            screen="H1"
-            name="AI chat"
-            feature="E11-F01 Chat that answers from our data"
-            text="Ask anything about Pokémon GO, answered from the app’s own data."
-          />
+          <ComingSoon id="ask" screen="H1" feature="E11-F01 Chat that answers from our data" />
         )}
       </Panel>
     )

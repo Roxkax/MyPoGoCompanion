@@ -44,6 +44,33 @@ public class SessionsTests
         Assert.Equal(2, await kit.Db.RefreshTokens.Select(t => t.SessionId).Distinct().CountAsync(Ct));
     }
 
+    [Theory]
+    [InlineData("pt-PT", "pt-PT")]
+    [InlineData("en", "en")]
+    [InlineData(null, "en")]
+    [InlineData("pt-BR", "en")]
+    [InlineData("PT-pt", "en")]
+    public async Task SignIn_NewAccount_StartsWithTheDevicesLanguage(string? device, string expected)
+    {
+        using var kit = new AuthTestKit();
+
+        var session = await kit.Sessions().SignInAsync(AuthTestKit.Identity(), device, Ct);
+
+        Assert.Equal(expected, session.User.Language);
+        Assert.Equal(expected, (await kit.Db.Users.SingleAsync(Ct)).Language);
+    }
+
+    [Fact]
+    public async Task SignIn_KnownAccount_KeepsItsOwnLanguage()
+    {
+        using var kit = new AuthTestKit();
+        await kit.Sessions().SignInAsync(AuthTestKit.Identity(), "pt-PT", Ct);
+
+        var session = await kit.Sessions().SignInAsync(AuthTestKit.Identity(), "en", Ct);
+
+        Assert.Equal("pt-PT", session.User.Language);
+    }
+
     [Fact]
     public async Task SignIn_SuperAdminEmail_GetsSuperAdminRole()
     {

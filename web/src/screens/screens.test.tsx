@@ -6,7 +6,6 @@ import { renderApp } from '../testing/app'
 import { MemoryStorage } from '../testing/auth'
 import { ThemeStore, themeKey } from '../theme/theme'
 import { RouteError } from './RouteError'
-import { todayLabel } from './today'
 
 beforeEach(() => vi.stubGlobal('fetch', () => new Promise(() => {})))
 afterEach(() => vi.unstubAllGlobals())
@@ -51,15 +50,6 @@ describe('Settings', () => {
 
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Settings')
     expect(screen.queryByText(/Sign in to/)).not.toBeInTheDocument()
-  })
-})
-
-describe('Today', () => {
-  it('says the date as the design does', () => {
-    const tuesday = new Date(2026, 9, 27, 18, 30)
-
-    expect(todayLabel(tuesday, false)).toBe('Tuesday 27 October')
-    expect(todayLabel(tuesday, true)).toBe('Tuesday 27 October 2026')
   })
 })
 

@@ -18,6 +18,19 @@ The screens it implements are designed in `design/` (25 MVP screens, phone and d
 | `src/theme/`            | Settings → Theme (Follow device · Light · Dark), saved per device in `localStorage` (`mpgc.theme`). `public/theme.js` applies it before the page draws.                                                                                     |
 | `src/ui/`               | Shared components: card, chip, pill, segmented switch and section links, type badge, version marker, sprite box.                                                                                                                            |
 
+## Languages (E01-F04)
+
+English and Português (Portugal), with i18next. Both languages are in the bundle, so switching is instant and works offline.
+
+| Where                                                                 | What                                                                                                                                                                                                                                            |
+| --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/i18n/messages/en.ts`                                             | Every interface text in English: the source. Plurals use i18next's suffixes (`daysLeft_one`, `daysLeft_other`); values go in `{{placeholders}}`.                                                                                                |
+| `src/i18n/messages/pt-PT.ts`                                          | The Portuguese texts. The type check fails if a key is missing or extra; `messages.test.ts` also checks placeholders. Vocabulary: `planning/GLOSSARY-PT.md`.                                                                                    |
+| `src/i18n/format.ts`                                                  | Dates and numbers per language (`useFormats()`): British English ("Tue 27 Oct, 18:30", "1,234.5"), Portugal's Portuguese ("terça, 27/10, 18:30", "1234,5").                                                                                     |
+| `src/i18n/language.ts`, `AccountLanguage.tsx`, `useLanguageChoice.ts` | The language: saved on the device (`mpgc.language`; first visit follows the browser: any Portuguese gives pt-PT), and signed in with the account (`PUT /me/language`), whose language wins at sign-in and on every refresh. Sets `<html lang>`. |
+
+**Adding text:** add the key to `en.ts` and `pt-PT.ts`, then `const { t } = useTranslation()` and `t('section.key')` (keys are type-checked). Routes and navigation pass keys (`titles.<key>`, `nav.<key>`, `sections.<key>`), not text. `everyScreen.test.tsx` opens every address in Portuguese and fails if an English text is left on screen. Addresses, search strings, Pokémon GO's search keywords and backlog feature names stay in English.
+
 ## TypeScript: two versions side by side
 
 `tsc` (type check and build) is **TypeScript 7**, the fast native compiler. TypeScript 7.0 has no programmatic API yet, and `typescript-eslint` needs one, so the package named `typescript` is Microsoft's compatibility package with the **TypeScript 6** API (`@typescript/typescript6`, which also gives a `tsc6` command). In `package.json`:

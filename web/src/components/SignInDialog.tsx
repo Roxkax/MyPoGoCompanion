@@ -1,14 +1,15 @@
 import { useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '../auth/authContext'
 import { GoogleButton } from './GoogleButton'
 import { AppLogo, Icon, type IconName } from './icons'
 
-const perks: { icon: IconName; text: string }[] = [
-  { icon: 'collection', text: 'Your collection, uploaded from Poke Genie' },
-  { icon: 'battle', text: '"Your counters" and "your team" everywhere' },
-  { icon: 'filters', text: 'Saved filters on every device' },
-  { icon: 'ask', text: 'Ask the AI assistant' },
-]
+const perks = [
+  { icon: 'collection', text: 'signIn.perkCollection' },
+  { icon: 'battle', text: 'signIn.perkBattle' },
+  { icon: 'filters', text: 'signIn.perkFilters' },
+  { icon: 'ask', text: 'signIn.perkAsk' },
+] as const satisfies readonly { icon: IconName; text: string }[]
 
 /**
  * Screen F1: what signing in adds, "Continue with Google" and "Not now". Full screen with a Back link on a phone, a
@@ -17,6 +18,7 @@ const perks: { icon: IconName; text: string }[] = [
 export function SignInDialog() {
   const { dialog, closeSignIn, signInError, state } = useAuth()
   const panel = useRef<HTMLDivElement>(null)
+  const { t } = useTranslation()
   const open = dialog.open && state.status !== 'signedIn'
 
   useEffect(() => {
@@ -54,40 +56,33 @@ export function SignInDialog() {
       >
         <header className="sign-in-back">
           <button type="button" className="link-button" onClick={closeSignIn}>
-            ‹ Back
+            ‹ {t('header.back')}
           </button>
         </header>
         <div className="sign-in-body">
           <AppLogo />
-          <h2 id="sign-in-title">Sign in to make it yours</h2>
-          <p className="sign-in-lead">
-            Everything else works without an account: Pokédex, raids, tier lists, filters and the
-            calendar.
-          </p>
+          <h2 id="sign-in-title">{t('signIn.title')}</h2>
+          <p className="sign-in-lead">{t('signIn.lead')}</p>
           <ul className="perks">
             {perks.map((perk) => (
               <li key={perk.icon}>
                 <span className="perk-icon">
                   <Icon name={perk.icon} size={20} />
                 </span>
-                {perk.text}
+                {t(perk.text)}
               </li>
             ))}
           </ul>
           <GoogleButton returnTo={dialog.returnTo} />
           {signInError && (
             <p className="sign-in-error" role="alert">
-              {signInError}
+              {t(`signIn.errors.${signInError}`)}
             </p>
           )}
           <button type="button" className="link-button" onClick={closeSignIn}>
-            Not now, keep browsing
+            {t('signIn.notNow')}
           </button>
-          <p className="fine-print">
-            We keep only your Google name, email and picture, your settings and what you upload. No
-            passwords. MyPoGoCompanion is a fan project, not affiliated with Niantic or The Pokémon
-            Company.
-          </p>
+          <p className="fine-print">{t('signIn.privacy')}</p>
         </div>
       </div>
     </div>

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import type { ReactNode } from 'react'
 import { Icon } from '../components/icons'
 
@@ -13,6 +14,7 @@ interface ChipProps {
 
 /** A filter chip (B1, B3, C1, E1…): a toggle, or a set filter with a × to clear it. */
 export function Chip({ children, selected = false, onClick, onRemove, removeLabel }: ChipProps) {
+  const { t } = useTranslation()
   if (onRemove) {
     return (
       <span className="ui-chip ui-chip-set">
@@ -20,7 +22,7 @@ export function Chip({ children, selected = false, onClick, onRemove, removeLabe
         <button
           type="button"
           className="ui-chip-remove"
-          aria-label={removeLabel ?? `Remove ${String(children)}`}
+          aria-label={removeLabel ?? t('chip.remove', { name: String(children) })}
           onClick={onRemove}
         >
           <Icon name="close" size={16} strokeWidth={2.6} />

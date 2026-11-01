@@ -36,8 +36,11 @@ public class User
 
     public DateTimeOffset LastSignInAt { get; set; }
 
-    /// <summary><c>en</c> or <c>pt-PT</c>.</summary>
-    public string Language { get; set; } = "en";
+    /// <summary>
+    /// The interface language, <c>en</c> or <c>pt-PT</c> (<see cref="Languages"/>). It follows the person to every
+    /// device: a new account starts with the language its first device was showing (decision 2026-11-01).
+    /// </summary>
+    public string Language { get; set; } = Languages.English;
 
     public Theme Theme { get; set; }
 

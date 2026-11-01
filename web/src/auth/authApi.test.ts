@@ -3,6 +3,7 @@ import {
   ApiError,
   fetchGoogleClientId,
   refreshSession,
+  saveLanguage,
   signInWithGoogle,
   signOut,
   signOutEverywhere,
@@ -38,6 +39,25 @@ describe('sign-in API', () => {
       codeVerifier: 'verifier',
       redirectUri: 'https://web.example/auth/callback',
     })
+  })
+
+  it('sends the device’s language with the sign-in, for a new account', async () => {
+    const calls = capture(Response.json({ accessToken: 'a' }))
+
+    await signInWithGoogle('code', 'verifier', 'https://web.example/auth/callback', 'pt-PT')
+
+    expect(JSON.parse(calls[0]!.init.body as string)).toMatchObject({ language: 'pt-PT' })
+  })
+
+  it('saves the language with the account', async () => {
+    const calls = capture(new Response(null, { status: 204 }))
+
+    await saveLanguage('access', 'pt-PT')
+
+    expect(calls[0]!.url).toMatch(/\/me\/language$/)
+    expect(calls[0]!.init.method).toBe('PUT')
+    expect(calls[0]!.init.headers).toMatchObject({ Authorization: 'Bearer access' })
+    expect(JSON.parse(calls[0]!.init.body as string)).toEqual({ language: 'pt-PT' })
   })
 
   it('refreshes and signs out with the refresh token in the body', async () => {

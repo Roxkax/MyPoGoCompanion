@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using MyPoGoCompanion.Data;
 using MyPoGoCompanion.Data.GameData;
 using MyPoGoCompanion.Data.LiveData;
+using MyPoGoCompanion.Data.Model;
 using MyPoGoCompanion.Data.Users;
 
 namespace MyPoGoCompanion.Data.UnitTests;
@@ -34,6 +35,18 @@ public partial class ModelTests
         Assert.Contains("\"MigrationId\"", script, StringComparison.Ordinal);
         Assert.Contains("\"ProductVersion\"", script, StringComparison.Ordinal);
         Assert.DoesNotContain("migration_id", script, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Languages_MatchTheDatabaseCheck()
+    {
+        var check = Model.FindEntityType(typeof(User))!.GetCheckConstraints().Single(c => c.Name == "ck_users_language");
+
+        Assert.Equal(Checks.Language, check.Sql);
+        Assert.Equal("language in (" + string.Join(", ", Languages.All.Select(l => $"'{l}'")) + ")", check.Sql);
+        Assert.True(Languages.IsSupported("pt-PT"));
+        Assert.False(Languages.IsSupported("pt"));
+        Assert.False(Languages.IsSupported(null));
     }
 
     [Fact]

@@ -9,7 +9,8 @@ namespace MyPoGoCompanion.Api.Auth;
 
 public sealed record GoogleClientResponse(string ClientId);
 
-public sealed record GoogleSignInRequest(string? Code, string? CodeVerifier, string? RedirectUri);
+/// <param name="Language">The language the device is showing (<c>en</c> or <c>pt-PT</c>): a new account starts with it.</param>
+public sealed record GoogleSignInRequest(string? Code, string? CodeVerifier, string? RedirectUri, string? Language = null);
 
 public sealed record RefreshRequest(string? RefreshToken);
 
@@ -78,7 +79,7 @@ internal static class AuthEndpoints
         var identity = await google.ExchangeAsync(request.Code!, request.CodeVerifier!, request.RedirectUri!, cancellationToken);
         return identity is null
             ? TypedResults.Problem("Google didn't confirm the sign-in. Please try again.", statusCode: StatusCodes.Status400BadRequest)
-            : TypedResults.Ok(await sessions.SignInAsync(identity, cancellationToken));
+            : TypedResults.Ok(await sessions.SignInAsync(identity, request.Language, cancellationToken));
     }
 
     internal static async Task<Results<Ok<SessionResponse>, UnauthorizedHttpResult>> RefreshAsync(

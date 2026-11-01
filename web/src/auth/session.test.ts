@@ -181,6 +181,17 @@ describe('SessionManager', () => {
     expect(listener).toHaveBeenCalledTimes(1)
   })
 
+  it('updates the signed-in person’s details (e.g. a new language); signed out it does nothing', () => {
+    const { session } = testSession()
+    session.updateUser({ language: 'pt-PT' })
+    expect(session.getState()).toEqual({ status: 'loading' })
+
+    session.accept(sessionFor())
+    session.updateUser({ language: 'pt-PT' })
+
+    expect(session.getState()).toEqual({ status: 'signedIn', user: { ...ash, language: 'pt-PT' } })
+  })
+
   it('stops notifying after unsubscribing', () => {
     const { session } = testSession()
     const listener = vi.fn()

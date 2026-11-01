@@ -64,6 +64,18 @@ public class AuthEndpointsTests
     }
 
     [Fact]
+    public async Task SignIn_NewAccount_TakesTheLanguageFromTheRequest()
+    {
+        using var kit = new AuthTestKit();
+
+        var result = await AuthEndpoints.SignInWithGoogleAsync(
+            new GoogleSignInRequest("code", _verifier, Callback, "pt-PT"), kit.OptionsAccessor, Config(),
+            new FakeGoogle(AuthTestKit.Identity()), kit.Sessions(), Ct);
+
+        Assert.Equal("pt-PT", Assert.IsType<Ok<SessionResponse>>(result.Result).Value!.User.Language);
+    }
+
+    [Fact]
     public async Task SignIn_LocalhostOriginWithTrailingSlash_IsAllowed()
     {
         using var kit = new AuthTestKit();

@@ -70,6 +70,44 @@ public sealed class SignInTests(PostgresFixture postgres)
     }
 
     [Fact]
+    public async Task Language_NewAccountTakesTheDevices_ThenTheAccountsWinsAtEverySignIn()
+    {
+        var database = await postgres.CreateDatabaseAsync(Ct);
+        await using var api = new ApiFactory(database, Google());
+        using var client = api.CreateClient();
+
+        var first = await client.PostAsJsonAsync(
+            "/auth/google", new { code = "misty-code", codeVerifier = _verifier, redirectUri = Callback, language = "pt-PT" }, Ct);
+        var session = (await first.Content.ReadFromJsonAsync<SessionResponse>(_json, Ct))!;
+        Assert.Equal("pt-PT", session.User.Language);
+
+        using (var change = Authorized(HttpMethod.Put, "/me/language", session.AccessToken, new { language = "en" }))
+        {
+            Assert.Equal(HttpStatusCode.NoContent, (await client.SendAsync(change, Ct)).StatusCode);
+        }
+
+        using (var me = Authorized(HttpMethod.Get, "/me", session.AccessToken))
+        {
+            var response = await client.SendAsync(me, Ct);
+            Assert.Equal("en", (await response.Content.ReadFromJsonAsync<MeResponse>(_json, Ct))!.Language);
+        }
+
+        var again = await client.PostAsJsonAsync(
+            "/auth/google", new { code = "misty-code", codeVerifier = _verifier, redirectUri = Callback, language = "pt-PT" }, Ct);
+        Assert.Equal("en", (await again.Content.ReadFromJsonAsync<SessionResponse>(_json, Ct))!.User.Language);
+
+        using (var bad = Authorized(HttpMethod.Put, "/me/language", session.AccessToken, new { language = "pt-BR" }))
+        {
+            Assert.Equal(HttpStatusCode.BadRequest, (await client.SendAsync(bad, Ct)).StatusCode);
+        }
+
+        Assert.Equal(HttpStatusCode.Unauthorized,
+            (await client.PutAsJsonAsync("/me/language", new { language = "en" }, Ct)).StatusCode);
+        await using var db = PostgresFixture.CreateContext(database);
+        Assert.Equal("en", (await db.Users.SingleAsync(Ct)).Language);
+    }
+
+    [Fact]
     public async Task Me_WithoutOrWithAForgedToken_Returns401()
     {
         await using var api = new ApiFactory(postgres.ConnectionString, Google());

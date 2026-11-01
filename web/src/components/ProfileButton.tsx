@@ -1,15 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import type { Role } from '../auth/authApi'
 import { useAuth } from '../auth/authContext'
 import { isAdmin } from '../auth/roles'
 import { Icon } from './icons'
 
-const roleBadge: Record<Role, string | null> = {
+const roleBadge = {
   User: null,
-  Admin: 'Admin',
-  SuperAdmin: 'Super admin',
-}
+  Admin: 'profile.admin',
+  SuperAdmin: 'profile.superAdmin',
+} as const satisfies Record<Role, string | null>
 
 /**
  * The profile button at the top right (app map: Sign in, Settings, Admin for admins). Signed out, its menu offers
@@ -19,7 +20,8 @@ const roleBadge: Record<Role, string | null> = {
 export function ProfileButton() {
   const { state, openSignIn, session } = useAuth()
   const [menuOpen, setMenuOpen] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [error, setError] = useState(false)
+  const { t } = useTranslation()
   const menu = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -46,7 +48,7 @@ export function ProfileButton() {
   const closeMenu = () => setMenuOpen(false)
   const settings = (
     <Link to="/settings" role="menuitem" onClick={closeMenu}>
-      Settings
+      {t('nav.settings')}
     </Link>
   )
 
@@ -56,7 +58,7 @@ export function ProfileButton() {
         <button
           type="button"
           className="avatar"
-          aria-label="Profile"
+          aria-label={t('profile.profile')}
           aria-haspopup="menu"
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen((open) => !open)}
@@ -65,7 +67,7 @@ export function ProfileButton() {
           <Icon name="person" size={20} />
         </button>
         {menuOpen && (
-          <div className="profile-menu" role="menu" aria-label="Profile">
+          <div className="profile-menu" role="menu" aria-label={t('profile.profile')}>
             <button
               type="button"
               role="menuitem"
@@ -74,7 +76,7 @@ export function ProfileButton() {
                 openSignIn()
               }}
             >
-              Sign in
+              {t('profile.signIn')}
             </button>
             {settings}
           </div>
@@ -87,12 +89,12 @@ export function ProfileButton() {
   const badge = roleBadge[user.role]
 
   async function everywhere() {
-    setError(null)
+    setError(false)
     try {
       await session.signOutEverywhere()
       closeMenu()
     } catch {
-      setError("Couldn't reach the server. Try again.")
+      setError(true)
     }
   }
 
@@ -101,7 +103,7 @@ export function ProfileButton() {
       <button
         type="button"
         className="avatar"
-        aria-label={`Account: ${user.name}`}
+        aria-label={t('profile.accountOf', { name: user.name })}
         aria-haspopup="menu"
         aria-expanded={menuOpen}
         onClick={() => setMenuOpen((open) => !open)}
@@ -115,32 +117,32 @@ export function ProfileButton() {
         )}
       </button>
       {menuOpen && (
-        <div className="profile-menu" role="menu" aria-label="Account">
+        <div className="profile-menu" role="menu" aria-label={t('profile.account')}>
           <div className="profile-who">
             <strong>{user.name}</strong>
             <span>{user.email}</span>
             {badge && (
               <span className="role-badge">
                 <Icon name="admin" size={14} />
-                {badge}
+                {t(badge)}
               </span>
             )}
           </div>
           {settings}
           {isAdmin(user.role) && (
             <Link to="/admin" role="menuitem" onClick={closeMenu}>
-              Admin
+              {t('nav.admin')}
             </Link>
           )}
           <button type="button" role="menuitem" onClick={() => void session.signOut()}>
-            Sign out
+            {t('profile.signOut')}
           </button>
           <button type="button" role="menuitem" onClick={() => void everywhere()}>
-            Sign out everywhere
+            {t('profile.signOutEverywhere')}
           </button>
           {error && (
             <p className="sign-in-error" role="alert">
-              {error}
+              {t('profile.unreachable')}
             </p>
           )}
         </div>

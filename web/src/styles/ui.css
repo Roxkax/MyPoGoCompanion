@@ -297,3 +297,52 @@
 .wrap-row + .ui-seg {
   margin-top: var(--space-3);
 }
+
+/* ---------- choice rows (Settings → Language) ---------- */
+.ui-choices {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.ui-choice {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 48px;
+  padding: 13px var(--space-4);
+  border: 0;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+.ui-choice + .ui-choice {
+  border-top: 1px solid var(--line);
+}
+.ui-choice:hover {
+  background: var(--accent-soft);
+}
+.ui-choice:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+.ui-choice-check {
+  margin-left: auto;
+  color: var(--accent);
+  font-size: 17px;
+  font-weight: 900;
+}
+
+/* ---------- design gallery: formats ---------- */
+.design-formats {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-weight: 700;
+}

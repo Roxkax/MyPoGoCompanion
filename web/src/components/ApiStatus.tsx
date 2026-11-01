@@ -1,8 +1,10 @@
+import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import { fetchHealth } from '../api/health'
 
 /** Shows whether the web app can reach the API and whether the API can reach its database. */
 export function ApiStatus() {
+  const { t } = useTranslation()
   const health = useQuery({
     queryKey: ['health'],
     queryFn: ({ signal }) => fetchHealth(signal),
@@ -15,25 +17,25 @@ export function ApiStatus() {
 
   if (health.isPending) {
     tone = 'pending'
-    title = 'Checking the API…'
+    title = t('apiStatus.checking')
   } else if (health.isError) {
     tone = 'danger'
-    title = 'Can’t reach the API'
-    detail = 'Check your connection and try again.'
+    title = t('apiStatus.unreachable')
+    detail = t('apiStatus.unreachableDetail')
   } else if (health.data.status === 'Unhealthy') {
     tone = 'warn'
-    title = 'The API is running, but its database isn’t answering'
-    detail = `Version ${health.data.version}`
+    title = t('apiStatus.noDatabase')
+    detail = t('apiStatus.version', { version: health.data.version })
   } else {
     tone = 'ok'
-    title = 'Connected to the API'
-    detail = `Version ${health.data.version} · database working`
+    title = t('apiStatus.connected')
+    detail = t('apiStatus.versionWorking', { version: health.data.version })
   }
 
   return (
     <section className="card api-status" data-tone={tone} aria-labelledby="api-status-title">
       <h2 id="api-status-title" className="card-label">
-        API status
+        {t('apiStatus.title')}
       </h2>
       <div role="status" aria-live="polite" className="api-status-body">
         <span className="dot" aria-hidden="true" />
@@ -49,7 +51,7 @@ export function ApiStatus() {
           onClick={() => void health.refetch()}
           disabled={health.isFetching}
         >
-          {health.isFetching ? 'Trying…' : 'Try again'}
+          {health.isFetching ? t('apiStatus.trying') : t('apiStatus.tryAgain')}
         </button>
       )}
     </section>

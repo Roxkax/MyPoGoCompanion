@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Link, useLocation } from 'react-router'
 import { isAdmin } from '../auth/roles'
 import { useAuth } from '../auth/authContext'
@@ -6,11 +7,12 @@ import type { AppEnvironment } from '../environment'
 import { activeSidebarItem, quickLinks, tabs, type NavItem, type SidebarKey } from './nav'
 
 function SidebarLink({ item, active }: { item: NavItem; active: SidebarKey | null }) {
+  const { t } = useTranslation()
   const on = item.key === active
   return (
     <Link to={item.to} className="sidebar-item" aria-current={on ? 'page' : undefined}>
       <Icon name={item.icon} size={20} />
-      {item.label}
+      {t(`nav.${item.key}`)}
     </Link>
   )
 }
@@ -21,10 +23,11 @@ export function Sidebar({ environment }: { environment: AppEnvironment }) {
   const { state } = useAuth()
   const active = activeSidebarItem(pathname)
   const admin = state.status === 'signedIn' && isAdmin(state.user.role)
+  const { t } = useTranslation()
 
   return (
     <aside className="sidebar">
-      <Link to="/" className="sidebar-brand" aria-label="MyPoGoCompanion, Today">
+      <Link to="/" className="sidebar-brand" aria-label={t('nav.home')}>
         <img src={environment.icon} alt="" width="30" height="30" />
         <span className="sidebar-brand-name">
           MyPoGoCompanion
@@ -35,12 +38,12 @@ export function Sidebar({ environment }: { environment: AppEnvironment }) {
           )}
         </span>
       </Link>
-      <nav className="sidebar-nav" aria-label="Main">
+      <nav className="sidebar-nav" aria-label={t('nav.main')}>
         {tabs.map((tab) => (
           <SidebarLink key={tab.key} item={tab} active={active} />
         ))}
         <p className="sidebar-label" id="quick-links">
-          Quick links
+          {t('nav.quickLinks')}
         </p>
         <div role="group" aria-labelledby="quick-links">
           {quickLinks.map((link) => (
@@ -48,16 +51,13 @@ export function Sidebar({ environment }: { environment: AppEnvironment }) {
           ))}
         </div>
       </nav>
-      <nav className="sidebar-end" aria-label="Settings">
+      <nav className="sidebar-end" aria-label={t('nav.settings')}>
         <SidebarLink
-          item={{ key: 'settings', label: 'Settings', icon: 'settings', to: '/settings' }}
+          item={{ key: 'settings', icon: 'settings', to: '/settings' }}
           active={active}
         />
         {admin && (
-          <SidebarLink
-            item={{ key: 'admin', label: 'Admin', icon: 'admin', to: '/admin' }}
-            active={active}
-          />
+          <SidebarLink item={{ key: 'admin', icon: 'admin', to: '/admin' }} active={active} />
         )}
       </nav>
     </aside>

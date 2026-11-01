@@ -12,6 +12,7 @@ import {
   currentPath,
   type AuthContextValue,
   type SignInDialogState,
+  type SignInProblem,
 } from './authContext'
 import { buildGoogleSignInUrl, callbackPath } from './google'
 import { SessionManager } from './session'
@@ -36,7 +37,7 @@ export function AuthProvider({
   const [openedOn] = useState(pathname)
   const state = useSyncExternalStore(session.subscribe, session.getState)
   const [dialog, setDialog] = useState<SignInDialogState>({ open: false, returnTo: '/' })
-  const [signInError, setSignInError] = useState<string | null>(null)
+  const [signInError, setSignInError] = useState<SignInProblem | null>(null)
 
   useEffect(() => {
     if (openedOn !== callbackPath) {
@@ -60,9 +61,7 @@ export function AuthProvider({
         navigate(await buildGoogleSignInUrl(returnTo ?? currentPath()))
       } catch (error) {
         setSignInError(
-          error instanceof ApiError && error.status === 503
-            ? "Sign-in isn't set up on this server yet."
-            : "Couldn't reach the app's server. Check your connection and try again.",
+          error instanceof ApiError && error.status === 503 ? 'notSetUp' : 'unreachable',
         )
       }
     },

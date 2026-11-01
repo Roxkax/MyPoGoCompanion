@@ -1,6 +1,9 @@
 import { createContext, useContext } from 'react'
 import type { AuthState, SessionManager } from './session'
 
+/** Why leaving for Google failed: sign-in not set up on this server (503), or the API couldn't be reached. */
+export type SignInProblem = 'notSetUp' | 'unreachable'
+
 export interface SignInDialogState {
   open: boolean
   /** Where to come back to after Google (the page the person was on). */
@@ -16,8 +19,8 @@ export interface AuthContextValue {
   closeSignIn: () => void
   /** Leaves for Google's sign-in. Resolves only on failure (sign-in not set up, API unreachable). */
   continueWithGoogle: (returnTo?: string) => Promise<void>
-  /** Why the last "Continue with Google" didn't leave, if it didn't. */
-  signInError: string | null
+  /** Why the last "Continue with Google" didn't leave, if it didn't (shown as `signIn.errors.<problem>`). */
+  signInError: SignInProblem | null
 }
 
 export const AuthContext = createContext<AuthContextValue | null>(null)

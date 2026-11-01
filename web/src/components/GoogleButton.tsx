@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '../auth/authContext'
 import { GoogleLogo } from './icons'
 
@@ -6,6 +7,7 @@ import { GoogleLogo } from './icons'
 export function GoogleButton({ returnTo }: { returnTo?: string }) {
   const { continueWithGoogle } = useAuth()
   const [leaving, setLeaving] = useState(false)
+  const { t } = useTranslation()
 
   async function onClick() {
     setLeaving(true)
@@ -17,7 +19,7 @@ export function GoogleButton({ returnTo }: { returnTo?: string }) {
   return (
     <button type="button" className="google-button" onClick={onClick} disabled={leaving}>
       <GoogleLogo />
-      Continue with Google
+      {t('signIn.google')}
     </button>
   )
 }

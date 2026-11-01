@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Link, useLocation } from 'react-router'
 import { Icon } from '../components/icons'
 import { activeTab, tabs } from './nav'
@@ -6,8 +7,9 @@ import { activeTab, tabs } from './nav'
 export function TabBar() {
   const { pathname } = useLocation()
   const active = activeTab(pathname)
+  const { t } = useTranslation()
   return (
-    <nav className="tab-bar" aria-label="Tabs">
+    <nav className="tab-bar" aria-label={t('nav.tabs')}>
       {tabs.map((tab) => {
         const on = tab.key === active
         return (
@@ -18,7 +20,7 @@ export function TabBar() {
             aria-current={on ? 'page' : undefined}
           >
             <Icon name={tab.icon} size={24} strokeWidth={on ? 2.3 : 1.9} />
-            {tab.label}
+            {t(`nav.${tab.key}`)}
           </Link>
         )
       })}

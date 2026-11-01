@@ -38,7 +38,7 @@ describe('SignInDialog', () => {
     expect(dialog).toHaveTextContent('Everything else works without an account')
     expect(screen.getAllByRole('listitem').map((item) => item.textContent)).toEqual([
       'Your collection, uploaded from Poke Genie',
-      '"Your counters" and "your team" everywhere',
+      '“Your counters” and “your team” everywhere',
       'Saved filters on every device',
       'Ask the AI assistant',
     ])
@@ -94,7 +94,7 @@ describe('SignInDialog', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Continue with Google' }))
 
     expect(await screen.findByRole('alert')).toHaveTextContent(
-      "Sign-in isn't set up on this server yet.",
+      'Sign-in isn’t set up on this server yet.',
     )
     expect(screen.getByRole('button', { name: 'Continue with Google' })).toBeEnabled()
   })

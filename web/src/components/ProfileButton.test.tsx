@@ -131,7 +131,7 @@ describe('ProfileButton', () => {
 
     await userEvent.click(screen.getByRole('menuitem', { name: 'Sign out everywhere' }))
 
-    expect(await screen.findByRole('alert')).toHaveTextContent("Couldn't reach the server.")
+    expect(await screen.findByRole('alert')).toHaveTextContent('Couldn’t reach the server.')
     expect(screen.getByRole('button', { name: 'Account: Ash' })).toBeInTheDocument()
   })
 
