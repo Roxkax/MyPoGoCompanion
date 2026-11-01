@@ -72,7 +72,7 @@
      5
     ],
     [
-     "Admin role from configuration",
+     "Super admin from configuration; admin role per user, granted by the super admin",
      1
     ],
     [

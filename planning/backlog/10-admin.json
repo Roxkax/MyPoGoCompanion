@@ -40,6 +40,10 @@
     [
      "Admin-only access on every admin endpoint",
      1
+    ],
+    [
+     "Users & roles screen (super admin only): list users, make admin / remove admin; design first (phone + desktop)",
+     4
     ]
    ],
    "tests": [
