@@ -115,6 +115,12 @@
   --content-max: 1184px;
   --tabbar-height: 64px;
   --banner-h: 0px;
+  /* The phone's own bars: the clock and notch at the top, the home indicator at the bottom. Zero in a browser tab and
+     on computers; set by iOS and Android once the app is installed (index.html asks for viewport-fit=cover). */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  /* Where sticky headers stop: below the phone's top bar and the QA / Local strip. */
+  --top-h: calc(var(--safe-top) + var(--banner-h));
 }
 
 /* Settings → Theme: Light or Dark wins over the device; "Follow device" removes the attribute. */

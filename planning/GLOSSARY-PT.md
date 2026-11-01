@@ -36,3 +36,8 @@ The words the app uses in Portuguese (E01-F04), so every screen says the same th
 | Search string | Termo de pesquisa | The game calls its search box "Pesquisar" |
 | Keeper filters | Filtros para guardar | |
 | Ask (AI) | Perguntar | |
+| Offline · You're offline | Sem ligação · Estás sem ligação | Portugal says "ligação" |
+| Install the app | Instalar a app | |
+| Home screen · Add to Home Screen | Ecrã principal · Adicionar ao ecrã principal | As iOS and Android say it in Portugal |
+| Share (iOS button) | Partilhar | As iOS says it in Portugal |
+| Browser | Browser | Everyday word in Portugal |

@@ -4,7 +4,9 @@
  * doesn't say: an unmarked build shows "Local" rather than looking like prod). The QA deploy also sets
  * VITE_PR_NUMBER and VITE_APP_VERSION (the commit) so the banner says what QA is showing.
  */
-export type EnvironmentKind = 'production' | 'qa' | 'local'
+import { environmentKind, type EnvironmentKind } from './environmentKind'
+
+export type { EnvironmentKind }
 
 export interface AppEnvironment {
   kind: EnvironmentKind
@@ -27,8 +29,7 @@ export interface EnvironmentSettings {
 const appName = 'MyPoGoCompanion'
 
 export function readEnvironment(settings: EnvironmentSettings = import.meta.env): AppEnvironment {
-  const value = (settings.VITE_APP_ENV ?? '').trim().toLowerCase()
-  const kind: EnvironmentKind = value === 'production' || value === 'qa' ? value : 'local'
+  const kind = environmentKind(settings.VITE_APP_ENV)
 
   if (kind === 'production') {
     return { kind, label: null, detail: null, title: appName, icon: '/icon.svg' }

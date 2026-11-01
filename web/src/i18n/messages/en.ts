@@ -215,6 +215,36 @@ export const en = {
     disclaimer:
       'MyPoGoCompanion is an unofficial fan project, not affiliated with Niantic, Nintendo, Creatures, Game Freak or The Pokémon Company.',
   },
+  offline: {
+    title: 'You’re offline',
+    text: 'MyPoGoCompanion needs a connection for now. Check your Wi-Fi or mobile data; the app reloads by itself when you’re back.',
+    tryAgain: 'Try again',
+    checking: 'Checking…',
+    stillOffline:
+      'Still no connection. The app keeps checking and reloads by itself when you’re back.',
+    later:
+      'Reading the Pokédex, your filters and your collection without signal is planned for a later version.',
+  },
+  install: {
+    more: 'More',
+    row: 'Install the app',
+    rowPhone: 'Add to home screen',
+    rowDesktop: 'Add to your computer',
+    guideTitle: 'Install MyPoGoCompanion',
+    iosStep1:
+      'Tap the Share button: at the bottom of Safari on an iPhone, at the top on an iPad, in the address bar in other browsers.',
+    iosStep2: 'Scroll down the list and choose Add to Home Screen.',
+    iosStep3: 'Tap Add. The app then opens full screen from its own icon.',
+    menuText: 'Open your browser’s menu and choose Install app (or Add to Home screen).',
+    menuMac: 'Safari on a Mac: File → Add to Dock.',
+    menuFirefox:
+      'Firefox on a computer can’t install apps: open MyPoGoCompanion in Chrome, Edge or Safari.',
+    done: 'Got it',
+    hintTitle: 'Install the app',
+    hintText: 'Add MyPoGoCompanion to your home screen.',
+    hintInstall: 'Install',
+    hintClose: 'Don’t show this again',
+  },
   apiStatus: {
     title: 'API status',
     checking: 'Checking the API…',

@@ -28,7 +28,7 @@ body {
 /* Which copy of the app this is (src/environment.ts): an orange strip on QA, a grey one locally, nothing in prod. */
 .env-banner {
   position: sticky;
-  top: 0;
+  top: var(--safe-top);
   z-index: 30;
   height: var(--banner-h);
   overflow: hidden;
@@ -245,7 +245,7 @@ body {
 .sign-in-back {
   position: sticky;
   top: 0;
-  padding: 10px 14px;
+  padding: calc(10px + var(--safe-top)) 14px 10px;
   background: var(--surface);
   border-bottom: 1px solid var(--line);
 }

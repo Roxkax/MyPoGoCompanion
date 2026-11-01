@@ -5,14 +5,34 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { App } from './App'
+import { api } from './api/client'
 import { AuthProvider } from './auth/AuthProvider'
 import { applyEnvironment, readEnvironment } from './environment'
 import { LanguageProvider } from './i18n/LanguageProvider'
+import { ConnectionWatch, connectionMiddleware } from './pwa/connection'
+import { InstallWatch } from './pwa/install'
+import { InstallHintStore } from './pwa/installHint'
+import type { Pwa } from './pwa/pwaContext'
+import { PwaProvider } from './pwa/PwaProvider'
+import { registerServiceWorker } from './pwa/register'
 import { ThemeProvider } from './theme/ThemeProvider'
 
 const queryClient = new QueryClient()
 const environment = readEnvironment()
 applyEnvironment(environment)
+
+// Installable app and offline screen (E01-F06): started before the app draws, as the browser may announce early that
+// the app can be installed, and a failed API request must be able to tell that the connection is gone.
+const pwa: Pwa = {
+  install: new InstallWatch(),
+  hint: new InstallHintStore(),
+  connection: new ConnectionWatch(),
+}
+pwa.install.start()
+pwa.connection.start()
+pwa.hint.countVisit()
+api.use(connectionMiddleware(pwa.connection))
+registerServiceWorker()
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -20,7 +40,9 @@ createRoot(document.getElementById('root')!).render(
       <LanguageProvider>
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
-            <App environment={environment} />
+            <PwaProvider pwa={pwa}>
+              <App environment={environment} />
+            </PwaProvider>
           </AuthProvider>
         </QueryClientProvider>
       </LanguageProvider>

@@ -11,17 +11,34 @@ a {
 
 .app {
   min-height: 100dvh;
+  /* Installed on a phone, the page starts below the clock and notch... */
+  padding-top: var(--safe-top);
+}
+/* ...and what scrolls up passes under a band in the top bar's colour (orange on QA, grey locally). */
+.app::before {
+  content: '';
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 31;
+  height: var(--safe-top);
+  background: var(--surface);
+}
+:root[data-env='qa'] .app::before {
+  background: var(--warn);
+}
+:root[data-env='local'] .app::before {
+  background: var(--surface-2);
 }
 
 /* ---------- phone ---------- */
 .phone[data-tab-bar] {
-  padding-bottom: calc(var(--tabbar-height) + env(safe-area-inset-bottom));
+  padding-bottom: calc(var(--tabbar-height) + var(--safe-bottom));
 }
 
 .tab-head,
 .detail-head {
   position: sticky;
-  top: var(--banner-h);
+  top: var(--top-h);
   z-index: 15;
   background: var(--surface);
   border-bottom: 1px solid var(--line);
@@ -85,7 +102,7 @@ a {
   z-index: 20;
   display: flex;
   min-height: var(--tabbar-height);
-  padding: 6px 4px env(safe-area-inset-bottom);
+  padding: 6px 4px var(--safe-bottom);
   background: var(--surface);
   border-top: 1px solid var(--line);
 }
@@ -126,15 +143,15 @@ a {
 /* ---------- desktop ---------- */
 .desktop {
   display: flex;
-  min-height: calc(100dvh - var(--banner-h));
+  min-height: calc(100dvh - var(--top-h));
 }
 
 .sidebar {
   position: sticky;
-  top: var(--banner-h);
+  top: var(--top-h);
   flex: none;
   width: var(--sidebar-width);
-  height: calc(100dvh - var(--banner-h));
+  height: calc(100dvh - var(--top-h));
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -212,7 +229,7 @@ a {
 
 .top-bar {
   position: sticky;
-  top: var(--banner-h);
+  top: var(--top-h);
   z-index: 15;
   display: flex;
   align-items: center;
@@ -384,7 +401,7 @@ kbd {
   align-items: center;
   gap: var(--space-3);
   min-height: 56px;
-  padding: calc(var(--banner-h) + 6px) 12px 6px 18px;
+  padding: calc(var(--top-h) + 6px) 12px 6px 18px;
   background: var(--surface);
   border-bottom: 1px solid var(--line);
 }
@@ -498,4 +515,221 @@ kbd {
 }
 .settings-warning {
   color: var(--warn);
+}
+
+/* ---------- installable app and offline (E01-F06) ---------- */
+
+/* Settings rows that open something (F2 "More"): label on the left, value and chevron on the right. */
+.settings-rows {
+  overflow: hidden;
+}
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  width: 100%;
+  min-height: 56px;
+  padding: var(--space-3) 18px;
+  border: 0;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+.settings-row + .settings-row {
+  border-top: 1px solid var(--line);
+}
+.settings-row-value {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--text-2);
+  font-weight: 600;
+  text-align: right;
+}
+
+/* A sheet over the page: from the bottom on the phone, a small window on the desktop (the install guide). */
+body:has(.sheet-overlay) {
+  overflow: hidden;
+}
+.sheet-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  display: flex;
+  align-items: flex-end;
+  background: var(--scrim);
+}
+.sheet {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  width: 100%;
+  max-height: 90dvh;
+  overflow-y: auto;
+  padding: var(--space-4) 18px calc(var(--space-5) + var(--safe-bottom));
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  background: var(--surface);
+  box-shadow: var(--shadow-raised);
+  outline: none;
+}
+.sheet-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.sheet-head h2 {
+  flex: 1;
+  margin: 0;
+  font-size: 19px;
+  font-weight: 800;
+}
+.sheet-done {
+  align-self: stretch;
+  margin-top: 0;
+}
+@media (min-width: 900px) {
+  .sheet-overlay {
+    align-items: center;
+    justify-content: center;
+  }
+  .sheet {
+    width: 460px;
+    border-radius: var(--radius-xl);
+    padding-bottom: var(--space-5);
+  }
+  .sheet-done {
+    align-self: flex-end;
+  }
+}
+
+.install-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.install-steps li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+.install-step-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-m);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.install-menu p {
+  margin: 0 0 var(--space-2);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--text-2);
+}
+.install-menu p:first-child {
+  color: var(--text);
+}
+
+/* The one-time install hint: a small card just above the phone's tab bar. */
+.install-hint {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: calc(var(--tabbar-height) + var(--safe-bottom) + 10px);
+  z-index: 19;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 4px 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-l);
+  background: var(--surface);
+  box-shadow: var(--shadow-raised);
+}
+.install-hint img {
+  flex: none;
+  border-radius: 10px;
+}
+.install-hint-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--text-2);
+}
+.install-hint-text strong {
+  color: var(--text);
+  font-size: 14.5px;
+  font-weight: 800;
+}
+.install-hint-button {
+  flex: none;
+  margin-top: 0;
+  min-height: 40px;
+  padding: 0 14px;
+}
+
+/* H3: the offline screen, in the middle of the page. */
+.screen.offline-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  max-width: 560px;
+  margin: 0 auto;
+  padding-top: clamp(var(--space-10), 16vh, 200px);
+  text-align: center;
+}
+.offline-icon {
+  display: grid;
+  place-items: center;
+  width: 88px;
+  height: 88px;
+  border-radius: var(--radius-xl);
+  background: var(--surface-2);
+  color: var(--text-2);
+}
+.offline-screen h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 800;
+}
+.offline-screen p {
+  margin: 0;
+  max-width: 440px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--text-2);
+}
+.offline-screen .button {
+  margin-top: 0;
+  min-height: 50px;
+  padding: 0 34px;
+  font-size: 17px;
+}
+.offline-screen .offline-status:empty {
+  display: none;
+}
+.offline-screen .fine-print {
+  max-width: 400px;
+  font-size: 13.5px;
 }

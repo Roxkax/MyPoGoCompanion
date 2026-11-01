@@ -15,6 +15,9 @@ export function contentSecurityPolicy(apiUrl: string | undefined): string {
     'img-src': ["'self'", 'data:', googlePictures],
     'font-src': ["'self'", 'data:'],
     'connect-src': api ? ["'self'", api] : ["'self'"],
+    // The service worker (/sw.js) and the install manifest come from the app itself (E01-F06).
+    'worker-src': ["'self'"],
+    'manifest-src': ["'self'"],
     'object-src': ["'none'"],
     'base-uri': ["'self'"],
     'form-action': ["'self'"],

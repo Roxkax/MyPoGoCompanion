@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { useLanguageChoice } from '../i18n/useLanguageChoice'
 import { languageNames, languages } from '../i18n/languages'
 import { DetailScreen } from '../layout/Screen'
+import { InstallRow } from '../pwa/InstallRow'
 import { useTheme } from '../theme/themeContext'
 import type { ThemeChoice } from '../theme/theme'
 import { ChoiceRows } from '../ui/ChoiceRows'
@@ -21,7 +22,8 @@ const languageOptions = languages.map((language) => ({
 }))
 
 /**
- * F2 Settings: Language and Theme for now; account, About & credits, install and Admin join them with E09-F01.
+ * F2 Settings: Language, Theme and Install the app (E01-F06) for now; account, About & credits and Admin join them
+ * with E09-F01.
  * No sign-in needed: both are kept on this device, and signed in the language is also saved with the account
  * (decision 2026-11-01).
  */
@@ -61,6 +63,7 @@ export function SettingsScreen() {
           />
           <p className="group-note">{t('settings.themeNote')}</p>
         </section>
+        <InstallRow />
         <p className="fine-print">{t('settings.disclaimer')}</p>
       </div>
     </DetailScreen>
