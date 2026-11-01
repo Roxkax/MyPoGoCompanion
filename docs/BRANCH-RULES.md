@@ -9,15 +9,18 @@ The ruleset **Protect main** is kept as code in `.github/rulesets/main.json` and
 | Rule | What it means |
 |---|---|
 | Changes only through pull requests | Nobody pushes to `main` directly, the owner included (planning documents too) |
-| Required checks pass | `build-and-unit`, `integration`, `deploy-qa`, `ui-tests` (from GitHub Actions only). `deploy-qa` and `ui-tests` are skipped, and so pass, on pull requests without the `qa` label |
-| Branch up to date before merging | The checks must have run on the pull request merged with the latest `main`. When `main` moves on, press **Update branch** and the checks run again |
+| Required checks pass | `build-and-unit`, `integration`, `deploy-qa`, `ui-tests`, `rebased` (from GitHub Actions only). `deploy-qa` and `ui-tests` are skipped, and so pass, on pull requests without the `qa` label |
+| Branch rebased on the latest `main` | The `rebased` check (`.github/workflows/rebased.yml`): `main`'s newest commit is in the branch and the branch has **no merge commits** of its own. So update a branch with **Update branch ▾ → Update with rebase** (or `git rebase origin/main`), never with a merge |
+| Branch up to date before merging | The checks must have run on the branch with the latest `main` in it. When `main` moves on, press **Update branch ▾ → Update with rebase** and the checks run again |
 | Conversations resolved | Every review comment thread on the pull request is resolved |
 | Approvals required: 0 | The owner works alone and GitHub doesn't let you approve your own pull request. When collaborators join: 1 approval and a `CODEOWNERS` file for `.github/`, `infra/` and pipeline files |
 | No force pushes, no deletion | `main`'s history can't be rewritten and the branch can't be deleted |
 
 Nobody is on the bypass list. In a real emergency the owner (repository admin) can set the ruleset's enforcement to **Disabled**, push the fix, and set it back to **Active** straight away; the weekly **Branch rules check** fails while it's off.
 
-Merging with a merge commit, squash or rebase is allowed (as today).
+**Merging is with a merge commit only** (owner, 2026-11-01): squash and rebase merges are switched off, and you write the merge commit's message in the merge dialog. With the `rebased` check, every merge brings in a straight line of commits on top of `main`, under one merge commit that describes the pull request.
+
+Repository settings that go with it (**Settings → General → Pull Requests**): only **Allow merge commits** ticked, default message **Pull request title and description** (a starting point you edit when merging); **Always suggest updating pull request branches** on.
 
 ## Switching the rules on (once)
 
@@ -25,13 +28,14 @@ Merging with a merge commit, squash or rebase is allowed (as today).
 2. **Settings → Rules → Rulesets → New ruleset ▾ → Import a ruleset**, pick the file, check the page shows the rules above, and press **Create**.
 3. **Actions → Branch rules check → Run workflow** (on `main`). Its summary lists each rule as GitHub enforces it; green means it matches the file.
 
-To change a rule later: edit the file in a pull request, and after the merge edit the ruleset in Settings the same way (or delete it and import the file again). The **Branch rules check** runs when the file changes on `main` and fails until GitHub matches it again. It also runs every Monday.
+To change a rule later: edit the file in a pull request, and edit the ruleset in Settings the same way (or delete it and import the file again). The **Branch rules check** runs when the file changes on `main` and fails until GitHub matches it again. It also runs every Monday.
 
 ## When a pull request can't merge
 
 | What GitHub shows | What to do |
 |---|---|
-| **This branch is out-of-date with the base branch** | Press **Update branch**; the checks run again |
+| **This branch is out-of-date with the base branch** | **Update branch ▾ → Update with rebase** (not the plain merge); the checks run again |
+| `rebased` **failed** | The branch is behind `main` or contains a merge commit; its summary lists which. Rebase it: **Update branch ▾ → Update with rebase**, or locally `git fetch origin && git rebase origin/main && git push --force-with-lease`. Dependabot PRs: comment `@dependabot rebase` |
 | A check **failed** | Open it from the checks list and fix the code (red `build-and-unit`: lint, format, tests or coverage below 90%; red `integration`: integration tests; red `deploy-qa` / `ui-tests`: the QA deploy or the UI tests on QA, see the run's summary and the `ui-test-report` artifact) |
 | `deploy-qa` **failed** for a reason outside the code (Azure or Neon hiccup) | Re-run the failed jobs. If you no longer want the PR on QA, remove the `qa` label and push again: the new run skips the QA checks |
 | `deploy-qa` **cancelled** | Another PR took QA while this one was waiting. Re-run the workflow, or remove and add the `qa` label |

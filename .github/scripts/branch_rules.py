@@ -76,6 +76,17 @@ def compare(expected: dict, live: list[dict]) -> tuple[list[tuple[str, str]], li
             rows.append((describe(kind), "✅"))
             rows.append(("Conversations resolved before merging", "✅" if resolved else "❌ off"))
             rows.append(("Approvals required", str(approvals)))
+            if "allowed_merge_methods" in params:
+                methods = set()
+                for r in found:
+                    methods |= set(r.get("parameters", {}).get("allowed_merge_methods", []))
+                want_methods = set(params["allowed_merge_methods"])
+                rows.append(("Merge methods allowed", ", ".join(sorted(methods)) or "none"))
+                if methods != want_methods:
+                    problems.append(
+                        f"Merge methods allowed: {', '.join(sorted(methods))} on GitHub,"
+                        f" {', '.join(sorted(want_methods))} in the file."
+                    )
             if params.get("required_review_thread_resolution") and not resolved:
                 problems.append("Conversations resolved before merging: off on GitHub.")
             if approvals != params.get("required_approving_review_count", 0):
