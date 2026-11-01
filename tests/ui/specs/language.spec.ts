@@ -128,3 +128,35 @@ test.describe('signed in', () => {
       .toEqual([{ method: 'PUT', auth: 'Bearer access', body: { language: 'pt-PT' } }])
   })
 })
+
+test('the QA / Local strip stays on one line in Portuguese, keeping the label and the PR · commit whole', async ({
+  page,
+}) => {
+  await page.addInitScript(() => localStorage.setItem('mpgc.language', 'pt-PT'))
+  // The narrowest phones (320 px) as well as the project's own size.
+  for (const width of [320, page.viewportSize()!.width]) {
+    await page.setViewportSize({ width, height: page.viewportSize()!.height })
+    await page.goto('/')
+    const banner = page.getByRole('note', { name: /^Ambiente / })
+    test.skip((await banner.count()) === 0, 'Production has no strip')
+
+    const fits = await banner.evaluate((strip) => {
+      const box = strip.getBoundingClientRect()
+      const parts = [...strip.children].map((part) => part.getBoundingClientRect())
+      const label = strip.querySelector('.env-banner-label')!
+      const detail = strip.querySelector('.env-banner-detail')
+      return {
+        oneLine: parts.every((part) => Math.abs(part.top - parts[0]!.top) < 1),
+        inside: parts.every((part) => part.left >= box.left - 1 && part.right <= box.right + 1),
+        labelWhole: label.scrollWidth <= label.clientWidth,
+        detailWhole: !detail || detail.scrollWidth <= detail.clientWidth,
+      }
+    })
+    expect(fits, `${width} px wide`).toEqual({
+      oneLine: true,
+      inside: true,
+      labelWhole: true,
+      detailWhole: true,
+    })
+  }
+})
