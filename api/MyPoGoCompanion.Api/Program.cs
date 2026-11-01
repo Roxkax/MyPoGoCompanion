@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using MyPoGoCompanion.Api.Account;
 using MyPoGoCompanion.Api.Admin;
 using MyPoGoCompanion.Api.Auth;
 using MyPoGoCompanion.Api.Configuration;
@@ -31,6 +32,7 @@ app.UseAuthorization();
 app.MapOpenApi();
 app.MapHealthEndpoints();
 app.MapAuthEndpoints();
+app.MapAccountEndpoints();
 app.MapUserRoleEndpoints();
 
 if (app.Environment.IsDevelopment())

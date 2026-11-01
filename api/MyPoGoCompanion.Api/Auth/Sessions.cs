@@ -19,7 +19,15 @@ public sealed record SessionResponse(string AccessToken, DateTimeOffset AccessTo
 /// </summary>
 public sealed partial class Sessions(AppDbContext db, AccessTokens accessTokens, IOptions<AuthOptions> options, TimeProvider time, ILogger<Sessions> logger)
 {
-    public async Task<SessionResponse> SignInAsync(GoogleIdentity identity, CancellationToken cancellationToken)
+    public Task<SessionResponse> SignInAsync(GoogleIdentity identity, CancellationToken cancellationToken) =>
+        SignInAsync(identity, language: null, cancellationToken);
+
+    /// <summary>
+    /// Signs the Google account in, creating the user the first time. A new account starts with
+    /// <paramref name="language"/> (the language the device was showing; English when missing or unknown); a known
+    /// account keeps its own, which the device then switches to (decision 2026-11-01).
+    /// </summary>
+    public async Task<SessionResponse> SignInAsync(GoogleIdentity identity, string? language, CancellationToken cancellationToken)
     {
         var now = time.GetUtcNow();
         var user = await db.Users.SingleOrDefaultAsync(u => u.GoogleSubject == identity.Subject, cancellationToken);
@@ -31,6 +39,7 @@ public sealed partial class Sessions(AppDbContext db, AccessTokens accessTokens,
                 Email = identity.Email,
                 DisplayName = identity.Name,
                 CreatedAt = now,
+                Language = Languages.IsSupported(language) ? language! : Languages.English,
             };
             db.Users.Add(user);
         }
