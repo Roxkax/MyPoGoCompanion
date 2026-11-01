@@ -1,11 +1,19 @@
 import { ApiStatus } from './components/ApiStatus'
+import { EnvironmentBanner } from './components/EnvironmentBanner'
+import { readEnvironment, type AppEnvironment } from './environment'
 
-export function App() {
+export function App({ environment = readEnvironment() }: { environment?: AppEnvironment }) {
   return (
     <div className="shell">
+      <EnvironmentBanner environment={environment} />
       <header className="topbar">
-        <img src="/icon.svg" alt="" width="28" height="28" />
+        <img src={environment.icon} alt="" width="28" height="28" />
         <span className="brand">MyPoGoCompanion</span>
+        {environment.label && (
+          <span className="env-pill" data-env={environment.kind}>
+            {environment.label}
+          </span>
+        )}
       </header>
       <main className="content">
         <h1>Coming soon</h1>
