@@ -1,15 +1,15 @@
 import { useTranslation } from 'react-i18next'
-import { useQuery } from '@tanstack/react-query'
-import { fetchHealth } from '../api/health'
+import { $api } from '../api/client'
+import { isHealthReport } from '../api/health'
 
 /** Shows whether the web app can reach the API and whether the API can reach its database. */
 export function ApiStatus() {
   const { t } = useTranslation()
-  const health = useQuery({
-    queryKey: ['health'],
-    queryFn: ({ signal }) => fetchHealth(signal),
-    retry: 1,
+  const health = $api.useQuery('get', '/health', undefined, {
+    // One more try when the API can't be reached; a report saying the database is down is an answer, not a failure.
+    retry: (failures, error) => failures < 1 && !isHealthReport(error),
   })
+  const report = health.data ?? (isHealthReport(health.error) ? health.error : undefined)
 
   let tone: 'ok' | 'warn' | 'danger' | 'pending'
   let title: string
@@ -18,18 +18,18 @@ export function ApiStatus() {
   if (health.isPending) {
     tone = 'pending'
     title = t('apiStatus.checking')
-  } else if (health.isError) {
+  } else if (!report) {
     tone = 'danger'
     title = t('apiStatus.unreachable')
     detail = t('apiStatus.unreachableDetail')
-  } else if (health.data.status === 'Unhealthy') {
+  } else if (report.status === 'Unhealthy') {
     tone = 'warn'
     title = t('apiStatus.noDatabase')
-    detail = t('apiStatus.version', { version: health.data.version })
+    detail = t('apiStatus.version', { version: report.version })
   } else {
     tone = 'ok'
     title = t('apiStatus.connected')
-    detail = t('apiStatus.versionWorking', { version: health.data.version })
+    detail = t('apiStatus.versionWorking', { version: report.version })
   }
 
   return (

@@ -9,6 +9,7 @@ import {
 } from './google'
 import { challengeFor } from './pkce'
 import { writePendingSignIn } from './storage'
+import { readRequest } from '../testing/fetch'
 
 const origin = 'https://web.example'
 
@@ -56,9 +57,9 @@ describe('Google sign-in', () => {
   it('finishes with the API when the state matches', async () => {
     writePendingSignIn({ state: 'abc', verifier: 'v'.repeat(64), returnTo: '/collection' })
     const posted: unknown[] = []
-    vi.stubGlobal('fetch', (_url: string, init: RequestInit) => {
-      posted.push(JSON.parse(init.body as string))
-      return Promise.resolve(Response.json(sessionFor()))
+    vi.stubGlobal('fetch', async (input: RequestInfo | URL, init?: RequestInit) => {
+      posted.push((await readRequest(input, init)).body)
+      return Response.json(sessionFor())
     })
 
     const result = await completeGoogleSignIn('?code=the-code&state=abc', origin)

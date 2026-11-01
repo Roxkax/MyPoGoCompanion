@@ -6,6 +6,7 @@ import { ash, MemoryStorage, routeFetch, sessionFor } from '../testing/auth'
 import { LanguageStore } from './language'
 import { useLanguage } from './languageContext'
 import { languageKey } from './languages'
+import { readRequest } from '../testing/fetch'
 
 function device(saved?: 'en' | 'pt-PT', browser: readonly string[] = ['en-GB']) {
   const storage = new MemoryStorage()
@@ -65,23 +66,28 @@ describe('Settings → Language', () => {
 
     await userEvent.click(screen.getByRole('radio', { name: 'Português (Portugal)' }))
 
-    expect(fetch.mock.calls.some(([url]) => String(url).includes('/me/language'))).toBe(false)
+    expect(
+      fetch.mock.calls.some(([input]) =>
+        (input instanceof Request ? input.url : String(input)).includes('/me/language'),
+      ),
+    ).toBe(false)
   })
 
   it('signed in, the choice is also saved with the account', async () => {
     const saved: unknown[] = []
     vi.stubGlobal(
       'fetch',
-      vi.fn((url: string, init: RequestInit) => {
-        if (url.endsWith('/me/language')) {
+      vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+        const sent = await readRequest(input, init)
+        if (sent.url.endsWith('/me/language')) {
           saved.push({
-            method: init.method,
-            auth: (init.headers as Record<string, string>).Authorization,
-            body: JSON.parse(init.body as string),
+            method: sent.method,
+            auth: sent.headers.get('Authorization'),
+            body: sent.body,
           })
-          return Promise.resolve(new Response(null, { status: 204 }))
+          return new Response(null, { status: 204 })
         }
-        return new Promise(() => {})
+        return new Promise<Response>(() => {})
       }),
     )
     const { languages } = device()

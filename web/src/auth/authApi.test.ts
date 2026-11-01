@@ -8,14 +8,15 @@ import {
   signOut,
   signOutEverywhere,
 } from './authApi'
+import { readRequest, type SentRequest } from '../testing/fetch'
 
 afterEach(() => vi.unstubAllGlobals())
 
 function capture(response: Response) {
-  const calls: { url: string; init: RequestInit }[] = []
-  vi.stubGlobal('fetch', (url: string, init: RequestInit) => {
-    calls.push({ url, init })
-    return Promise.resolve(response)
+  const calls: SentRequest[] = []
+  vi.stubGlobal('fetch', async (input: RequestInfo | URL, init?: RequestInit) => {
+    calls.push(await readRequest(input, init))
+    return response
   })
   return calls
 }
@@ -33,8 +34,8 @@ describe('sign-in API', () => {
     await signInWithGoogle('code', 'verifier', 'https://web.example/auth/callback')
 
     expect(calls[0]!.url).toMatch(/\/auth\/google$/)
-    expect(calls[0]!.init.method).toBe('POST')
-    expect(JSON.parse(calls[0]!.init.body as string)).toEqual({
+    expect(calls[0]!.method).toBe('POST')
+    expect(calls[0]!.body).toEqual({
       code: 'code',
       codeVerifier: 'verifier',
       redirectUri: 'https://web.example/auth/callback',
@@ -46,7 +47,7 @@ describe('sign-in API', () => {
 
     await signInWithGoogle('code', 'verifier', 'https://web.example/auth/callback', 'pt-PT')
 
-    expect(JSON.parse(calls[0]!.init.body as string)).toMatchObject({ language: 'pt-PT' })
+    expect(calls[0]!.body).toMatchObject({ language: 'pt-PT' })
   })
 
   it('saves the language with the account', async () => {
@@ -55,9 +56,9 @@ describe('sign-in API', () => {
     await saveLanguage('access', 'pt-PT')
 
     expect(calls[0]!.url).toMatch(/\/me\/language$/)
-    expect(calls[0]!.init.method).toBe('PUT')
-    expect(calls[0]!.init.headers).toMatchObject({ Authorization: 'Bearer access' })
-    expect(JSON.parse(calls[0]!.init.body as string)).toEqual({ language: 'pt-PT' })
+    expect(calls[0]!.method).toBe('PUT')
+    expect(calls[0]!.headers.get('Authorization')).toBe('Bearer access')
+    expect(calls[0]!.body).toEqual({ language: 'pt-PT' })
   })
 
   it('refreshes and signs out with the refresh token in the body', async () => {
@@ -65,7 +66,7 @@ describe('sign-in API', () => {
 
     await signOut('rt')
     expect(calls[0]!.url).toMatch(/\/auth\/sign-out$/)
-    expect(JSON.parse(calls[0]!.init.body as string)).toEqual({ refreshToken: 'rt' })
+    expect(calls[0]!.body).toEqual({ refreshToken: 'rt' })
 
     capture(Response.json({ accessToken: 'a' }))
     expect(await refreshSession('rt')).toEqual({ accessToken: 'a' })
@@ -76,7 +77,8 @@ describe('sign-in API', () => {
 
     await signOutEverywhere('access')
 
-    expect((calls[0]!.init.headers as Record<string, string>).Authorization).toBe('Bearer access')
+    expect(calls[0]!.url).toMatch(/\/auth\/sign-out-everywhere$/)
+    expect(calls[0]!.headers.get('Authorization')).toBe('Bearer access')
   })
 
   it('turns a refusal into an ApiError with the problem detail', async () => {

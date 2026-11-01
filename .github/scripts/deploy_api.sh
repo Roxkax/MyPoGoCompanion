@@ -5,13 +5,14 @@
 # Sign-in (E01-F02), from the GitHub environment; until they are all set the API answers "sign-in isn't set up" (503)
 # and everything else works: GOOGLE_CLIENT_ID (variable), GOOGLE_CLIENT_SECRET and AUTH_SIGNING_KEY (secrets),
 # SUPER_ADMIN_EMAIL (variable). Setup: docs/SIGN-IN.md.
+# API_DOCS=true serves the interactive API docs page at /docs (QA only; always set, so prod stays off: docs/API.md).
 set -euo pipefail
 
 : "${RESOURCE_GROUP:?}" "${API_APP:?}" "${IMAGE_TAG:?}" "${DATABASE_URL:?}" "${WEB_ORIGIN:?}"
 
 # Secrets are Container Apps secrets, referenced by the settings; plain settings are set directly.
 secrets=("database-url=$DATABASE_URL")
-settings=("ConnectionStrings__Database=secretref:database-url" "Cors__AllowedOrigins=$WEB_ORIGIN")
+settings=("ConnectionStrings__Database=secretref:database-url" "Cors__AllowedOrigins=$WEB_ORIGIN" "ApiDocs__Enabled=${API_DOCS:-false}")
 
 if [[ -n "${GOOGLE_CLIENT_ID:-}" && -n "${GOOGLE_CLIENT_SECRET:-}" && -n "${AUTH_SIGNING_KEY:-}" ]]; then
   secrets+=("google-client-secret=$GOOGLE_CLIENT_SECRET" "auth-signing-key=$AUTH_SIGNING_KEY")

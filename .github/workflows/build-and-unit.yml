@@ -53,6 +53,15 @@ jobs:
       - name: Build (warnings fail the build)
         run: dotnet build MyPoGoCompanion.slnx --configuration Release --no-restore
 
+      - name: Contract check — the committed OpenAPI document matches the API
+        # Writes api/openapi.json from the code; a difference means it wasn't rebuilt and committed (docs/API.md).
+        run: |
+          dotnet build api/MyPoGoCompanion.Api --configuration Release --no-restore -p:UpdateOpenApi=true
+          if ! git diff --exit-code -- api/openapi.json; then
+            echo "::error file=api/openapi.json::api/openapi.json is out of date. Build the API (Debug) and commit the file."
+            exit 1
+          fi
+
       - name: Unit tests with coverage
         # Every *.UnitTests project; integration tests run in the "integration" check.
         run: |
@@ -99,6 +108,15 @@ jobs:
 
       - name: Install
         run: npm ci --no-audit --no-fund
+
+      - name: Contract check — the generated API client matches the OpenAPI document
+        # Regenerates src/api/generated/ from api/openapi.json; a difference means it wasn't regenerated (docs/API.md).
+        run: |
+          npm run api:generate
+          if ! git diff --exit-code -- src/api/generated; then
+            echo "::error file=web/src/api/generated/schema.ts::The generated API client is out of date. Run npm run api:generate in web/ and commit it."
+            exit 1
+          fi
 
       - name: Lint
         run: npm run lint

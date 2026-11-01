@@ -6,6 +6,7 @@ using MyPoGoCompanion.Data.Users;
 
 namespace MyPoGoCompanion.Api.Account;
 
+/// <summary>The interface language to save with the account.</summary>
 /// <param name="Language"><c>en</c> or <c>pt-PT</c>.</param>
 public sealed record LanguageRequest(string? Language);
 
@@ -18,6 +19,8 @@ internal static class AccountEndpoints
             .RequireAuthorization()
             .WithTags("Account")
             .WithName("SetLanguage")
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
             .WithSummary("Saves the interface language (en or pt-PT) with the account, so every device signed in shows it.");
 
         return app;

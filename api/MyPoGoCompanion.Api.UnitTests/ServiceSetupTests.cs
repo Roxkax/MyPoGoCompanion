@@ -47,14 +47,17 @@ public class ServiceSetupTests
     [Theory]
     [InlineData(null)]
     [InlineData("  ")]
-    public void AddDatabase_WithoutConnectionString_RegistersNothing(string? connectionString)
+    public void AddDatabase_WithoutConnectionString_RegistersADbContextWithoutADatabase(string? connectionString)
     {
+        // The API still starts (health reports the database as unhealthy; the build writes the OpenAPI document).
         using var services = new ServiceCollection()
             .AddDatabase(Config(("ConnectionStrings:Database", connectionString)))
             .BuildServiceProvider();
+        using var scope = services.CreateScope();
 
         Assert.Null(services.GetService<NpgsqlDataSource>());
-        Assert.Null(services.GetService<AppDbContext>());
+        var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        Assert.Null(context.Database.GetConnectionString());
     }
 
     [Fact]

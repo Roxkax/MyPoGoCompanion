@@ -274,6 +274,7 @@ jobs:
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           AUTH_SIGNING_KEY: ${{ secrets.AUTH_SIGNING_KEY }}
           SUPER_ADMIN_EMAIL: ${{ vars.SUPER_ADMIN_EMAIL }}
+          API_DOCS: 'true'
         run: |
           WEB_ORIGIN=$(sed -E 's#^(https?://[^/]+).*#\1#' <<<"$WEB_URL") .github/scripts/deploy_api.sh
 

@@ -6,9 +6,20 @@ using MyPoGoCompanion.Data.Users;
 namespace MyPoGoCompanion.Api.Auth;
 
 /// <summary>The signed-in user as the web app sees them.</summary>
+/// <param name="Id">The user's id.</param>
+/// <param name="Email">The email Google confirmed.</param>
+/// <param name="Name">The name from their Google account.</param>
+/// <param name="PictureUrl">Their Google profile picture, if any.</param>
+/// <param name="Role">User, Admin or SuperAdmin.</param>
+/// <param name="Language">The interface language: <c>en</c> or <c>pt-PT</c>.</param>
+/// <param name="Theme">Device (follow the device), Light or Dark.</param>
 public sealed record MeResponse(Guid Id, string Email, string Name, string? PictureUrl, EffectiveRole Role, string Language, Theme Theme);
 
 /// <summary>What a sign-in or refresh returns: a 15-minute access token, the next refresh token and the user.</summary>
+/// <param name="AccessToken">Send as <c>Authorization: Bearer &lt;token&gt;</c>; keep it in memory only.</param>
+/// <param name="AccessTokenExpiresAt">When the access token stops working (15 minutes).</param>
+/// <param name="RefreshToken">Swap it with <c>POST /auth/refresh</c>; it works once and lasts 30 days from its last use.</param>
+/// <param name="User">The signed-in user.</param>
 public sealed record SessionResponse(string AccessToken, DateTimeOffset AccessTokenExpiresAt, string RefreshToken, MeResponse User);
 
 /// <summary>

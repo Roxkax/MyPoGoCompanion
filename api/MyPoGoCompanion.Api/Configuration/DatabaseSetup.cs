@@ -8,8 +8,9 @@ internal static class DatabaseSetup
 {
     /// <summary>
     /// Registers the PostgreSQL data source and <see cref="AppDbContext"/> from <c>ConnectionStrings:Database</c>
-    /// (environment variable <c>ConnectionStrings__Database</c>). Without one, the API still starts
-    /// and <c>/health</c> reports the database as unhealthy.
+    /// (environment variable <c>ConnectionStrings__Database</c>). Without one, the API still starts (and the
+    /// OpenAPI document can be written at build time): <c>/health</c> reports the database as unhealthy and endpoints
+    /// that need it fail.
     /// </summary>
     public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
     {
@@ -18,6 +19,10 @@ internal static class DatabaseSetup
         {
             services.AddNpgsqlDataSource(DatabaseConnectionString.Normalize(connectionString));
             services.AddDbContext<AppDbContext>((provider, options) => options.UseNpgsql(provider.GetRequiredService<NpgsqlDataSource>()));
+        }
+        else
+        {
+            services.AddDbContext<AppDbContext>(options => options.UseNpgsql());
         }
 
         return services;

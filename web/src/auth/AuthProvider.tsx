@@ -6,6 +6,7 @@ import {
   useSyncExternalStore,
   type ReactNode,
 } from 'react'
+import { api, bearerToken } from '../api/client'
 import { ApiError } from './authApi'
 import {
   AuthContext,
@@ -47,6 +48,13 @@ export function AuthProvider({
     window.addEventListener('storage', onStorage)
     return () => window.removeEventListener('storage', onStorage)
   }, [session, openedOn])
+
+  // Every API call that needs it gets this session's access token.
+  useEffect(() => {
+    const middleware = bearerToken(session.getAccessToken.bind(session))
+    api.use(middleware)
+    return () => api.eject(middleware)
+  }, [session])
 
   const openSignIn = useCallback((returnTo?: string) => {
     setSignInError(null)

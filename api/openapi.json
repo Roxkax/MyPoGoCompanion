@@ -1,0 +1,1034 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "MyPoGoCompanion API",
+    "description": "The shared API behind MyPoGoCompanion's web app (and, later, its mobile apps). Unofficial fan project, not affiliated with Niantic, Nintendo or The Pokémon Company.\n\n**Signing in:** the web app sends people to Google, then swaps Google's one-time code for our own tokens with `POST /auth/google`. Send the access token as `Authorization: Bearer <token>`; it lasts 15 minutes, and `POST /auth/refresh` swaps the refresh token for the next pair.\n\n**Errors** come as problem details (`application/problem+json`) with a `detail` that can be shown to people.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Whether the API and its database are working, and which version is running.",
+        "operationId": "GetHealth",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me": {
+      "get": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "The signed-in user: name, email, picture, role and settings.",
+        "operationId": "GetMe",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc9110#section-15.5.2",
+                  "title": "Unauthorized",
+                  "status": 401
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/me/language": {
+      "put": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Saves the interface language (en or pt-PT) with the account, so every device signed in shows it.",
+        "operationId": "SetLanguage",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LanguageRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+                  "title": "Bad Request",
+                  "status": 400,
+                  "detail": "What was wrong with the request, written for people."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc9110#section-15.5.2",
+                  "title": "Unauthorized",
+                  "status": 401
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/auth/google/client": {
+      "get": {
+        "tags": [
+          "Sign-in"
+        ],
+        "summary": "The Google OAuth client id the web app sends people to Google with (503 when sign-in isn't set up).",
+        "operationId": "GetGoogleClient",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GoogleClientResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc6585#section-4",
+                  "title": "Too Many Requests",
+                  "status": 429
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc9110#section-15.6.4",
+                  "title": "Service Unavailable",
+                  "status": 503,
+                  "detail": "Sign-in isn't set up on this server yet."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/google": {
+      "post": {
+        "tags": [
+          "Sign-in"
+        ],
+        "summary": "Swaps Google's one-time code (authorization code + PKCE) for our own access and refresh tokens.",
+        "operationId": "SignInWithGoogle",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GoogleSignInRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+                  "title": "Bad Request",
+                  "status": 400,
+                  "detail": "What was wrong with the request, written for people."
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc6585#section-4",
+                  "title": "Too Many Requests",
+                  "status": 429
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc9110#section-15.6.4",
+                  "title": "Service Unavailable",
+                  "status": 503,
+                  "detail": "Sign-in isn't set up on this server yet."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "tags": [
+          "Sign-in"
+        ],
+        "summary": "Swaps a refresh token for a new access token and the next refresh token (401: sign in again).",
+        "description": "Each refresh token works once. Presenting one that was already swapped ends that sign-in (it was copied), so clients must keep only the latest token and refresh one request at a time.",
+        "operationId": "Refresh",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc9110#section-15.5.2",
+                  "title": "Unauthorized",
+                  "status": 401
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc6585#section-4",
+                  "title": "Too Many Requests",
+                  "status": 429
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/sign-out": {
+      "post": {
+        "tags": [
+          "Sign-in"
+        ],
+        "summary": "Ends this device's sign-in.",
+        "description": "Always 204, also for a token that is unknown or already ended, so it can be retried safely.",
+        "operationId": "SignOut",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc6585#section-4",
+                  "title": "Too Many Requests",
+                  "status": 429
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/sign-out-everywhere": {
+      "post": {
+        "tags": [
+          "Sign-in"
+        ],
+        "summary": "Ends every sign-in of the signed-in user, on every device.",
+        "operationId": "SignOutEverywhere",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc9110#section-15.5.2",
+                  "title": "Unauthorized",
+                  "status": 401
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc6585#section-4",
+                  "title": "Too Many Requests",
+                  "status": 429
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/admin/users": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Users by name, optionally filtered by name or email (super admin only).",
+        "operationId": "ListUsers",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Part of a name or email, any case.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "How many users to return: 1–200, 50 when left out.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AdminUserResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc9110#section-15.5.2",
+                  "title": "Unauthorized",
+                  "status": 401
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc9110#section-15.5.4",
+                  "title": "Forbidden",
+                  "status": 403
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/admin/users/{id}/role": {
+      "put": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Makes a user admin or removes it (super admin only). Every change is kept.",
+        "operationId": "SetUserRole",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetRoleRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminUserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+                  "title": "Bad Request",
+                  "status": 400,
+                  "detail": "What was wrong with the request, written for people."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc9110#section-15.5.2",
+                  "title": "Unauthorized",
+                  "status": 401
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc9110#section-15.5.4",
+                  "title": "Forbidden",
+                  "status": 403
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc9110#section-15.5.5",
+                  "title": "Not Found",
+                  "status": 404
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AdminUserResponse": {
+        "examples": [
+          {
+            "id": "0f8c2d1e-5b7a-4c39-9e61-2a4d8b3f7c10",
+            "name": "Ash_PT",
+            "email": "ash.pt@example.com",
+            "pictureUrl": "https://lh3.googleusercontent.com/a/ash-pt",
+            "role": "Admin",
+            "lastSignInAt": "2026-10-27T16:30:00+00:00"
+          }
+        ],
+        "required": [
+          "id",
+          "name",
+          "email",
+          "pictureUrl",
+          "role",
+          "lastSignInAt"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The user's id.",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name from their Google account."
+          },
+          "email": {
+            "type": "string",
+            "description": "The email Google confirmed."
+          },
+          "pictureUrl": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Their Google profile picture, if any."
+          },
+          "role": {
+            "description": "User, Admin or SuperAdmin (the super admin comes from configuration).",
+            "$ref": "#/components/schemas/EffectiveRole"
+          },
+          "lastSignInAt": {
+            "type": "string",
+            "description": "When they last signed in.",
+            "format": "date-time"
+          }
+        },
+        "description": "A user as the super admin sees them in Users and roles."
+      },
+      "EffectiveRole": {
+        "enum": [
+          "User",
+          "Admin",
+          "SuperAdmin"
+        ],
+        "type": "string",
+        "description": "What a user may do: the stored role, or super admin when their email is the configured one."
+      },
+      "GoogleClientResponse": {
+        "examples": [
+          {
+            "clientId": "123456789012-abc123def456.apps.googleusercontent.com"
+          }
+        ],
+        "required": [
+          "clientId"
+        ],
+        "type": "object",
+        "properties": {
+          "clientId": {
+            "type": "string",
+            "description": "The Google OAuth client id."
+          }
+        },
+        "description": "Where the web app sends people to sign in with Google."
+      },
+      "GoogleSignInRequest": {
+        "examples": [
+          {
+            "code": "4/0AeanS0a1b2c3d4e5f6g7h8i9j0",
+            "codeVerifier": "dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk",
+            "redirectUri": "https://app.example/auth/callback",
+            "language": "pt-PT"
+          }
+        ],
+        "required": [
+          "code",
+          "codeVerifier",
+          "redirectUri"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Google's one-time authorization code."
+          },
+          "codeVerifier": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The PKCE code verifier the web app made before sending the person to Google (43–128 characters)."
+          },
+          "redirectUri": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The web app's `/auth/callback` address the person came back to (must be one of the app's addresses)."
+          },
+          "language": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The language the device is showing (`en` or `pt-PT`): a new account starts with it."
+          }
+        },
+        "description": "Google's answer after the person signed in there, to swap for our own tokens."
+      },
+      "HealthResponse": {
+        "examples": [
+          {
+            "status": "Healthy",
+            "version": "3cd4b0c",
+            "checks": {
+              "database": "Healthy"
+            }
+          }
+        ],
+        "required": [
+          "status",
+          "version",
+          "checks"
+        ],
+        "type": "object",
+        "properties": {
+          "status": {
+            "description": "Healthy, Degraded or Unhealthy.",
+            "$ref": "#/components/schemas/HealthStatus"
+          },
+          "version": {
+            "type": "string",
+            "description": "The build that is running (the Git commit in deployed images, \"dev\" locally)."
+          },
+          "checks": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/HealthStatus"
+            },
+            "description": "Status of each dependency, e.g. \"database\"."
+          }
+        },
+        "description": "What `/health` returns. Check details stay in the logs; only their status is public."
+      },
+      "HealthStatus": {
+        "enum": [
+          "Unhealthy",
+          "Degraded",
+          "Healthy"
+        ],
+        "type": "string"
+      },
+      "LanguageRequest": {
+        "examples": [
+          {
+            "language": "pt-PT"
+          }
+        ],
+        "required": [
+          "language"
+        ],
+        "type": "object",
+        "properties": {
+          "language": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "`en` or `pt-PT`."
+          }
+        },
+        "description": "The interface language to save with the account."
+      },
+      "MeResponse": {
+        "examples": [
+          {
+            "id": "0f8c2d1e-5b7a-4c39-9e61-2a4d8b3f7c10",
+            "email": "ash.pt@example.com",
+            "name": "Ash_PT",
+            "pictureUrl": "https://lh3.googleusercontent.com/a/ash-pt",
+            "role": "User",
+            "language": "pt-PT",
+            "theme": "Device"
+          }
+        ],
+        "required": [
+          "id",
+          "email",
+          "name",
+          "pictureUrl",
+          "role",
+          "language",
+          "theme"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The user's id.",
+            "format": "uuid"
+          },
+          "email": {
+            "type": "string",
+            "description": "The email Google confirmed."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name from their Google account."
+          },
+          "pictureUrl": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Their Google profile picture, if any."
+          },
+          "role": {
+            "description": "User, Admin or SuperAdmin.",
+            "$ref": "#/components/schemas/EffectiveRole"
+          },
+          "language": {
+            "type": "string",
+            "description": "The interface language: `en` or `pt-PT`."
+          },
+          "theme": {
+            "description": "Device (follow the device), Light or Dark.",
+            "$ref": "#/components/schemas/Theme"
+          }
+        },
+        "description": "The signed-in user as the web app sees them."
+      },
+      "ProblemDetails": {
+        "examples": [
+          {
+            "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+            "title": "Bad Request",
+            "status": 400,
+            "detail": "The language must be one of: en, pt-PT."
+          }
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "title": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "status": {
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32"
+          },
+          "detail": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "instance": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        }
+      },
+      "RefreshRequest": {
+        "examples": [
+          {
+            "refreshToken": "pX7k2Qm9vB4nR8sT1wY6zA3cF5hJ0lN2dG4eK7oU9iE"
+          }
+        ],
+        "required": [
+          "refreshToken"
+        ],
+        "type": "object",
+        "properties": {
+          "refreshToken": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The latest refresh token from a sign-in or refresh."
+          }
+        },
+        "description": "This device's refresh token."
+      },
+      "SessionResponse": {
+        "examples": [
+          {
+            "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwZjhjMmQxZSJ9.c2lnbmF0dXJl",
+            "accessTokenExpiresAt": "2026-10-27T18:45:00+00:00",
+            "refreshToken": "Hq3vN8xW2bL5mK9tR4yC7fJ1dS6gZ0aE8uP3iO5nT2w",
+            "user": {
+              "id": "0f8c2d1e-5b7a-4c39-9e61-2a4d8b3f7c10",
+              "email": "ash.pt@example.com",
+              "name": "Ash_PT",
+              "pictureUrl": "https://lh3.googleusercontent.com/a/ash-pt",
+              "role": "User",
+              "language": "pt-PT",
+              "theme": "Device"
+            }
+          }
+        ],
+        "required": [
+          "accessToken",
+          "accessTokenExpiresAt",
+          "refreshToken",
+          "user"
+        ],
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "description": "Send as `Authorization: Bearer &lt;token&gt;`; keep it in memory only."
+          },
+          "accessTokenExpiresAt": {
+            "type": "string",
+            "description": "When the access token stops working (15 minutes).",
+            "format": "date-time"
+          },
+          "refreshToken": {
+            "type": "string",
+            "description": "Swap it with `POST /auth/refresh`; it works once and lasts 30 days from its last use."
+          },
+          "user": {
+            "description": "The signed-in user.",
+            "$ref": "#/components/schemas/MeResponse"
+          }
+        },
+        "description": "What a sign-in or refresh returns: a 15-minute access token, the next refresh token and the user."
+      },
+      "SetRoleRequest": {
+        "examples": [
+          {
+            "role": "Admin"
+          }
+        ],
+        "required": [
+          "role"
+        ],
+        "type": "object",
+        "properties": {
+          "role": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "description": "User or Admin.",
+                "$ref": "#/components/schemas/UserRole"
+              }
+            ]
+          }
+        },
+        "description": "The role to give: User (removes admin) or Admin."
+      },
+      "Theme": {
+        "enum": [
+          "Device",
+          "Light",
+          "Dark"
+        ],
+        "type": "string"
+      },
+      "UserRole": {
+        "enum": [
+          "User",
+          "Admin"
+        ],
+        "type": "string"
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "The access token from POST /auth/google or POST /auth/refresh (15 minutes).",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Health"
+    },
+    {
+      "name": "Account"
+    },
+    {
+      "name": "Sign-in"
+    },
+    {
+      "name": "Admin"
+    }
+  ]
+}

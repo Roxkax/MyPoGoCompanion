@@ -4,7 +4,11 @@ import { Link } from 'react-router'
 import type { Role } from '../auth/authApi'
 import { useAuth } from '../auth/authContext'
 import { isAdmin } from '../auth/roles'
+import { readEnvironment } from '../environment'
 import { Icon } from './icons'
+
+/** QA and local copies offer "Copy API token" for the API docs page; production never does. */
+const testCopy = readEnvironment().kind !== 'production'
 
 const roleBadge = {
   User: null,
@@ -15,12 +19,14 @@ const roleBadge = {
 /**
  * The profile button at the top right (app map: Sign in, Settings, Admin for admins). Signed out, its menu offers
  * "Sign in" and "Settings"; signed in it shows your picture, and its menu your account and role, Settings, Admin (for
- * admins), "Sign out" (this device) and "Sign out everywhere" (every device).
+ * admins), "Sign out" (this device) and "Sign out everywhere" (every device). On QA and local copies
+ * (`apiToken`) it also has "Copy API token": the current access token, to paste into Authorize on the API docs page.
  */
-export function ProfileButton() {
+export function ProfileButton({ apiToken = testCopy }: { apiToken?: boolean }) {
   const { state, openSignIn, session } = useAuth()
   const [menuOpen, setMenuOpen] = useState(false)
   const [error, setError] = useState(false)
+  const [copied, setCopied] = useState<'idle' | 'copied' | 'failed'>('idle')
   const { t } = useTranslation()
   const menu = useRef<HTMLDivElement>(null)
 
@@ -45,7 +51,10 @@ export function ProfileButton() {
     }
   }, [menuOpen])
 
-  const closeMenu = () => setMenuOpen(false)
+  const closeMenu = () => {
+    setMenuOpen(false)
+    setCopied('idle')
+  }
   const settings = (
     <Link to="/settings" role="menuitem" onClick={closeMenu}>
       {t('nav.settings')}
@@ -88,6 +97,20 @@ export function ProfileButton() {
   const { user } = state
   const badge = roleBadge[user.role]
 
+  /** The session's access token (refreshed first when it's about to run out), onto the clipboard. */
+  async function copyApiToken() {
+    try {
+      const token = await session.getAccessToken()
+      if (!token) {
+        throw new Error('signed out')
+      }
+      await navigator.clipboard.writeText(token)
+      setCopied('copied')
+    } catch {
+      setCopied('failed')
+    }
+  }
+
   async function everywhere() {
     setError(false)
     try {
@@ -106,7 +129,7 @@ export function ProfileButton() {
         aria-label={t('profile.accountOf', { name: user.name })}
         aria-haspopup="menu"
         aria-expanded={menuOpen}
-        onClick={() => setMenuOpen((open) => !open)}
+        onClick={() => (menuOpen ? closeMenu() : setMenuOpen(true))}
       >
         {user.pictureUrl ? (
           <img src={user.pictureUrl} alt="" referrerPolicy="no-referrer" />
@@ -133,6 +156,16 @@ export function ProfileButton() {
             <Link to="/admin" role="menuitem" onClick={closeMenu}>
               {t('nav.admin')}
             </Link>
+          )}
+          {apiToken && (
+            <button type="button" role="menuitem" onClick={() => void copyApiToken()}>
+              {t('profile.copyApiToken')}
+            </button>
+          )}
+          {copied !== 'idle' && (
+            <p className={copied === 'copied' ? 'profile-note' : 'sign-in-error'} role="status">
+              {t(copied === 'copied' ? 'profile.apiTokenCopied' : 'profile.apiTokenFailed')}
+            </p>
           )}
           <button type="button" role="menuitem" onClick={() => void session.signOut()}>
             {t('profile.signOut')}
