@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useFormats } from '../i18n/languageContext'
 import { DetailScreen } from '../layout/Screen'
 import { Card } from '../ui/Card'
 import { Chip } from '../ui/Chip'
@@ -7,7 +9,7 @@ import { SegmentedSwitch } from '../ui/SegmentedSwitch'
 import { SpriteBox } from '../ui/SpriteBox'
 import { TypeBadge } from '../ui/TypeBadge'
 import { VersionMarker } from '../ui/VersionMarker'
-import { pokemonTypes, versionKinds } from '../ui/pokemonTypes'
+import { pokemonTypes, versionKinds, type PokemonType } from '../ui/pokemonTypes'
 
 /**
  * /design, on QA and local copies only: every shared component in one place, to check the design system in light
@@ -16,14 +18,18 @@ import { pokemonTypes, versionKinds } from '../ui/pokemonTypes'
 export function DesignScreen() {
   const [kind, setKind] = useState<'fast' | 'charged'>('charged')
   const [shiny, setShiny] = useState(true)
-  const [type, setType] = useState<string | null>('Dragon')
+  const [type, setType] = useState<PokemonType | null>('dragon')
+  const { t } = useTranslation()
+  const formats = useFormats()
+  // A fixed moment, so the gallery shows the same example every day: Saturday 31 October 2026, 20:00 on this device.
+  const sample = new Date(2026, 9, 31, 20, 0)
 
   return (
-    <DetailScreen back={{ to: '/', label: 'Today' }} title="Design system">
+    <DetailScreen back={{ to: '/', label: 'today' }} title="designSystem">
       <div className="stack">
         <Card as="section" aria-labelledby="design-types">
           <h2 id="design-types" className="group-label">
-            Type badges
+            {t('design.typeBadges')}
           </h2>
           <div className="wrap-row">
             {pokemonTypes.map((t) => (
@@ -37,7 +43,7 @@ export function DesignScreen() {
         </Card>
         <Card as="section" aria-labelledby="design-versions">
           <h2 id="design-versions" className="group-label">
-            Version markers
+            {t('design.versionMarkers')}
           </h2>
           <div className="wrap-row">
             {versionKinds.map((k) => (
@@ -47,63 +53,74 @@ export function DesignScreen() {
         </Card>
         <Card as="section" aria-labelledby="design-pills">
           <h2 id="design-pills" className="group-label">
-            Pills
+            {t('design.pills')}
           </h2>
           <div className="wrap-row">
             <Pill tone="live" dot>
-              Live now
+              {t('design.liveNow')}
             </Pill>
-            <Pill>Ends Sat 31 Oct 20:00</Pill>
-            <Pill tone="accent">Admin</Pill>
-            <Pill tone="warn">Out of date</Pill>
-            <Pill tone="danger">Gone</Pill>
-            <Pill tone="gold">Lucky</Pill>
-            <Pill tone="raid">Raid 97%</Pill>
+            <Pill>{t('design.endsAt', { when: formats.dayTime(sample) })}</Pill>
+            <Pill tone="accent">{t('profile.admin')}</Pill>
+            <Pill tone="warn">{t('design.outOfDate')}</Pill>
+            <Pill tone="danger">{t('design.gone')}</Pill>
+            <Pill tone="gold">{t('design.lucky')}</Pill>
+            <Pill tone="raid">{t('design.raidShare', { share: formats.percent(0.97) })}</Pill>
           </div>
         </Card>
         <Card as="section" aria-labelledby="design-chips">
           <h2 id="design-chips" className="group-label">
-            Chips and switches
+            {t('design.chips')}
           </h2>
           <div className="wrap-row">
-            {type && (
-              <Chip onRemove={() => setType(null)} removeLabel={`Remove ${type}`}>
-                {type}
-              </Chip>
-            )}
+            {type && <Chip onRemove={() => setType(null)}>{t(`types.${type}`)}</Chip>}
             <Chip selected={shiny} onClick={() => setShiny((on) => !on)}>
-              Shiny
+              {t('design.shiny')}
             </Chip>
-            <Chip>Released</Chip>
+            <Chip>{t('design.released')}</Chip>
           </div>
           <SegmentedSwitch
-            label="Move kind"
+            label={t('design.moveKind')}
             value={kind}
             onChange={setKind}
             options={[
-              { value: 'fast', label: 'Fast', count: 80 },
-              { value: 'charged', label: 'Charged', count: 235 },
+              { value: 'fast', label: t('design.fast'), count: 80 },
+              { value: 'charged', label: t('design.charged'), count: 1235 },
             ]}
           />
         </Card>
         <Card as="section" aria-labelledby="design-sprites">
           <h2 id="design-sprites" className="group-label">
-            Sprite boxes
+            {t('design.sprites')}
           </h2>
           <div className="wrap-row">
-            <SpriteBox src="/icon.svg" alt="App icon" size={64} />
-            <SpriteBox alt="No picture yet" size={64} />
-            <SpriteBox src="/missing-sprite.png" alt="Picture that fails to load" size={40} />
+            <SpriteBox src="/icon.svg" alt={t('design.appIcon')} size={64} />
+            <SpriteBox alt={t('design.noPicture')} size={64} />
+            <SpriteBox src="/missing-sprite.png" alt={t('design.brokenPicture')} size={40} />
           </div>
         </Card>
         <Card padded={false} as="section" aria-labelledby="design-card">
           <h2 id="design-card" className="group-label card-rows-title">
-            Card with rows
+            {t('design.cardRows')}
           </h2>
           <ul className="card-rows">
-            <li>Great League</li>
-            <li>Ultra League</li>
-            <li>Master League</li>
+            <li>{t('design.greatLeague')}</li>
+            <li>{t('design.ultraLeague')}</li>
+            <li>{t('design.masterLeague')}</li>
+          </ul>
+        </Card>
+        <Card as="section" aria-labelledby="design-formats">
+          <h2 id="design-formats" className="group-label">
+            {t('design.formats')}
+          </h2>
+          <ul className="design-formats">
+            <li>{formats.longDay(sample, true)}</li>
+            <li>{formats.dayTime(sample)}</li>
+            <li className="num">
+              {formats.number(1234.5)} · {formats.number(12345.5)} · {formats.percent(0.975, 1)}
+            </li>
+            <li>
+              {t('design.daysLeft', { count: 1 })} · {t('design.daysLeft', { count: 3 })}
+            </li>
           </ul>
         </Card>
       </div>

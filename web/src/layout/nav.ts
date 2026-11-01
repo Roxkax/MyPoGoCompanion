@@ -1,53 +1,62 @@
+import type { NavKey, SectionKey } from '../i18n/keys'
 import type { IconName } from '../components/icons'
 
 export type TabKey = 'today' | 'pokedex' | 'battle' | 'filters' | 'collection'
 
-export interface NavItem<K extends string = string> {
+export interface NavItem<K extends NavKey = NavKey> {
+  /** Also the item's text: nav.<key>. */
   key: K
-  label: string
   icon: IconName
   to: string
 }
 
+/** A section in a tab's switcher; its text is sections.<section>. */
+export interface NavSection {
+  to: string
+  section: SectionKey
+  /** Only this exact address counts as this section (not the addresses below it). */
+  end?: boolean
+}
+
 /** The five tabs (app map): the phone's bottom tab bar and the top of the desktop sidebar. */
 export const tabs: readonly NavItem<TabKey>[] = [
-  { key: 'today', label: 'Today', icon: 'today', to: '/' },
-  { key: 'pokedex', label: 'Pokédex', icon: 'pokedex', to: '/pokedex' },
-  { key: 'battle', label: 'Battle', icon: 'battle', to: '/battle/raids' },
-  { key: 'filters', label: 'Filters', icon: 'filters', to: '/filters' },
-  { key: 'collection', label: 'Collection', icon: 'collection', to: '/collection' },
+  { key: 'today', icon: 'today', to: '/' },
+  { key: 'pokedex', icon: 'pokedex', to: '/pokedex' },
+  { key: 'battle', icon: 'battle', to: '/battle/raids' },
+  { key: 'filters', icon: 'filters', to: '/filters' },
+  { key: 'collection', icon: 'collection', to: '/collection' },
 ]
 
 export type QuickLinkKey = 'calendar' | 'eggs' | 'moves' | 'tiers'
 
 /** The desktop sidebar's quick links, under the tabs. */
 export const quickLinks: readonly NavItem<QuickLinkKey>[] = [
-  { key: 'calendar', label: 'Calendar', icon: 'calendar', to: '/calendar' },
-  { key: 'eggs', label: 'Eggs & research', icon: 'egg', to: '/eggs' },
-  { key: 'moves', label: 'Moves', icon: 'moves', to: '/pokedex/moves' },
-  { key: 'tiers', label: 'Tier lists', icon: 'chart', to: '/battle/tiers' },
+  { key: 'calendar', icon: 'calendar', to: '/calendar' },
+  { key: 'eggs', icon: 'egg', to: '/eggs' },
+  { key: 'moves', icon: 'moves', to: '/pokedex/moves' },
+  { key: 'tiers', icon: 'chart', to: '/battle/tiers' },
 ]
 
 /** Pokédex: Pokémon · Moves · Type chart (on the phone; the desktop reaches them from the sidebar). */
 export const pokedexSections = [
-  { to: '/pokedex', label: 'Pokémon', end: true },
-  { to: '/pokedex/moves', label: 'Moves', end: true },
-  { to: '/pokedex/types', label: 'Type chart', end: true },
-] as const
+  { to: '/pokedex', section: 'pokemon', end: true },
+  { to: '/pokedex/moves', section: 'moves', end: true },
+  { to: '/pokedex/types', section: 'typeChart', end: true },
+] as const satisfies readonly NavSection[]
 
 /** Battle: Raids · Tier lists · Teams. */
 export const battleSections = [
-  { to: '/battle/raids', label: 'Raids', end: true },
-  { to: '/battle/tiers', label: 'Tier lists' },
-  { to: '/battle/teams', label: 'Teams', end: true },
-] as const
+  { to: '/battle/raids', section: 'raids', end: true },
+  { to: '/battle/tiers', section: 'tierLists' },
+  { to: '/battle/teams', section: 'teams', end: true },
+] as const satisfies readonly NavSection[]
 
 /** Filters: Keepers · Builder · Saved. */
 export const filterSections = [
-  { to: '/filters', label: 'Keepers', end: true },
-  { to: '/filters/builder', label: 'Builder', end: true },
-  { to: '/filters/saved', label: 'Saved', end: true },
-] as const
+  { to: '/filters', section: 'keepers', end: true },
+  { to: '/filters/builder', section: 'builder', end: true },
+  { to: '/filters/saved', section: 'saved', end: true },
+] as const satisfies readonly NavSection[]
 
 function segments(pathname: string): string[] {
   return pathname.split('/').filter(Boolean)

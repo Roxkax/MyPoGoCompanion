@@ -7,6 +7,7 @@ import { createRoot } from 'react-dom/client'
 import { App } from './App'
 import { AuthProvider } from './auth/AuthProvider'
 import { applyEnvironment, readEnvironment } from './environment'
+import { LanguageProvider } from './i18n/LanguageProvider'
 import { ThemeProvider } from './theme/ThemeProvider'
 
 const queryClient = new QueryClient()
@@ -16,11 +17,13 @@ applyEnvironment(environment)
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ThemeProvider>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <App environment={environment} />
-        </AuthProvider>
-      </QueryClientProvider>
+      <LanguageProvider>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <App environment={environment} />
+          </AuthProvider>
+        </QueryClientProvider>
+      </LanguageProvider>
     </ThemeProvider>
   </StrictMode>,
 )

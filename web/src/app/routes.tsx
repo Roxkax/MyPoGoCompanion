@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { Navigate, type RouteObject } from 'react-router'
 import type { AppEnvironment } from '../environment'
+import type { SoonKey, TitleKey } from '../i18n/keys'
 import { AppShell, type ScreenHandle } from '../layout/AppShell'
 import { battleSections, filterSections, pokedexSections } from '../layout/nav'
 import { DetailScreen, TabScreen, type BackTarget, type Sections } from '../layout/Screen'
@@ -18,31 +19,26 @@ import { AdminOnly, SignedInOnly } from './guards'
 /*
  * Every screen's address (decision 2026-11-01): English names in lowercase whatever the app language, filters after
  * "?". Screens not built yet show "Coming soon" inside the real shell; each feature swaps in its screen here.
+ * Titles and labels here are keys of the texts (titles.<key>), shown in the app's language.
  */
 
-const pokedex: Sections = { label: 'Pokédex sections', links: pokedexSections }
-const battle: Sections = { label: 'Battle sections', links: battleSections, onDesktop: true }
-const filters: Sections = { label: 'Filter sections', links: filterSections, onDesktop: true }
+const pokedex: Sections = { label: 'pokedex', links: pokedexSections }
+const battle: Sections = { label: 'battle', links: battleSections, onDesktop: true }
+const filters: Sections = { label: 'filters', links: filterSections, onDesktop: true }
 
-interface Soon {
-  screen: string
-  name: string
-  feature: string
-  text: string
-}
-
-function soon(info: Soon): ReactNode {
-  return <ComingSoon {...info} />
+/** A screen not built yet: its texts (soon.<id>), its code in the design and the feature that builds it. */
+function soon(id: SoonKey, screen: string, feature: string): ReactNode {
+  return <ComingSoon id={id} screen={screen} feature={feature} />
 }
 
 function tab(
-  frame: { title: string; desktopTitle?: string; sections?: Sections; search?: boolean },
+  frame: { title: TitleKey; desktopTitle?: TitleKey; sections?: Sections; search?: boolean },
   content: ReactNode,
 ): ReactNode {
   return <TabScreen {...frame}>{content}</TabScreen>
 }
 
-function detail(back: BackTarget, title: string | undefined, content: ReactNode): ReactNode {
+function detail(back: BackTarget, title: TitleKey | undefined, content: ReactNode): ReactNode {
   return (
     <DetailScreen back={back} title={title}>
       {content}
@@ -50,12 +46,12 @@ function detail(back: BackTarget, title: string | undefined, content: ReactNode)
   )
 }
 
-const today = { to: '/', label: 'Today' }
-const calendar = { to: '/calendar', label: 'Calendar' }
-const pokedexBack = { to: '/pokedex', label: 'Pokédex' }
-const moves = { to: '/pokedex/moves', label: 'Moves' }
-const raids = { to: '/battle/raids', label: 'Raids' }
-const collection = { to: '/collection', label: 'Collection' }
+const today: BackTarget = { to: '/', label: 'today' }
+const calendar: BackTarget = { to: '/calendar', label: 'calendar' }
+const pokedexBack: BackTarget = { to: '/pokedex', label: 'pokedex' }
+const moves: BackTarget = { to: '/pokedex/moves', label: 'moves' }
+const raids: BackTarget = { to: '/battle/raids', label: 'raids' }
+const collection: BackTarget = { to: '/collection', label: 'collection' }
 
 function screen(path: string, element: ReactNode, handle: ScreenHandle): RouteObject {
   return { path, element, handle }
@@ -66,271 +62,138 @@ export function appRoutes(environment: AppEnvironment): RouteObject[] {
   const children: RouteObject[] = [
     // A. Today
     { index: true, element: <TodayScreen />, handle: {} satisfies ScreenHandle },
-    screen(
-      'calendar',
-      detail(
-        today,
-        'Calendar',
-        soon({
-          screen: 'A2',
-          name: 'Calendar',
-          feature: 'E06-F02 Calendar',
-          text: 'Raid Hours, Community Days, new raids and events, day by day.',
-        }),
-      ),
-      { title: 'Calendar' },
-    ),
+    screen('calendar', detail(today, 'calendar', soon('calendar', 'A2', 'E06-F02 Calendar')), {
+      title: 'calendar',
+    }),
     screen(
       'calendar/:event',
-      detail(
-        calendar,
-        'Event',
-        soon({
-          screen: 'A3',
-          name: 'Event details',
-          feature: 'E06-F03 Event details',
-          text: 'What the event brings, its bonuses and your copies of the featured Pokémon.',
-        }),
-      ),
-      { title: 'Event' },
+      detail(calendar, 'event', soon('event', 'A3', 'E06-F03 Event details')),
+      { title: 'event' },
     ),
-    screen(
-      'eggs',
-      detail(
-        today,
-        'Eggs & research',
-        soon({
-          screen: 'A4',
-          name: 'Eggs & research',
-          feature: 'E06-F04 Eggs & research',
-          text: 'What hatches from each egg and what research gives, with hundo CPs.',
-        }),
-      ),
-      { title: 'Eggs & research' },
-    ),
+    screen('eggs', detail(today, 'eggs', soon('eggs', 'A4', 'E06-F04 Eggs & research')), {
+      title: 'eggs',
+    }),
 
     // B. Pokédex
     screen(
       'pokedex',
       tab(
-        { title: 'Pokédex', sections: pokedex, search: true },
-        soon({
-          screen: 'B1',
-          name: 'Pokédex',
-          feature: 'E03-F01 Pokédex list',
-          text: 'Every Pokémon with its stats and versions, filtered and sorted your way.',
-        }),
+        { title: 'pokedex', sections: pokedex, search: true },
+        soon('pokedex', 'B1', 'E03-F01 Pokédex list'),
       ),
-      { title: 'Pokédex' },
+      { title: 'pokedex' },
     ),
     screen(
       'pokedex/moves',
       tab(
-        { title: 'Pokédex', desktopTitle: 'Moves', sections: pokedex },
-        soon({
-          screen: 'B3',
-          name: 'Moves',
-          feature: 'E03-F03 Moves list',
-          text: 'Every fast and charged move with its raid and PvP numbers.',
-        }),
+        { title: 'pokedex', desktopTitle: 'moves', sections: pokedex },
+        soon('moves', 'B3', 'E03-F03 Moves list'),
       ),
-      { title: 'Moves' },
+      { title: 'moves' },
     ),
     screen(
       'pokedex/moves/:move',
-      detail(
-        moves,
-        undefined,
-        soon({
-          screen: 'B4',
-          name: 'Move',
-          feature: 'E03-F04 Move page',
-          text: 'A move’s numbers and the Pokémon that learn it.',
-        }),
-      ),
-      { title: 'Move' },
+      detail(moves, undefined, soon('move', 'B4', 'E03-F04 Move page')),
+      { title: 'move' },
     ),
     screen(
       'pokedex/types',
       tab(
-        { title: 'Pokédex', desktopTitle: 'Type chart', sections: pokedex },
-        soon({
-          screen: 'B5',
-          name: 'Type chart',
-          feature: 'E03-F05 Type chart',
-          text: 'What each type is strong and weak against, with Pokémon GO’s multipliers.',
-        }),
+        { title: 'pokedex', desktopTitle: 'typeChart', sections: pokedex },
+        soon('typeChart', 'B5', 'E03-F05 Type chart'),
       ),
-      { title: 'Type chart' },
+      { title: 'typeChart' },
     ),
     screen(
       'pokedex/:pokemon',
-      detail(
-        pokedexBack,
-        undefined,
-        soon({
-          screen: 'B2',
-          name: 'Pokémon',
-          feature: 'E03-F02 Pokémon page',
-          text: 'Stats, moves, IVs, where to get it and every version.',
-        }),
-      ),
-      { title: 'Pokémon' },
+      detail(pokedexBack, undefined, soon('pokemon', 'B2', 'E03-F02 Pokémon page')),
+      { title: 'pokemon' },
     ),
 
     // C. Battle
     { path: 'battle', element: <Navigate to="/battle/raids" replace /> },
     screen(
       'battle/raids',
-      tab(
-        { title: 'Battle', sections: battle },
-        soon({
-          screen: 'C1',
-          name: 'Raid bosses',
-          feature: 'E08-F01 Raid bosses',
-          text: 'Today’s raid bosses and what’s coming, with weaknesses and 100% CPs.',
-        }),
-      ),
-      { title: 'Raids' },
+      tab({ title: 'battle', sections: battle }, soon('raids', 'C1', 'E08-F01 Raid bosses')),
+      { title: 'raids' },
     ),
     screen(
       'battle/raids/:boss',
-      detail(
-        raids,
-        undefined,
-        soon({
-          screen: 'C2',
-          name: 'Raid boss',
-          feature: 'E08-F02 Raid boss page',
-          text: 'The best counters, yours, the boss’s moves and the catch-screen IV check.',
-        }),
-      ),
-      { title: 'Raid boss' },
+      detail(raids, undefined, soon('raidBoss', 'C2', 'E08-F02 Raid boss page')),
+      { title: 'raidBoss' },
     ),
     { path: 'battle/tiers', element: <Navigate to="/battle/tiers/great-league" replace /> },
     ...['battle/tiers/raids/:type?', 'battle/tiers/:league'].map((path) =>
       screen(
         path,
-        tab(
-          { title: 'Battle', sections: battle },
-          soon({
-            screen: 'C3',
-            name: 'Tier lists',
-            feature: 'E08-F03 Tier lists',
-            text: 'PvP leagues from PvPoke and raid attackers per type, in tiers.',
-          }),
-        ),
-        { title: 'Tier lists' },
+        tab({ title: 'battle', sections: battle }, soon('tierLists', 'C3', 'E08-F03 Tier lists')),
+        { title: 'tierLists' },
       ),
     ),
     screen(
       'battle/teams',
-      tab(
-        { title: 'Battle', sections: battle },
-        soon({
-          screen: 'C4',
-          name: 'Best team',
-          feature: 'E08-F04 Best team',
-          text: 'The best six by type or against a boss, from all Pokémon or from yours.',
-        }),
-      ),
-      { title: 'Teams' },
+      tab({ title: 'battle', sections: battle }, soon('teams', 'C4', 'E08-F04 Best team')),
+      { title: 'teams' },
     ),
 
     // D. Filters
     screen(
       'filters',
-      tab(
-        { title: 'Filters', sections: filters },
-        soon({
-          screen: 'D1',
-          name: 'Keeper filters',
-          feature: 'E04-F01 Keeper filters',
-          text: 'Search strings to copy into the game that find the Pokémon worth keeping.',
-        }),
-      ),
-      { title: 'Filters' },
+      tab({ title: 'filters', sections: filters }, soon('keepers', 'D1', 'E04-F01 Keeper filters')),
+      { title: 'filters' },
     ),
     screen(
       'filters/builder',
-      tab(
-        { title: 'Filters', sections: filters },
-        soon({
-          screen: 'D2',
-          name: 'Filter builder',
-          feature: 'E04-F04 Filter builder',
-          text: 'Build your own search string, checked against the game’s rules.',
-        }),
-      ),
-      { title: 'Filter builder' },
+      tab({ title: 'filters', sections: filters }, soon('builder', 'D2', 'E04-F04 Filter builder')),
+      { title: 'filterBuilder' },
     ),
     screen(
       'filters/saved',
       tab(
-        { title: 'Filters', sections: filters },
+        { title: 'filters', sections: filters },
         <SignedInOnly feature="savedFilters">
-          {soon({
-            screen: 'D3',
-            name: 'Saved filters',
-            feature: 'E04-F05 Saved filters',
-            text: 'The search strings you saved, on every device.',
-          })}
+          {soon('saved', 'D3', 'E04-F05 Saved filters')}
         </SignedInOnly>,
       ),
-      { title: 'Saved filters' },
+      { title: 'savedFilters' },
     ),
 
     // E. Collection (signed in only)
     screen(
       'collection',
       tab(
-        { title: 'Collection' },
+        { title: 'collection' },
         <SignedInOnly feature="collection">
-          {soon({
-            screen: 'E1',
-            name: 'My collection',
-            feature: 'E07-F03 Collection list',
-            text: 'Your Pokémon from Poke Genie, ranked for every league and raid.',
-          })}
+          {soon('collection', 'E1', 'E07-F03 Collection list')}
         </SignedInOnly>,
       ),
-      { title: 'Collection' },
+      { title: 'collection' },
     ),
     screen(
       'collection/upload',
       detail(
         collection,
-        'Upload',
+        'upload',
         <SignedInOnly feature="collection">
-          {soon({
-            screen: 'E2',
-            name: 'Upload',
-            feature: 'E07-F01 Poke Genie import',
-            text: 'Upload your Poke Genie export to bring your collection in.',
-          })}
+          {soon('upload', 'E2', 'E07-F01 Poke Genie import')}
         </SignedInOnly>,
       ),
-      { title: 'Upload' },
+      { title: 'upload' },
     ),
     screen(
       'collection/imports/:id',
       detail(
         collection,
-        'Import report',
+        'importReport',
         <SignedInOnly feature="collection">
-          {soon({
-            screen: 'E2',
-            name: 'Import report',
-            feature: 'E07-F02 Re-upload and what changed',
-            text: 'What was imported, what wasn’t recognised and what changed.',
-          })}
+          {soon('importReport', 'E2', 'E07-F02 Re-upload and what changed')}
         </SignedInOnly>,
       ),
-      { title: 'Import report' },
+      { title: 'importReport' },
     ),
     {
       path: 'collection/imports/:id/changes',
-      handle: { title: 'All changes' } satisfies ScreenHandle,
+      handle: { title: 'allChanges' } satisfies ScreenHandle,
       Component: AllChangesScreen,
     },
 
@@ -338,9 +201,9 @@ export function appRoutes(environment: AppEnvironment): RouteObject[] {
     {
       path: 'sign-in',
       element: <SignInRoute />,
-      handle: { title: 'Sign in' } satisfies ScreenHandle,
+      handle: { title: 'signIn' } satisfies ScreenHandle,
     },
-    screen('settings', <SettingsScreen />, { title: 'Settings', hideTabBar: true }),
+    screen('settings', <SettingsScreen />, { title: 'settings', hideTabBar: true }),
 
     // G. Admin (admins only; everyone else gets "Page not found"). Back returns to where the admin came from (the
     // profile menu or the sidebar): a fixed "‹ Settings" would bounce between Admin and Settings, which both hide the
@@ -349,44 +212,30 @@ export function appRoutes(environment: AppEnvironment): RouteObject[] {
       'admin',
       detail(
         'history',
-        'Admin',
-        <AdminOnly>
-          {soon({
-            screen: 'G1',
-            name: 'Data status',
-            feature: 'E10-F01 Data status and re-run',
-            text: 'Every scheduled job with its last run, Run now and the AI spend.',
-          })}
-        </AdminOnly>,
+        'admin',
+        <AdminOnly>{soon('dataStatus', 'G1', 'E10-F01 Data status and re-run')}</AdminOnly>,
       ),
-      { title: 'Admin', hideTabBar: true },
+      { title: 'admin', hideTabBar: true },
     ),
     screen(
       'admin/entries',
       detail(
         'history',
-        'Admin',
-        <AdminOnly>
-          {soon({
-            screen: 'G2',
-            name: 'Fix fetched entries',
-            feature: 'E10-F02 Fix fetched entries',
-            text: 'Fix or remove what the AI researcher fetched; fixed entries stay locked.',
-          })}
-        </AdminOnly>,
+        'admin',
+        <AdminOnly>{soon('entries', 'G2', 'E10-F02 Fix fetched entries')}</AdminOnly>,
       ),
-      { title: 'Admin', hideTabBar: true },
+      { title: 'admin', hideTabBar: true },
     ),
 
     // Google sends people back here after signing in.
-    screen('auth/callback', <CallbackRoute />, { title: 'Signing in', hideTabBar: true }),
+    screen('auth/callback', <CallbackRoute />, { title: 'signingIn', hideTabBar: true }),
   ]
 
   if (environment.kind !== 'production') {
-    children.push(screen('design', <DesignScreen />, { title: 'Design system' }))
+    children.push(screen('design', <DesignScreen />, { title: 'designSystem' }))
   }
 
-  children.push(screen('*', <NotFoundScreen />, { title: 'Page not found' }))
+  children.push(screen('*', <NotFoundScreen />, { title: 'pageNotFound' }))
 
   return [
     {

@@ -39,29 +39,36 @@ export async function buildGoogleSignInUrl(
   return `${googleAuthorizeUrl}?${params}`
 }
 
-/** Why coming back from Google didn't sign the person in. */
+/** Why coming back from Google didn't sign the person in (the screen shows `reason` in the app's language). */
 export class SignInError extends Error {
-  constructor(message: string) {
+  readonly reason: 'cancelled' | 'expired'
+
+  constructor(reason: 'cancelled' | 'expired', message: string) {
     super(message)
     this.name = 'SignInError'
+    this.reason = reason
   }
 }
 
-/** Finishes the sign-in on the callback page: checks the state, then lets the API swap the code for our tokens. */
+/**
+ * Finishes the sign-in on the callback page: checks the state, then lets the API swap the code for our tokens.
+ * `language` is the one the device is showing, for a new account.
+ */
 export async function completeGoogleSignIn(
   search: string,
   origin: string = window.location.origin,
+  language?: string,
 ): Promise<{ session: SessionResponse; returnTo: string }> {
   const params = new URLSearchParams(search)
   const pending = takePendingSignIn()
   if (params.get('error')) {
     // e.g. access_denied when the person closes Google's screen.
-    throw new SignInError('Sign-in was cancelled.')
+    throw new SignInError('cancelled', 'Sign-in was cancelled.')
   }
   const code = params.get('code')
   if (!pending || !code || params.get('state') !== pending.state) {
-    throw new SignInError('This sign-in link has expired. Please try again.')
+    throw new SignInError('expired', 'This sign-in link has expired. Please try again.')
   }
-  const session = await signInWithGoogle(code, pending.verifier, redirectUri(origin))
+  const session = await signInWithGoogle(code, pending.verifier, redirectUri(origin), language)
   return { session, returnTo: pending.returnTo }
 }

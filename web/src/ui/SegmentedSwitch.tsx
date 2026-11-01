@@ -1,4 +1,5 @@
 import { useRef, type KeyboardEvent } from 'react'
+import { useFormats } from '../i18n/languageContext'
 
 export interface SegmentOption<T extends string> {
   value: T
@@ -24,6 +25,7 @@ export function SegmentedSwitch<T extends string>({
   onChange: (value: T) => void
 }) {
   const buttons = useRef<(HTMLButtonElement | null)[]>([])
+  const formats = useFormats()
 
   function onKeyDown(event: KeyboardEvent, index: number) {
     const step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[event.key]
@@ -55,7 +57,7 @@ export function SegmentedSwitch<T extends string>({
             onKeyDown={(event) => onKeyDown(event, index)}
           >
             {option.label}
-            {option.count !== undefined && <i className="num">{option.count}</i>}
+            {option.count !== undefined && <i className="num">{formats.number(option.count)}</i>}
           </button>
         )
       })}

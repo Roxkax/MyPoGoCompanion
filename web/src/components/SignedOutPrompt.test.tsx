@@ -27,6 +27,6 @@ describe('SignedOutPrompt', () => {
 
     await userEvent.click(screen.getByRole('button', { name: 'Continue with Google' }))
 
-    expect(await screen.findByRole('alert')).toHaveTextContent("Couldn't reach the app's server.")
+    expect(await screen.findByRole('alert')).toHaveTextContent('Couldn’t reach the app’s server.')
   })
 })

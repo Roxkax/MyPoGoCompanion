@@ -8,6 +8,8 @@ import { readEnvironment, type AppEnvironment } from '../environment'
 import { desktopQuery } from '../layout/useMediaQuery'
 import { ThemeProvider } from '../theme/ThemeProvider'
 import { ThemeStore } from '../theme/theme'
+import { LanguageStore } from '../i18n/language'
+import { LanguageProvider } from '../i18n/LanguageProvider'
 import { ash, MemoryStorage, sessionFor, testSession } from './auth'
 
 /**
@@ -44,6 +46,8 @@ interface AppOptions {
   session?: SessionManager
   environment?: AppEnvironment
   themes?: ThemeStore
+  /** This device's language (English, nothing saved, when left out). */
+  languages?: LanguageStore
   navigate?: (url: string) => void
 }
 
@@ -53,27 +57,30 @@ export function renderApp(path = '/', options: AppOptions = {}) {
   window.history.replaceState(null, '', path)
   const { session } = options.session ? { session: options.session } : testSession()
   const themes = options.themes ?? new ThemeStore(new MemoryStorage())
+  const languages = options.languages ?? new LanguageStore(new MemoryStorage(), ['en-GB'])
   const result = render(
     <ThemeProvider store={themes}>
-      <QueryClientProvider
-        client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}
-      >
-        <AuthProvider
-          session={session}
-          navigate={options.navigate ?? (() => {})}
-          pathname={new URL(path, 'http://localhost').pathname}
+      <LanguageProvider store={languages}>
+        <QueryClientProvider
+          client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}
         >
-          <App
-            environment={options.environment ?? readEnvironment({ VITE_APP_ENV: 'production' })}
-          />
-        </AuthProvider>
-      </QueryClientProvider>
+          <AuthProvider
+            session={session}
+            navigate={options.navigate ?? (() => {})}
+            pathname={new URL(path, 'http://localhost').pathname}
+          >
+            <App
+              environment={options.environment ?? readEnvironment({ VITE_APP_ENV: 'production' })}
+            />
+          </AuthProvider>
+        </QueryClientProvider>
+      </LanguageProvider>
     </ThemeProvider>,
   )
   if (options.user) {
     act(() => session.accept(sessionFor(options.user)))
   }
-  return { ...result, session, themes, viewport }
+  return { ...result, session, themes, languages, viewport }
 }
 
 export const admin: Me = { ...ash, role: 'Admin' }

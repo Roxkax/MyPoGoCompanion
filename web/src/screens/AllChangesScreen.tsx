@@ -7,14 +7,9 @@ import { ComingSoon } from './ComingSoon'
 export function AllChangesScreen() {
   const { id } = useParams()
   return (
-    <DetailScreen back={{ to: `/collection/imports/${id}`, label: 'Report' }} title="All changes">
+    <DetailScreen back={{ to: `/collection/imports/${id}`, label: 'report' }} title="allChanges">
       <SignedInOnly feature="collection">
-        <ComingSoon
-          screen="E2"
-          name="All changes"
-          feature="E07-F02 Re-upload and what changed"
-          text="Every Pokémon that changed, arrived or left with this upload."
-        />
+        <ComingSoon id="allChanges" screen="E2" feature="E07-F02 Re-upload and what changed" />
       </SignedInOnly>
     </DetailScreen>
   )

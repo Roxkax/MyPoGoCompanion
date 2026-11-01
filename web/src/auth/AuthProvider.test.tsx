@@ -78,8 +78,8 @@ describe('AuthProvider', () => {
   })
 
   it.each([
-    [503, "Sign-in isn't set up on this server yet."],
-    [500, "Couldn't reach the app's server. Check your connection and try again."],
+    [503, 'notSetUp'],
+    [500, 'unreachable'],
   ])('explains a failed start (%s)', async (status, message) => {
     vi.stubGlobal(
       'fetch',

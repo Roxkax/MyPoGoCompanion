@@ -2,7 +2,15 @@ import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { writePendingSignIn } from '../auth/storage'
-import { ash, renderWithAuth, routeFetch, sessionFor, testSession } from '../testing/auth'
+import { LanguageStore } from '../i18n/language'
+import {
+  ash,
+  MemoryStorage,
+  renderWithAuth,
+  routeFetch,
+  sessionFor,
+  testSession,
+} from '../testing/auth'
 import { AuthCallback } from './AuthCallback'
 import { SignInDialog } from './SignInDialog'
 
@@ -25,6 +33,24 @@ describe('AuthCallback', () => {
     expect(screen.getByRole('status')).toHaveTextContent('Signing you in…')
     await vi.waitFor(() => expect(onDone).toHaveBeenCalledWith('/collection'))
     expect(session.getState()).toEqual({ status: 'signedIn', user: ash })
+  })
+
+  it('tells the API which language this device shows, for a new account', async () => {
+    writePendingSignIn({ state: 'abc', verifier: 'v'.repeat(64), returnTo: '/' })
+    window.history.replaceState(null, '', '/auth/callback?code=c&state=abc')
+    const bodies: unknown[] = []
+    vi.stubGlobal('fetch', (_url: string, init: RequestInit) => {
+      bodies.push(JSON.parse(init.body as string))
+      return Promise.resolve(Response.json(sessionFor()))
+    })
+    const onDone = vi.fn()
+    const languages = new LanguageStore(new MemoryStorage(), ['pt-PT'])
+
+    renderWithAuth(<AuthCallback onDone={onDone} />, { pathname: '/auth/callback', languages })
+
+    expect(screen.getByRole('status')).toHaveTextContent('A iniciar sessão…')
+    await vi.waitFor(() => expect(onDone).toHaveBeenCalled())
+    expect(bodies).toEqual([expect.objectContaining({ language: 'pt-PT' })])
   })
 
   it('explains an expired link and offers to try again or go back', async () => {
@@ -54,7 +80,7 @@ describe('AuthCallback', () => {
     renderWithAuth(<AuthCallback onDone={() => {}} />, { pathname: '/auth/callback' })
 
     expect(await screen.findByRole('alert')).toHaveTextContent(
-      "Google didn't confirm the sign-in. Please try again.",
+      'Google didn’t confirm the sign-in. Please try again.',
     )
   })
 })

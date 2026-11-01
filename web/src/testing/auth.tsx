@@ -5,6 +5,8 @@ import { MemoryRouter } from 'react-router'
 import type { Me, SessionResponse } from '../auth/authApi'
 import { AuthProvider } from '../auth/AuthProvider'
 import { SessionManager, type SessionDependencies } from '../auth/session'
+import { LanguageStore } from '../i18n/language'
+import { LanguageProvider } from '../i18n/LanguageProvider'
 
 /** A Storage kept in memory, so tests don't share the browser's. */
 export class MemoryStorage implements Storage {
@@ -74,21 +76,26 @@ export function renderWithAuth(
     pathname?: string
     /** The address the component is shown at (it sits inside a router, as in the app). */
     route?: string
+    /** This device's language (English, nothing saved, when left out). */
+    languages?: LanguageStore
   } = {},
 ) {
   const session = options.session ?? testSession().session
+  const languages = options.languages ?? new LanguageStore(new MemoryStorage(), ['en-GB'])
   const result = render(
-    <QueryClientProvider client={new QueryClient()}>
-      <AuthProvider
-        session={session}
-        navigate={options.navigate ?? (() => {})}
-        pathname={options.pathname ?? '/'}
-      >
-        <MemoryRouter initialEntries={[options.route ?? '/']}>{ui}</MemoryRouter>
-      </AuthProvider>
-    </QueryClientProvider>,
+    <LanguageProvider store={languages}>
+      <QueryClientProvider client={new QueryClient()}>
+        <AuthProvider
+          session={session}
+          navigate={options.navigate ?? (() => {})}
+          pathname={options.pathname ?? '/'}
+        >
+          <MemoryRouter initialEntries={[options.route ?? '/']}>{ui}</MemoryRouter>
+        </AuthProvider>
+      </QueryClientProvider>
+    </LanguageProvider>,
   )
-  return { ...result, session }
+  return { ...result, session, languages }
 }
 
 /** fetch answering by path: each entry is the response for URLs ending with that path. */

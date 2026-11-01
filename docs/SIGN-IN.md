@@ -5,7 +5,7 @@ How signing in works, how to set it up for QA, prod and your computer, and the s
 ## How it works
 
 1. **Continue with Google** sends the browser to Google with the app's client id, a random `state` and a PKCE challenge: the SHA-256 of a secret the browser keeps (authorization code + PKCE).
-2. Google sends the browser back to the web app's `/auth/callback` with a one-time code. The web app checks the `state`, then passes the code and the PKCE secret to the API (`POST /auth/google`).
+2. Google sends the browser back to the web app's `/auth/callback` with a one-time code. The web app checks the `state`, then passes the code, the PKCE secret and the language the device is showing to the API (`POST /auth/google`). A new account starts with that language; an existing account keeps its own, and the device switches to it (E01-F04).
 3. The API swaps the code with Google using the client secret, which only the API knows. It checks that the answer is a real, verified Google account for our client, creates or updates the `users` row (name, email, picture) and throws Google's own tokens away.
 4. The API answers with **its own tokens**:
    - an **access token**: signed, 15 minutes, kept only in the page's memory and sent with each API call;

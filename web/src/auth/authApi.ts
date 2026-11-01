@@ -54,14 +54,16 @@ export async function fetchGoogleClientId(): Promise<string> {
   return (await send<{ clientId: string }>('/auth/google/client')).clientId
 }
 
+/** `language`: the one the device is showing; a new account starts with it (an existing one keeps its own). */
 export function signInWithGoogle(
   code: string,
   codeVerifier: string,
   redirectUri: string,
+  language?: string,
 ): Promise<SessionResponse> {
   return send('/auth/google', {
     method: 'POST',
-    body: JSON.stringify({ code, codeVerifier, redirectUri }),
+    body: JSON.stringify({ code, codeVerifier, redirectUri, language }),
   })
 }
 
@@ -71,6 +73,15 @@ export function refreshSession(refreshToken: string): Promise<SessionResponse> {
 
 export function signOut(refreshToken: string): Promise<void> {
   return send('/auth/sign-out', { method: 'POST', body: JSON.stringify({ refreshToken }) })
+}
+
+/** Saves the interface language with the account (en or pt-PT). */
+export function saveLanguage(accessToken: string, language: string): Promise<void> {
+  return send('/me/language', {
+    method: 'PUT',
+    headers: { Authorization: `Bearer ${accessToken}` },
+    body: JSON.stringify({ language }),
+  })
 }
 
 export function signOutEverywhere(accessToken: string): Promise<void> {

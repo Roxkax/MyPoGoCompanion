@@ -6,7 +6,7 @@ import { describe, expect, it, vi } from 'vitest'
 import { Card } from './Card'
 import { Chip } from './Chip'
 import { Pill } from './Pill'
-import { isPokemonType, pokemonTypes, typeName, versionKinds } from './pokemonTypes'
+import { isPokemonType, pokemonTypes, versionKinds } from './pokemonTypes'
 import { SegmentedLinks } from './SegmentedLinks'
 import { SegmentedSwitch } from './SegmentedSwitch'
 import { SpriteBox } from './SpriteBox'
@@ -96,7 +96,6 @@ describe('types and versions', () => {
     expect(pokemonTypes[0]).toBe('normal')
     expect(isPokemonType('dragon')).toBe(true)
     expect(isPokemonType('shadow')).toBe(false)
-    expect(typeName('electric')).toBe('Electric')
   })
 
   it('a type badge shows the type in its colour', () => {

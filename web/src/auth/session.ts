@@ -68,6 +68,13 @@ export class SessionManager {
     this.setState({ status: 'signedIn', user: session.user })
   }
 
+  /** The signed-in person's details changed on the server (e.g. their language): show the new ones. */
+  updateUser(changes: Partial<Me>): void {
+    if (this.state.status === 'signedIn') {
+      this.setState({ status: 'signedIn', user: { ...this.state.user, ...changes } })
+    }
+  }
+
   /** A valid access token for an API call, refreshing first when it is about to run out; null when signed out. */
   async getAccessToken(): Promise<string | null> {
     if (this.accessToken && this.accessTokenExpiresAt - earlyRefreshMs > this.deps.now()) {

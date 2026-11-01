@@ -1,8 +1,10 @@
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Outlet, ScrollRestoration, useMatches } from 'react-router'
 import { SignInDialog } from '../components/SignInDialog'
 import { EnvironmentBanner } from '../components/EnvironmentBanner'
 import type { AppEnvironment } from '../environment'
+import type { TitleKey } from '../i18n/keys'
 import { Overlays } from './Overlays'
 import { useOverlay } from './overlay'
 import { Sidebar } from './Sidebar'
@@ -12,8 +14,8 @@ import { useIsDesktop } from './useMediaQuery'
 
 /** What a route tells the shell about its screen (React Router's `handle`). */
 export interface ScreenHandle {
-  /** The browser tab's title for the screen (Today shows just the app's name). */
-  title?: string
+  /** The browser tab's title for the screen, titles.<title> (Today shows just the app's name). */
+  title?: TitleKey
   /** Settings and Admin hide the phone's tab bar (approved screens F2, G1, G2). */
   hideTabBar?: boolean
 }
@@ -34,10 +36,12 @@ export function AppShell({ environment }: { environment: AppEnvironment }) {
   const desktop = useIsDesktop()
   const handle = useScreenHandle()
   const { open, current } = useOverlay()
+  const { t } = useTranslation()
+  const title = handle.title && t(`titles.${handle.title}`)
 
   useEffect(() => {
-    document.title = handle.title ? `${handle.title} · ${environment.title}` : environment.title
-  }, [handle.title, environment.title])
+    document.title = title ? `${title} · ${environment.title}` : environment.title
+  }, [title, environment.title])
 
   // Ctrl K / ⌘ K opens search from anywhere.
   useEffect(() => {
