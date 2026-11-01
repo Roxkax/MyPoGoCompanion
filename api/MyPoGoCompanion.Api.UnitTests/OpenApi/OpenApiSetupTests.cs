@@ -1,7 +1,15 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OpenApi;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi;
 using MyPoGoCompanion.Api.Health;
 using MyPoGoCompanion.Api.OpenApi;
@@ -121,5 +129,72 @@ public class OpenApiSetupTests
         }
 
         Assert.Contains(typeof(ProblemDetails), OpenApiExamples.Types);
+    }
+
+    /// <summary>A tiny app with the API's document set-up: one open endpoint and one that needs sign-in.</summary>
+    private static WebApplication App(bool docsEnabled)
+    {
+        var builder = WebApplication.CreateSlimBuilder();
+        builder.WebHost.UseUrls("http://127.0.0.1:0");
+        builder.Configuration["ApiDocs:Enabled"] = docsEnabled ? "true" : "false";
+        builder.Services.ConfigureHttpJsonOptions(options => options.SerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+        builder.Services.AddAuthorization();
+        builder.Services.AddApiDocument();
+        var app = builder.Build();
+        app.MapGet("/open", () => TypedResults.Ok(OpenApiExamples.For(typeof(HealthResponse)) as HealthResponse))
+            .WithName("Open")
+            .ProducesProblem(StatusCodes.Status429TooManyRequests);
+        app.MapGet("/closed", () => TypedResults.NoContent())
+            .WithName("Closed")
+            .RequireAuthorization()
+            .ProducesProblem(StatusCodes.Status401Unauthorized);
+        app.MapApiDocument();
+        return app;
+    }
+
+    /// <summary>The document as the API builds it (the app has to start: its endpoints join the document then).</summary>
+    private static async Task<OpenApiDocument> DocumentAsync(WebApplication app)
+    {
+        await app.StartAsync(TestContext.Current.CancellationToken);
+        return await app.Services.GetRequiredKeyedService<IOpenApiDocumentProvider>("v1")
+            .GetOpenApiDocumentAsync(TestContext.Current.CancellationToken);
+    }
+
+    [Fact]
+    public async Task AddApiDocument_DescribesTokenNeedsExamplesAndEnums()
+    {
+        await using var app = App(docsEnabled: false);
+
+        var document = await DocumentAsync(app);
+
+        Assert.Equal("MyPoGoCompanion API", document.Info.Title);
+        Assert.Empty(document.Servers ?? []);
+        Assert.Equal(["/closed", "/open"], document.Paths.Keys.Order(StringComparer.Ordinal));
+        var closed = document.Paths["/closed"].Operations![HttpMethod.Get];
+        var open = document.Paths["/open"].Operations![HttpMethod.Get];
+        Assert.Single(closed.Security!);
+        Assert.Null(open.Security);
+        Assert.Equal(["200", "429"], open.Responses!.Keys);
+        var health = Assert.IsType<OpenApiSchema>(document.Components!.Schemas!["HealthResponse"]);
+        Assert.Equal("3cd4b0c", Assert.Single(health.Examples!)!["version"]!.GetValue<string>());
+        var status = Assert.IsType<OpenApiSchema>(document.Components.Schemas[nameof(HealthStatus)]);
+        Assert.Equal(JsonSchemaType.String, status.Type);
+    }
+
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task MapApiDocument_DocsPageOnlyWhenSwitchedOn(bool enabled)
+    {
+        await using var app = App(enabled);
+
+        var routes = ((IEndpointRouteBuilder)app).DataSources
+            .SelectMany(source => source.Endpoints)
+            .OfType<RouteEndpoint>()
+            .Select(endpoint => endpoint.RoutePattern.RawText ?? string.Empty)
+            .ToList();
+
+        Assert.Contains(routes, route => route.StartsWith("/openapi/", StringComparison.Ordinal));
+        Assert.Equal(enabled, routes.Exists(route => route.StartsWith(OpenApiSetup.DocsPath, StringComparison.Ordinal)));
     }
 }
