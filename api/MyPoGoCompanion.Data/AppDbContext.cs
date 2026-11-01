@@ -77,6 +77,11 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbCon
 
     public DbSet<CollectionChange> CollectionChanges => Set<CollectionChange>();
 
+    // Signing in and roles.
+    public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
+
+    public DbSet<RoleChange> RoleChanges => Set<RoleChange>();
+
     // Running the system.
     public DbSet<JobRun> JobRuns => Set<JobRun>();
 

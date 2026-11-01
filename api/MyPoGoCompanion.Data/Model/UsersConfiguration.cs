@@ -13,6 +13,41 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
     {
         builder.ToTable("users", table => table.HasCheckConstraint("ck_users_language", Checks.Language));
         builder.HasIndex(user => user.GoogleSubject).IsUnique();
+        builder.Property(user => user.Role).HasDefaultValue(UserRole.User).HasSentinel(UserRole.User);
+        builder.HasOne(user => user.RoleGrantedBy).WithMany().HasForeignKey(user => user.RoleGrantedByUserId)
+            .OnDelete(DeleteBehavior.SetNull);
+    }
+}
+
+internal sealed class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
+{
+    public void Configure(EntityTypeBuilder<RefreshToken> builder)
+    {
+        builder.ToTable("refresh_tokens", table =>
+        {
+            table.HasCheckConstraint("ck_refresh_tokens_hash", "token_hash ~ '^[0-9a-f]{64}$'");
+            table.HasCheckConstraint("ck_refresh_tokens_expiry", "expires_at > created_at");
+        });
+        builder.Property(token => token.TokenHash).HasMaxLength(64);
+        builder.Property(token => token.UsedAt).IsConcurrencyToken();
+        builder.Property(token => token.RevokedAt).IsConcurrencyToken();
+        builder.HasIndex(token => token.TokenHash).IsUnique();
+        builder.HasIndex(token => token.SessionId);
+        builder.HasIndex(token => token.UserId);
+        builder.HasOne(token => token.User).WithMany().OnDelete(DeleteBehavior.Cascade);
+    }
+}
+
+internal sealed class RoleChangeConfiguration : IEntityTypeConfiguration<RoleChange>
+{
+    public void Configure(EntityTypeBuilder<RoleChange> builder)
+    {
+        builder.ToTable("role_changes", table => table.HasCheckConstraint("ck_role_changes_change", "\"from\" <> \"to\""));
+        builder.HasIndex(change => new { change.UserId, change.At });
+        builder.HasOne(change => change.User).WithMany().HasForeignKey(change => change.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+        builder.HasOne(change => change.ChangedBy).WithMany().HasForeignKey(change => change.ChangedByUserId)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }
 
