@@ -559,7 +559,7 @@
             "format": "date-time"
           }
         },
-        "description": "A user as the super admin sees them in Users &amp; roles."
+        "description": "A user as the super admin sees them in Users and roles."
       },
       "EffectiveRole": {
         "enum": [

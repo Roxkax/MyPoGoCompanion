@@ -8,7 +8,7 @@ using MyPoGoCompanion.Data.Users;
 
 namespace MyPoGoCompanion.Api.Admin;
 
-/// <summary>A user as the super admin sees them in Users &amp; roles.</summary>
+/// <summary>A user as the super admin sees them in Users and roles.</summary>
 /// <param name="Id">The user's id.</param>
 /// <param name="Name">The name from their Google account.</param>
 /// <param name="Email">The email Google confirmed.</param>

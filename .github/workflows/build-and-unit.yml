@@ -109,6 +109,15 @@ jobs:
       - name: Install
         run: npm ci --no-audit --no-fund
 
+      - name: Contract check — the generated API client matches the OpenAPI document
+        # Regenerates src/api/generated/ from api/openapi.json; a difference means it wasn't regenerated (docs/API.md).
+        run: |
+          npm run api:generate
+          if ! git diff --exit-code -- src/api/generated; then
+            echo "::error file=web/src/api/generated/schema.ts::The generated API client is out of date. Run npm run api:generate in web/ and commit it."
+            exit 1
+          fi
+
       - name: Lint
         run: npm run lint
 

@@ -1,6 +1,6 @@
 # web/
 
-The web app: a Vite single-page React + TypeScript app, installable (PWA) with a read-only offline cache. Calls the API through the client generated from its OpenAPI description. Deployed to Azure Static Web Apps (production and the `qa` environment).
+The web app: a Vite single-page React + TypeScript app, installable (PWA) with a read-only offline cache. Calls the API through the client generated from its OpenAPI description (`src/api/`). Deployed to Azure Static Web Apps (production and the `qa` environment).
 
 QA and local copies show which copy they are (orange "QA" strip, grey "Local" strip, tab title and icon); production shows nothing extra. Set at build time with `VITE_APP_ENV` (`production`, `qa`, otherwise local) plus `VITE_PR_NUMBER` and `VITE_APP_VERSION` on QA: `src/environment.ts`.
 
@@ -31,6 +31,10 @@ English and Português (Portugal), with i18next. Both languages are in the bundl
 
 **Adding text:** add the key to `en.ts` and `pt-PT.ts`, then `const { t } = useTranslation()` and `t('section.key')` (keys are type-checked). Routes and navigation pass keys (`titles.<key>`, `nav.<key>`, `sections.<key>`), not text. `everyScreen.test.tsx` opens every address in Portuguese and fails if an English text is left on screen. Addresses, search strings, Pokémon GO's search keywords and backlog feature names stay in English.
 
+## API client (E01-F05)
+
+Typed from the API's OpenAPI document: `src/api/generated/schema.ts` is generated from `api/openapi.json` (`npm run api:generate`) and committed; `src/api/client.ts` has the client (`api.GET('/me')`) and the TanStack Query hooks (`$api.useQuery('get', '/health')`), and adds the access token while signed in. The `build-and-unit` check fails when the generated file is out of date. Details: `docs/API.md`.
+
 ## TypeScript: two versions side by side
 
 `tsc` (type check and build) is **TypeScript 7**, the fast native compiler. TypeScript 7.0 has no programmatic API yet, and `typescript-eslint` needs one, so the package named `typescript` is Microsoft's compatibility package with the **TypeScript 6** API (`@typescript/typescript6`, which also gives a `tsc6` command). In `package.json`:
@@ -39,5 +43,7 @@ English and Português (Portugal), with i18next. Both languages are in the bundl
 | ------------------------------------------------- | ------------------------- | --------------------------------------------------------------------- |
 | `"@typescript/native": "npm:typescript@^7…"`      | TypeScript 7 (`tsc`)      | `npm run typecheck`, `npm run build`                                  |
 | `"typescript": "npm:@typescript/typescript6@^6…"` | TypeScript 6 API (`tsc6`) | ESLint (`typescript-eslint`) and other tools that import `typescript` |
+
+`openapi-typescript` (the API client generator) also imports `typescript` and declares TypeScript 5 as a peer; the `overrides` entry in `package.json` gives it the same TypeScript 6 API package, which it works with.
 
 When `typescript-eslint` supports TypeScript 7 (planned for 7.1, typescript-eslint issue #10940), drop the alias and depend on `typescript` 7 directly. `tests/ui/` has no ESLint and uses TypeScript 7 directly.

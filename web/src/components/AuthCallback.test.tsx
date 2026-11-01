@@ -13,6 +13,7 @@ import {
 } from '../testing/auth'
 import { AuthCallback } from './AuthCallback'
 import { SignInDialog } from './SignInDialog'
+import { readRequest } from '../testing/fetch'
 
 beforeEach(() => sessionStorage.clear())
 afterEach(() => {
@@ -39,9 +40,9 @@ describe('AuthCallback', () => {
     writePendingSignIn({ state: 'abc', verifier: 'v'.repeat(64), returnTo: '/' })
     window.history.replaceState(null, '', '/auth/callback?code=c&state=abc')
     const bodies: unknown[] = []
-    vi.stubGlobal('fetch', (_url: string, init: RequestInit) => {
-      bodies.push(JSON.parse(init.body as string))
-      return Promise.resolve(Response.json(sessionFor()))
+    vi.stubGlobal('fetch', async (input: RequestInfo | URL, init?: RequestInit) => {
+      bodies.push((await readRequest(input, init)).body)
+      return Response.json(sessionFor())
     })
     const onDone = vi.fn()
     const languages = new LanguageStore(new MemoryStorage(), ['pt-PT'])
