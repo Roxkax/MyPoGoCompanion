@@ -161,14 +161,13 @@ test('a returning visitor stays signed in; the account menu signs out', async ({
 
 test('the real API answers the sign-in set-up question', async ({ page, request }) => {
   // On QA this is the deployed API: 200 with a client id once Google is set up, 503 before. Never a crash.
-  await page.goto('/')
-  const apiUrl = await page.evaluate(() =>
-    performance
-      .getEntriesByType('resource')
-      .map((entry) => entry.name)
-      .find((name) => name.endsWith('/health')),
-  )
-  test.skip(!apiUrl, 'the page did not call the API')
-  const response = await request.get(apiUrl!.replace(/\/health$/, '/auth/google/client'))
+  const [health] = await Promise.all([
+    page.waitForRequest((r) => new URL(r.url()).pathname === '/health'),
+    page.goto('/'),
+  ])
+  const response = await request.get(health.url().replace(/\/health$/, '/auth/google/client'))
   expect([200, 503]).toContain(response.status())
+  if (response.status() === 200) {
+    expect((await response.json()).clientId).toBeTruthy()
+  }
 })
