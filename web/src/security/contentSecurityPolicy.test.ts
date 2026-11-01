@@ -9,6 +9,8 @@ describe('Content Security Policy', () => {
     expect(policy).toContain("connect-src 'self' https://api-prod.example.azurecontainerapps.io;")
     expect(policy).toContain("img-src 'self' data: https://lh3.googleusercontent.com;")
     expect(policy).toContain("frame-ancestors 'none'")
+    expect(policy).toContain("worker-src 'self';")
+    expect(policy).toContain("manifest-src 'self';")
     expect(policy).not.toContain('unsafe')
   })
 
