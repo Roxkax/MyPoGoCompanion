@@ -251,6 +251,7 @@ Board: https://github.com/users/Roxkax/projects/2 (kept in sync by the `Project 
 | 2026-11-01 | **The uploaded Poke Genie file is not kept** (owner, option A): an upload becomes the collection rows, the unrecognised rows with their reasons, and the changes since the previous upload; better matching later means uploading again. Not chosen: storing every uploaded file (~1 MB each) for automatic re-matching. |
 | 2026-11-01 | **Every upload's changes are kept** (owner, option A): new / gone / changed per upload stay in the database (a few KB each), so the later "Import history" feature has the full history from the first upload. Not chosen: keeping only the latest upload's changes. |
 | 2026-11-01 | **An entry the admin removes stays removed** (owner, option A): it is hidden everywhere and the weekly AI researcher doesn't add it back, even if the source still lists it, the same lock as fixed entries; un-removing comes with the admin screen (E10-F02). Not chosen: removal lasting only until the next weekly run. |
+| 2026-11-01 | **QA and local copies of the web app are marked** (owner's request; look confirmed): QA shows an orange strip "QA · Test version, not the real app · PR #n · commit", a "QA" pill next to the name, an orange tab icon and the tab title "QA · MyPoGoCompanion"; the dev server the same in grey with "Local"; production nothing extra. Set at build time with `VITE_APP_ENV` (an unmarked build counts as local, never as prod). |
 
 ## Open decisions
 
