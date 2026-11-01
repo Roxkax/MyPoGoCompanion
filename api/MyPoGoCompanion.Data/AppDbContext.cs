@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 using MyPoGoCompanion.Data.GameData;
 using MyPoGoCompanion.Data.LiveData;
 using MyPoGoCompanion.Data.Operations;
@@ -84,7 +85,9 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbCon
     public DbSet<AdminFix> AdminFixes => Set<AdminFix>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
-        optionsBuilder.UseSnakeCaseNamingConvention();
+        optionsBuilder
+            .UseSnakeCaseNamingConvention()
+            .ReplaceService<IHistoryRepository, MigrationHistory>();
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
