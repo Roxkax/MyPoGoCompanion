@@ -1,12 +1,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
 using MyPoGoCompanion.Api.Configuration;
 using MyPoGoCompanion.Api.Health;
+using MyPoGoCompanion.Data;
 using Npgsql;
 
 namespace MyPoGoCompanion.Api.UnitTests;
@@ -30,6 +32,18 @@ public class ServiceSetupTests
         Assert.Contains("Host=db.example", dataSource.ConnectionString, StringComparison.Ordinal);
     }
 
+    [Fact]
+    public void AddDatabase_WithConnectionString_RegistersTheDbContextOnTheDataSource()
+    {
+        using var services = new ServiceCollection()
+            .AddDatabase(Config(("ConnectionStrings:Database", "Host=db.example;Database=app;Username=u;Password=p")))
+            .BuildServiceProvider();
+        using var scope = services.CreateScope();
+
+        var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        Assert.Contains("Host=db.example", context.Database.GetConnectionString(), StringComparison.Ordinal);
+    }
+
     [Theory]
     [InlineData(null)]
     [InlineData("  ")]
@@ -40,6 +54,7 @@ public class ServiceSetupTests
             .BuildServiceProvider();
 
         Assert.Null(services.GetService<NpgsqlDataSource>());
+        Assert.Null(services.GetService<AppDbContext>());
     }
 
     [Fact]

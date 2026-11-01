@@ -6,6 +6,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MyPoGoCompanion.Data\MyPoGoCompanion.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <InternalsVisibleTo Include="MyPoGoCompanion.Api.UnitTests" />
   </ItemGroup>
 

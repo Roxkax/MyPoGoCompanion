@@ -57,6 +57,14 @@ public sealed class PostgresFixture : IAsyncLifetime
         return ConnectionStringFor(name);
     }
 
+    /// <summary>A new, empty database (no migrations applied), for tests of migrating and seeding from scratch.</summary>
+    public async Task<string> CreateEmptyDatabaseAsync(CancellationToken cancellationToken = default)
+    {
+        var name = $"empty_{Interlocked.Increment(ref _databases)}";
+        await ExecuteAsync($"create database {name}", cancellationToken);
+        return ConnectionStringFor(name);
+    }
+
     public static AppDbContext CreateContext(string connectionString) =>
         new(new DbContextOptionsBuilder<AppDbContext>().UseNpgsql(connectionString).Options);
 

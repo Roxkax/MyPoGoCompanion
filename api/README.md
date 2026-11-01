@@ -8,7 +8,7 @@ Projects (`Core` arrives with the calculation engine):
 |---|---|
 | `MyPoGoCompanion.Api/` | Endpoints, sign-in, OpenAPI, Dockerfile (deployed to Azure Container Apps `api-prod` / `api-qa`). Today: `/health`, `/health/live`, `/openapi/v1.json` |
 | `MyPoGoCompanion.Core/` | Domain model, calculation engine (C# port of the keeper-filters pipeline), search-string simulator; shared with `jobs/` |
-| `MyPoGoCompanion.Data/` | EF Core `AppDbContext`, entities and migrations (today: the empty `Baseline` migration; the schema comes with E01-F01) |
+| `MyPoGoCompanion.Data/` | EF Core `AppDbContext`, entities by area (`GameData/`, `Rankings/`, `LiveData/`, `Users/`, `Operations/`), their table setup (`Model/`), migrations and the dev seed (`Seed/`). Tables and rules: `docs/DATABASE.md` |
 | `*.UnitTests/` | xUnit v3 unit tests (Microsoft Testing Platform), one project next to each project above |
 
 Integration tests against a real PostgreSQL live in `tests/`.

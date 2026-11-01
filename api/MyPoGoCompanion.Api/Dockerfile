@@ -8,9 +8,11 @@ WORKDIR /src
 # Restore first, so the package layer is reused while only code changes.
 COPY global.json Directory.Build.props Directory.Packages.props .editorconfig ./
 COPY api/MyPoGoCompanion.Api/MyPoGoCompanion.Api.csproj api/MyPoGoCompanion.Api/
+COPY api/MyPoGoCompanion.Data/MyPoGoCompanion.Data.csproj api/MyPoGoCompanion.Data/
 RUN dotnet restore api/MyPoGoCompanion.Api/MyPoGoCompanion.Api.csproj
 
 COPY api/MyPoGoCompanion.Api/ api/MyPoGoCompanion.Api/
+COPY api/MyPoGoCompanion.Data/ api/MyPoGoCompanion.Data/
 RUN dotnet publish api/MyPoGoCompanion.Api/MyPoGoCompanion.Api.csproj --no-restore -c Release -o /app /p:UseAppHost=false
 
 # Chiseled: no shell or package manager, runs as a non-root user; enough for this app (invariant globalization).

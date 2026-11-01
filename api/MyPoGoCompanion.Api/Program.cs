@@ -22,4 +22,9 @@ app.UseCors();
 app.MapOpenApi();
 app.MapHealthEndpoints();
 
-app.Run();
+if (app.Environment.IsDevelopment())
+{
+    await DevelopmentDatabase.MigrateAndSeedAsync(app.Services);
+}
+
+await app.RunAsync();
