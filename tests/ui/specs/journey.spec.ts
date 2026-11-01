@@ -1,8 +1,8 @@
 import { expect, test, type Page } from '@playwright/test'
 
-// The first smoke journey (E00-F07): what a visitor does first, as one test. On QA the data and version are real,
-// so it checks behaviour, not fixed values. It grows with the app: the tab bar and the in-app theme choice
-// (Settings: follow device / light / dark) arrive with the app shell (E01-F03), which adds those steps here.
+// The smoke journey (E00-F07, extended with the app shell in E01-F03): what a visitor does first, as one test. On QA
+// the data and version are real, so it checks behaviour, not fixed values: open the app, go through the tabs, follow
+// the device's theme, then pick a theme in Settings.
 
 /** How light the page background is, from 0 (black) to 1 (white). */
 async function backgroundLightness(page: Page): Promise<number> {
@@ -23,16 +23,17 @@ async function expectTheme(page: Page, theme: 'light' | 'dark') {
 /** Which copy of the app the tests expect: "qa" in the QA deploy, "local" by default (web/src/environment.ts). */
 const expectedEnv = process.env.EXPECTED_ENV ?? 'local'
 
-test('smoke journey: open the app, then switch the theme', async ({ page }, testInfo) => {
+test('smoke journey: open the app, go through the tabs, switch the theme', async ({
+  page,
+}, testInfo) => {
   const startTheme = testInfo.project.name.endsWith('dark') ? 'dark' : 'light'
   const otherTheme = startTheme === 'dark' ? 'light' : 'dark'
+  const desktop = testInfo.project.name.startsWith('desktop')
 
-  await test.step('open the app', async () => {
+  await test.step('open the app on Today', async () => {
     await page.goto('/')
     await expect(page).toHaveTitle(/MyPoGoCompanion$/)
-    await expect(page.getByRole('banner')).toContainText('MyPoGoCompanion')
-    await expect(page.getByRole('main').getByRole('heading', { level: 1 })).toBeVisible()
-    await expect(page.getByRole('contentinfo')).toContainText('Unofficial fan project')
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Today')
   })
 
   await test.step(`it says which copy of the app this is (${expectedEnv})`, async () => {
@@ -66,6 +67,55 @@ test('smoke journey: open the app, then switch the theme', async ({ page }, test
 
   await test.step(`and back to ${startTheme}`, async () => {
     await page.emulateMedia({ colorScheme: startTheme })
+    await expectTheme(page, startTheme)
+  })
+
+  await test.step(`go through the tabs (${desktop ? 'sidebar' : 'tab bar'})`, async () => {
+    const nav = desktop
+      ? page.getByRole('complementary').getByRole('navigation', { name: 'Main' })
+      : page.getByRole('navigation', { name: 'Tabs' })
+    for (const [tab, path, title] of [
+      ['Pokédex', '/pokedex', 'Pokédex'],
+      ['Battle', '/battle/raids', 'Battle'],
+      ['Filters', '/filters', 'Filters'],
+      ['Collection', '/collection', 'Collection'],
+      ['Today', '/', 'Today'],
+    ] as const) {
+      await nav.getByRole('link', { name: tab, exact: true }).click()
+      await expect(page).toHaveURL(new RegExp(`${path}$`))
+      await expect(page.getByRole('heading', { level: 1 })).toHaveText(title)
+      await expect(nav.getByRole('link', { name: tab, exact: true })).toHaveAttribute(
+        'aria-current',
+        'page',
+      )
+    }
+  })
+
+  await test.step(`pick ${otherTheme} in Settings: it wins over the device and stays after a reload`, async () => {
+    if (desktop) {
+      await page.getByRole('complementary').getByRole('link', { name: 'Settings' }).click()
+    } else {
+      await page.getByRole('button', { name: 'Profile' }).click()
+      await page.getByRole('menuitem', { name: 'Settings' }).click()
+    }
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Settings')
+    const theme = page.getByRole('radiogroup', { name: 'Theme' })
+    await expect(theme.getByRole('radio', { name: 'Follow device' })).toBeChecked()
+
+    await theme.getByRole('radio', { name: otherTheme === 'dark' ? 'Dark' : 'Light' }).click()
+    await expectTheme(page, otherTheme)
+    await page.reload()
+    await expectTheme(page, otherTheme)
+    await expect(
+      theme.getByRole('radio', { name: otherTheme === 'dark' ? 'Dark' : 'Light' }),
+    ).toBeChecked()
+  })
+
+  await test.step('back to Follow device: the device decides again', async () => {
+    await page
+      .getByRole('radiogroup', { name: 'Theme' })
+      .getByRole('radio', { name: 'Follow device' })
+      .click()
     await expectTheme(page, startTheme)
   })
 })

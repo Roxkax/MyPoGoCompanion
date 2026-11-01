@@ -51,6 +51,12 @@ async function fakeSignInApi(page: Page) {
   return calls
 }
 
+/** Signed out, the profile button's menu has "Sign in". */
+async function openSignIn(page: Page) {
+  await page.getByRole('button', { name: 'Profile' }).click()
+  await page.getByRole('menuitem', { name: 'Sign in' }).click()
+}
+
 async function leaveForGoogle(page: Page): Promise<URL> {
   const [request] = await Promise.all([
     page.waitForRequest((r) => r.url().startsWith('https://accounts.google.com/')),
@@ -60,13 +66,13 @@ async function leaveForGoogle(page: Page): Promise<URL> {
   return new URL(request.url())
 }
 
-test('signed out: the profile button opens the sign-in screen, "Not now" closes it', async ({
+test('signed out: the profile menu opens the sign-in screen, "Not now" closes it', async ({
   page,
 }) => {
-  await page.goto('/')
+  await page.goto('/collection')
 
   await expect(page.getByRole('region', { name: 'Your collection lives here' })).toBeVisible()
-  await page.getByRole('button', { name: 'Sign in' }).click()
+  await openSignIn(page)
 
   const dialog = page.getByRole('dialog', { name: 'Sign in to make it yours' })
   await expect(dialog).toBeVisible()
@@ -77,18 +83,32 @@ test('signed out: the profile button opens the sign-in screen, "Not now" closes 
   await dialog.getByRole('button', { name: 'Not now, keep browsing' }).click()
   await expect(dialog).toBeHidden()
 
-  await page.getByRole('button', { name: 'Sign in' }).click()
+  await openSignIn(page)
   await page.keyboard.press('Escape')
   await expect(dialog).toBeHidden()
+})
+
+test('/sign-in opens the sign-in screen over Today; closing it leaves for Today', async ({
+  page,
+}) => {
+  await page.goto('/sign-in')
+
+  const dialog = page.getByRole('dialog', { name: 'Sign in to make it yours' })
+  await expect(dialog).toBeVisible()
+  await dialog.getByRole('button', { name: 'Not now, keep browsing' }).click()
+
+  await expect(dialog).toBeHidden()
+  await expect(page).toHaveURL(/\/$/)
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Today')
 })
 
 test('Continue with Google sends the person to Google with PKCE and comes back signed in', async ({
   page,
 }) => {
   const calls = await fakeSignInApi(page)
-  await page.goto('/?from=test')
+  await page.goto('/battle/raids?from=test')
   const origin = new URL(page.url()).origin
-  await page.getByRole('button', { name: 'Sign in' }).click()
+  await openSignIn(page)
 
   const google = await leaveForGoogle(page)
   expect(google.origin + google.pathname).toBe('https://accounts.google.com/o/oauth2/v2/auth')
@@ -107,8 +127,8 @@ test('Continue with Google sends the person to Google with PKCE and comes back s
   )
 
   await expect(page.getByRole('button', { name: 'Account: Test Owner' })).toBeVisible()
-  await expect(page).toHaveURL(/\/\?from=test$/)
-  await expect(page.getByRole('region', { name: 'Signed in' })).toContainText('owner@example.test')
+  await expect(page).toHaveURL(/\/battle\/raids\?from=test$/)
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Battle')
   const signIn = calls.find((call) => call.path === '/auth/google')!.body as Record<string, string>
   expect(signIn.code).toBe('from-google')
   expect(signIn.redirectUri).toBe(`${origin}/auth/callback`)
@@ -119,14 +139,14 @@ test('Continue with Google sends the person to Google with PKCE and comes back s
 test('a callback with the wrong state is refused', async ({ page }) => {
   await fakeSignInApi(page)
   await page.goto('/')
-  await page.getByRole('button', { name: 'Sign in' }).click()
+  await openSignIn(page)
   await leaveForGoogle(page)
 
   await page.goto('/auth/callback?code=from-google&state=forged')
 
   await expect(page.getByRole('alert')).toContainText('This sign-in link has expired.')
   await page.getByRole('button', { name: 'Back to the app' }).click()
-  await expect(page.getByRole('button', { name: 'Sign in' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Profile' })).toBeVisible()
 })
 
 test('a returning visitor stays signed in; the account menu signs out', async ({ page }) => {
@@ -149,14 +169,15 @@ test('a returning visitor stays signed in; the account menu signs out', async ({
   const menu = page.getByRole('menu', { name: 'Account' })
   await expect(menu).toContainText('owner@example.test')
   await expect(menu).toContainText('Super admin')
+  await expect(menu.getByRole('menuitem', { name: 'Admin' })).toBeVisible()
   await menu.getByRole('menuitem', { name: 'Sign out', exact: true }).click()
 
-  await expect(page.getByRole('button', { name: 'Sign in' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Profile' })).toBeVisible()
   await expect.poll(() => calls.some((call) => call.path === '/auth/sign-out')).toBe(true)
   expect(await page.evaluate(() => localStorage.getItem('mpgc.refreshToken'))).toBeNull()
 
   await page.reload()
-  await expect(page.getByRole('button', { name: 'Sign in' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Profile' })).toBeVisible()
 })
 
 test('the real API answers the sign-in set-up question', async ({ page, request }) => {
@@ -170,4 +191,27 @@ test('the real API answers the sign-in set-up question', async ({ page, request 
   if (response.status() === 200) {
     expect((await response.json()).clientId).toBeTruthy()
   }
+})
+
+test('an admin opens Admin from the profile menu and Back returns where they were', async ({
+  page,
+}) => {
+  await fakeSignInApi(page)
+  await page.addInitScript((stored) => {
+    if (!sessionStorage.getItem('seeded')) {
+      localStorage.setItem('mpgc.refreshToken', stored)
+      sessionStorage.setItem('seeded', '1')
+    }
+  }, token('a'))
+  await page.goto('/filters')
+
+  await page.getByRole('button', { name: 'Account: Test Owner' }).click()
+  await page.getByRole('menu', { name: 'Account' }).getByRole('menuitem', { name: 'Admin' }).click()
+  await expect(page).toHaveURL(/\/admin$/)
+  await expect(page.getByRole('region', { name: 'Data status' })).toBeVisible()
+
+  await page.getByRole('button', { name: 'Back' }).click()
+
+  await expect(page).toHaveURL(/\/filters$/)
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Filters')
 })

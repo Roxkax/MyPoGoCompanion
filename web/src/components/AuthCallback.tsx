@@ -49,7 +49,7 @@ export function AuthCallback({ onDone }: { onDone: (path: string) => void }) {
           className="button"
           onClick={() => {
             onDone('/')
-            openSignIn()
+            openSignIn('/')
           }}
         >
           Try again

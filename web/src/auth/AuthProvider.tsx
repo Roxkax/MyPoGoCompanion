@@ -47,9 +47,9 @@ export function AuthProvider({
     return () => window.removeEventListener('storage', onStorage)
   }, [session, openedOn])
 
-  const openSignIn = useCallback(() => {
+  const openSignIn = useCallback((returnTo?: string) => {
     setSignInError(null)
-    setDialog({ open: true, returnTo: currentPath() })
+    setDialog({ open: true, returnTo: returnTo ?? currentPath() })
   }, [])
   const closeSignIn = useCallback(() => setDialog((current) => ({ ...current, open: false })), [])
 

@@ -1,0 +1,299 @@
+/* Shared components (src/ui/): cards, chips, pills, segmented switch, type badges, version markers, sprite box. */
+
+.ui-card {
+  background: var(--surface);
+  border-radius: var(--radius-l);
+  box-shadow: var(--shadow);
+}
+.ui-card-padded {
+  padding: var(--space-4) 18px;
+}
+
+/* A card made of rows that reach its edges (lists, rankings). */
+.card-rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.card-rows > li {
+  display: flex;
+  align-items: center;
+  min-height: 52px;
+  padding: var(--space-3) 18px;
+  font-weight: 700;
+}
+.card-rows > li + li {
+  border-top: 1px solid var(--line);
+}
+.ui-card .card-rows-title {
+  margin: 0;
+  padding: var(--space-4) 18px var(--space-2);
+}
+
+/* ---------- chips ---------- */
+.ui-chip {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--text-2);
+  font: inherit;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
+.ui-chip[aria-pressed='true'] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+.ui-chip-set {
+  padding-right: 4px;
+  border-color: transparent;
+  background: var(--accent-soft);
+  color: var(--accent);
+  cursor: default;
+}
+.ui-chip-remove {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+/* ---------- pills ---------- */
+.ui-pill {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 22px;
+  padding: 0 9px;
+  border-radius: 11px;
+  background: var(--surface-2);
+  color: var(--text-2);
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.ui-pill[data-tone='live'] {
+  background: var(--ok-soft);
+  color: var(--ok);
+}
+.ui-pill[data-tone='accent'] {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.ui-pill[data-tone='warn'] {
+  background: var(--warn-soft);
+  color: var(--warn);
+}
+.ui-pill[data-tone='danger'] {
+  background: var(--danger-soft);
+  color: var(--danger-ink);
+}
+.ui-pill[data-tone='gold'] {
+  background: var(--gold-soft);
+  color: var(--gold-ink);
+}
+.ui-pill[data-tone='raid'] {
+  background: var(--raid-soft);
+  color: var(--raid-ink);
+}
+.ui-pill-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* ---------- segmented switch (choices and section links) ---------- */
+.ui-seg {
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  border-radius: var(--radius-m);
+  background: var(--surface-2);
+}
+.ui-seg-option {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 9px;
+  background: none;
+  color: var(--text-2);
+  font: inherit;
+  font-weight: 800;
+  font-size: 14px;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+}
+.ui-seg-option[aria-checked='true'],
+.ui-seg-option[aria-current='page'] {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow);
+}
+.ui-seg-option i {
+  margin-left: 4px;
+  font-style: normal;
+  font-weight: 700;
+  color: var(--text-3);
+}
+
+:is(.ui-chip, .ui-chip-remove, .ui-seg-option):focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---------- type badges ---------- */
+.ui-type {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 8px;
+  border-radius: 10px;
+  background: var(--type);
+  color: var(--t-ink);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.ui-type[data-size='large'] {
+  height: 28px;
+  padding: 0 12px;
+  border-radius: 14px;
+  font-size: 14px;
+}
+.ui-type[data-type='normal'] {
+  --type: var(--t-normal);
+}
+.ui-type[data-type='fire'] {
+  --type: var(--t-fire);
+}
+.ui-type[data-type='water'] {
+  --type: var(--t-water);
+}
+.ui-type[data-type='grass'] {
+  --type: var(--t-grass);
+}
+.ui-type[data-type='electric'] {
+  --type: var(--t-electric);
+  color: var(--t-electric-ink);
+}
+.ui-type[data-type='ice'] {
+  --type: var(--t-ice);
+  color: var(--t-ice-ink);
+}
+.ui-type[data-type='fighting'] {
+  --type: var(--t-fighting);
+}
+.ui-type[data-type='poison'] {
+  --type: var(--t-poison);
+}
+.ui-type[data-type='ground'] {
+  --type: var(--t-ground);
+}
+.ui-type[data-type='flying'] {
+  --type: var(--t-flying);
+}
+.ui-type[data-type='psychic'] {
+  --type: var(--t-psychic);
+}
+.ui-type[data-type='bug'] {
+  --type: var(--t-bug);
+}
+.ui-type[data-type='rock'] {
+  --type: var(--t-rock);
+}
+.ui-type[data-type='ghost'] {
+  --type: var(--t-ghost);
+}
+.ui-type[data-type='dragon'] {
+  --type: var(--t-dragon);
+}
+.ui-type[data-type='dark'] {
+  --type: var(--t-dark);
+}
+.ui-type[data-type='steel'] {
+  --type: var(--t-steel);
+}
+.ui-type[data-type='fairy'] {
+  --type: var(--t-fairy);
+}
+
+/* ---------- version markers ---------- */
+.ui-version {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  border-radius: var(--radius-s);
+  background: var(--surface-2);
+  color: var(--text-2);
+  font-size: 10.5px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.ui-version:is([data-kind='mega'], [data-kind='primal']) {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.ui-version[data-kind='shadow'] {
+  background: var(--shadow-soft);
+  color: var(--shadow-ink);
+}
+.ui-version[data-kind='gmax'] {
+  background: var(--gmax-soft);
+  color: var(--gmax-ink);
+}
+.ui-version[data-kind='dynamax'] {
+  background: var(--dynamax-soft);
+  color: var(--dynamax-ink);
+}
+
+/* ---------- sprite box ---------- */
+.ui-sprite {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+}
+.ui-sprite img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.ui-sprite-empty {
+  width: 72%;
+  height: 72%;
+  border-radius: 50%;
+  background: var(--surface-2);
+}
+
+.wrap-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+.wrap-row + .wrap-row,
+.wrap-row + .ui-seg {
+  margin-top: var(--space-3);
+}

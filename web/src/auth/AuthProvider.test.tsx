@@ -1,4 +1,4 @@
-import { act, render, screen } from '@testing-library/react'
+import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { MemoryStorage, renderWithAuth, routeFetch, sessionFor, testSession } from '../testing/auth'
@@ -16,7 +16,8 @@ function Probe() {
         dialog: {String(dialog.open)} {dialog.returnTo}
       </p>
       <p>error: {signInError ?? 'none'}</p>
-      <button onClick={openSignIn}>open</button>
+      <button onClick={() => openSignIn()}>open</button>
+      <button onClick={() => openSignIn('/eggs')}>open for eggs</button>
       <button onClick={closeSignIn}>close</button>
       <button onClick={() => void continueWithGoogle('/raids')}>google</button>
       <button onClick={() => void continueWithGoogle()}>google here</button>
@@ -64,11 +65,15 @@ describe('AuthProvider', () => {
 
     await userEvent.click(screen.getByText('google'))
 
-    expect(navigate).toHaveBeenCalledWith(
-      expect.stringMatching(/^https:\/\/accounts\.google\.com\//),
+    // Leaving for Google waits for the API and the PKCE hash: wait for it rather than check at once.
+    await waitFor(() =>
+      expect(navigate).toHaveBeenCalledWith(
+        expect.stringMatching(/^https:\/\/accounts\.google\.com\//),
+      ),
     )
     expect(JSON.parse(sessionStorage.getItem('mpgc.pendingSignIn')!).returnTo).toBe('/raids')
     await userEvent.click(screen.getByText('google here'))
+    await waitFor(() => expect(navigate).toHaveBeenCalledTimes(2))
     expect(JSON.parse(sessionStorage.getItem('mpgc.pendingSignIn')!).returnTo).toBe('/')
   })
 
