@@ -259,3 +259,290 @@ h1 {
     padding-top: 48px;
   }
 }
+
+/* Sign-in (screen F1): profile button, sign-in screen / window, signed-out prompts, account menu. */
+.topbar-end {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--surface-2);
+  color: var(--text-2);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.avatar:focus-visible,
+.link-button:focus-visible,
+.google-button:focus-visible,
+.profile-menu button:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.link-button {
+  padding: 6px 4px;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* Google's branding: a white button with the G, also in dark mode. */
+.google-button {
+  align-self: stretch;
+  width: 100%;
+  height: 52px;
+  border-radius: 14px;
+  border: 1px solid #dadce0;
+  background: #fff;
+  color: #1f1f1f;
+  font: inherit;
+  font-weight: 700;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+}
+.google-button:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+.sign-in-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background: var(--bg);
+}
+.sign-in {
+  height: 100%;
+  overflow-y: auto;
+  background: var(--bg);
+  outline: none;
+}
+.sign-in-back {
+  position: sticky;
+  top: 0;
+  padding: 10px 14px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+.sign-in-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 30px 22px;
+}
+.sign-in-body h2 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 800;
+}
+.sign-in-lead {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-2);
+  line-height: 1.45;
+}
+.perks {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 14px 16px;
+  list-style: none;
+  text-align: left;
+  background: var(--surface);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+.perks li {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 14.5px;
+  font-weight: 700;
+}
+.perk-icon,
+.signed-out-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+.fine-print {
+  margin: 0;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-3);
+  line-height: 1.45;
+}
+.sign-in-error {
+  margin: 0;
+  color: var(--danger);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+@media (min-width: 900px) {
+  .sign-in-overlay {
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    background: rgba(10, 20, 18, 0.45);
+  }
+  .sign-in {
+    width: 440px;
+    height: auto;
+    max-height: calc(100dvh - 48px);
+    border-radius: 24px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
+  }
+  .sign-in-back {
+    display: none;
+  }
+  .sign-in-body {
+    padding: 30px 30px 26px;
+  }
+}
+
+.signed-out {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 22px 18px;
+  border-radius: 18px;
+}
+.signed-out-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+}
+.signed-out h2 {
+  margin: 0;
+  font-size: 20px;
+}
+.signed-out p {
+  margin: 0;
+  color: var(--text-2);
+  font-size: 14.5px;
+  line-height: 1.45;
+}
+
+.signed-in {
+  margin-top: 16px;
+}
+.signed-in-name {
+  margin: 0;
+  font-weight: 800;
+}
+.signed-in-detail {
+  margin: 2px 0 0;
+  color: var(--text-2);
+  font-size: 14px;
+}
+
+.profile {
+  position: relative;
+}
+.profile-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 15;
+  min-width: 240px;
+  padding: 8px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+}
+.profile-who {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 10px 12px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 4px;
+}
+.profile-who span {
+  color: var(--text-2);
+  font-size: 13px;
+}
+.profile .role-badge {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 800;
+}
+.profile-menu button {
+  min-height: 40px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+.profile-menu button:hover {
+  background: var(--surface-2);
+}
+.profile-menu .sign-in-error {
+  padding: 6px 10px;
+}
+
+.callback {
+  margin-top: 24px;
+  color: var(--text-2);
+}
+.callback-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
