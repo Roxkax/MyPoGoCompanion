@@ -76,7 +76,8 @@ Board: https://github.com/users/Roxkax/projects/2 (kept in sync by the `Project 
 
 ### Owner to-dos
 
-- **E01-F02 (sign-in)**: create the Google OAuth client and set `GOOGLE_CLIENT_ID`, `SUPER_ADMIN_EMAIL` (variables) and `GOOGLE_CLIENT_SECRET`, `AUTH_SIGNING_KEY` (secrets) in the GitHub environments `qa` and `prod` (`docs/SIGN-IN.md`, steps 1–3); then add the `qa` label to the PR to test.
+- **Before the MVP release (E13-F07, reminder on issue #470)**: replace the sign-in secrets shared in chat on 2026-11-01: new Google client secret (delete the old one) and new `AUTH_SIGNING_KEY` for `qa` and `prod`, then redeploy.
+- **E01-F02 (sign-in)**: Google OAuth client created by the owner 2026-11-01 (prod and QA return addresses; no localhost yet); create the Google OAuth client and set `GOOGLE_CLIENT_ID`, `SUPER_ADMIN_EMAIL` (variables) and `GOOGLE_CLIENT_SECRET`, `AUTH_SIGNING_KEY` (secrets) in the GitHub environments `qa` and `prod` (`docs/SIGN-IN.md`, steps 1–3); then add the `qa` label to the PR to test.
 - Replace the `PROJECT_TOKEN` secret with a new classic token that has **only** `project` + `public_repo`, then delete the old token (the current one carries admin and delete-repo scopes).
 - Add the **`qa` label** to a PR when you want it on QA.
 - PR #918 (merged): if not done yet, edit the ruleset **Protect main** in Settings → Rules: merge methods → only **Merge**, add the required check **`rebased`** (GitHub Actions). In Settings → General → Pull Requests: only **Allow merge commits**, default message **Pull request title and description**, **Always suggest updating pull request branches** on. Then run **Branch rules check**.
