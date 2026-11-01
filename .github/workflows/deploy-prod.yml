@@ -220,19 +220,24 @@ jobs:
           echo "previous-image=$previous" >> "$GITHUB_OUTPUT"
           echo "Prod ran \`$previous\` before this deploy." >> "$GITHUB_STEP_SUMMARY"
 
+      # The deploy script comes from this workflow's own commit, so a rollback to an older commit (which may not have
+      # it, or has an older one) still deploys with today's settings.
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          sparse-checkout: .github/scripts
+          path: workflow-scripts
+
       - name: Deploy the API to api-prod
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           WEB_URL: ${{ steps.addresses.outputs.web-url }}
           IMAGE_TAG: ${{ env.IMAGE }}:${{ needs.changes.outputs.sha }}
-        run: |
-          # The connection string is a Container Apps secret, not a plain setting.
-          az containerapp secret set -g "$RESOURCE_GROUP" -n "$API_APP" \
-            --secrets "database-url=$DATABASE_URL" --only-show-errors -o none
-          # The API listens on 8080 (the bicep placeholder used 80).
-          az containerapp ingress update -g "$RESOURCE_GROUP" -n "$API_APP" --target-port 8080 --only-show-errors -o none
-          az containerapp update -g "$RESOURCE_GROUP" -n "$API_APP" --image "$IMAGE_TAG" --only-show-errors -o none \
-            --set-env-vars "ConnectionStrings__Database=secretref:database-url" "Cors__AllowedOrigins=$WEB_URL"
+          GOOGLE_CLIENT_ID: ${{ vars.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          AUTH_SIGNING_KEY: ${{ secrets.AUTH_SIGNING_KEY }}
+          SUPER_ADMIN_EMAIL: ${{ vars.SUPER_ADMIN_EMAIL }}
+        run: WEB_ORIGIN="$WEB_URL" workflow-scripts/.github/scripts/deploy_api.sh
 
       # --- Web app --------------------------------------------------------------------------------------------
       - uses: actions/setup-node@v5

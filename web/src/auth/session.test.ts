@@ -26,6 +26,16 @@ describe('SessionManager', () => {
     expect(await session.getAccessToken()).toBe('access-for-refresh-2')
   })
 
+  it('does nothing when already signed in (no extra refresh)', async () => {
+    const refreshSession = vi.fn()
+    const { session } = testSession({ api: { refreshSession } as never })
+    session.accept(sessionFor())
+
+    await session.start()
+
+    expect(refreshSession).not.toHaveBeenCalled()
+  })
+
   it('forgets a refresh token the API refuses', async () => {
     const storage = new MemoryStorage()
     storage.setItem(refreshTokenKey, 'stolen')

@@ -50,6 +50,9 @@ export class SessionManager {
 
   /** On page load: signed out without a stored refresh token, otherwise swap it for a fresh session. */
   async start(): Promise<void> {
+    if (this.state.status === 'signedIn') {
+      return
+    }
     if (!readRefreshToken(this.deps.storage)) {
       this.setState({ status: 'signedOut' })
       return

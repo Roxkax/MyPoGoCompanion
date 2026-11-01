@@ -32,18 +32,20 @@ export function AuthProvider({
   pathname = window.location.pathname,
 }: AuthProviderProps) {
   const [session] = useState(() => given ?? new SessionManager())
+  // The page the app opened on: the callback page finishes the sign-in itself, and leaving it must not start again.
+  const [openedOn] = useState(pathname)
   const state = useSyncExternalStore(session.subscribe, session.getState)
   const [dialog, setDialog] = useState<SignInDialogState>({ open: false, returnTo: '/' })
   const [signInError, setSignInError] = useState<string | null>(null)
 
   useEffect(() => {
-    if (pathname !== callbackPath) {
+    if (openedOn !== callbackPath) {
       void session.start()
     }
     const onStorage = (event: StorageEvent) => session.handleStorageEvent(event)
     window.addEventListener('storage', onStorage)
     return () => window.removeEventListener('storage', onStorage)
-  }, [session, pathname])
+  }, [session, openedOn])
 
   const openSignIn = useCallback(() => {
     setSignInError(null)

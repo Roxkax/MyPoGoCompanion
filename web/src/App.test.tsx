@@ -75,9 +75,14 @@ describe('App', () => {
   it('on /auth/callback: finishes signing in and goes back to the page', async () => {
     writePendingSignIn({ state: 'abc', verifier: 'v'.repeat(64), returnTo: '/raids?tier=5' })
     window.history.replaceState(null, '', '/auth/callback?code=c&state=abc')
+    const refresh = vi.fn(() => Response.json(sessionFor()))
     vi.stubGlobal(
       'fetch',
-      routeFetch({ '/auth/google': () => Response.json(sessionFor()), '/health': healthy }),
+      routeFetch({
+        '/auth/google': () => Response.json(sessionFor()),
+        '/auth/refresh': refresh,
+        '/health': healthy,
+      }),
     )
 
     renderWithAuth(<App />, { pathname: '/auth/callback' })
@@ -85,5 +90,6 @@ describe('App', () => {
     expect(await screen.findByRole('heading', { level: 1 })).toHaveTextContent('Coming soon')
     expect(window.location.pathname + window.location.search).toBe('/raids?tier=5')
     expect(screen.getByRole('region', { name: 'Signed in' })).toBeInTheDocument()
+    expect(refresh).not.toHaveBeenCalled()
   })
 })
