@@ -1,8 +1,8 @@
 # Daily import
 
-The job that keeps the game data up to date (E02-F01, spec 16.1): every morning it downloads PvPoke's files and the datamined game master, and brings the database's species, forms, moves, movepools, evolutions, CP multipliers and PvP rankings in line with them. The code is `jobs/MyPoGoCompanion.Jobs/DailyImport/`; the decisions behind it are in CLAUDE.md's decision log (2026-11-02).
+The job that keeps the game data up to date (E02-F01, spec 16.1): every morning it downloads PvPoke's files, the datamined game master and the game's Portuguese text, and brings the database's species, forms, moves, movepools, evolutions, CP multipliers, PvP rankings and Portuguese names (E02-F02, spec 16.2) in line with them. The code is `jobs/MyPoGoCompanion.Jobs/DailyImport/`; the decisions behind it are in CLAUDE.md's decision log (2026-11-02).
 
-Later features build on it: Portuguese names from the game text (E02-F02), the recalculated rankings, IVs and search filters (E02-F03), the sanity checks and the admin's "Run now" button (E02-F04), and the admin's Data status screen (E10-F01).
+Later features build on it: the recalculated rankings, IVs and search filters (E02-F03), the sanity checks and the admin's "Run now" button (E02-F04), and the admin's Data status screen (E10-F01).
 
 ## Where it runs
 
@@ -23,13 +23,15 @@ The deploys and the **Run daily import** workflow start a run with `.github/scri
 | `src/data/gamemaster.json` | PvPoke (MIT) | **Main source**: species, form ids, base stats, types, movepools with Elite TM and Legacy moves, released, Shadow released, families, nicknames, buddy distance, second-move cost, Legendary/Mythical/Ultra Beast, PvP move numbers |
 | `src/data/rankings/all/overall/rankings-1500.json`, `-2500.json`, `-10000.json` | PvPoke (MIT) | Great, Ultra and Master League rank, score and recommended moveset |
 | `src/js/pokemon/Pokemon.js` | PvPoke (MIT) | The CP multiplier per level (the table the Python keeper build used), levels 1–51 |
-| `GAME_MASTER.json` (19 MB) | `alexelgt/game_masters` (datamined) | Raid (PvE) move numbers, evolution steps (candy, trade discount, item and how many, buddy km, day/night, lure, gender, special task), Dynamax and Gigantamax |
+| `GAME_MASTER.json` (19 MB) | `alexelgt/game_masters` (datamined) | Raid (PvE) move numbers, evolution steps (candy, trade discount, item and how many, buddy km, day/night, lure, gender, special task), Dynamax and Gigantamax; each move's number (for its name) |
+| `Release/Brazilian Portuguese/pt-br_raw.json` (4 MB) | `sora10pls/holoholo-text` (datamined) | The game's Portuguese text from the latest release: Pokémon, Mega, form, move and type names. **Optional**, see below |
+| `Remote/Brazilian Portuguese/pt-br_raw.json` (70 KB) | `sora10pls/holoholo-text` (datamined) | The newer texts the game's server sends on top of the release (they win) |
 
-All are fetched over HTTPS from `raw.githubusercontent.com` (addresses in `DailyImportOptions`, overridable with `DailyImport__PvpokeBaseUrl` / `DailyImport__GameMasterUrl`). Each download is tried 3 times (5 s, then 10 s apart) when the answer may be temporary (no answer, timeout, 408, 429, 5xx); a 404 fails at once.
+All are fetched over HTTPS from `raw.githubusercontent.com` (addresses in `DailyImportOptions`, overridable with `DailyImport__PvpokeBaseUrl` / `DailyImport__GameMasterUrl` / `DailyImport__GameTextUrl` / `DailyImport__GameTextRemoteUrl`). Each download is tried 3 times (5 s, then 10 s apart) when the answer may be temporary (no answer, timeout, 408, 429, 5xx); a 404 fails at once.
 
-**Not in the sources**: which shinies are released (stays unknown until the weekly AI researcher fills it, E05), and the Portuguese names (E02-F02; types already have the game's Portuguese names). The game master's Dynamax and Gigantamax looks are what the game's code can do, so a few may show before players can get them (decision 2026-11-02).
+**Not in the sources**: which shinies are released (stays unknown until the weekly AI researcher fills it, E05). The game master's Dynamax and Gigantamax looks are what the game's code can do, so a few may show before players can get them (decision 2026-11-02).
 
-**Licensing**: PvPoke is MIT (credited in Settings → About). The game master is datamined from Niantic's game: fine for this personal fan project, **recheck before any commercial launch** (as for the golden-file inputs).
+**Licensing**: PvPoke is MIT (credited in Settings → About). The game master and the game text are datamined from the game: fine for this personal fan project, **recheck before any commercial launch** (as for the golden-file inputs). PokeMiners' `pogo_assets` text was not used: it stops at Pokédex #1008 and move #487.
 
 ## How the sources become rows
 
@@ -39,6 +41,26 @@ All are fetched over HTTPS from `raw.githubusercontent.com` (addresses in `Daily
 - **Moves**: fast when PvPoke gives them energy (or no cost); PvP numbers from PvPoke, raid numbers from the game master's `V0xxx_MOVE_*` templates (fast ones end in `_FAST`; `FUTURE_SIGHT`, `PYRO_BALL` and `TECHNO_BLAST_DOUSE` are spelled differently there, as in the Python build). A move with no raid version (Hidden Power, Aegislash's charge moves, the Mega `…_PLUS` moves) gets **raid numbers 0** (power 0, duration 0): the raid engine leaves those out.
 - **Evolutions** come from the game master's evolution branches of each matched form; Mega Evolutions are forms, not steps. When a step exists twice (the usual one and a Community Day or event version), the usual one is kept. `task_en` describes in English what the columns don't: the special task ("Win 10 raids", "Walk 10 km with it as your buddy", "Earn 70 hearts…"), how many of an item it uses ("Uses 999 Gimmighoul Coins"), a move it must know, full moon, dusk, phone upside down.
 - **Rankings**: one row per league, form and Shadow, in PvPoke's order (rank = position). Rows for a form or move the import doesn't have are left out (a warning); PvPoke's `"none"` padding in a moveset is dropped (Unown).
+
+## Portuguese names
+
+The game's Portuguese is Brazilian Portuguese; the app uses it for Pokémon, move and type names (decision 2026-11-01). `PortugueseNames` names each row:
+
+| What | From the game text | Example |
+|---|---|---|
+| Species | `pokemon_name_0006` | Charizard, *Tipo Nulo*, *Presa Grande* |
+| Types | `pokemon_type_fire` (the built-in list when there is no text) | *Fogo* |
+| Megas and Primals | `pokemon_name_0006_0002` (0001 Mega, 0002 Mega X, 0003 Mega Y, 0004 Primal) | *Mega Charizard X*, *Kyogre Primitivo* |
+| Regional forms | species + region | *Vulpix de Alola*, *Darmanitan de Galar (Modo Zen)* |
+| Other forms | species + the form text in brackets, found by the game master's form name (`form_giratina_origin`, else `form_origin`), else by PvPoke's bracket word (`form_female`) | *Giratina (Forma Origem)*, *Basculegion (Fêmea)* |
+| | a form text that already names the Pokémon is used as it is | *Kyurem Branco*, *Rotom Ventilador* |
+| | a species with one form uses the species name | *Mime Jr.* |
+| Moves | `move_name_0269`, by the game master's move number (`V0269_MOVE_FIRE_SPIN_FAST`) | *Chama Furacão* |
+| | PvPoke's own moves from the move they stand for | *Surfar+*, *Poder Oculto (Inseto)*, Aegislash's *Golpe de Ar* |
+
+A text can point at another one (`<<move_name_0296>>+`); the import resolves it. On today's files every species and type is named, 1,251 of 1,269 forms and 352 of 355 moves. **A name the text doesn't have stays null and the app shows the English one**; the run log lists them as warnings ("15 forms without a Portuguese name in the game text …": costume Pikachus, Wormadam, Zygarde 50%, Calyrex Ice Rider…). Evolution tasks (`task_pt`) aren't game names and stay English for now.
+
+**The game text is optional** (decision 2026-11-02, option A): when it can't be downloaded (after the same 3 tries) or isn't the expected JSON, the import still updates everything else, **keeps the Portuguese names it has** and says so in a warning ("Portuguese names not updated, the last ones are kept: …"). Without the server's newer texts it uses the release's ("Portuguese names from the game release only …"). A missing text file also leaves its fingerprint out of the run log, so the next run with it is never taken as "nothing changed".
 
 ## Saving
 
@@ -51,7 +73,7 @@ The run brings every table in line with the sources and counts each kind's rows 
 | movepools, evolutions | Deleted, for the forms the sources still list |
 | CP multipliers, PvP rankings | Deleted |
 
-What other jobs fill in is kept when the sources say nothing: shiny (the AI researcher) and the Portuguese texts (game text).
+What the sources don't say this time is kept: shiny (the AI researcher fills it), the evolution tasks' Portuguese text, and a Portuguese name the game text no longer has or couldn't be downloaded.
 
 Everything is saved in **one transaction**: a run that fails anywhere changes nothing, and yesterday's data stays live.
 
@@ -80,9 +102,9 @@ With the local database running (`docker compose up -d --wait`) and migrated (st
 ConnectionStrings__Database="Host=localhost;Database=mypogocompanion;Username=mypogocompanion;Password=localdev" dotnet run --project jobs/MyPoGoCompanion.Jobs -- daily-import
 ```
 
-It downloads the real files (about 23 MB) and replaces the dev seed's game data with the real one (the seed's made-up values change; its forms that the sources don't list are marked not released). Settings can be passed after the command, e.g. `--DailyImport:Trigger=manual`. Exit code 0 = succeeded or nothing to do, 1 = failed, 64 = unknown command.
+It downloads the real files (about 27 MB) and replaces the dev seed's game data with the real one (the seed's made-up values change; its forms that the sources don't list are marked not released). Settings can be passed after the command, e.g. `--DailyImport:Trigger=manual`. Exit code 0 = succeeded or nothing to do, 1 = failed, 64 = unknown command.
 
 ## Tests
 
-- **Unit tests** (`jobs/MyPoGoCompanion.Jobs.UnitTests`): reading each file, building the game data, the English task texts, the downloader's retries, a whole run on an in-memory database (run log, nothing-changed shortcut, failures, guard, lock, kept fields, counts). They read **fixtures**: the real files cut to 28 species that cover the tricky cases (`Fixtures/make_fixtures.py`; regenerate with the folder of downloaded files when the sources change shape).
-- **Integration tests** (`tests/MyPoGoCompanion.IntegrationTests/DailyImportTests.cs`): the job's command line on a real PostgreSQL 17 with the same fixtures: a first import and `/freshness`, a second one that changes nothing, a failed download that leaves the data, a main form that moves, the lock, and an import on top of the dev seed (live data and collections pointing at forms).
+- **Unit tests** (`jobs/MyPoGoCompanion.Jobs.UnitTests`): reading each file, building the game data, the English task texts, the downloader's retries, a whole run on an in-memory database (run log, nothing-changed shortcut, failures, guard, lock, kept fields, counts). They read **fixtures**: the real files cut to 28 species that cover the tricky cases, with their game text (`Fixtures/make_fixtures.py`; regenerate with the folder of downloaded files when the sources change shape). The Portuguese names have their own tests (`GameTextTests`, `PortugueseNamesTests`): the real fixture names, the naming rules on made-up text, missing names and a missing or broken text file.
+- **Integration tests** (`tests/MyPoGoCompanion.IntegrationTests/DailyImportTests.cs`): the job's command line on a real PostgreSQL 17 with the same fixtures: a first import and `/freshness`, a second one that changes nothing, a failed download that leaves the data, a main form that moves, the lock, an import without the game text that keeps the Portuguese names, and an import on top of the dev seed (live data and collections pointing at forms).

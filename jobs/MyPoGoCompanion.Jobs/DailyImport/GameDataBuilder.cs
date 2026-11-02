@@ -41,7 +41,10 @@ public static partial class GameDataBuilder
     /// <summary>The highest level a Pokémon reaches (51 with a Best Buddy).</summary>
     public const decimal MaxLevel = 51m;
 
-    /// <summary>The 18 types in the game's order, with the game's Portuguese names (pt-BR text, until E02-F02 reads them).</summary>
+    /// <summary>
+    /// The 18 types in the game's order, with the game's Portuguese names: used when the game text can't be read
+    /// (the text's <c>pokemon_type_*</c> names win when it can).
+    /// </summary>
     internal static readonly (string Id, string En, string Pt)[] TypeList =
     [
         ("normal", "Normal", "Normal"), ("fire", "Fire", "Fogo"), ("water", "Water", "Água"),
@@ -84,14 +87,40 @@ public static partial class GameDataBuilder
         var gameMaster = GameMasterSource.Read(files.GameMaster);
         var multipliers = PvpokeSource.ReadCpMultipliers(files.CpMultipliers, MaxLevel);
         var rankings = _leagues.Select(league => (league.League, Rows: PvpokeSource.ReadRankings(league.File(files)))).ToList();
-        return Build(pvpoke, gameMaster, multipliers, rankings);
+
+        // The Portuguese names are optional (decision 2026-11-02): without the text the names stay null here, and
+        // the save keeps the ones the database already has.
+        var problems = files.GameTextProblems.ToList();
+        GameText? text = null;
+        if (files.GameText is not null)
+        {
+            try
+            {
+                text = GameText.Read(files.GameText, files.GameTextRemote);
+            }
+            catch (ImportException exception)
+            {
+                problems.Add(exception.Message);
+            }
+        }
+
+        var data = Build(pvpoke, gameMaster, multipliers, rankings, text);
+        foreach (var problem in problems)
+        {
+            data.Warnings.Add(text is null
+                ? $"Portuguese names not updated, the last ones are kept: {problem}"
+                : $"Portuguese names from the game release only (the server's newer texts are missing): {problem}");
+        }
+
+        return data;
     }
 
     public static ImportedGameData Build(
         PvpokeGameMaster pvpoke,
         GameMasterSource gameMaster,
         IReadOnlyList<(decimal Level, double Value)> multipliers,
-        IReadOnlyList<(League League, List<PvpokeRanking> Rows)> rankings)
+        IReadOnlyList<(League League, List<PvpokeRanking> Rows)> rankings,
+        GameText? text = null)
     {
         ArgumentNullException.ThrowIfNull(pvpoke);
         ArgumentNullException.ThrowIfNull(gameMaster);
@@ -104,7 +133,7 @@ public static partial class GameDataBuilder
         {
             Id = type.Id,
             NameEn = type.En,
-            NamePt = type.Pt,
+            NamePt = text?.Get("pokemon_type_" + type.Id) ?? type.Pt,
             SortOrder = index + 1,
         }));
         data.CpMultipliers.AddRange(multipliers.Select(m => new CpMultiplier { Level = m.Level, Value = m.Value }));
@@ -179,6 +208,11 @@ public static partial class GameDataBuilder
         data.Families.AddRange(families.Select(id => new Family { Id = id }));
         AddEvolutions(data, matches, gameMaster, formIdByKey, defaultByDex);
         AddRankings(data, rankings, moveIds);
+        if (text is not null)
+        {
+            PortugueseNames.Apply(data, text, gameMaster);
+        }
+
         return data;
     }
 
@@ -304,8 +338,14 @@ public static partial class GameDataBuilder
             return null;
         }
 
+        return gameMaster.Moves.GetValueOrDefault(GameMasterMoveKey(moveId, fast));
+    }
+
+    /// <summary>The game master's name for a PvPoke move (<c>FIRE_SPIN</c> fast → <c>FIRE_SPIN_FAST</c>).</summary>
+    internal static string GameMasterMoveKey(string moveId, bool fast)
+    {
         var key = _moveAliases.GetValueOrDefault(moveId, moveId);
-        return gameMaster.Moves.GetValueOrDefault(fast ? key + "_FAST" : key);
+        return fast ? key + "_FAST" : key;
     }
 
     private static void AddMovepool(ImportedGameData data, PvpokePokemon entry, HashSet<string> moveIds)

@@ -24,6 +24,9 @@ public sealed partial class GameMasterSource
     /// <summary>Raid numbers per move, keyed by the template name after <c>V0xxx_MOVE_</c> (fast moves end in <c>_FAST</c>).</summary>
     public Dictionary<string, GameMasterMove> Moves { get; } = new(StringComparer.Ordinal);
 
+    /// <summary>The game's number per move (the <c>0013</c> of <c>V0013_MOVE_WRAP</c>), same keys as <see cref="Moves"/>: the game text names moves by it.</summary>
+    public Dictionary<string, int> MoveNumbers { get; } = new(StringComparer.Ordinal);
+
     public Dictionary<string, GameMasterQuest> Quests { get; } = new(StringComparer.Ordinal);
 
     public static GameMasterSource Read(SourceFile file)
@@ -69,7 +72,8 @@ public sealed partial class GameMasterSource
         }
         else if (data.TryGetProperty("moveSettings", out var move) && MoveTemplate().Match(templateId) is { Success: true } m)
         {
-            Moves[m.Groups[1].Value] = new GameMasterMove(
+            MoveNumbers[m.Groups[2].Value] = int.Parse(m.Groups[1].Value, System.Globalization.CultureInfo.InvariantCulture);
+            Moves[m.Groups[2].Value] = new GameMasterMove(
                 Number(move, "power"),
                 (int)Number(move, "durationMs"),
                 (int)Number(move, "damageWindowStartMs"),
@@ -244,7 +248,7 @@ public sealed partial class GameMasterSource
     [GeneratedRegex(@"^V(\d{4})_POKEMON_")]
     private static partial Regex PokemonTemplate();
 
-    [GeneratedRegex(@"^V\d{4}_MOVE_(.+)$")]
+    [GeneratedRegex(@"^V(\d{4})_MOVE_(.+)$")]
     private static partial Regex MoveTemplate();
 }
 

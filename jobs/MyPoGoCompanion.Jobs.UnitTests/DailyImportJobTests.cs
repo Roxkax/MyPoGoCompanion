@@ -58,7 +58,7 @@ public sealed class DailyImportJobTests : IDisposable
         Assert.Equal((JobKind.DailyImport, JobStatus.Succeeded, _now, _now, null), (run.Job, run.Status, run.StartedAt, run.FinishedAt, run.Error));
         var summary = Summary(run);
         Assert.Equal(("schedule", "abc1234", false), (summary.Trigger, summary.Version, summary.Unchanged));
-        Assert.Equal(6, summary.Sources.Count);
+        Assert.Equal(8, summary.Sources.Count);
         Assert.Equal(Fixtures.Bytes("GAME_MASTER.json").Length, summary.Sources["gameMaster"].Bytes);
         Assert.Equal(Fixtures.Built.Forms.Count, summary.Changes["forms"].Added);
         Assert.Equal(18, summary.Changes["types"].Added);
@@ -198,9 +198,6 @@ public sealed class DailyImportJobTests : IDisposable
         {
             var charizard = await db.Forms.SingleAsync(form => form.Id == "charizard", Ct);
             charizard.ShinyReleased = true;
-            charizard.NamePt = "Charizard";
-            (await db.Species.SingleAsync(s => s.Dex == 6, Ct)).NamePt = "Charizard";
-            (await db.Moves.SingleAsync(m => m.Id == "FIRE_SPIN", Ct)).NamePt = "Giro de Fogo";
             (await db.Evolutions.FirstAsync(Ct)).TaskPt = "Tarefa";
             await db.SaveChangesAsync(Ct);
         }
@@ -208,12 +205,61 @@ public sealed class DailyImportJobTests : IDisposable
         await RunAsync(version: "def5678");
 
         await using var check = Db();
-        var form = await check.Forms.SingleAsync(f => f.Id == "charizard", Ct);
-        Assert.Equal((true, "Charizard"), (form.ShinyReleased, form.NamePt));
-        Assert.Equal("Charizard", (await check.Species.SingleAsync(s => s.Dex == 6, Ct)).NamePt);
-        Assert.Equal("Giro de Fogo", (await check.Moves.SingleAsync(m => m.Id == "FIRE_SPIN", Ct)).NamePt);
+        Assert.True((await check.Forms.SingleAsync(f => f.Id == "charizard", Ct)).ShinyReleased);
         Assert.Contains(await check.Evolutions.ToListAsync(Ct), e => e.TaskPt == "Tarefa");
         Assert.All(Summary((await RunsAsync())[1]).Changes.Values, kind => Assert.Equal(0, kind.Total));
+    }
+
+    [Fact]
+    public async Task PortugueseNames_ComeFromTheGameText()
+    {
+        await RunAsync();
+
+        await using var db = Db();
+        Assert.Equal("Vulpix de Alola", (await db.Forms.SingleAsync(f => f.Id == "vulpix_alolan", Ct)).NamePt);
+        Assert.Equal("Chama Furacão", (await db.Moves.SingleAsync(m => m.Id == "FIRE_SPIN", Ct)).NamePt);
+        Assert.Equal("Planta", (await db.Types.SingleAsync(t => t.Id == "grass", Ct)).NamePt);
+    }
+
+    [Fact]
+    public async Task WithoutTheGameText_TheImportGoesOn_AndKeepsThePortugueseNames()
+    {
+        await RunAsync();
+        await using (var db = Db())
+        {
+            // A name the game text had yesterday (made up here, to see it is kept rather than looked up again).
+            (await db.Moves.SingleAsync(m => m.Id == "FIRE_SPIN", Ct)).NamePt = "Nome de ontem";
+            await db.SaveChangesAsync(Ct);
+        }
+
+        _http.Responses.Remove(_options.GameTextUrl.AbsoluteUri);
+        Assert.Equal(DailyImportOutcome.Succeeded, await RunAsync(version: "def5678"));
+
+        var run = (await RunsAsync())[1];
+        Assert.Equal(JobStatus.Succeeded, run.Status);
+        var summary = Summary(run);
+        Assert.Equal(6, summary.Sources.Count);
+        Assert.Contains(summary.Warnings, w => w.StartsWith("Portuguese names not updated, the last ones are kept: Couldn't download the Portuguese game text", StringComparison.Ordinal));
+        Assert.All(summary.Changes.Values, kind => Assert.Equal(0, kind.Total));
+        await using var check = Db();
+        Assert.Equal("Nome de ontem", (await check.Moves.SingleAsync(m => m.Id == "FIRE_SPIN", Ct)).NamePt);
+        Assert.Equal("Vulpix de Alola", (await check.Forms.SingleAsync(f => f.Id == "vulpix_alolan", Ct)).NamePt);
+        Assert.Equal("Fada", (await check.Types.SingleAsync(t => t.Id == "fairy", Ct)).NamePt);
+    }
+
+    [Fact]
+    public async Task TheGameTextComingBack_IsNotTakenAsUnchanged()
+    {
+        _http.Responses.Remove(_options.GameTextUrl.AbsoluteUri);
+        await RunAsync();
+        _http.Responses[_options.GameTextUrl.AbsoluteUri] = () => Fixtures.Ok("game-text-pt-br.json");
+
+        await RunAsync();
+
+        var runs = await RunsAsync();
+        Assert.False(Summary(runs[1]).Unchanged);
+        await using var db = Db();
+        Assert.Equal("Chama Furacão", (await db.Moves.SingleAsync(m => m.Id == "FIRE_SPIN", Ct)).NamePt);
     }
 
     [Fact]

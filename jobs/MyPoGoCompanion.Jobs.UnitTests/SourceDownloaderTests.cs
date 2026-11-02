@@ -16,18 +16,50 @@ public sealed class SourceDownloaderTests
         new(new HttpClient(handler), Options.Create(options ?? _options), NullLogger<SourceDownloader>.Instance);
 
     [Fact]
-    public async Task DownloadAll_FetchesTheSixFiles_FromTheConfiguredAddresses()
+    public async Task DownloadAll_FetchesTheEightFiles_FromTheConfiguredAddresses()
     {
         var http = new FakeHttp(Fixtures.Responses(_options.PvpokeBaseUrl, _options.GameMasterUrl));
 
         var files = await Downloader(http).DownloadAllAsync(Ct);
 
-        Assert.Equal(6, http.Requests.Count);
+        Assert.Equal(8, http.Requests.Count);
         Assert.Equal("https://raw.githubusercontent.com/pvpoke/pvpoke/master/src/data/gamemaster.json", files.PvpokeGameMaster.Url.AbsoluteUri);
         Assert.Equal("https://raw.githubusercontent.com/pvpoke/pvpoke/master/src/data/rankings/all/overall/rankings-10000.json", files.RankingsMaster.Url.AbsoluteUri);
         Assert.Equal("https://raw.githubusercontent.com/alexelgt/game_masters/master/GAME_MASTER.json", files.GameMaster.Url.AbsoluteUri);
-        Assert.Equal(6, files.All.Count());
+        Assert.Equal("https://raw.githubusercontent.com/sora10pls/holoholo-text/main/Release/Brazilian%20Portuguese/pt-br_raw.json", files.GameText!.Url.AbsoluteUri);
+        Assert.Equal("https://raw.githubusercontent.com/sora10pls/holoholo-text/main/Remote/Brazilian%20Portuguese/pt-br_raw.json", files.GameTextRemote!.Url.AbsoluteUri);
+        Assert.Empty(files.GameTextProblems);
+        Assert.Equal(8, files.All.Count());
         Assert.Equal(Convert.ToHexStringLower(SHA256.HashData(Fixtures.Bytes("GAME_MASTER.json"))), files.GameMaster.Sha256);
+    }
+
+    [Fact]
+    public async Task AMissingGameText_IsAProblem_NotAFailure()
+    {
+        var responses = Fixtures.Responses(_options.PvpokeBaseUrl, _options.GameMasterUrl);
+        responses.Remove(_options.GameTextUrl.AbsoluteUri);
+        var http = new FakeHttp(responses);
+
+        var files = await Downloader(http).DownloadAllAsync(Ct);
+
+        // Without the release's text the server's update is useless, so it isn't asked for.
+        Assert.Equal((null, null), (files.GameText, files.GameTextRemote));
+        Assert.DoesNotContain(_options.GameTextRemoteUrl.AbsoluteUri, http.Requests);
+        Assert.StartsWith("Couldn't download the Portuguese game text (", Assert.Single(files.GameTextProblems), StringComparison.Ordinal);
+        Assert.Equal(6, files.All.Count());
+    }
+
+    [Fact]
+    public async Task AMissingServerUpdate_KeepsTheRelease()
+    {
+        var responses = Fixtures.Responses(_options.PvpokeBaseUrl, _options.GameMasterUrl);
+        responses[_options.GameTextRemoteUrl.AbsoluteUri] = () => new HttpResponseMessage(HttpStatusCode.InternalServerError);
+
+        var files = await Downloader(new FakeHttp(responses)).DownloadAllAsync(Ct);
+
+        Assert.NotNull(files.GameText);
+        Assert.Null(files.GameTextRemote);
+        Assert.EndsWith("the server answered 500 Internal Server Error, 3 times.", Assert.Single(files.GameTextProblems), StringComparison.Ordinal);
     }
 
     [Fact]
