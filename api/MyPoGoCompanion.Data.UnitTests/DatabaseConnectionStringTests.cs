@@ -1,7 +1,6 @@
-using MyPoGoCompanion.Api.Configuration;
 using Npgsql;
 
-namespace MyPoGoCompanion.Api.UnitTests;
+namespace MyPoGoCompanion.Data.UnitTests;
 
 public class DatabaseConnectionStringTests
 {

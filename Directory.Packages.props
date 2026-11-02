@@ -12,6 +12,11 @@
     <PackageVersion Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.3.1" />
   </ItemGroup>
 
+  <ItemGroup Label="Jobs">
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.14" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.14" />
+  </ItemGroup>
+
   <ItemGroup Label="Observability">
     <PackageVersion Include="Azure.Monitor.OpenTelemetry.Exporter" Version="1.10.0" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="10.0.14" />

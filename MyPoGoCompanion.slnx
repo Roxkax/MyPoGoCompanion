@@ -7,6 +7,10 @@
     <Project Path="api/MyPoGoCompanion.Observability.UnitTests/MyPoGoCompanion.Observability.UnitTests.csproj" />
     <Project Path="api/MyPoGoCompanion.Observability/MyPoGoCompanion.Observability.csproj" />
   </Folder>
+  <Folder Name="/jobs/">
+    <Project Path="jobs/MyPoGoCompanion.Jobs.UnitTests/MyPoGoCompanion.Jobs.UnitTests.csproj" />
+    <Project Path="jobs/MyPoGoCompanion.Jobs/MyPoGoCompanion.Jobs.csproj" />
+  </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/MyPoGoCompanion.GoldenFiles.UnitTests/MyPoGoCompanion.GoldenFiles.UnitTests.csproj" />
     <Project Path="tests/MyPoGoCompanion.GoldenFiles/MyPoGoCompanion.GoldenFiles.csproj" />

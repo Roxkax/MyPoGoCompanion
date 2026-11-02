@@ -1,0 +1,4920 @@
+{
+ "pokemon": [
+  {
+   "dex": 1,
+   "speciesName": "Bulbasaur",
+   "speciesId": "bulbasaur",
+   "baseStats": {
+    "atk": 118,
+    "def": 111,
+    "hp": 128
+   },
+   "types": [
+    "grass",
+    "poison"
+   ],
+   "fastMoves": [
+    "TACKLE",
+    "VINE_WHIP"
+   ],
+   "chargedMoves": [
+    "POWER_WHIP",
+    "SEED_BOMB",
+    "SLUDGE_BOMB"
+   ],
+   "tags": [
+    "starter",
+    "shadoweligible"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     17.5,
+     3,
+     14,
+     12
+    ],
+    "cp1500": [
+     50,
+     15,
+     15,
+     15
+    ],
+    "cp2500": [
+     50,
+     15,
+     15,
+     15
+    ]
+   },
+   "level25CP": 627,
+   "buddyDistance": 3,
+   "thirdMoveCost": 10000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_BULBASAUR",
+    "evolutions": [
+     "ivysaur"
+    ]
+   }
+  },
+  {
+   "dex": 1,
+   "speciesName": "Bulbasaur (Shadow)",
+   "speciesId": "bulbasaur_shadow",
+   "baseStats": {
+    "atk": 118,
+    "def": 111,
+    "hp": 128
+   },
+   "types": [
+    "grass",
+    "poison"
+   ],
+   "fastMoves": [
+    "TACKLE",
+    "VINE_WHIP"
+   ],
+   "chargedMoves": [
+    "POWER_WHIP",
+    "SEED_BOMB",
+    "SLUDGE_BOMB"
+   ],
+   "tags": [
+    "starter",
+    "shadow"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     17,
+     5,
+     15,
+     14
+    ],
+    "cp1500": [
+     50,
+     15,
+     15,
+     15
+    ],
+    "cp2500": [
+     50,
+     15,
+     15,
+     15
+    ]
+   },
+   "buddyDistance": 3,
+   "thirdMoveCost": 10000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_BULBASAUR",
+    "evolutions": [
+     "ivysaur_shadow"
+    ]
+   }
+  },
+  {
+   "dex": 2,
+   "speciesName": "Ivysaur",
+   "speciesId": "ivysaur",
+   "baseStats": {
+    "atk": 151,
+    "def": 143,
+    "hp": 155
+   },
+   "types": [
+    "grass",
+    "poison"
+   ],
+   "fastMoves": [
+    "RAZOR_LEAF",
+    "VINE_WHIP"
+   ],
+   "chargedMoves": [
+    "POWER_WHIP",
+    "SLUDGE_BOMB",
+    "SOLAR_BEAM"
+   ],
+   "tags": [
+    "starter",
+    "shadoweligible"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     11,
+     4,
+     15,
+     15
+    ],
+    "cp1500": [
+     37.5,
+     2,
+     13,
+     15
+    ],
+    "cp2500": [
+     50,
+     15,
+     15,
+     15
+    ]
+   },
+   "level25CP": 1002,
+   "buddyDistance": 3,
+   "thirdMoveCost": 10000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_BULBASAUR",
+    "parent": "bulbasaur",
+    "evolutions": [
+     "venusaur"
+    ]
+   }
+  },
+  {
+   "dex": 2,
+   "speciesName": "Ivysaur (Shadow)",
+   "speciesId": "ivysaur_shadow",
+   "baseStats": {
+    "atk": 151,
+    "def": 143,
+    "hp": 155
+   },
+   "types": [
+    "grass",
+    "poison"
+   ],
+   "fastMoves": [
+    "RAZOR_LEAF",
+    "VINE_WHIP"
+   ],
+   "chargedMoves": [
+    "POWER_WHIP",
+    "SLUDGE_BOMB",
+    "SOLAR_BEAM"
+   ],
+   "tags": [
+    "starter",
+    "shadow"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     11,
+     4,
+     15,
+     15
+    ],
+    "cp1500": [
+     37,
+     4,
+     14,
+     12
+    ],
+    "cp2500": [
+     50,
+     15,
+     15,
+     15
+    ]
+   },
+   "buddyDistance": 3,
+   "thirdMoveCost": 10000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_BULBASAUR",
+    "parent": "bulbasaur_shadow",
+    "evolutions": [
+     "venusaur_shadow"
+    ]
+   }
+  },
+  {
+   "dex": 3,
+   "speciesName": "Venusaur",
+   "speciesId": "venusaur",
+   "baseStats": {
+    "atk": 198,
+    "def": 189,
+    "hp": 190
+   },
+   "types": [
+    "grass",
+    "poison"
+   ],
+   "fastMoves": [
+    "RAZOR_LEAF",
+    "VINE_WHIP"
+   ],
+   "chargedMoves": [
+    "FRENZY_PLANT",
+    "PETAL_BLIZZARD",
+    "SLUDGE_BOMB",
+    "SOLAR_BEAM",
+    "SLUDGE"
+   ],
+   "tags": [
+    "starter",
+    "shadoweligible"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     7,
+     5,
+     14,
+     11
+    ],
+    "cp1500": [
+     20.5,
+     4,
+     13,
+     14
+    ],
+    "cp2500": [
+     38,
+     4,
+     14,
+     15
+    ]
+   },
+   "level25CP": 1673,
+   "eliteMoves": [
+    "FRENZY_PLANT"
+   ],
+   "searchPriority": 4,
+   "buddyDistance": 3,
+   "thirdMoveCost": 10000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_BULBASAUR",
+    "parent": "ivysaur"
+   }
+  },
+  {
+   "dex": 3,
+   "speciesName": "Venusaur (Mega)",
+   "speciesId": "venusaur_mega",
+   "baseStats": {
+    "atk": 241,
+    "def": 246,
+    "hp": 190
+   },
+   "types": [
+    "grass",
+    "poison"
+   ],
+   "fastMoves": [
+    "RAZOR_LEAF",
+    "VINE_WHIP"
+   ],
+   "chargedMoves": [
+    "FRENZY_PLANT",
+    "PETAL_BLIZZARD",
+    "SLUDGE_BOMB",
+    "SOLAR_BEAM",
+    "SLUDGE"
+   ],
+   "tags": [
+    "starter",
+    "shadoweligible",
+    "mega"
+   ],
+   "level25CP": 2324,
+   "defaultIVs": {
+    "cp500": [
+     5,
+     15,
+     15,
+     14
+    ],
+    "cp1500": [
+     15,
+     4,
+     9,
+     15
+    ],
+    "cp2500": [
+     25,
+     4,
+     10,
+     14
+    ]
+   },
+   "eliteMoves": [
+    "FRENZY_PLANT"
+   ],
+   "buddyDistance": 3,
+   "thirdMoveCost": 10000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_BULBASAUR",
+    "parent": "ivysaur"
+   }
+  },
+  {
+   "dex": 3,
+   "speciesName": "Venusaur (Shadow)",
+   "speciesId": "venusaur_shadow",
+   "baseStats": {
+    "atk": 198,
+    "def": 189,
+    "hp": 190
+   },
+   "types": [
+    "grass",
+    "poison"
+   ],
+   "fastMoves": [
+    "RAZOR_LEAF",
+    "VINE_WHIP"
+   ],
+   "chargedMoves": [
+    "FRENZY_PLANT",
+    "PETAL_BLIZZARD",
+    "SLUDGE_BOMB",
+    "SOLAR_BEAM",
+    "SLUDGE"
+   ],
+   "tags": [
+    "starter",
+    "shadow"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     7,
+     5,
+     14,
+     11
+    ],
+    "cp1500": [
+     20.5,
+     4,
+     13,
+     14
+    ],
+    "cp2500": [
+     38,
+     4,
+     14,
+     15
+    ]
+   },
+   "eliteMoves": [
+    "FRENZY_PLANT"
+   ],
+   "buddyDistance": 3,
+   "thirdMoveCost": 10000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_BULBASAUR",
+    "parent": "ivysaur_shadow"
+   }
+  },
+  {
+   "dex": 4,
+   "speciesName": "Charmander",
+   "speciesId": "charmander",
+   "baseStats": {
+    "atk": 116,
+    "def": 93,
+    "hp": 118
+   },
+   "types": [
+    "fire",
+    "none"
+   ],
+   "fastMoves": [
+    "EMBER",
+    "SCRATCH"
+   ],
+   "chargedMoves": [
+    "FLAME_BURST",
+    "FLAME_CHARGE",
+    "FLAMETHROWER"
+   ],
+   "tags": [
+    "starter",
+    "shadoweligible"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     19.5,
+     5,
+     15,
+     13
+    ],
+    "cp1500": [
+     50,
+     15,
+     15,
+     15
+    ],
+    "cp2500": [
+     50,
+     15,
+     15,
+     15
+    ]
+   },
+   "level25CP": 542,
+   "buddyDistance": 3,
+   "thirdMoveCost": 10000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_CHARMANDER",
+    "evolutions": [
+     "charmeleon"
+    ]
+   }
+  },
+  {
+   "dex": 4,
+   "speciesName": "Charmander (Shadow)",
+   "speciesId": "charmander_shadow",
+   "baseStats": {
+    "atk": 116,
+    "def": 93,
+    "hp": 118
+   },
+   "types": [
+    "fire",
+    "none"
+   ],
+   "fastMoves": [
+    "EMBER",
+    "SCRATCH"
+   ],
+   "chargedMoves": [
+    "FLAME_BURST",
+    "FLAME_CHARGE",
+    "FLAMETHROWER"
+   ],
+   "tags": [
+    "starter",
+    "shadow"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     19.5,
+     5,
+     15,
+     13
+    ],
+    "cp1500": [
+     50,
+     15,
+     15,
+     15
+    ],
+    "cp2500": [
+     50,
+     15,
+     15,
+     15
+    ]
+   },
+   "buddyDistance": 3,
+   "thirdMoveCost": 10000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_CHARMANDER",
+    "evolutions": [
+     "charmeleon_shadow"
+    ]
+   }
+  },
+  {
+   "dex": 5,
+   "speciesName": "Charmeleon",
+   "speciesId": "charmeleon",
+   "baseStats": {
+    "atk": 158,
+    "def": 126,
+    "hp": 151
+   },
+   "types": [
+    "fire",
+    "none"
+   ],
+   "fastMoves": [
+    "EMBER",
+    "FIRE_FANG",
+    "SCRATCH"
+   ],
+   "chargedMoves": [
+    "FIRE_PUNCH",
+    "FLAME_BURST",
+    "FLAMETHROWER"
+   ],
+   "tags": [
+    "starter",
+    "shadoweligible"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     11.5,
+     5,
+     15,
+     8
+    ],
+    "cp1500": [
+     38.5,
+     4,
+     14,
+     13
+    ],
+    "cp2500": [
+     50,
+     15,
+     15,
+     15
+    ]
+   },
+   "level25CP": 972,
+   "eliteMoves": [
+    "SCRATCH"
+   ],
+   "buddyDistance": 3,
+   "thirdMoveCost": 10000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_CHARMANDER",
+    "parent": "charmander",
+    "evolutions": [
+     "charizard"
+    ]
+   }
+  },
+  {
+   "dex": 5,
+   "speciesName": "Charmeleon (Shadow)",
+   "speciesId": "charmeleon_shadow",
+   "baseStats": {
+    "atk": 158,
+    "def": 126,
+    "hp": 151
+   },
+   "types": [
+    "fire",
+    "none"
+   ],
+   "fastMoves": [
+    "EMBER",
+    "FIRE_FANG",
+    "SCRATCH"
+   ],
+   "chargedMoves": [
+    "FIRE_PUNCH",
+    "FLAME_BURST",
+    "FLAMETHROWER"
+   ],
+   "tags": [
+    "starter",
+    "shadow"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     11.5,
+     5,
+     15,
+     8
+    ],
+    "cp1500": [
+     38.5,
+     4,
+     14,
+     13
+    ],
+    "cp2500": [
+     50,
+     15,
+     15,
+     15
+    ]
+   },
+   "eliteMoves": [
+    "SCRATCH"
+   ],
+   "buddyDistance": 3,
+   "thirdMoveCost": 10000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_CHARMANDER",
+    "parent": "charmander_shadow",
+    "evolutions": [
+     "charizard_shadow"
+    ]
+   }
+  },
+  {
+   "dex": 6,
+   "speciesName": "Charizard",
+   "speciesId": "charizard",
+   "baseStats": {
+    "atk": 223,
+    "def": 173,
+    "hp": 186
+   },
+   "types": [
+    "fire",
+    "flying"
+   ],
+   "fastMoves": [
+    "AIR_SLASH",
+    "EMBER",
+    "FIRE_SPIN",
+    "WING_ATTACK",
+    "DRAGON_BREATH"
+   ],
+   "chargedMoves": [
+    "BLAST_BURN",
+    "DRAGON_CLAW",
+    "FIRE_BLAST",
+    "FLAMETHROWER",
+    "OVERHEAT",
+    "AIR_CUTTER"
+   ],
+   "tags": [
+    "starter",
+    "shadoweligible"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     6.5,
+     6,
+     15,
+     14
+    ],
+    "cp1500": [
+     19,
+     5,
+     14,
+     15
+    ],
+    "cp2500": [
+     34,
+     4,
+     13,
+     14
+    ]
+   },
+   "level25CP": 1784,
+   "eliteMoves": [
+    "EMBER",
+    "WING_ATTACK",
+    "BLAST_BURN",
+    "FLAMETHROWER",
+    "DRAGON_BREATH"
+   ],
+   "searchPriority": 5,
+   "buddyDistance": 3,
+   "thirdMoveCost": 10000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_CHARMANDER",
+    "parent": "charmeleon"
+   },
+   "nicknames": [
+    "zard"
+   ]
+  },
+  {
+   "dex": 6,
+   "speciesName": "Charizard (Mega X)",
+   "speciesId": "charizard_mega_x",
+   "baseStats": {
+    "atk": 273,
+    "def": 213,
+    "hp": 186
+   },
+   "types": [
+    "fire",
+    "dragon"
+   ],
+   "fastMoves": [
+    "AIR_SLASH",
+    "EMBER",
+    "FIRE_SPIN",
+    "WING_ATTACK",
+    "DRAGON_BREATH"
+   ],
+   "chargedMoves": [
+    "BLAST_BURN",
+    "DRAGON_CLAW",
+    "FIRE_BLAST",
+    "FLAMETHROWER",
+    "OVERHEAT",
+    "AIR_CUTTER"
+   ],
+   "tags": [
+    "starter",
+    "shadoweligible",
+    "mega"
+   ],
+   "level25CP": 2424,
+   "defaultIVs": {
+    "cp500": [
+     5,
+     6,
+     14,
+     14
+    ],
+    "cp1500": [
+     14.5,
+     4,
+     14,
+     7
+    ],
+    "cp2500": [
+     23.5,
+     6,
+     14,
+     15
+    ]
+   },
+   "eliteMoves": [
+    "EMBER",
+    "WING_ATTACK",
+    "BLAST_BURN",
+    "FLAMETHROWER",
+    "DRAGON_BREATH"
+   ],
+   "buddyDistance": 3,
+   "thirdMoveCost": 10000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_CHARMANDER",
+    "parent": "charmeleon"
+   },
+   "nicknames": [
+    "zardx"
+   ]
+  },
+  {
+   "dex": 6,
+   "speciesName": "Charizard (Mega Y)",
+   "speciesId": "charizard_mega_y",
+   "baseStats": {
+    "atk": 319,
+    "def": 212,
+    "hp": 186
+   },
+   "types": [
+    "fire",
+    "flying"
+   ],
+   "fastMoves": [
+    "AIR_SLASH",
+    "EMBER",
+    "FIRE_SPIN",
+    "WING_ATTACK",
+    "DRAGON_BREATH"
+   ],
+   "chargedMoves": [
+    "BLAST_BURN",
+    "DRAGON_CLAW",
+    "FIRE_BLAST",
+    "FLAMETHROWER",
+    "OVERHEAT",
+    "AIR_CUTTER"
+   ],
+   "tags": [
+    "starter",
+    "shadoweligible",
+    "mega"
+   ],
+   "level25CP": 2826,
+   "defaultIVs": {
+    "cp500": [
+     4.5,
+     4,
+     9,
+     8
+    ],
+    "cp1500": [
+     12,
+     8,
+     15,
+     15
+    ],
+    "cp2500": [
+     20.5,
+     4,
+     13,
+     13
+    ]
+   },
+   "eliteMoves": [
+    "EMBER",
+    "WING_ATTACK",
+    "BLAST_BURN",
+    "FLAMETHROWER",
+    "DRAGON_BREATH"
+   ],
+   "buddyDistance": 3,
+   "thirdMoveCost": 10000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_CHARMANDER",
+    "parent": "charmeleon"
+   },
+   "nicknames": [
+    "zardy"
+   ]
+  },
+  {
+   "dex": 6,
+   "speciesName": "Charizard (Shadow)",
+   "speciesId": "charizard_shadow",
+   "baseStats": {
+    "atk": 223,
+    "def": 173,
+    "hp": 186
+   },
+   "types": [
+    "fire",
+    "flying"
+   ],
+   "fastMoves": [
+    "AIR_SLASH",
+    "EMBER",
+    "FIRE_SPIN",
+    "WING_ATTACK",
+    "DRAGON_BREATH"
+   ],
+   "chargedMoves": [
+    "BLAST_BURN",
+    "DRAGON_CLAW",
+    "FIRE_BLAST",
+    "FLAMETHROWER",
+    "OVERHEAT",
+    "AIR_CUTTER"
+   ],
+   "tags": [
+    "starter",
+    "shadow"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     6.5,
+     6,
+     15,
+     14
+    ],
+    "cp1500": [
+     19,
+     5,
+     14,
+     15
+    ],
+    "cp2500": [
+     34,
+     4,
+     13,
+     14
+    ]
+   },
+   "eliteMoves": [
+    "EMBER",
+    "WING_ATTACK",
+    "BLAST_BURN",
+    "FLAMETHROWER",
+    "DRAGON_BREATH"
+   ],
+   "buddyDistance": 3,
+   "thirdMoveCost": 10000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_CHARMANDER",
+    "parent": "charmeleon_shadow"
+   },
+   "nicknames": [
+    "zard"
+   ],
+   "searchPriority": 6
+  },
+  {
+   "dex": 13,
+   "speciesName": "Weedle",
+   "speciesId": "weedle",
+   "baseStats": {
+    "atk": 63,
+    "def": 50,
+    "hp": 120
+   },
+   "types": [
+    "bug",
+    "poison"
+   ],
+   "fastMoves": [
+    "BUG_BITE",
+    "POISON_STING"
+   ],
+   "chargedMoves": [
+    "STRUGGLE"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     50,
+     13,
+     15,
+     14
+    ],
+    "cp1500": [
+     50,
+     15,
+     15,
+     15
+    ],
+    "cp2500": [
+     50,
+     15,
+     15,
+     15
+    ],
+    "cp500l40": [
+     40,
+     15,
+     15,
+     15
+    ]
+   },
+   "level25CP": 217,
+   "tags": [
+    "shadoweligible"
+   ],
+   "buddyDistance": 1,
+   "thirdMoveCost": 10000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_WEEDLE",
+    "evolutions": [
+     "kakuna"
+    ]
+   }
+  },
+  {
+   "dex": 13,
+   "speciesName": "Weedle (Shadow)",
+   "speciesId": "weedle_shadow",
+   "baseStats": {
+    "atk": 63,
+    "def": 50,
+    "hp": 120
+   },
+   "types": [
+    "bug",
+    "poison"
+   ],
+   "fastMoves": [
+    "BUG_BITE",
+    "POISON_STING"
+   ],
+   "chargedMoves": [
+    "STRUGGLE"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     50,
+     13,
+     15,
+     14
+    ],
+    "cp1500": [
+     50,
+     15,
+     15,
+     15
+    ],
+    "cp2500": [
+     50,
+     15,
+     15,
+     15
+    ],
+    "cp500l40": [
+     40,
+     15,
+     15,
+     15
+    ]
+   },
+   "tags": [
+    "shadow"
+   ],
+   "buddyDistance": 1,
+   "thirdMoveCost": 10000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_WEEDLE",
+    "evolutions": [
+     "kakuna_shadow"
+    ]
+   }
+  },
+  {
+   "dex": 14,
+   "speciesName": "Kakuna",
+   "speciesId": "kakuna",
+   "baseStats": {
+    "atk": 46,
+    "def": 75,
+    "hp": 128
+   },
+   "types": [
+    "bug",
+    "poison"
+   ],
+   "fastMoves": [
+    "BUG_BITE",
+    "POISON_STING"
+   ],
+   "chargedMoves": [
+    "STRUGGLE"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     50,
+     15,
+     15,
+     15
+    ],
+    "cp1500": [
+     50,
+     15,
+     15,
+     15
+    ],
+    "cp2500": [
+     50,
+     15,
+     15,
+     15
+    ]
+   },
+   "level25CP": 201,
+   "tags": [
+    "shadoweligible"
+   ],
+   "buddyDistance": 1,
+   "thirdMoveCost": 10000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_WEEDLE",
+    "parent": "weedle",
+    "evolutions": [
+     "beedrill"
+    ]
+   }
+  },
+  {
+   "dex": 14,
+   "speciesName": "Kakuna (Shadow)",
+   "speciesId": "kakuna_shadow",
+   "baseStats": {
+    "atk": 46,
+    "def": 75,
+    "hp": 128
+   },
+   "types": [
+    "bug",
+    "poison"
+   ],
+   "fastMoves": [
+    "BUG_BITE",
+    "POISON_STING"
+   ],
+   "chargedMoves": [
+    "STRUGGLE"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     50,
+     15,
+     15,
+     15
+    ],
+    "cp1500": [
+     50,
+     15,
+     15,
+     15
+    ],
+    "cp2500": [
+     50,
+     15,
+     15,
+     15
+    ]
+   },
+   "tags": [
+    "shadow"
+   ],
+   "buddyDistance": 1,
+   "thirdMoveCost": 10000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_WEEDLE",
+    "parent": "weedle_shadow",
+    "evolutions": [
+     "beedrill_shadow"
+    ]
+   }
+  },
+  {
+   "dex": 15,
+   "speciesName": "Beedrill",
+   "speciesId": "beedrill",
+   "baseStats": {
+    "atk": 169,
+    "def": 130,
+    "hp": 163
+   },
+   "types": [
+    "bug",
+    "poison"
+   ],
+   "fastMoves": [
+    "BUG_BITE",
+    "INFESTATION",
+    "POISON_JAB",
+    "POISON_STING"
+   ],
+   "chargedMoves": [
+    "AERIAL_ACE",
+    "SLUDGE_BOMB",
+    "X_SCISSOR",
+    "FELL_STINGER",
+    "DRILL_RUN"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     10,
+     6,
+     14,
+     15
+    ],
+    "cp1500": [
+     30.5,
+     4,
+     15,
+     15
+    ],
+    "cp2500": [
+     50,
+     15,
+     15,
+     15
+    ]
+   },
+   "level25CP": 1097,
+   "tags": [
+    "shadoweligible"
+   ],
+   "eliteMoves": [
+    "BUG_BITE",
+    "DRILL_RUN"
+   ],
+   "searchPriority": 3,
+   "buddyDistance": 1,
+   "thirdMoveCost": 10000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_WEEDLE",
+    "parent": "kakuna"
+   }
+  },
+  {
+   "dex": 15,
+   "speciesName": "Beedrill (Mega)",
+   "speciesId": "beedrill_mega",
+   "baseStats": {
+    "atk": 303,
+    "def": 148,
+    "hp": 163
+   },
+   "types": [
+    "bug",
+    "poison"
+   ],
+   "fastMoves": [
+    "BUG_BITE",
+    "INFESTATION",
+    "POISON_JAB",
+    "POISON_STING"
+   ],
+   "chargedMoves": [
+    "AERIAL_ACE",
+    "SLUDGE_BOMB",
+    "X_SCISSOR",
+    "FELL_STINGER",
+    "DRILL_RUN"
+   ],
+   "extraChargedMoves": [
+    "FELL_STINGER_PLUS"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     5.5,
+     12,
+     14,
+     14
+    ],
+    "cp1500": [
+     16,
+     6,
+     14,
+     15
+    ],
+    "cp2500": [
+     27,
+     4,
+     15,
+     12
+    ]
+   },
+   "tags": [
+    "shadoweligible",
+    "mega",
+    "supermega"
+   ],
+   "level25CP": 2099,
+   "eliteMoves": [
+    "BUG_BITE",
+    "DRILL_RUN"
+   ],
+   "buddyDistance": 1,
+   "thirdMoveCost": 10000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_WEEDLE",
+    "parent": "kakuna"
+   }
+  },
+  {
+   "dex": 15,
+   "speciesName": "Beedrill (Shadow)",
+   "speciesId": "beedrill_shadow",
+   "baseStats": {
+    "atk": 169,
+    "def": 130,
+    "hp": 163
+   },
+   "types": [
+    "bug",
+    "poison"
+   ],
+   "fastMoves": [
+    "BUG_BITE",
+    "INFESTATION",
+    "POISON_JAB",
+    "POISON_STING"
+   ],
+   "chargedMoves": [
+    "AERIAL_ACE",
+    "SLUDGE_BOMB",
+    "X_SCISSOR",
+    "FELL_STINGER",
+    "DRILL_RUN"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     10,
+     6,
+     14,
+     15
+    ],
+    "cp1500": [
+     30.5,
+     4,
+     15,
+     15
+    ],
+    "cp2500": [
+     50,
+     15,
+     15,
+     15
+    ]
+   },
+   "tags": [
+    "shadow"
+   ],
+   "eliteMoves": [
+    "BUG_BITE",
+    "DRILL_RUN"
+   ],
+   "buddyDistance": 1,
+   "thirdMoveCost": 10000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_WEEDLE",
+    "parent": "kakuna_shadow"
+   }
+  },
+  {
+   "dex": 37,
+   "speciesName": "Vulpix",
+   "speciesId": "vulpix",
+   "baseStats": {
+    "atk": 96,
+    "def": 109,
+    "hp": 116
+   },
+   "types": [
+    "fire",
+    "none"
+   ],
+   "fastMoves": [
+    "EMBER",
+    "QUICK_ATTACK"
+   ],
+   "chargedMoves": [
+    "BODY_SLAM",
+    "FLAME_CHARGE",
+    "FLAMETHROWER",
+    "WEATHER_BALL_FIRE"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     22,
+     4,
+     14,
+     15
+    ],
+    "cp1500": [
+     50,
+     15,
+     15,
+     15
+    ],
+    "cp2500": [
+     50,
+     15,
+     15,
+     15
+    ]
+   },
+   "level25CP": 481,
+   "tags": [
+    "shadoweligible"
+   ],
+   "buddyDistance": 3,
+   "thirdMoveCost": 50000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_VULPIX",
+    "evolutions": [
+     "ninetales"
+    ]
+   }
+  },
+  {
+   "dex": 37,
+   "speciesName": "Vulpix (Alolan)",
+   "speciesId": "vulpix_alolan",
+   "baseStats": {
+    "atk": 96,
+    "def": 109,
+    "hp": 116
+   },
+   "types": [
+    "ice",
+    "none"
+   ],
+   "fastMoves": [
+    "POWDER_SNOW",
+    "ZEN_HEADBUTT"
+   ],
+   "chargedMoves": [
+    "BLIZZARD",
+    "DARK_PULSE",
+    "ICE_BEAM",
+    "WEATHER_BALL_ICE"
+   ],
+   "tags": [
+    "alolan",
+    "shadoweligible"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     22,
+     4,
+     14,
+     15
+    ],
+    "cp1500": [
+     50,
+     15,
+     15,
+     15
+    ],
+    "cp2500": [
+     50,
+     15,
+     15,
+     15
+    ]
+   },
+   "buddyDistance": 3,
+   "thirdMoveCost": 50000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_VULPIX",
+    "evolutions": [
+     "ninetales_alolan"
+    ]
+   },
+   "level25CP": 481
+  },
+  {
+   "dex": 37,
+   "speciesName": "Vulpix (Alolan) (Shadow)",
+   "speciesId": "vulpix_alolan_shadow",
+   "baseStats": {
+    "atk": 96,
+    "def": 109,
+    "hp": 116
+   },
+   "types": [
+    "ice",
+    "none"
+   ],
+   "fastMoves": [
+    "POWDER_SNOW",
+    "ZEN_HEADBUTT"
+   ],
+   "chargedMoves": [
+    "BLIZZARD",
+    "DARK_PULSE",
+    "ICE_BEAM",
+    "WEATHER_BALL_ICE"
+   ],
+   "tags": [
+    "alolan",
+    "shadow"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     22,
+     4,
+     14,
+     15
+    ],
+    "cp1500": [
+     50,
+     15,
+     15,
+     15
+    ],
+    "cp2500": [
+     50,
+     15,
+     15,
+     15
+    ]
+   },
+   "buddyDistance": 3,
+   "thirdMoveCost": 50000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_VULPIX",
+    "evolutions": [
+     "ninetales_alolan_shadow"
+    ]
+   }
+  },
+  {
+   "dex": 37,
+   "speciesName": "Vulpix (Shadow)",
+   "speciesId": "vulpix_shadow",
+   "baseStats": {
+    "atk": 96,
+    "def": 109,
+    "hp": 116
+   },
+   "types": [
+    "fire",
+    "none"
+   ],
+   "fastMoves": [
+    "EMBER",
+    "QUICK_ATTACK"
+   ],
+   "chargedMoves": [
+    "BODY_SLAM",
+    "FLAME_CHARGE",
+    "FLAMETHROWER",
+    "WEATHER_BALL_FIRE"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     22,
+     4,
+     14,
+     15
+    ],
+    "cp1500": [
+     50,
+     15,
+     15,
+     15
+    ],
+    "cp2500": [
+     50,
+     15,
+     15,
+     15
+    ]
+   },
+   "tags": [
+    "shadow"
+   ],
+   "buddyDistance": 3,
+   "thirdMoveCost": 50000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_VULPIX",
+    "evolutions": [
+     "ninetales_shadow"
+    ]
+   }
+  },
+  {
+   "dex": 38,
+   "speciesName": "Ninetales",
+   "speciesId": "ninetales",
+   "baseStats": {
+    "atk": 169,
+    "def": 190,
+    "hp": 177
+   },
+   "types": [
+    "fire",
+    "none"
+   ],
+   "fastMoves": [
+    "EMBER",
+    "FEINT_ATTACK",
+    "FIRE_SPIN"
+   ],
+   "chargedMoves": [
+    "FIRE_BLAST",
+    "FLAMETHROWER",
+    "HEAT_WAVE",
+    "OVERHEAT",
+    "PSYSHOCK",
+    "SOLAR_BEAM",
+    "WEATHER_BALL_FIRE",
+    "SCORCHING_SANDS",
+    "ENERGY_BALL"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     8.5,
+     4,
+     15,
+     4
+    ],
+    "cp1500": [
+     24.5,
+     4,
+     15,
+     14
+    ],
+    "cp2500": [
+     49,
+     12,
+     15,
+     14
+    ],
+    "cp2500l40": [
+     40,
+     15,
+     15,
+     15
+    ]
+   },
+   "level25CP": 1382,
+   "tags": [
+    "shadoweligible"
+   ],
+   "eliteMoves": [
+    "EMBER",
+    "FIRE_BLAST",
+    "FLAMETHROWER",
+    "ENERGY_BALL"
+   ],
+   "searchPriority": 6,
+   "buddyDistance": 3,
+   "thirdMoveCost": 50000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_VULPIX",
+    "parent": "vulpix"
+   },
+   "nicknames": [
+    "k9"
+   ]
+  },
+  {
+   "dex": 38,
+   "speciesName": "Ninetales (Alolan)",
+   "speciesId": "ninetales_alolan",
+   "baseStats": {
+    "atk": 170,
+    "def": 193,
+    "hp": 177
+   },
+   "types": [
+    "ice",
+    "fairy"
+   ],
+   "fastMoves": [
+    "FEINT_ATTACK",
+    "POWDER_SNOW",
+    "CHARM"
+   ],
+   "chargedMoves": [
+    "BLIZZARD",
+    "DAZZLING_GLEAM",
+    "ICE_BEAM",
+    "PSYSHOCK",
+    "WEATHER_BALL_ICE",
+    "CHILLING_WATER"
+   ],
+   "eliteMoves": [
+    "CHILLING_WATER"
+   ],
+   "tags": [
+    "alolan",
+    "shadoweligible"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     8,
+     8,
+     14,
+     15
+    ],
+    "cp1500": [
+     24,
+     5,
+     15,
+     15
+    ],
+    "cp2500": [
+     47.5,
+     13,
+     15,
+     14
+    ],
+    "cp2500l40": [
+     40,
+     15,
+     15,
+     15
+    ]
+   },
+   "searchPriority": 5,
+   "buddyDistance": 3,
+   "thirdMoveCost": 50000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_VULPIX",
+    "parent": "vulpix_alolan"
+   },
+   "level25CP": 1401,
+   "nicknames": [
+    "a9"
+   ]
+  },
+  {
+   "dex": 38,
+   "speciesName": "Ninetales (Alolan) (Shadow)",
+   "speciesId": "ninetales_alolan_shadow",
+   "baseStats": {
+    "atk": 170,
+    "def": 193,
+    "hp": 177
+   },
+   "types": [
+    "ice",
+    "fairy"
+   ],
+   "fastMoves": [
+    "FEINT_ATTACK",
+    "POWDER_SNOW",
+    "CHARM"
+   ],
+   "chargedMoves": [
+    "BLIZZARD",
+    "DAZZLING_GLEAM",
+    "ICE_BEAM",
+    "PSYSHOCK",
+    "WEATHER_BALL_ICE",
+    "CHILLING_WATER"
+   ],
+   "eliteMoves": [
+    "CHILLING_WATER"
+   ],
+   "tags": [
+    "alolan",
+    "shadow"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     8,
+     8,
+     14,
+     15
+    ],
+    "cp1500": [
+     24,
+     5,
+     15,
+     15
+    ],
+    "cp2500": [
+     47.5,
+     13,
+     15,
+     14
+    ],
+    "cp2500l40": [
+     40,
+     15,
+     15,
+     15
+    ]
+   },
+   "buddyDistance": 3,
+   "thirdMoveCost": 50000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_VULPIX",
+    "parent": "vulpix_alolan_shadow"
+   },
+   "nicknames": [
+    "a9"
+   ]
+  },
+  {
+   "dex": 38,
+   "speciesName": "Ninetales (Shadow)",
+   "speciesId": "ninetales_shadow",
+   "baseStats": {
+    "atk": 169,
+    "def": 190,
+    "hp": 177
+   },
+   "types": [
+    "fire",
+    "none"
+   ],
+   "fastMoves": [
+    "EMBER",
+    "FEINT_ATTACK",
+    "FIRE_SPIN"
+   ],
+   "chargedMoves": [
+    "FIRE_BLAST",
+    "FLAMETHROWER",
+    "HEAT_WAVE",
+    "OVERHEAT",
+    "PSYSHOCK",
+    "SOLAR_BEAM",
+    "WEATHER_BALL_FIRE",
+    "SCORCHING_SANDS",
+    "ENERGY_BALL"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     8.5,
+     4,
+     15,
+     4
+    ],
+    "cp1500": [
+     24.5,
+     4,
+     15,
+     14
+    ],
+    "cp2500": [
+     49,
+     12,
+     15,
+     14
+    ],
+    "cp2500l40": [
+     40,
+     15,
+     15,
+     15
+    ]
+   },
+   "tags": [
+    "shadow"
+   ],
+   "eliteMoves": [
+    "EMBER",
+    "FIRE_BLAST",
+    "FLAMETHROWER",
+    "ENERGY_BALL"
+   ],
+   "searchPriority": 10,
+   "buddyDistance": 3,
+   "thirdMoveCost": 50000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_VULPIX",
+    "parent": "vulpix_shadow"
+   },
+   "nicknames": [
+    "k9"
+   ]
+  },
+  {
+   "dex": 133,
+   "speciesName": "Eevee",
+   "speciesId": "eevee",
+   "baseStats": {
+    "atk": 104,
+    "def": 114,
+    "hp": 146
+   },
+   "types": [
+    "normal",
+    "none"
+   ],
+   "fastMoves": [
+    "QUICK_ATTACK",
+    "TACKLE"
+   ],
+   "chargedMoves": [
+    "BODY_SLAM",
+    "DIG",
+    "LAST_RESORT",
+    "SWIFT"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     18,
+     5,
+     13,
+     15
+    ],
+    "cp1500": [
+     50,
+     15,
+     15,
+     15
+    ],
+    "cp2500": [
+     50,
+     15,
+     15,
+     15
+    ]
+   },
+   "eliteMoves": [
+    "LAST_RESORT",
+    "BODY_SLAM"
+   ],
+   "buddyDistance": 5,
+   "thirdMoveCost": 75000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_EEVEE",
+    "evolutions": [
+     "vaporeon",
+     "jolteon",
+     "flareon",
+     "espeon",
+     "umbreon",
+     "leafeon",
+     "glaceon",
+     "sylveon"
+    ]
+   }
+  },
+  {
+   "dex": 134,
+   "speciesName": "Vaporeon",
+   "speciesId": "vaporeon",
+   "baseStats": {
+    "atk": 205,
+    "def": 161,
+    "hp": 277
+   },
+   "types": [
+    "water",
+    "none"
+   ],
+   "fastMoves": [
+    "WATER_GUN"
+   ],
+   "chargedMoves": [
+    "AQUA_TAIL",
+    "HYDRO_PUMP",
+    "LAST_RESORT",
+    "WATER_PULSE",
+    "SCALD",
+    "LIQUIDATION"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     6,
+     9,
+     15,
+     15
+    ],
+    "cp1500": [
+     18,
+     4,
+     10,
+     15
+    ],
+    "cp2500": [
+     29.5,
+     4,
+     15,
+     15
+    ]
+   },
+   "eliteMoves": [
+    "LAST_RESORT",
+    "SCALD"
+   ],
+   "buddyDistance": 5,
+   "thirdMoveCost": 75000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_EEVEE",
+    "parent": "eevee"
+   }
+  },
+  {
+   "dex": 135,
+   "speciesName": "Jolteon",
+   "speciesId": "jolteon",
+   "baseStats": {
+    "atk": 232,
+    "def": 182,
+    "hp": 163
+   },
+   "types": [
+    "electric",
+    "none"
+   ],
+   "fastMoves": [
+    "THUNDER_SHOCK",
+    "VOLT_SWITCH"
+   ],
+   "chargedMoves": [
+    "DISCHARGE",
+    "LAST_RESORT",
+    "THUNDER",
+    "THUNDERBOLT",
+    "ZAP_CANNON"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     6.5,
+     6,
+     15,
+     14
+    ],
+    "cp1500": [
+     19,
+     4,
+     15,
+     15
+    ],
+    "cp2500": [
+     34,
+     4,
+     13,
+     13
+    ]
+   },
+   "eliteMoves": [
+    "LAST_RESORT",
+    "ZAP_CANNON"
+   ],
+   "buddyDistance": 5,
+   "thirdMoveCost": 75000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_EEVEE",
+    "parent": "eevee"
+   }
+  },
+  {
+   "dex": 136,
+   "speciesName": "Flareon",
+   "speciesId": "flareon",
+   "baseStats": {
+    "atk": 246,
+    "def": 179,
+    "hp": 163
+   },
+   "types": [
+    "fire",
+    "none"
+   ],
+   "fastMoves": [
+    "EMBER",
+    "FIRE_SPIN"
+   ],
+   "chargedMoves": [
+    "FIRE_BLAST",
+    "FLAMETHROWER",
+    "HEAT_WAVE",
+    "LAST_RESORT",
+    "OVERHEAT",
+    "SUPER_POWER"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     6.5,
+     4,
+     7,
+     7
+    ],
+    "cp1500": [
+     18,
+     5,
+     15,
+     15
+    ],
+    "cp2500": [
+     30,
+     5,
+     15,
+     15
+    ]
+   },
+   "eliteMoves": [
+    "LAST_RESORT",
+    "HEAT_WAVE",
+    "SUPER_POWER"
+   ],
+   "buddyDistance": 5,
+   "thirdMoveCost": 75000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_EEVEE",
+    "parent": "eevee"
+   }
+  },
+  {
+   "dex": 196,
+   "speciesName": "Espeon",
+   "speciesId": "espeon",
+   "baseStats": {
+    "atk": 261,
+    "def": 175,
+    "hp": 163
+   },
+   "types": [
+    "psychic",
+    "none"
+   ],
+   "fastMoves": [
+    "CONFUSION",
+    "ZEN_HEADBUTT"
+   ],
+   "chargedMoves": [
+    "FUTURE_SIGHT",
+    "LAST_RESORT",
+    "PSYBEAM",
+    "PSYCHIC",
+    "SHADOW_BALL",
+    "PSYCHIC_FANGS"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     6,
+     5,
+     12,
+     15
+    ],
+    "cp1500": [
+     17.5,
+     4,
+     14,
+     11
+    ],
+    "cp2500": [
+     28.5,
+     7,
+     15,
+     14
+    ]
+   },
+   "eliteMoves": [
+    "LAST_RESORT",
+    "SHADOW_BALL"
+   ],
+   "buddyDistance": 5,
+   "thirdMoveCost": 75000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_EEVEE",
+    "parent": "eevee"
+   }
+  },
+  {
+   "dex": 197,
+   "speciesName": "Umbreon",
+   "speciesId": "umbreon",
+   "baseStats": {
+    "atk": 126,
+    "def": 240,
+    "hp": 216
+   },
+   "types": [
+    "dark",
+    "none"
+   ],
+   "fastMoves": [
+    "FEINT_ATTACK",
+    "SNARL"
+   ],
+   "chargedMoves": [
+    "DARK_PULSE",
+    "FOUL_PLAY",
+    "LAST_RESORT",
+    "PSYCHIC"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     9,
+     4,
+     12,
+     15
+    ],
+    "cp1500": [
+     27,
+     4,
+     15,
+     9
+    ],
+    "cp2500": [
+     50,
+     15,
+     15,
+     15
+    ]
+   },
+   "eliteMoves": [
+    "LAST_RESORT",
+    "PSYCHIC"
+   ],
+   "searchPriority": 13,
+   "buddyDistance": 5,
+   "thirdMoveCost": 75000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_EEVEE",
+    "parent": "eevee"
+   }
+  },
+  {
+   "dex": 201,
+   "speciesName": "Unown",
+   "speciesId": "unown",
+   "baseStats": {
+    "atk": 136,
+    "def": 91,
+    "hp": 134
+   },
+   "types": [
+    "psychic",
+    "none"
+   ],
+   "fastMoves": [
+    "HIDDEN_POWER_BUG",
+    "HIDDEN_POWER_DARK",
+    "HIDDEN_POWER_DRAGON",
+    "HIDDEN_POWER_ELECTRIC",
+    "HIDDEN_POWER_FIGHTING",
+    "HIDDEN_POWER_FIRE",
+    "HIDDEN_POWER_FLYING",
+    "HIDDEN_POWER_GHOST",
+    "HIDDEN_POWER_GRASS",
+    "HIDDEN_POWER_GROUND",
+    "HIDDEN_POWER_ICE",
+    "HIDDEN_POWER_POISON",
+    "HIDDEN_POWER_PSYCHIC",
+    "HIDDEN_POWER_ROCK",
+    "HIDDEN_POWER_STEEL",
+    "HIDDEN_POWER_WATER"
+   ],
+   "chargedMoves": [
+    "STRUGGLE"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     16,
+     5,
+     15,
+     12
+    ],
+    "cp1500": [
+     50,
+     15,
+     15,
+     15
+    ],
+    "cp2500": [
+     50,
+     15,
+     15,
+     15
+    ]
+   },
+   "buddyDistance": 5,
+   "thirdMoveCost": 75000,
+   "released": true
+  },
+  {
+   "dex": 351,
+   "speciesName": "Castform",
+   "speciesId": "castform",
+   "baseStats": {
+    "atk": 139,
+    "def": 139,
+    "hp": 172
+   },
+   "types": [
+    "normal",
+    "none"
+   ],
+   "fastMoves": [
+    "HEX",
+    "TACKLE"
+   ],
+   "chargedMoves": [
+    "ENERGY_BALL",
+    "HURRICANE",
+    "WEATHER_BALL_ROCK",
+    "WEATHER_BALL_NORMAL"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     11.5,
+     6,
+     13,
+     14
+    ],
+    "cp1500": [
+     39.5,
+     4,
+     15,
+     14
+    ],
+    "cp2500": [
+     50,
+     15,
+     15,
+     15
+    ]
+   },
+   "buddyDistance": 5,
+   "thirdMoveCost": 75000,
+   "released": true
+  },
+  {
+   "dex": 351,
+   "speciesName": "Castform (Rainy)",
+   "speciesId": "castform_rainy",
+   "baseStats": {
+    "atk": 139,
+    "def": 139,
+    "hp": 172
+   },
+   "types": [
+    "water",
+    "none"
+   ],
+   "fastMoves": [
+    "TACKLE",
+    "WATER_GUN"
+   ],
+   "chargedMoves": [
+    "HYDRO_PUMP",
+    "THUNDER",
+    "WEATHER_BALL_WATER"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     11.5,
+     6,
+     13,
+     14
+    ],
+    "cp1500": [
+     39.5,
+     4,
+     15,
+     14
+    ],
+    "cp2500": [
+     50,
+     15,
+     15,
+     15
+    ]
+   },
+   "searchPriority": 2,
+   "buddyDistance": 5,
+   "thirdMoveCost": 75000,
+   "released": true
+  },
+  {
+   "dex": 351,
+   "speciesName": "Castform (Snowy)",
+   "speciesId": "castform_snowy",
+   "baseStats": {
+    "atk": 139,
+    "def": 139,
+    "hp": 172
+   },
+   "types": [
+    "ice",
+    "none"
+   ],
+   "fastMoves": [
+    "POWDER_SNOW",
+    "TACKLE"
+   ],
+   "chargedMoves": [
+    "BLIZZARD",
+    "ICE_BEAM",
+    "WEATHER_BALL_ICE"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     11.5,
+     6,
+     13,
+     14
+    ],
+    "cp1500": [
+     39.5,
+     4,
+     15,
+     14
+    ],
+    "cp2500": [
+     50,
+     15,
+     15,
+     15
+    ]
+   },
+   "buddyDistance": 5,
+   "thirdMoveCost": 75000,
+   "released": true
+  },
+  {
+   "dex": 351,
+   "speciesName": "Castform (Sunny)",
+   "speciesId": "castform_sunny",
+   "baseStats": {
+    "atk": 139,
+    "def": 139,
+    "hp": 172
+   },
+   "types": [
+    "fire",
+    "none"
+   ],
+   "fastMoves": [
+    "EMBER",
+    "TACKLE"
+   ],
+   "chargedMoves": [
+    "FIRE_BLAST",
+    "SOLAR_BEAM",
+    "WEATHER_BALL_FIRE"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     11.5,
+     6,
+     13,
+     14
+    ],
+    "cp1500": [
+     39.5,
+     4,
+     15,
+     14
+    ],
+    "cp2500": [
+     50,
+     15,
+     15,
+     15
+    ]
+   },
+   "buddyDistance": 5,
+   "thirdMoveCost": 75000,
+   "released": true
+  },
+  {
+   "dex": 470,
+   "speciesName": "Leafeon",
+   "speciesId": "leafeon",
+   "baseStats": {
+    "atk": 216,
+    "def": 219,
+    "hp": 163
+   },
+   "types": [
+    "grass",
+    "none"
+   ],
+   "fastMoves": [
+    "QUICK_ATTACK",
+    "RAZOR_LEAF",
+    "BULLET_SEED"
+   ],
+   "chargedMoves": [
+    "ENERGY_BALL",
+    "LEAF_BLADE",
+    "SOLAR_BEAM",
+    "LAST_RESORT"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     6.5,
+     5,
+     15,
+     10
+    ],
+    "cp1500": [
+     19,
+     4,
+     11,
+     13
+    ],
+    "cp2500": [
+     32,
+     5,
+     15,
+     15
+    ]
+   },
+   "eliteMoves": [
+    "LAST_RESORT",
+    "BULLET_SEED"
+   ],
+   "buddyDistance": 5,
+   "thirdMoveCost": 75000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_EEVEE",
+    "parent": "eevee"
+   }
+  },
+  {
+   "dex": 471,
+   "speciesName": "Glaceon",
+   "speciesId": "glaceon",
+   "baseStats": {
+    "atk": 238,
+    "def": 205,
+    "hp": 163
+   },
+   "types": [
+    "ice",
+    "none"
+   ],
+   "fastMoves": [
+    "FROST_BREATH",
+    "ICE_SHARD"
+   ],
+   "chargedMoves": [
+    "AVALANCHE",
+    "ICE_BEAM",
+    "ICY_WIND",
+    "LAST_RESORT",
+    "WATER_PULSE"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     6,
+     8,
+     14,
+     15
+    ],
+    "cp1500": [
+     17.5,
+     5,
+     14,
+     15
+    ],
+    "cp2500": [
+     29.5,
+     4,
+     11,
+     15
+    ]
+   },
+   "eliteMoves": [
+    "LAST_RESORT",
+    "WATER_PULSE"
+   ],
+   "buddyDistance": 5,
+   "thirdMoveCost": 75000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_EEVEE",
+    "parent": "eevee"
+   }
+  },
+  {
+   "dex": 554,
+   "speciesId": "darumaka",
+   "speciesName": "Darumaka",
+   "baseStats": {
+    "atk": 153,
+    "def": 86,
+    "hp": 172
+   },
+   "types": [
+    "fire",
+    "none"
+   ],
+   "fastMoves": [
+    "TACKLE",
+    "FIRE_FANG"
+   ],
+   "chargedMoves": [
+    "FIRE_PUNCH",
+    "FLAME_CHARGE"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     13,
+     4,
+     14,
+     15
+    ],
+    "cp1500": [
+     50,
+     4,
+     12,
+     15
+    ],
+    "cp2500": [
+     50,
+     15,
+     15,
+     15
+    ],
+    "cp1500l40": [
+     40,
+     15,
+     15,
+     15
+    ]
+   },
+   "buddyDistance": 3,
+   "thirdMoveCost": 50000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_DARUMAKA",
+    "evolutions": [
+     "darmanitan_standard"
+    ]
+   },
+   "level25CP": 830,
+   "tags": [
+    "shadoweligible"
+   ]
+  },
+  {
+   "dex": 554,
+   "speciesName": "Darumaka (Galarian)",
+   "speciesId": "darumaka_galarian",
+   "baseStats": {
+    "atk": 153,
+    "def": 86,
+    "hp": 172
+   },
+   "types": [
+    "ice",
+    "none"
+   ],
+   "fastMoves": [
+    "TACKLE",
+    "ICE_FANG"
+   ],
+   "chargedMoves": [
+    "ICE_PUNCH",
+    "ICE_BEAM"
+   ],
+   "tags": [
+    "galarian"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     13,
+     4,
+     14,
+     15
+    ],
+    "cp1500": [
+     50,
+     4,
+     12,
+     15
+    ],
+    "cp2500": [
+     50,
+     15,
+     15,
+     15
+    ],
+    "cp1500l40": [
+     40,
+     15,
+     15,
+     15
+    ]
+   },
+   "buddyDistance": 3,
+   "thirdMoveCost": 50000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_DARUMAKA",
+    "evolutions": [
+     "darmanitan_galarian_standard"
+    ]
+   }
+  },
+  {
+   "dex": 554,
+   "speciesId": "darumaka_shadow",
+   "speciesName": "Darumaka (Shadow)",
+   "baseStats": {
+    "atk": 153,
+    "def": 86,
+    "hp": 172
+   },
+   "types": [
+    "fire",
+    "none"
+   ],
+   "fastMoves": [
+    "TACKLE",
+    "FIRE_FANG"
+   ],
+   "chargedMoves": [
+    "FIRE_PUNCH",
+    "FLAME_CHARGE"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     13,
+     4,
+     14,
+     15
+    ],
+    "cp1500": [
+     50,
+     4,
+     12,
+     15
+    ],
+    "cp2500": [
+     50,
+     15,
+     15,
+     15
+    ],
+    "cp1500l40": [
+     40,
+     15,
+     15,
+     15
+    ]
+   },
+   "buddyDistance": 3,
+   "thirdMoveCost": 50000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_DARUMAKA",
+    "evolutions": [
+     "darmanitan_standard_shadow"
+    ]
+   },
+   "tags": [
+    "shadow"
+   ]
+  },
+  {
+   "dex": 555,
+   "speciesName": "Darmanitan (Galarian Zen)",
+   "speciesId": "darmanitan_galarian_zen",
+   "baseStats": {
+    "atk": 323,
+    "def": 123,
+    "hp": 233
+   },
+   "types": [
+    "ice",
+    "fire"
+   ],
+   "fastMoves": [
+    "TACKLE",
+    "ICE_FANG"
+   ],
+   "chargedMoves": [
+    "OVERHEAT",
+    "AVALANCHE",
+    "SUPER_POWER",
+    "ICE_PUNCH"
+   ],
+   "tags": [
+    "galarian"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     5,
+     5,
+     11,
+     12
+    ],
+    "cp1500": [
+     14,
+     4,
+     13,
+     15
+    ],
+    "cp2500": [
+     23.5,
+     4,
+     15,
+     8
+    ]
+   },
+   "buddyDistance": 3,
+   "thirdMoveCost": 50000,
+   "released": false,
+   "family": {
+    "id": "FAMILY_DARUMAKA",
+    "parent": "darumaka"
+   }
+  },
+  {
+   "dex": 555,
+   "speciesName": "Darmanitan (Galarian)",
+   "speciesId": "darmanitan_galarian_standard",
+   "baseStats": {
+    "atk": 263,
+    "def": 114,
+    "hp": 233
+   },
+   "types": [
+    "ice",
+    "none"
+   ],
+   "fastMoves": [
+    "TACKLE",
+    "ICE_FANG"
+   ],
+   "chargedMoves": [
+    "OVERHEAT",
+    "AVALANCHE",
+    "SUPER_POWER",
+    "ICE_PUNCH"
+   ],
+   "tags": [
+    "galarian"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     6,
+     8,
+     15,
+     15
+    ],
+    "cp1500": [
+     17.5,
+     5,
+     15,
+     15
+    ],
+    "cp2500": [
+     29.5,
+     4,
+     15,
+     12
+    ]
+   },
+   "buddyDistance": 3,
+   "thirdMoveCost": 50000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_DARUMAKA",
+    "parent": "darumaka"
+   }
+  },
+  {
+   "dex": 555,
+   "speciesId": "darmanitan_standard",
+   "speciesName": "Darmanitan (Standard)",
+   "baseStats": {
+    "atk": 263,
+    "def": 114,
+    "hp": 233
+   },
+   "types": [
+    "fire",
+    "none"
+   ],
+   "fastMoves": [
+    "TACKLE",
+    "FIRE_FANG",
+    "INCINERATE"
+   ],
+   "chargedMoves": [
+    "OVERHEAT",
+    "FOCUS_BLAST",
+    "PSYCHIC",
+    "ROCK_SLIDE"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     6,
+     8,
+     15,
+     15
+    ],
+    "cp1500": [
+     17.5,
+     5,
+     15,
+     15
+    ],
+    "cp2500": [
+     29.5,
+     4,
+     15,
+     12
+    ]
+   },
+   "searchPriority": 2,
+   "buddyDistance": 3,
+   "thirdMoveCost": 50000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_DARUMAKA",
+    "parent": "darumaka"
+   },
+   "level25CP": 1912,
+   "tags": [
+    "shadoweligible"
+   ]
+  },
+  {
+   "dex": 555,
+   "speciesId": "darmanitan_standard_shadow",
+   "speciesName": "Darmanitan (Standard) (Shadow)",
+   "baseStats": {
+    "atk": 263,
+    "def": 114,
+    "hp": 233
+   },
+   "types": [
+    "fire",
+    "none"
+   ],
+   "fastMoves": [
+    "TACKLE",
+    "FIRE_FANG",
+    "INCINERATE"
+   ],
+   "chargedMoves": [
+    "OVERHEAT",
+    "FOCUS_BLAST",
+    "PSYCHIC",
+    "ROCK_SLIDE"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     6,
+     8,
+     15,
+     15
+    ],
+    "cp1500": [
+     17.5,
+     5,
+     15,
+     15
+    ],
+    "cp2500": [
+     29.5,
+     4,
+     15,
+     12
+    ]
+   },
+   "searchPriority": 2,
+   "buddyDistance": 3,
+   "thirdMoveCost": 50000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_DARUMAKA",
+    "parent": "darumaka_shadow"
+   },
+   "tags": [
+    "shadow"
+   ]
+  },
+  {
+   "dex": 555,
+   "speciesId": "darmanitan_zen",
+   "speciesName": "Darmanitan (Zen)",
+   "baseStats": {
+    "atk": 243,
+    "def": 202,
+    "hp": 233
+   },
+   "types": [
+    "fire",
+    "psychic"
+   ],
+   "fastMoves": [
+    "TACKLE",
+    "FIRE_FANG",
+    "INCINERATE"
+   ],
+   "chargedMoves": [
+    "OVERHEAT",
+    "FOCUS_BLAST",
+    "PSYCHIC",
+    "ROCK_SLIDE"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     5,
+     14,
+     15,
+     12
+    ],
+    "cp1500": [
+     14.5,
+     8,
+     15,
+     13
+    ],
+    "cp2500": [
+     24.5,
+     4,
+     14,
+     15
+    ]
+   },
+   "buddyDistance": 3,
+   "thirdMoveCost": 50000,
+   "released": false,
+   "family": {
+    "id": "FAMILY_DARUMAKA",
+    "parent": "darumaka"
+   }
+  },
+  {
+   "dex": 700,
+   "speciesName": "Sylveon",
+   "speciesId": "sylveon",
+   "baseStats": {
+    "atk": 203,
+    "def": 205,
+    "hp": 216
+   },
+   "types": [
+    "fairy",
+    "none"
+   ],
+   "fastMoves": [
+    "CHARM",
+    "QUICK_ATTACK",
+    "FAIRY_WIND"
+   ],
+   "chargedMoves": [
+    "MOONBLAST",
+    "DAZZLING_GLEAM",
+    "DRAINING_KISS",
+    "LAST_RESORT",
+    "PSYSHOCK",
+    "SHADOW_BALL"
+   ],
+   "eliteMoves": [
+    "LAST_RESORT",
+    "PSYSHOCK"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     6,
+     12,
+     15,
+     15
+    ],
+    "cp1500": [
+     18,
+     4,
+     15,
+     15
+    ],
+    "cp2500": [
+     30,
+     5,
+     13,
+     15
+    ]
+   },
+   "buddyDistance": 5,
+   "thirdMoveCost": 75000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_EEVEE",
+    "parent": "eevee"
+   }
+  },
+  {
+   "dex": 888,
+   "speciesName": "Zacian (Crowned Sword)",
+   "speciesId": "zacian_crowned_sword",
+   "baseStats": {
+    "atk": 332,
+    "def": 240,
+    "hp": 192
+   },
+   "types": [
+    "fairy",
+    "steel"
+   ],
+   "fastMoves": [
+    "METAL_CLAW",
+    "AIR_SLASH"
+   ],
+   "chargedMoves": [
+    "PLAY_ROUGH",
+    "CLOSE_COMBAT",
+    "GIGA_IMPACT",
+    "BEHEMOTH_BLADE"
+   ],
+   "legacyMoves": [
+    "BEHEMOTH_BLADE"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     4,
+     9,
+     12,
+     8
+    ],
+    "cp1500": [
+     11,
+     7,
+     9,
+     12
+    ],
+    "cp2500": [
+     18,
+     6,
+     13,
+     15
+    ]
+   },
+   "tags": [
+    "legendary"
+   ],
+   "buddyDistance": 20,
+   "thirdMoveCost": 100000,
+   "released": true,
+   "searchPriority": 9
+  },
+  {
+   "dex": 888,
+   "speciesName": "Zacian (Hero)",
+   "speciesId": "zacian_hero",
+   "baseStats": {
+    "atk": 254,
+    "def": 236,
+    "hp": 192
+   },
+   "types": [
+    "fairy",
+    "none"
+   ],
+   "fastMoves": [
+    "METAL_CLAW",
+    "SNARL",
+    "QUICK_ATTACK",
+    "FIRE_FANG"
+   ],
+   "chargedMoves": [
+    "PLAY_ROUGH",
+    "IRON_HEAD",
+    "WILD_CHARGE",
+    "CLOSE_COMBAT"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     5,
+     9,
+     13,
+     12
+    ],
+    "cp1500": [
+     14.5,
+     5,
+     7,
+     14
+    ],
+    "cp2500": [
+     24,
+     5,
+     10,
+     13
+    ]
+   },
+   "tags": [
+    "legendary"
+   ],
+   "buddyDistance": 20,
+   "thirdMoveCost": 100000,
+   "released": true
+  },
+  {
+   "dex": 902,
+   "speciesId": "basculegion_female",
+   "speciesName": "Basculegion (Female)",
+   "baseStats": {
+    "atk": 199,
+    "def": 144,
+    "hp": 260
+   },
+   "defaultIVs": {
+    "cp500": [
+     7,
+     4,
+     6,
+     13
+    ],
+    "cp1500": [
+     20,
+     4,
+     12,
+     15
+    ],
+    "cp2500": [
+     36,
+     4,
+     15,
+     14
+    ]
+   },
+   "types": [
+    "water",
+    "ghost"
+   ],
+   "fastMoves": [
+    "SPLASH"
+   ],
+   "chargedMoves": [
+    "STRUGGLE"
+   ],
+   "released": false,
+   "family": {
+    "id": "FAMILY_BASCULIN",
+    "parent": "basculin"
+   },
+   "buddyDistance": 1,
+   "thirdMoveCost": 10000
+  },
+  {
+   "dex": 902,
+   "speciesId": "basculegion_male",
+   "speciesName": "Basculegion (Male)",
+   "baseStats": {
+    "atk": 217,
+    "def": 144,
+    "hp": 260
+   },
+   "defaultIVs": {
+    "cp500": [
+     6.5,
+     4,
+     8,
+     7
+    ],
+    "cp1500": [
+     18,
+     6,
+     15,
+     14
+    ],
+    "cp2500": [
+     30.5,
+     5,
+     14,
+     15
+    ]
+   },
+   "types": [
+    "water",
+    "ghost"
+   ],
+   "fastMoves": [
+    "SPLASH"
+   ],
+   "chargedMoves": [
+    "STRUGGLE"
+   ],
+   "released": false,
+   "family": {
+    "id": "FAMILY_BASCULIN",
+    "parent": "basculin"
+   },
+   "buddyDistance": 1,
+   "thirdMoveCost": 10000
+  },
+  {
+   "dex": 999,
+   "speciesName": "Gimmighoul",
+   "speciesId": "gimmighoul",
+   "baseStats": {
+    "atk": 140,
+    "def": 76,
+    "hp": 128
+   },
+   "types": [
+    "ghost",
+    "none"
+   ],
+   "fastMoves": [
+    "ASTONISH"
+   ],
+   "chargedMoves": [
+    "SHADOW_BALL"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     17.5,
+     4,
+     15,
+     8
+    ],
+    "cp1500": [
+     50,
+     15,
+     15,
+     15
+    ],
+    "cp2500": [
+     50,
+     15,
+     15,
+     15
+    ]
+   },
+   "buddyDistance": 5,
+   "thirdMoveCost": 10000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_GIMMIGHOUL",
+    "evolutions": [
+     "gholdengo"
+    ]
+   }
+  },
+  {
+   "dex": 1000,
+   "speciesName": "Gholdengo",
+   "speciesId": "gholdengo",
+   "baseStats": {
+    "atk": 252,
+    "def": 190,
+    "hp": 202
+   },
+   "types": [
+    "steel",
+    "ghost"
+   ],
+   "fastMoves": [
+    "ASTONISH",
+    "HEX"
+   ],
+   "chargedMoves": [
+    "SHADOW_BALL",
+    "DAZZLING_GLEAM",
+    "FOCUS_BLAST",
+    "POWER_GEM"
+   ],
+   "defaultIVs": {
+    "cp500": [
+     5.5,
+     4,
+     11,
+     15
+    ],
+    "cp1500": [
+     15.5,
+     4,
+     15,
+     15
+    ],
+    "cp2500": [
+     26,
+     4,
+     14,
+     15
+    ]
+   },
+   "searchPriority": 2,
+   "nicknames": [
+    "golden"
+   ],
+   "buddyDistance": 5,
+   "thirdMoveCost": 10000,
+   "released": true,
+   "family": {
+    "id": "FAMILY_GIMMIGHOUL",
+    "parent": "gimmighoul"
+   }
+  }
+ ],
+ "moves": [
+  {
+   "moveId": "AERIAL_ACE",
+   "name": "Aerial Ace",
+   "type": "flying",
+   "power": 60,
+   "energy": 45,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "General",
+   "turns": 1
+  },
+  {
+   "moveId": "AIR_CUTTER",
+   "name": "Air Cutter",
+   "type": "flying",
+   "power": 60,
+   "energy": 40,
+   "energyGain": 0,
+   "cooldown": 500,
+   "buffs": [
+    1,
+    0
+   ],
+   "buffTarget": "self",
+   "buffApplyChance": ".125",
+   "turns": 1,
+   "archetype": "Boost Spam"
+  },
+  {
+   "moveId": "AIR_SLASH",
+   "name": "Air Slash",
+   "type": "flying",
+   "power": 9,
+   "energy": 0,
+   "energyGain": 9,
+   "cooldown": 1500,
+   "archetype": "General",
+   "turns": 3
+  },
+  {
+   "moveId": "AQUA_TAIL",
+   "name": "Aqua Tail",
+   "type": "water",
+   "power": 55,
+   "energy": 35,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "Spam/Bait",
+   "turns": 1
+  },
+  {
+   "moveId": "ASTONISH",
+   "name": "Astonish",
+   "type": "ghost",
+   "power": 12,
+   "energy": 0,
+   "energyGain": 10,
+   "cooldown": 1500,
+   "archetype": "Multipurpose",
+   "turns": 3
+  },
+  {
+   "moveId": "AVALANCHE",
+   "name": "Avalanche",
+   "abbreviation": "Av",
+   "type": "ice",
+   "power": 90,
+   "energy": 45,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "General",
+   "turns": 1
+  },
+  {
+   "moveId": "BEHEMOTH_BLADE",
+   "name": "Behemoth Blade",
+   "type": "steel",
+   "power": 100,
+   "energy": 55,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "High Energy",
+   "turns": 1
+  },
+  {
+   "moveId": "BLAST_BURN",
+   "name": "Blast Burn",
+   "type": "fire",
+   "power": 110,
+   "energy": 50,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "General",
+   "turns": 1
+  },
+  {
+   "moveId": "BLIZZARD",
+   "name": "Blizzard",
+   "abbreviation": "Bl",
+   "type": "ice",
+   "power": 140,
+   "energy": 75,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "Nuke",
+   "turns": 1
+  },
+  {
+   "moveId": "BODY_SLAM",
+   "name": "Body Slam",
+   "type": "normal",
+   "power": 65,
+   "energy": 40,
+   "energyGain": 0,
+   "cooldown": 500,
+   "turns": 1,
+   "archetype": "Spam/Bait"
+  },
+  {
+   "moveId": "BUG_BITE",
+   "name": "Bug Bite",
+   "abbreviation": "BBi",
+   "type": "bug",
+   "power": 4,
+   "energy": 0,
+   "energyGain": 3,
+   "cooldown": 500,
+   "archetype": "Multipurpose",
+   "turns": 1
+  },
+  {
+   "moveId": "BULLET_SEED",
+   "name": "Bullet Seed",
+   "type": "grass",
+   "power": 5,
+   "energy": 0,
+   "energyGain": 13,
+   "cooldown": 1500,
+   "archetype": "Fast Charge",
+   "turns": 3
+  },
+  {
+   "moveId": "CHARM",
+   "name": "Charm",
+   "abbreviation": "Ch",
+   "type": "fairy",
+   "power": 12,
+   "energy": 0,
+   "energyGain": 8,
+   "cooldown": 1500,
+   "archetype": "Heavy Damage",
+   "turns": 3
+  },
+  {
+   "moveId": "CHILLING_WATER",
+   "name": "Chilling Water",
+   "type": "water",
+   "power": 60,
+   "energy": 45,
+   "energyGain": 0,
+   "cooldown": 500,
+   "buffs": [
+    -1,
+    0
+   ],
+   "buffTarget": "opponent",
+   "buffApplyChance": "1",
+   "archetype": "Debuff",
+   "turns": 1
+  },
+  {
+   "moveId": "CLOSE_COMBAT",
+   "name": "Close Combat",
+   "type": "fighting",
+   "power": 100,
+   "energy": 45,
+   "energyGain": 0,
+   "cooldown": 500,
+   "buffs": [
+    0,
+    -2
+   ],
+   "buffTarget": "self",
+   "buffApplyChance": "1",
+   "archetype": "Self-Debuff",
+   "turns": 1
+  },
+  {
+   "moveId": "CONFUSION",
+   "name": "Confusion",
+   "abbreviation": "Cf",
+   "type": "psychic",
+   "power": 16,
+   "energy": 0,
+   "energyGain": 14,
+   "cooldown": 2000,
+   "archetype": "Multipurpose",
+   "turns": 4
+  },
+  {
+   "moveId": "DARK_PULSE",
+   "name": "Dark Pulse",
+   "type": "dark",
+   "power": 80,
+   "energy": 45,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "General",
+   "turns": 1
+  },
+  {
+   "moveId": "DAZZLING_GLEAM",
+   "name": "Dazzling Gleam",
+   "type": "fairy",
+   "power": 90,
+   "energy": 55,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "Nuke",
+   "turns": 1
+  },
+  {
+   "moveId": "DIG",
+   "name": "Dig",
+   "abbreviation": "Dg",
+   "type": "ground",
+   "power": 70,
+   "energy": 50,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "High Energy",
+   "turns": 1
+  },
+  {
+   "moveId": "DISCHARGE",
+   "name": "Discharge",
+   "type": "electric",
+   "power": 55,
+   "energy": 40,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "General",
+   "turns": 1
+  },
+  {
+   "moveId": "DRAGON_BREATH",
+   "name": "Dragon Breath",
+   "type": "dragon",
+   "power": 3,
+   "energy": 0,
+   "energyGain": 4,
+   "cooldown": 500,
+   "archetype": "Multipurpose",
+   "turns": 1
+  },
+  {
+   "moveId": "DRAGON_CLAW",
+   "name": "Dragon Claw",
+   "type": "dragon",
+   "power": 80,
+   "energy": 50,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "General",
+   "turns": 1
+  },
+  {
+   "moveId": "DRAINING_KISS",
+   "name": "Draining Kiss",
+   "type": "fairy",
+   "power": 80,
+   "energy": 55,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "High Energy Boost",
+   "turns": 1,
+   "buffTarget": "self",
+   "buffs": [
+    0,
+    1
+   ],
+   "buffApplyChance": "1"
+  },
+  {
+   "moveId": "DRILL_RUN",
+   "name": "Drill Run",
+   "type": "ground",
+   "power": 70,
+   "energy": 40,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "Spam/Bait",
+   "turns": 1
+  },
+  {
+   "moveId": "EMBER",
+   "name": "Ember",
+   "type": "fire",
+   "power": 4,
+   "energy": 0,
+   "energyGain": 9,
+   "cooldown": 1000,
+   "archetype": "Fast Charge",
+   "turns": 2
+  },
+  {
+   "moveId": "ENERGY_BALL",
+   "name": "Energy Ball",
+   "type": "grass",
+   "power": 80,
+   "energy": 45,
+   "energyGain": 0,
+   "cooldown": 500,
+   "buffs": [
+    0,
+    -1
+   ],
+   "buffTarget": "opponent",
+   "buffApplyChance": ".1",
+   "archetype": "Debuff",
+   "turns": 1
+  },
+  {
+   "moveId": "FAIRY_WIND",
+   "name": "Fairy Wind",
+   "type": "fairy",
+   "power": 4,
+   "energy": 0,
+   "energyGain": 9,
+   "cooldown": 1000,
+   "archetype": "Fast Charge",
+   "turns": 2
+  },
+  {
+   "moveId": "FEINT_ATTACK",
+   "name": "Feint Attack",
+   "type": "dark",
+   "power": 6,
+   "energy": 0,
+   "energyGain": 6,
+   "cooldown": 1000,
+   "archetype": "General",
+   "turns": 2
+  },
+  {
+   "moveId": "FELL_STINGER",
+   "name": "Fell Stinger",
+   "abbreviation": "FeS",
+   "type": "bug",
+   "power": 20,
+   "energy": 35,
+   "energyGain": 0,
+   "cooldown": 500,
+   "buffs": [
+    1,
+    0
+   ],
+   "buffTarget": "self",
+   "buffApplyChance": "1",
+   "archetype": "Boost Spam",
+   "turns": 1
+  },
+  {
+   "moveId": "FELL_STINGER_PLUS",
+   "name": "Fell Stinger+",
+   "abbreviation": "FeS",
+   "type": "bug",
+   "power": 40,
+   "energy": 35,
+   "energyGain": 0,
+   "cooldown": 500,
+   "buffs": [
+    1,
+    0
+   ],
+   "buffTarget": "self",
+   "buffApplyChance": "1",
+   "archetype": "Boost Spam",
+   "turns": 1,
+   "isMegaMove": true
+  },
+  {
+   "moveId": "FIRE_BLAST",
+   "name": "Fire Blast",
+   "abbreviation": "FiB",
+   "type": "fire",
+   "power": 140,
+   "energy": 80,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "Nuke",
+   "turns": 1
+  },
+  {
+   "moveId": "FIRE_FANG",
+   "name": "Fire Fang",
+   "type": "fire",
+   "power": 8,
+   "energy": 0,
+   "energyGain": 6,
+   "cooldown": 1000,
+   "archetype": "Multipurpose",
+   "turns": 2
+  },
+  {
+   "moveId": "FIRE_PUNCH",
+   "name": "Fire Punch",
+   "abbreviation": "FiP",
+   "type": "fire",
+   "power": 60,
+   "energy": 40,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "Spam/Bait",
+   "turns": 1
+  },
+  {
+   "moveId": "FIRE_SPIN",
+   "name": "Fire Spin",
+   "type": "fire",
+   "power": 11,
+   "energy": 0,
+   "energyGain": 10,
+   "cooldown": 1500,
+   "archetype": "General",
+   "turns": 3
+  },
+  {
+   "moveId": "FLAMETHROWER",
+   "name": "Flamethrower",
+   "abbreviation": "Ft",
+   "type": "fire",
+   "power": 90,
+   "energy": 55,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "High Energy",
+   "turns": 1
+  },
+  {
+   "moveId": "FLAME_BURST",
+   "name": "Flame Burst",
+   "abbreviation": "FmB",
+   "type": "fire",
+   "power": 70,
+   "energy": 55,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "High Energy",
+   "turns": 1
+  },
+  {
+   "moveId": "FLAME_CHARGE",
+   "name": "Flame Charge",
+   "abbreviation": "FmC",
+   "type": "fire",
+   "power": 65,
+   "energy": 50,
+   "energyGain": 0,
+   "cooldown": 500,
+   "buffs": [
+    1,
+    0
+   ],
+   "buffTarget": "self",
+   "buffApplyChance": "1",
+   "archetype": "Boost",
+   "turns": 1
+  },
+  {
+   "moveId": "FOCUS_BLAST",
+   "name": "Focus Blast",
+   "type": "fighting",
+   "power": 150,
+   "energy": 75,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "Nuke",
+   "turns": 1
+  },
+  {
+   "moveId": "FOUL_PLAY",
+   "name": "Foul Play",
+   "abbreviation": "FoP",
+   "type": "dark",
+   "power": 65,
+   "energy": 40,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "Spam/Bait",
+   "turns": 1
+  },
+  {
+   "moveId": "FRENZY_PLANT",
+   "name": "Frenzy Plant",
+   "type": "grass",
+   "power": 100,
+   "energy": 45,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "General",
+   "turns": 1
+  },
+  {
+   "moveId": "FROST_BREATH",
+   "name": "Frost Breath",
+   "type": "ice",
+   "power": 7,
+   "energy": 0,
+   "energyGain": 5,
+   "cooldown": 1000,
+   "archetype": "Heavy Damage",
+   "turns": 2
+  },
+  {
+   "moveId": "FUTURE_SIGHT",
+   "name": "Future Sight",
+   "type": "psychic",
+   "power": 110,
+   "energy": 65,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "Nuke",
+   "turns": 1
+  },
+  {
+   "moveId": "GIGA_IMPACT",
+   "name": "Giga Impact",
+   "type": "normal",
+   "power": 150,
+   "energy": 80,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "Nuke",
+   "turns": 1
+  },
+  {
+   "moveId": "HEAT_WAVE",
+   "name": "Heat Wave",
+   "type": "fire",
+   "power": 75,
+   "energy": 45,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "General",
+   "turns": 1
+  },
+  {
+   "moveId": "HEX",
+   "name": "Hex",
+   "type": "ghost",
+   "power": 7,
+   "energy": 0,
+   "energyGain": 13,
+   "cooldown": 1500,
+   "archetype": "Fast Charge",
+   "turns": 3
+  },
+  {
+   "moveId": "HIDDEN_POWER_BUG",
+   "name": "Hidden Power (Bug)",
+   "type": "bug",
+   "power": 9,
+   "energy": 0,
+   "energyGain": 8,
+   "cooldown": 1500,
+   "archetype": "Low Quality",
+   "turns": 3,
+   "unlisted": true
+  },
+  {
+   "moveId": "HIDDEN_POWER_DARK",
+   "name": "Hidden Power (Dark)",
+   "type": "dark",
+   "power": 9,
+   "energy": 0,
+   "energyGain": 8,
+   "cooldown": 1500,
+   "archetype": "Low Quality",
+   "turns": 3,
+   "unlisted": true
+  },
+  {
+   "moveId": "HIDDEN_POWER_DRAGON",
+   "name": "Hidden Power (Dragon)",
+   "type": "dragon",
+   "power": 9,
+   "energy": 0,
+   "energyGain": 8,
+   "cooldown": 1500,
+   "archetype": "Low Quality",
+   "turns": 3,
+   "unlisted": true
+  },
+  {
+   "moveId": "HIDDEN_POWER_ELECTRIC",
+   "name": "Hidden Power (Electric)",
+   "type": "electric",
+   "power": 9,
+   "energy": 0,
+   "energyGain": 8,
+   "cooldown": 1500,
+   "archetype": "Low Quality",
+   "turns": 3,
+   "unlisted": true
+  },
+  {
+   "moveId": "HIDDEN_POWER_FIGHTING",
+   "name": "Hidden Power (Fighting)",
+   "type": "fighting",
+   "power": 9,
+   "energy": 0,
+   "energyGain": 8,
+   "cooldown": 1500,
+   "archetype": "Low Quality",
+   "turns": 3,
+   "unlisted": true
+  },
+  {
+   "moveId": "HIDDEN_POWER_FIRE",
+   "name": "Hidden Power (Fire)",
+   "type": "fire",
+   "power": 9,
+   "energy": 0,
+   "energyGain": 8,
+   "cooldown": 1500,
+   "archetype": "Low Quality",
+   "turns": 3,
+   "unlisted": true
+  },
+  {
+   "moveId": "HIDDEN_POWER_FLYING",
+   "name": "Hidden Power (Flying)",
+   "type": "flying",
+   "power": 9,
+   "energy": 0,
+   "energyGain": 8,
+   "cooldown": 1500,
+   "archetype": "Low Quality",
+   "turns": 3,
+   "unlisted": true
+  },
+  {
+   "moveId": "HIDDEN_POWER_GHOST",
+   "name": "Hidden Power (Ghost)",
+   "type": "ghost",
+   "power": 9,
+   "energy": 0,
+   "energyGain": 8,
+   "cooldown": 1500,
+   "archetype": "Low Quality",
+   "turns": 3,
+   "unlisted": true
+  },
+  {
+   "moveId": "HIDDEN_POWER_GRASS",
+   "name": "Hidden Power (Grass)",
+   "type": "grass",
+   "power": 9,
+   "energy": 0,
+   "energyGain": 8,
+   "cooldown": 1500,
+   "archetype": "Low Quality",
+   "turns": 3,
+   "unlisted": true
+  },
+  {
+   "moveId": "HIDDEN_POWER_GROUND",
+   "name": "Hidden Power (Ground)",
+   "type": "ground",
+   "power": 9,
+   "energy": 0,
+   "energyGain": 8,
+   "cooldown": 1500,
+   "archetype": "Low Quality",
+   "turns": 3,
+   "unlisted": true
+  },
+  {
+   "moveId": "HIDDEN_POWER_ICE",
+   "name": "Hidden Power (Ice)",
+   "type": "ice",
+   "power": 9,
+   "energy": 0,
+   "energyGain": 8,
+   "cooldown": 1500,
+   "archetype": "Low Quality",
+   "turns": 3,
+   "unlisted": true
+  },
+  {
+   "moveId": "HIDDEN_POWER_POISON",
+   "name": "Hidden Power (Poison)",
+   "type": "poison",
+   "power": 9,
+   "energy": 0,
+   "energyGain": 8,
+   "cooldown": 1500,
+   "archetype": "Low Quality",
+   "turns": 3,
+   "unlisted": true
+  },
+  {
+   "moveId": "HIDDEN_POWER_PSYCHIC",
+   "name": "Hidden Power (Psychic)",
+   "type": "psychic",
+   "power": 9,
+   "energy": 0,
+   "energyGain": 8,
+   "cooldown": 1500,
+   "archetype": "Low Quality",
+   "turns": 3,
+   "unlisted": true
+  },
+  {
+   "moveId": "HIDDEN_POWER_ROCK",
+   "name": "Hidden Power (Rock)",
+   "type": "rock",
+   "power": 9,
+   "energy": 0,
+   "energyGain": 8,
+   "cooldown": 1500,
+   "archetype": "Low Quality",
+   "turns": 3,
+   "unlisted": true
+  },
+  {
+   "moveId": "HIDDEN_POWER_STEEL",
+   "name": "Hidden Power (Steel)",
+   "type": "steel",
+   "power": 9,
+   "energy": 0,
+   "energyGain": 8,
+   "cooldown": 1500,
+   "archetype": "Low Quality",
+   "turns": 3,
+   "unlisted": true
+  },
+  {
+   "moveId": "HIDDEN_POWER_WATER",
+   "name": "Hidden Power (Water)",
+   "type": "water",
+   "power": 9,
+   "energy": 0,
+   "energyGain": 8,
+   "cooldown": 1500,
+   "archetype": "Low Quality",
+   "turns": 3,
+   "unlisted": true
+  },
+  {
+   "moveId": "HURRICANE",
+   "name": "Hurricane",
+   "abbreviation": "Hu",
+   "type": "flying",
+   "power": 110,
+   "energy": 60,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "Nuke",
+   "turns": 1
+  },
+  {
+   "moveId": "HYDRO_PUMP",
+   "name": "Hydro Pump",
+   "type": "water",
+   "power": 130,
+   "energy": 75,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "Nuke",
+   "turns": 1
+  },
+  {
+   "moveId": "ICE_BEAM",
+   "name": "Ice Beam",
+   "type": "ice",
+   "power": 90,
+   "energy": 55,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "High Energy",
+   "turns": 1
+  },
+  {
+   "moveId": "ICE_FANG",
+   "name": "Ice Fang",
+   "type": "ice",
+   "power": 8,
+   "energy": 0,
+   "energyGain": 6,
+   "cooldown": 1000,
+   "archetype": "Multipurpose",
+   "turns": 2
+  },
+  {
+   "moveId": "ICE_PUNCH",
+   "name": "Ice Punch",
+   "type": "ice",
+   "power": 60,
+   "energy": 40,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "Spam/Bait",
+   "turns": 1
+  },
+  {
+   "moveId": "ICE_SHARD",
+   "name": "Ice Shard",
+   "type": "ice",
+   "power": 9,
+   "energy": 0,
+   "energyGain": 10,
+   "cooldown": 1500,
+   "archetype": "General",
+   "turns": 3
+  },
+  {
+   "moveId": "ICY_WIND",
+   "name": "Icy Wind",
+   "type": "ice",
+   "power": 60,
+   "energy": 45,
+   "energyGain": 0,
+   "cooldown": 500,
+   "buffs": [
+    -1,
+    0
+   ],
+   "buffTarget": "opponent",
+   "buffApplyChance": "1",
+   "archetype": "Debuff",
+   "turns": 1
+  },
+  {
+   "moveId": "INCINERATE",
+   "name": "Incinerate",
+   "type": "fire",
+   "power": 20,
+   "energy": 0,
+   "energyGain": 20,
+   "cooldown": 2500,
+   "archetype": "Multipurpose",
+   "turns": 5
+  },
+  {
+   "moveId": "INFESTATION",
+   "name": "Infestation",
+   "abbreviation": "Inf",
+   "type": "bug",
+   "power": 10,
+   "energy": 0,
+   "energyGain": 12,
+   "cooldown": 1500,
+   "archetype": "Multipurpose",
+   "turns": 3
+  },
+  {
+   "moveId": "IRON_HEAD",
+   "name": "Iron Head",
+   "type": "steel",
+   "power": 85,
+   "energy": 50,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "General",
+   "turns": 1
+  },
+  {
+   "moveId": "LAST_RESORT",
+   "name": "Last Resort",
+   "type": "normal",
+   "power": 90,
+   "energy": 55,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "High Energy",
+   "turns": 1
+  },
+  {
+   "moveId": "LEAF_BLADE",
+   "name": "Leaf Blade",
+   "type": "grass",
+   "power": 70,
+   "energy": 35,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "Spam/Bait",
+   "turns": 1
+  },
+  {
+   "moveId": "LIQUIDATION",
+   "name": "Liquidation",
+   "abbreviation": "Li",
+   "type": "water",
+   "power": 70,
+   "energy": 45,
+   "energyGain": 0,
+   "cooldown": 500,
+   "buffs": [
+    0,
+    -1
+   ],
+   "buffTarget": "opponent",
+   "buffApplyChance": "0.3",
+   "archetype": "Debuff",
+   "turns": 1
+  },
+  {
+   "moveId": "METAL_CLAW",
+   "name": "Metal Claw",
+   "type": "steel",
+   "power": 5,
+   "energy": 0,
+   "energyGain": 7,
+   "cooldown": 1000,
+   "archetype": "General",
+   "turns": 2
+  },
+  {
+   "moveId": "MOONBLAST",
+   "name": "Moonblast",
+   "type": "fairy",
+   "power": 90,
+   "energy": 50,
+   "energyGain": 0,
+   "cooldown": 500,
+   "buffs": [
+    -1,
+    0
+   ],
+   "buffTarget": "opponent",
+   "buffApplyChance": ".1",
+   "archetype": "Debuff",
+   "turns": 1
+  },
+  {
+   "moveId": "OVERHEAT",
+   "name": "Overheat",
+   "abbreviation": "Ov",
+   "type": "fire",
+   "power": 130,
+   "energy": 55,
+   "energyGain": 0,
+   "cooldown": 500,
+   "buffs": [
+    -2,
+    0
+   ],
+   "buffTarget": "self",
+   "buffApplyChance": "1",
+   "archetype": "Self-Debuff Nuke",
+   "turns": 1
+  },
+  {
+   "moveId": "PETAL_BLIZZARD",
+   "name": "Petal Blizzard",
+   "abbreviation": "PlB",
+   "type": "grass",
+   "power": 110,
+   "energy": 65,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "Nuke",
+   "turns": 1
+  },
+  {
+   "moveId": "PLAY_ROUGH",
+   "name": "Play Rough",
+   "type": "fairy",
+   "power": 90,
+   "energy": 60,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "High Energy",
+   "turns": 1
+  },
+  {
+   "moveId": "POISON_JAB",
+   "name": "Poison Jab",
+   "type": "poison",
+   "power": 7,
+   "energy": 0,
+   "energyGain": 7,
+   "cooldown": 1000,
+   "archetype": "General",
+   "turns": 2
+  },
+  {
+   "moveId": "POISON_STING",
+   "name": "Poison Sting",
+   "abbreviation": "PSt",
+   "type": "poison",
+   "power": 4,
+   "energy": 0,
+   "energyGain": 9,
+   "cooldown": 1000,
+   "archetype": "Fast Charge",
+   "turns": 2
+  },
+  {
+   "moveId": "POWDER_SNOW",
+   "name": "Powder Snow",
+   "type": "ice",
+   "power": 6,
+   "energy": 0,
+   "energyGain": 8,
+   "cooldown": 1000,
+   "archetype": "Multipurpose",
+   "turns": 2
+  },
+  {
+   "moveId": "POWER_GEM",
+   "name": "Power Gem",
+   "type": "rock",
+   "power": 85,
+   "energy": 50,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "General",
+   "turns": 1
+  },
+  {
+   "moveId": "POWER_WHIP",
+   "name": "Power Whip",
+   "type": "grass",
+   "power": 90,
+   "energy": 50,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "General",
+   "turns": 1
+  },
+  {
+   "moveId": "PSYBEAM",
+   "name": "Psybeam",
+   "abbreviation": "Psb",
+   "type": "psychic",
+   "power": 70,
+   "energy": 60,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "High Energy",
+   "turns": 1
+  },
+  {
+   "moveId": "PSYCHIC",
+   "name": "Psychic",
+   "type": "psychic",
+   "power": 75,
+   "energy": 55,
+   "energyGain": 0,
+   "cooldown": 500,
+   "buffs": [
+    0,
+    -1
+   ],
+   "buffTarget": "opponent",
+   "buffApplyChance": ".1",
+   "archetype": "High Energy",
+   "turns": 1
+  },
+  {
+   "moveId": "PSYCHIC_FANGS",
+   "name": "Psychic Fangs",
+   "type": "psychic",
+   "abbreviation": "PsF",
+   "power": 40,
+   "energy": 35,
+   "energyGain": 0,
+   "cooldown": 500,
+   "buffs": [
+    0,
+    -1
+   ],
+   "buffTarget": "opponent",
+   "buffApplyChance": "1",
+   "archetype": "Debuff Spam",
+   "turns": 1
+  },
+  {
+   "moveId": "PSYSHOCK",
+   "name": "Psyshock",
+   "abbreviation": "Psh",
+   "type": "psychic",
+   "power": 70,
+   "energy": 40,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "General",
+   "turns": 1
+  },
+  {
+   "moveId": "QUICK_ATTACK",
+   "name": "Quick Attack",
+   "type": "normal",
+   "power": 5,
+   "energy": 0,
+   "energyGain": 8,
+   "cooldown": 1000,
+   "archetype": "Fast Charge",
+   "turns": 2
+  },
+  {
+   "moveId": "RAZOR_LEAF",
+   "name": "Razor Leaf",
+   "type": "grass",
+   "power": 9,
+   "energy": 0,
+   "energyGain": 4,
+   "cooldown": 1000,
+   "archetype": "Heavy Damage",
+   "turns": 2
+  },
+  {
+   "moveId": "RETURN",
+   "name": "Return",
+   "abbreviation": "Re",
+   "type": "normal",
+   "power": 130,
+   "energy": 70,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "Nuke",
+   "turns": 1
+  },
+  {
+   "moveId": "ROCK_SLIDE",
+   "name": "Rock Slide",
+   "type": "rock",
+   "power": 75,
+   "energy": 45,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "General",
+   "turns": 1
+  },
+  {
+   "moveId": "SCALD",
+   "name": "Scald",
+   "abbreviation": "Sc",
+   "type": "water",
+   "power": 85,
+   "energy": 50,
+   "energyGain": 0,
+   "cooldown": 500,
+   "buffs": [
+    -1,
+    0
+   ],
+   "buffTarget": "opponent",
+   "buffApplyChance": "0.3",
+   "archetype": "Debuff",
+   "turns": 1
+  },
+  {
+   "moveId": "SCORCHING_SANDS",
+   "name": "Scorching Sands",
+   "abbreviation": "ScS",
+   "type": "ground",
+   "power": 80,
+   "energy": 50,
+   "energyGain": 0,
+   "cooldown": 500,
+   "buffs": [
+    -1,
+    0
+   ],
+   "buffTarget": "opponent",
+   "buffApplyChance": "0.1",
+   "archetype": "Debuff",
+   "turns": 1
+  },
+  {
+   "moveId": "SCRATCH",
+   "name": "Scratch",
+   "abbreviation": "Scr",
+   "type": "normal",
+   "power": 3,
+   "energy": 0,
+   "energyGain": 4,
+   "cooldown": 500,
+   "archetype": "Multipurpose",
+   "turns": 1
+  },
+  {
+   "moveId": "SEED_BOMB",
+   "name": "Seed Bomb",
+   "abbreviation": "SeB",
+   "type": "grass",
+   "power": 55,
+   "energy": 40,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "Spam/Bait",
+   "turns": 1
+  },
+  {
+   "moveId": "SHADOW_BALL",
+   "name": "Shadow Ball",
+   "type": "ghost",
+   "power": 90,
+   "energy": 50,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "General",
+   "turns": 1
+  },
+  {
+   "moveId": "SLUDGE",
+   "name": "Sludge",
+   "abbreviation": "Sl",
+   "type": "poison",
+   "power": 70,
+   "energy": 40,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "Spam/Bait",
+   "turns": 1
+  },
+  {
+   "moveId": "SLUDGE_BOMB",
+   "name": "Sludge Bomb",
+   "abbreviation": "SlB",
+   "type": "poison",
+   "power": 80,
+   "energy": 50,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "General",
+   "turns": 1
+  },
+  {
+   "moveId": "SNARL",
+   "name": "Snarl",
+   "abbreviation": "Sn",
+   "type": "dark",
+   "power": 5,
+   "energy": 0,
+   "energyGain": 13,
+   "cooldown": 1500,
+   "archetype": "Fast Charge",
+   "turns": 3
+  },
+  {
+   "moveId": "SOLAR_BEAM",
+   "name": "Solar Beam",
+   "abbreviation": "SoB",
+   "type": "grass",
+   "power": 150,
+   "energy": 80,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "Nuke",
+   "turns": 1
+  },
+  {
+   "moveId": "SPLASH",
+   "name": "Splash",
+   "abbreviation": "Spl",
+   "type": "water",
+   "power": 0,
+   "energy": 0,
+   "energyGain": 12,
+   "cooldown": 2000,
+   "archetype": "Low Quality",
+   "turns": 4
+  },
+  {
+   "moveId": "STRUGGLE",
+   "name": "Struggle",
+   "abbreviation": "Str",
+   "type": "normal",
+   "power": 35,
+   "energy": 100,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "High Energy",
+   "turns": 1
+  },
+  {
+   "moveId": "SUPER_POWER",
+   "name": "Superpower",
+   "type": "fighting",
+   "power": 85,
+   "energy": 40,
+   "energyGain": 0,
+   "cooldown": 500,
+   "buffs": [
+    -1,
+    -1
+   ],
+   "buffTarget": "self",
+   "buffApplyChance": "1",
+   "archetype": "Self-Debuff Spam",
+   "turns": 1
+  },
+  {
+   "moveId": "SWIFT",
+   "name": "Swift",
+   "abbreviation": "Sw",
+   "type": "normal",
+   "power": 55,
+   "energy": 35,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "Spam/Bait",
+   "turns": 1
+  },
+  {
+   "moveId": "TACKLE",
+   "name": "Tackle",
+   "abbreviation": "Tk",
+   "type": "normal",
+   "power": 3,
+   "energy": 0,
+   "energyGain": 3,
+   "cooldown": 500,
+   "archetype": "General",
+   "turns": 1
+  },
+  {
+   "moveId": "THUNDER",
+   "name": "Thunder",
+   "type": "electric",
+   "power": 100,
+   "energy": 60,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "High Energy",
+   "turns": 1
+  },
+  {
+   "moveId": "THUNDERBOLT",
+   "name": "Thunderbolt",
+   "abbreviation": "Tb",
+   "type": "electric",
+   "power": 90,
+   "energy": 55,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "High Energy",
+   "turns": 1
+  },
+  {
+   "moveId": "THUNDER_SHOCK",
+   "name": "Thunder Shock",
+   "type": "electric",
+   "power": 4,
+   "energy": 0,
+   "energyGain": 9,
+   "cooldown": 1000,
+   "archetype": "Fast Charge",
+   "turns": 2
+  },
+  {
+   "moveId": "VINE_WHIP",
+   "name": "Vine Whip",
+   "type": "grass",
+   "power": 5,
+   "energy": 0,
+   "energyGain": 8,
+   "cooldown": 1000,
+   "archetype": "Fast Charge",
+   "turns": 2
+  },
+  {
+   "moveId": "VOLT_SWITCH",
+   "name": "Volt Switch",
+   "type": "electric",
+   "power": 14,
+   "energy": 0,
+   "energyGain": 16,
+   "cooldown": 2000,
+   "archetype": "Multipurpose",
+   "turns": 4
+  },
+  {
+   "moveId": "WATER_GUN",
+   "name": "Water Gun",
+   "type": "water",
+   "power": 3,
+   "energy": 0,
+   "energyGain": 3,
+   "cooldown": 500,
+   "archetype": "General",
+   "turns": 1
+  },
+  {
+   "moveId": "WATER_PULSE",
+   "name": "Water Pulse",
+   "type": "water",
+   "power": 80,
+   "energy": 50,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "General",
+   "turns": 1
+  },
+  {
+   "moveId": "WEATHER_BALL_FIRE",
+   "name": "Weather Ball (Fire)",
+   "type": "fire",
+   "power": 60,
+   "energy": 35,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "Spam/Bait",
+   "turns": 1
+  },
+  {
+   "moveId": "WEATHER_BALL_ICE",
+   "name": "Weather Ball (Ice)",
+   "type": "ice",
+   "power": 60,
+   "energy": 35,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "Spam/Bait",
+   "turns": 1
+  },
+  {
+   "moveId": "WEATHER_BALL_NORMAL",
+   "name": "Weather Ball (Normal)",
+   "type": "normal",
+   "power": 60,
+   "energy": 35,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "Spam/Bait",
+   "turns": 1
+  },
+  {
+   "moveId": "WEATHER_BALL_ROCK",
+   "name": "Weather Ball (Rock)",
+   "type": "rock",
+   "power": 60,
+   "energy": 35,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "Spam/Bait",
+   "turns": 1
+  },
+  {
+   "moveId": "WEATHER_BALL_WATER",
+   "name": "Weather Ball (Water)",
+   "type": "water",
+   "power": 60,
+   "energy": 35,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "Spam/Bait",
+   "turns": 1
+  },
+  {
+   "moveId": "WILD_CHARGE",
+   "name": "Wild Charge",
+   "type": "electric",
+   "power": 100,
+   "energy": 45,
+   "energyGain": 0,
+   "cooldown": 500,
+   "buffs": [
+    0,
+    -2
+   ],
+   "buffTarget": "self",
+   "buffApplyChance": "1",
+   "archetype": "Self-Debuff",
+   "turns": 1
+  },
+  {
+   "moveId": "WING_ATTACK",
+   "name": "Wing Attack",
+   "type": "flying",
+   "power": 5,
+   "energy": 0,
+   "energyGain": 8,
+   "cooldown": 1000,
+   "archetype": "Fast Charge",
+   "turns": 2
+  },
+  {
+   "moveId": "X_SCISSOR",
+   "name": "X-Scissor",
+   "type": "bug",
+   "power": 65,
+   "energy": 40,
+   "energyGain": 0,
+   "cooldown": 500,
+   "archetype": "Spam/Bait",
+   "turns": 1
+  },
+  {
+   "moveId": "ZAP_CANNON",
+   "name": "Zap Cannon",
+   "type": "electric",
+   "power": 150,
+   "energy": 80,
+   "energyGain": 0,
+   "cooldown": 500,
+   "buffs": [
+    -1,
+    0
+   ],
+   "buffTarget": "opponent",
+   "buffApplyChance": ".33",
+   "archetype": "Debuff Nuke",
+   "turns": 1
+  },
+  {
+   "moveId": "ZEN_HEADBUTT",
+   "name": "Zen Headbutt",
+   "type": "psychic",
+   "power": 8,
+   "energy": 0,
+   "energyGain": 6,
+   "cooldown": 1500,
+   "archetype": "Low Quality",
+   "turns": 3
+  }
+ ]
+}
