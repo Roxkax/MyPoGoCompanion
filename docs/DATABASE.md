@@ -17,13 +17,15 @@ The app's PostgreSQL 17 database (Neon in QA and prod, Docker locally). The sche
 
 ### Game data (daily import)
 
+Written only by the daily import (`docs/DAILY-IMPORT.md`), which keeps these tables in line with PvPoke and the game master every morning.
+
 | Table | One row per | Notes |
 |---|---|---|
 | `types` | type (18) | English and Portuguese name, the game's order |
 | `families` | evolution family | `FAMILY_GIBLE`; candy is per family |
 | `species` | Pokédex number (1,025) | name, generation, Legendary/Mythical/Ultra Beast, family, search nicknames ("chomp") |
 | `forms` | version with its own stats, types or picture | base form (exactly one per species, `is_default`), regional forms, Megas, Primals, other battle forms, costumes; stats, types, max CP at level 50, released, Shadow released, shiny, can Dynamax / Gigantamax, buddy distance, second-move cost. **Shadow, Purified, Dynamax and Gigantamax are not rows**: same stats, so they are flags here and an `is_shadow` column where rankings differ |
-| `moves` | fast or charged move | raid numbers (power, duration, damage window, energy) and PvP numbers (power, energy, turns, stat changes) side by side |
+| `moves` | fast or charged move | raid numbers (power, duration, damage window, energy) and PvP numbers (power, energy, turns, stat changes) side by side; a move with no raid version (Hidden Power, the Mega `…_PLUS` moves) has raid duration 0 |
 | `form_moves` | move in a form's movepool | `Normal`, `EliteTm` or `Legacy` |
 | `evolutions` | evolution step | candy (and after a trade), item, buddy distance, day/night, lure, gender, special task |
 | `cp_multipliers` | level (1–51) | the game's CP multiplier |
@@ -80,7 +82,7 @@ The **super admin** is not stored: it is the account whose Google-confirmed emai
 
 | Table | One row per | Notes |
 |---|---|---|
-| `job_runs` | run of the daily import, AI researcher or backup | status, start/end, scheduled or "Run now" (by whom), what changed, error. The out-of-date warning reads the last successful run of each job |
+| `job_runs` | run of the daily import, AI researcher or backup | status, start/end, scheduled or "Run now" (by whom), what the run did (`summary` JSON; the daily import's is in `docs/DAILY-IMPORT.md`: trigger, version, source fingerprints, changes per kind, warnings), error in plain words. The out-of-date warning reads the last successful run of each job |
 | `ai_usage` | AI call | chat or researcher, model, tokens, cost; this month's sum is checked against the cap. Chat messages are not stored |
 | `admin_fixes` | admin fix or removal | who, when, which entry, before and after |
 
@@ -102,5 +104,7 @@ Locally, the API (in `Development`) applies the migrations on start-up and, when
 - **Game data and rankings** (`dev-game-data.json`): a real slice for the 91 species in the sample, cut from the golden-file inputs and outputs by `make_dev_game_data.py`. Made up for development only: evolution candy (the usual pattern), PvP scores and movesets (the frozen rankings keep only the order), Dynamax and shiny flags, and Portuguese names other than types.
 - **Live data and the trainer** (`DevSeed.cs`): the sample's raids, Max Battles, events, eggs and research, Ash_PT with 15 Pokémon, an upload report, saved filters, job runs and AI usage.
 - **Dates follow the clock**: everything moves by whole days so that "now" is always the sample's Tuesday 27 October 2026, 18:30 (Kyogre in raids, Halloween live, Community Day: Gible next).
+
+Running the daily import locally (`docs/DAILY-IMPORT.md`) replaces the seed's game data with the real one.
 
 QA and prod are never seeded: their data comes from the daily import, the AI researcher and real users. To start again locally: `docker compose down -v`, `docker compose up -d --wait`, then run the API.

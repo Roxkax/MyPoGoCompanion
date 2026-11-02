@@ -1,14 +1,14 @@
 using Npgsql;
 
-namespace MyPoGoCompanion.Api.Configuration;
+namespace MyPoGoCompanion.Data;
 
 /// <summary>
 /// Accepts the database connection string either in Npgsql's "Host=…;Database=…" form or as the
-/// postgresql:// URL that Neon (and psql) use, so the same secret works everywhere.
+/// postgresql:// URL that Neon (and psql) use, so the same secret works everywhere (the API and the jobs).
 /// Kerberos (GSS) encryption is turned off unless asked for: neither Neon nor the local database uses it, and
 /// trying it needs a system library the slim API image doesn't have.
 /// </summary>
-internal static class DatabaseConnectionString
+public static class DatabaseConnectionString
 {
     public static string Normalize(string value)
     {

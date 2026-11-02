@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
+    <PackageReference Include="xunit.v3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MyPoGoCompanion.Jobs\MyPoGoCompanion.Jobs.csproj" />
+  </ItemGroup>
+
+  <!-- Small cuts of the real source files (Fixtures/make_fixtures.py), read by the tests. -->
+  <ItemGroup>
+    <None Include="Fixtures/**/*.json;Fixtures/**/*.js" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

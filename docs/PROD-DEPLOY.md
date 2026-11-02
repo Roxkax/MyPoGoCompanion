@@ -7,7 +7,7 @@ How code reaches prod, what happens when something fails, and how to put an earl
 | Step | What it does |
 |---|---|
 | Anything to deploy? | Compares `main` with the commit prod runs. If only notes changed (Markdown, `docs/`, `planning/`, `design/`), prod is left as it is. |
-| deploy-prod | Builds the API image `ghcr.io/roxkax/mypogocompanion-api:<commit>` → applies the database migrations to Neon `main` → deploys the image to `api-prod` → builds the web app for the prod API and deploys it to Static Web Apps production → runs the **smoke test** against prod (API healthy with the new version, database reachable, OpenAPI, CORS, web pages). |
+| deploy-prod | Builds the API image `ghcr.io/roxkax/mypogocompanion-api:<commit>` → applies the database migrations to Neon `main` → deploys the image to `api-prod` → builds the web app for the prod API and deploys it to Static Web Apps production → runs the **smoke test** against prod (API healthy with the new version, database reachable, OpenAPI, CORS, web pages) → updates the **daily import** job `job-import-prod` (image `ghcr.io/roxkax/mypogocompanion-jobs:<commit>`, every day at 06:00 UTC) and, when the import's code or the schema changed (or the job is new), runs one import straight away (`docs/DAILY-IMPORT.md`). |
 | Reset the QA database | Resets the Neon `qa` branch to a fresh copy of prod (planning/CI-CD.md), after waiting for any QA deploy or UI tests in progress. If QA was showing an open PR, that PR is deployed to QA again so its own migrations are back. |
 | Alert the owner | If anything failed, opens an issue **"Prod deploy failed"** (label `prod-alert`) assigned to you, so GitHub notifies you by email, on the web and in the mobile app. Later failures add a comment to the same issue. The next good deploy closes it. |
 
@@ -25,6 +25,8 @@ Open the issue (or the run), find the red step and read its error.
 | Apply migrations | The migration failed on prod data (`password authentication failed` = the prod `DATABASE_URL` secret is out of date, see `docs/SETUP-ENVIRONMENTS.md`) | The previous version keeps serving. Each migration runs in its own transaction, so the failed one leaves nothing half-done (earlier migrations of the same deploy stay applied) |
 | Deploy the API | Azure refused the update | The previous API keeps serving |
 | Deploy the web app | Static Web Apps refused the upload | New API, previous web app |
+| Deploy the daily import job | Azure refused the job update | New API and web app; the job keeps its previous image |
+| Run the daily import now | The import failed (its run log is on the run's Summary: usually a source file that didn't download or changed format) | New version live with yesterday's game data; the next 06:00 run tries again, or **Actions → Run daily import** (`prod`) once fixed. The QA reset doesn't run after a failed deploy-prod |
 | Smoke test | Something in the new version doesn't work | New version live: **roll back** if users are affected |
 | Reset the QA database | Neon key, project ID or branch problem (the error says which) | Fine; only QA keeps its old data |
 
@@ -32,7 +34,7 @@ A temporary error (Azure or Neon busy): **Re-run failed jobs** on the run page. 
 
 ## Roll back
 
-Puts an earlier commit of `main` back on prod: its API image (already in the registry, no rebuild) and its web app (rebuilt from that commit). About 5 minutes.
+Puts an earlier commit of `main` back on prod: its API and jobs images (already in the registry, no rebuild; a commit from before the jobs existed leaves the daily import job as it is) and its web app (rebuilt from that commit). About 5 minutes.
 
 1. Find the commit to go back to: the last run of **Actions → Prod deploy** that was green before the problem, or the line `Prod ran …:<commit>` in the failed run's Summary. The first 7 characters are enough.
 2. **Actions → Prod deploy → Run workflow**. Branch: `main`. Commit: paste it. **Run workflow**.

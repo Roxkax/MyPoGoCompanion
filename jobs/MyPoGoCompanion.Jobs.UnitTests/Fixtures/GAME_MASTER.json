@@ -1,0 +1,5689 @@
+[
+ {
+  "templateId": "V0001_POKEMON_BULBASAUR",
+  "data": {
+   "templateId": "V0001_POKEMON_BULBASAUR",
+   "pokemonSettings": {
+    "pokemonId": "BULBASAUR",
+    "type": "POKEMON_TYPE_GRASS",
+    "type2": "POKEMON_TYPE_POISON",
+    "stats": {
+     "baseStamina": 128,
+     "baseAttack": 118,
+     "baseDefense": 111
+    },
+    "familyId": "FAMILY_BULBASAUR",
+    "evolutionBranch": [
+     {
+      "evolution": "IVYSAUR",
+      "candyCost": 25,
+      "form": "IVYSAUR_NORMAL",
+      "candyCostPurified": 22
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "V0001_POKEMON_BULBASAUR_FALL_2019",
+  "data": {
+   "templateId": "V0001_POKEMON_BULBASAUR_FALL_2019",
+   "pokemonSettings": {
+    "pokemonId": "BULBASAUR",
+    "type": "POKEMON_TYPE_GRASS",
+    "type2": "POKEMON_TYPE_POISON",
+    "stats": {
+     "baseStamina": 128,
+     "baseAttack": 118,
+     "baseDefense": 111
+    },
+    "familyId": "FAMILY_BULBASAUR",
+    "form": "BULBASAUR_FALL_2019"
+   }
+  }
+ },
+ {
+  "templateId": "V0001_POKEMON_BULBASAUR_NORMAL",
+  "data": {
+   "templateId": "V0001_POKEMON_BULBASAUR_NORMAL",
+   "pokemonSettings": {
+    "pokemonId": "BULBASAUR",
+    "type": "POKEMON_TYPE_GRASS",
+    "type2": "POKEMON_TYPE_POISON",
+    "stats": {
+     "baseStamina": 128,
+     "baseAttack": 118,
+     "baseDefense": 111
+    },
+    "familyId": "FAMILY_BULBASAUR",
+    "evolutionBranch": [
+     {
+      "evolution": "IVYSAUR",
+      "candyCost": 25,
+      "form": "IVYSAUR_NORMAL",
+      "candyCostPurified": 22
+     }
+    ],
+    "form": "BULBASAUR_NORMAL"
+   }
+  }
+ },
+ {
+  "templateId": "V0002_POKEMON_IVYSAUR",
+  "data": {
+   "templateId": "V0002_POKEMON_IVYSAUR",
+   "pokemonSettings": {
+    "pokemonId": "IVYSAUR",
+    "type": "POKEMON_TYPE_GRASS",
+    "type2": "POKEMON_TYPE_POISON",
+    "stats": {
+     "baseStamina": 155,
+     "baseAttack": 151,
+     "baseDefense": 143
+    },
+    "familyId": "FAMILY_BULBASAUR",
+    "evolutionBranch": [
+     {
+      "evolution": "VENUSAUR",
+      "candyCost": 100,
+      "form": "VENUSAUR_NORMAL",
+      "candyCostPurified": 90
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "V0002_POKEMON_IVYSAUR_NORMAL",
+  "data": {
+   "templateId": "V0002_POKEMON_IVYSAUR_NORMAL",
+   "pokemonSettings": {
+    "pokemonId": "IVYSAUR",
+    "type": "POKEMON_TYPE_GRASS",
+    "type2": "POKEMON_TYPE_POISON",
+    "stats": {
+     "baseStamina": 155,
+     "baseAttack": 151,
+     "baseDefense": 143
+    },
+    "familyId": "FAMILY_BULBASAUR",
+    "evolutionBranch": [
+     {
+      "evolution": "VENUSAUR",
+      "candyCost": 100,
+      "form": "VENUSAUR_NORMAL",
+      "candyCostPurified": 90
+     }
+    ],
+    "form": "IVYSAUR_NORMAL"
+   }
+  }
+ },
+ {
+  "templateId": "V0003_POKEMON_VENUSAUR",
+  "data": {
+   "templateId": "V0003_POKEMON_VENUSAUR",
+   "pokemonSettings": {
+    "pokemonId": "VENUSAUR",
+    "type": "POKEMON_TYPE_GRASS",
+    "type2": "POKEMON_TYPE_POISON",
+    "stats": {
+     "baseStamina": 190,
+     "baseAttack": 198,
+     "baseDefense": 189
+    },
+    "familyId": "FAMILY_BULBASAUR",
+    "evolutionBranch": [
+     {
+      "temporaryEvolution": "TEMP_EVOLUTION_MEGA",
+      "temporaryEvolutionEnergyCost": 200,
+      "temporaryEvolutionEnergyCostSubsequent": 40
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "V0003_POKEMON_VENUSAUR_COPY_2019",
+  "data": {
+   "templateId": "V0003_POKEMON_VENUSAUR_COPY_2019",
+   "pokemonSettings": {
+    "pokemonId": "VENUSAUR",
+    "type": "POKEMON_TYPE_GRASS",
+    "type2": "POKEMON_TYPE_POISON",
+    "stats": {
+     "baseStamina": 190,
+     "baseAttack": 198,
+     "baseDefense": 189
+    },
+    "familyId": "FAMILY_BULBASAUR",
+    "form": "VENUSAUR_COPY_2019"
+   }
+  }
+ },
+ {
+  "templateId": "V0003_POKEMON_VENUSAUR_NORMAL",
+  "data": {
+   "templateId": "V0003_POKEMON_VENUSAUR_NORMAL",
+   "pokemonSettings": {
+    "pokemonId": "VENUSAUR",
+    "type": "POKEMON_TYPE_GRASS",
+    "type2": "POKEMON_TYPE_POISON",
+    "stats": {
+     "baseStamina": 190,
+     "baseAttack": 198,
+     "baseDefense": 189
+    },
+    "familyId": "FAMILY_BULBASAUR",
+    "evolutionBranch": [
+     {
+      "temporaryEvolution": "TEMP_EVOLUTION_MEGA",
+      "temporaryEvolutionEnergyCost": 200,
+      "temporaryEvolutionEnergyCostSubsequent": 40
+     }
+    ],
+    "form": "VENUSAUR_NORMAL"
+   }
+  }
+ },
+ {
+  "templateId": "V0004_POKEMON_CHARMANDER",
+  "data": {
+   "templateId": "V0004_POKEMON_CHARMANDER",
+   "pokemonSettings": {
+    "pokemonId": "CHARMANDER",
+    "type": "POKEMON_TYPE_FIRE",
+    "stats": {
+     "baseStamina": 118,
+     "baseAttack": 116,
+     "baseDefense": 93
+    },
+    "familyId": "FAMILY_CHARMANDER",
+    "evolutionBranch": [
+     {
+      "evolution": "CHARMELEON",
+      "candyCost": 25,
+      "form": "CHARMELEON_NORMAL",
+      "candyCostPurified": 22
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "V0004_POKEMON_CHARMANDER_FALL_2019",
+  "data": {
+   "templateId": "V0004_POKEMON_CHARMANDER_FALL_2019",
+   "pokemonSettings": {
+    "pokemonId": "CHARMANDER",
+    "type": "POKEMON_TYPE_FIRE",
+    "stats": {
+     "baseStamina": 118,
+     "baseAttack": 116,
+     "baseDefense": 93
+    },
+    "familyId": "FAMILY_CHARMANDER",
+    "form": "CHARMANDER_FALL_2019"
+   }
+  }
+ },
+ {
+  "templateId": "V0004_POKEMON_CHARMANDER_GOGGLES_2026",
+  "data": {
+   "templateId": "V0004_POKEMON_CHARMANDER_GOGGLES_2026",
+   "pokemonSettings": {
+    "pokemonId": "CHARMANDER",
+    "type": "POKEMON_TYPE_FIRE",
+    "stats": {
+     "baseStamina": 118,
+     "baseAttack": 116,
+     "baseDefense": 93
+    },
+    "familyId": "FAMILY_CHARMANDER",
+    "evolutionBranch": [
+     {
+      "evolution": "CHARMELEON",
+      "candyCost": 25,
+      "form": "CHARMELEON_GOGGLES_2026",
+      "candyCostPurified": 22
+     }
+    ],
+    "form": "CHARMANDER_GOGGLES_2026"
+   }
+  }
+ },
+ {
+  "templateId": "V0004_POKEMON_CHARMANDER_NORMAL",
+  "data": {
+   "templateId": "V0004_POKEMON_CHARMANDER_NORMAL",
+   "pokemonSettings": {
+    "pokemonId": "CHARMANDER",
+    "type": "POKEMON_TYPE_FIRE",
+    "stats": {
+     "baseStamina": 118,
+     "baseAttack": 116,
+     "baseDefense": 93
+    },
+    "familyId": "FAMILY_CHARMANDER",
+    "evolutionBranch": [
+     {
+      "evolution": "CHARMELEON",
+      "candyCost": 25,
+      "form": "CHARMELEON_NORMAL",
+      "candyCostPurified": 22
+     }
+    ],
+    "form": "CHARMANDER_NORMAL"
+   }
+  }
+ },
+ {
+  "templateId": "V0005_POKEMON_CHARMELEON",
+  "data": {
+   "templateId": "V0005_POKEMON_CHARMELEON",
+   "pokemonSettings": {
+    "pokemonId": "CHARMELEON",
+    "type": "POKEMON_TYPE_FIRE",
+    "stats": {
+     "baseStamina": 151,
+     "baseAttack": 158,
+     "baseDefense": 126
+    },
+    "familyId": "FAMILY_CHARMANDER",
+    "evolutionBranch": [
+     {
+      "evolution": "CHARIZARD",
+      "candyCost": 100,
+      "form": "CHARIZARD_NORMAL",
+      "candyCostPurified": 90
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "V0005_POKEMON_CHARMELEON_GOGGLES_2026",
+  "data": {
+   "templateId": "V0005_POKEMON_CHARMELEON_GOGGLES_2026",
+   "pokemonSettings": {
+    "pokemonId": "CHARMELEON",
+    "type": "POKEMON_TYPE_FIRE",
+    "stats": {
+     "baseStamina": 151,
+     "baseAttack": 158,
+     "baseDefense": 126
+    },
+    "familyId": "FAMILY_CHARMANDER",
+    "evolutionBranch": [
+     {
+      "evolution": "CHARIZARD",
+      "candyCost": 100,
+      "form": "CHARIZARD_GOGGLES_2026",
+      "candyCostPurified": 90
+     }
+    ],
+    "form": "CHARMELEON_GOGGLES_2026"
+   }
+  }
+ },
+ {
+  "templateId": "V0005_POKEMON_CHARMELEON_NORMAL",
+  "data": {
+   "templateId": "V0005_POKEMON_CHARMELEON_NORMAL",
+   "pokemonSettings": {
+    "pokemonId": "CHARMELEON",
+    "type": "POKEMON_TYPE_FIRE",
+    "stats": {
+     "baseStamina": 151,
+     "baseAttack": 158,
+     "baseDefense": 126
+    },
+    "familyId": "FAMILY_CHARMANDER",
+    "evolutionBranch": [
+     {
+      "evolution": "CHARIZARD",
+      "candyCost": 100,
+      "form": "CHARIZARD_NORMAL",
+      "candyCostPurified": 90
+     }
+    ],
+    "form": "CHARMELEON_NORMAL"
+   }
+  }
+ },
+ {
+  "templateId": "V0006_POKEMON_CHARIZARD",
+  "data": {
+   "templateId": "V0006_POKEMON_CHARIZARD",
+   "pokemonSettings": {
+    "pokemonId": "CHARIZARD",
+    "type": "POKEMON_TYPE_FIRE",
+    "type2": "POKEMON_TYPE_FLYING",
+    "stats": {
+     "baseStamina": 186,
+     "baseAttack": 223,
+     "baseDefense": 173
+    },
+    "familyId": "FAMILY_CHARMANDER",
+    "evolutionBranch": [
+     {
+      "temporaryEvolution": "TEMP_EVOLUTION_MEGA_X",
+      "temporaryEvolutionEnergyCost": 200,
+      "temporaryEvolutionEnergyCostSubsequent": 40
+     },
+     {
+      "temporaryEvolution": "TEMP_EVOLUTION_MEGA_Y",
+      "temporaryEvolutionEnergyCost": 200,
+      "temporaryEvolutionEnergyCostSubsequent": 40
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "V0006_POKEMON_CHARIZARD_COPY_2019",
+  "data": {
+   "templateId": "V0006_POKEMON_CHARIZARD_COPY_2019",
+   "pokemonSettings": {
+    "pokemonId": "CHARIZARD",
+    "type": "POKEMON_TYPE_FIRE",
+    "type2": "POKEMON_TYPE_FLYING",
+    "stats": {
+     "baseStamina": 186,
+     "baseAttack": 223,
+     "baseDefense": 173
+    },
+    "familyId": "FAMILY_CHARMANDER",
+    "form": "CHARIZARD_COPY_2019"
+   }
+  }
+ },
+ {
+  "templateId": "V0006_POKEMON_CHARIZARD_GOGGLES_2026",
+  "data": {
+   "templateId": "V0006_POKEMON_CHARIZARD_GOGGLES_2026",
+   "pokemonSettings": {
+    "pokemonId": "CHARIZARD",
+    "type": "POKEMON_TYPE_FIRE",
+    "type2": "POKEMON_TYPE_FLYING",
+    "stats": {
+     "baseStamina": 186,
+     "baseAttack": 223,
+     "baseDefense": 173
+    },
+    "familyId": "FAMILY_CHARMANDER",
+    "evolutionBranch": [
+     {
+      "temporaryEvolution": "TEMP_EVOLUTION_MEGA_X",
+      "temporaryEvolutionEnergyCost": 200,
+      "temporaryEvolutionEnergyCostSubsequent": 40
+     },
+     {
+      "temporaryEvolution": "TEMP_EVOLUTION_MEGA_Y",
+      "temporaryEvolutionEnergyCost": 200,
+      "temporaryEvolutionEnergyCostSubsequent": 40
+     }
+    ],
+    "form": "CHARIZARD_GOGGLES_2026"
+   }
+  }
+ },
+ {
+  "templateId": "V0006_POKEMON_CHARIZARD_NORMAL",
+  "data": {
+   "templateId": "V0006_POKEMON_CHARIZARD_NORMAL",
+   "pokemonSettings": {
+    "pokemonId": "CHARIZARD",
+    "type": "POKEMON_TYPE_FIRE",
+    "type2": "POKEMON_TYPE_FLYING",
+    "stats": {
+     "baseStamina": 186,
+     "baseAttack": 223,
+     "baseDefense": 173
+    },
+    "familyId": "FAMILY_CHARMANDER",
+    "evolutionBranch": [
+     {
+      "temporaryEvolution": "TEMP_EVOLUTION_MEGA_X",
+      "temporaryEvolutionEnergyCost": 200,
+      "temporaryEvolutionEnergyCostSubsequent": 40
+     },
+     {
+      "temporaryEvolution": "TEMP_EVOLUTION_MEGA_Y",
+      "temporaryEvolutionEnergyCost": 200,
+      "temporaryEvolutionEnergyCostSubsequent": 40
+     }
+    ],
+    "form": "CHARIZARD_NORMAL"
+   }
+  }
+ },
+ {
+  "templateId": "V0013_POKEMON_WEEDLE",
+  "data": {
+   "templateId": "V0013_POKEMON_WEEDLE",
+   "pokemonSettings": {
+    "pokemonId": "WEEDLE",
+    "type": "POKEMON_TYPE_BUG",
+    "type2": "POKEMON_TYPE_POISON",
+    "stats": {
+     "baseStamina": 120,
+     "baseAttack": 63,
+     "baseDefense": 50
+    },
+    "familyId": "FAMILY_WEEDLE",
+    "evolutionBranch": [
+     {
+      "evolution": "KAKUNA",
+      "candyCost": 12,
+      "form": "KAKUNA_NORMAL",
+      "candyCostPurified": 10
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "V0013_POKEMON_WEEDLE_NORMAL",
+  "data": {
+   "templateId": "V0013_POKEMON_WEEDLE_NORMAL",
+   "pokemonSettings": {
+    "pokemonId": "WEEDLE",
+    "type": "POKEMON_TYPE_BUG",
+    "type2": "POKEMON_TYPE_POISON",
+    "stats": {
+     "baseStamina": 120,
+     "baseAttack": 63,
+     "baseDefense": 50
+    },
+    "familyId": "FAMILY_WEEDLE",
+    "evolutionBranch": [
+     {
+      "evolution": "KAKUNA",
+      "candyCost": 12,
+      "form": "KAKUNA_NORMAL",
+      "candyCostPurified": 10
+     }
+    ],
+    "form": "WEEDLE_NORMAL"
+   }
+  }
+ },
+ {
+  "templateId": "V0014_POKEMON_KAKUNA",
+  "data": {
+   "templateId": "V0014_POKEMON_KAKUNA",
+   "pokemonSettings": {
+    "pokemonId": "KAKUNA",
+    "type": "POKEMON_TYPE_BUG",
+    "type2": "POKEMON_TYPE_POISON",
+    "stats": {
+     "baseStamina": 128,
+     "baseAttack": 46,
+     "baseDefense": 75
+    },
+    "familyId": "FAMILY_WEEDLE",
+    "evolutionBranch": [
+     {
+      "evolution": "BEEDRILL",
+      "candyCost": 50,
+      "form": "BEEDRILL_NORMAL",
+      "candyCostPurified": 45
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "V0014_POKEMON_KAKUNA_NORMAL",
+  "data": {
+   "templateId": "V0014_POKEMON_KAKUNA_NORMAL",
+   "pokemonSettings": {
+    "pokemonId": "KAKUNA",
+    "type": "POKEMON_TYPE_BUG",
+    "type2": "POKEMON_TYPE_POISON",
+    "stats": {
+     "baseStamina": 128,
+     "baseAttack": 46,
+     "baseDefense": 75
+    },
+    "familyId": "FAMILY_WEEDLE",
+    "evolutionBranch": [
+     {
+      "evolution": "BEEDRILL",
+      "candyCost": 50,
+      "form": "BEEDRILL_NORMAL",
+      "candyCostPurified": 45
+     }
+    ],
+    "form": "KAKUNA_NORMAL"
+   }
+  }
+ },
+ {
+  "templateId": "V0015_POKEMON_BEEDRILL",
+  "data": {
+   "templateId": "V0015_POKEMON_BEEDRILL",
+   "pokemonSettings": {
+    "pokemonId": "BEEDRILL",
+    "type": "POKEMON_TYPE_BUG",
+    "type2": "POKEMON_TYPE_POISON",
+    "stats": {
+     "baseStamina": 163,
+     "baseAttack": 169,
+     "baseDefense": 130
+    },
+    "familyId": "FAMILY_WEEDLE",
+    "evolutionBranch": [
+     {
+      "temporaryEvolution": "TEMP_EVOLUTION_MEGA",
+      "temporaryEvolutionEnergyCost": 100,
+      "temporaryEvolutionEnergyCostSubsequent": 20
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "V0015_POKEMON_BEEDRILL_NORMAL",
+  "data": {
+   "templateId": "V0015_POKEMON_BEEDRILL_NORMAL",
+   "pokemonSettings": {
+    "pokemonId": "BEEDRILL",
+    "type": "POKEMON_TYPE_BUG",
+    "type2": "POKEMON_TYPE_POISON",
+    "stats": {
+     "baseStamina": 163,
+     "baseAttack": 169,
+     "baseDefense": 130
+    },
+    "familyId": "FAMILY_WEEDLE",
+    "evolutionBranch": [
+     {
+      "temporaryEvolution": "TEMP_EVOLUTION_MEGA",
+      "temporaryEvolutionEnergyCost": 100,
+      "temporaryEvolutionEnergyCostSubsequent": 20
+     }
+    ],
+    "form": "BEEDRILL_NORMAL"
+   }
+  }
+ },
+ {
+  "templateId": "V0016_MOVE_DARK_PULSE",
+  "data": {
+   "templateId": "V0016_MOVE_DARK_PULSE",
+   "moveSettings": {
+    "movementId": "DARK_PULSE",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_DARK",
+    "power": 80.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.08,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "dark_pulse",
+    "durationMs": 3000,
+    "damageWindowStartMs": 1400,
+    "damageWindowEndMs": 2300,
+    "energyDelta": -50
+   }
+  }
+ },
+ {
+  "templateId": "V0018_MOVE_SLUDGE",
+  "data": {
+   "templateId": "V0018_MOVE_SLUDGE",
+   "moveSettings": {
+    "movementId": "SLUDGE",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_POISON",
+    "power": 50.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.065,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "sludge",
+    "durationMs": 2000,
+    "damageWindowStartMs": 1100,
+    "damageWindowEndMs": 1450,
+    "energyDelta": -33
+   }
+  }
+ },
+ {
+  "templateId": "V0024_MOVE_FLAMETHROWER",
+  "data": {
+   "templateId": "V0024_MOVE_FLAMETHROWER",
+   "moveSettings": {
+    "movementId": "FLAMETHROWER",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_FIRE",
+    "power": 65.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.09,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "flamethrower",
+    "durationMs": 2000,
+    "damageWindowStartMs": 1300,
+    "damageWindowEndMs": 1500,
+    "energyDelta": -50
+   }
+  }
+ },
+ {
+  "templateId": "V0026_MOVE_DIG",
+  "data": {
+   "templateId": "V0026_MOVE_DIG",
+   "moveSettings": {
+    "movementId": "DIG",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_GROUND",
+    "power": 100.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.08,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "dig",
+    "durationMs": 4500,
+    "damageWindowStartMs": 2600,
+    "damageWindowEndMs": 4300,
+    "energyDelta": -50
+   }
+  }
+ },
+ {
+  "templateId": "V0030_MOVE_PSYBEAM",
+  "data": {
+   "templateId": "V0030_MOVE_PSYBEAM",
+   "moveSettings": {
+    "movementId": "PSYBEAM",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_PSYCHIC",
+    "power": 65.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.065,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "psybeam",
+    "durationMs": 3000,
+    "damageWindowStartMs": 1100,
+    "damageWindowEndMs": 2500,
+    "energyDelta": -50
+   }
+  }
+ },
+ {
+  "templateId": "V0033_MOVE_ICE_PUNCH",
+  "data": {
+   "templateId": "V0033_MOVE_ICE_PUNCH",
+   "moveSettings": {
+    "movementId": "ICE_PUNCH",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_ICE",
+    "power": 50.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.075,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "ice_punch",
+    "durationMs": 2000,
+    "damageWindowStartMs": 1400,
+    "damageWindowEndMs": 1700,
+    "energyDelta": -33
+   }
+  }
+ },
+ {
+  "templateId": "V0035_MOVE_DISCHARGE",
+  "data": {
+   "templateId": "V0035_MOVE_DISCHARGE",
+   "moveSettings": {
+    "movementId": "DISCHARGE",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_ELECTRIC",
+    "power": 65.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.08,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "discharge",
+    "durationMs": 2500,
+    "damageWindowStartMs": 1700,
+    "damageWindowEndMs": 2100,
+    "energyDelta": -33
+   }
+  }
+ },
+ {
+  "templateId": "V0037_POKEMON_VULPIX",
+  "data": {
+   "templateId": "V0037_POKEMON_VULPIX",
+   "pokemonSettings": {
+    "pokemonId": "VULPIX",
+    "type": "POKEMON_TYPE_FIRE",
+    "stats": {
+     "baseStamina": 116,
+     "baseAttack": 96,
+     "baseDefense": 109
+    },
+    "familyId": "FAMILY_VULPIX",
+    "evolutionBranch": [
+     {
+      "evolution": "NINETALES",
+      "candyCost": 50,
+      "form": "NINETALES_NORMAL",
+      "candyCostPurified": 45
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "V0037_POKEMON_VULPIX_ALOLA",
+  "data": {
+   "templateId": "V0037_POKEMON_VULPIX_ALOLA",
+   "pokemonSettings": {
+    "pokemonId": "VULPIX",
+    "type": "POKEMON_TYPE_ICE",
+    "stats": {
+     "baseStamina": 116,
+     "baseAttack": 96,
+     "baseDefense": 109
+    },
+    "familyId": "FAMILY_VULPIX",
+    "evolutionBranch": [
+     {
+      "evolution": "NINETALES",
+      "candyCost": 50,
+      "form": "NINETALES_ALOLA",
+      "candyCostPurified": 45
+     }
+    ],
+    "form": "VULPIX_ALOLA"
+   }
+  }
+ },
+ {
+  "templateId": "V0037_POKEMON_VULPIX_NORMAL",
+  "data": {
+   "templateId": "V0037_POKEMON_VULPIX_NORMAL",
+   "pokemonSettings": {
+    "pokemonId": "VULPIX",
+    "type": "POKEMON_TYPE_FIRE",
+    "stats": {
+     "baseStamina": 116,
+     "baseAttack": 96,
+     "baseDefense": 109
+    },
+    "familyId": "FAMILY_VULPIX",
+    "evolutionBranch": [
+     {
+      "evolution": "NINETALES",
+      "candyCost": 50,
+      "form": "NINETALES_NORMAL",
+      "candyCostPurified": 45
+     }
+    ],
+    "form": "VULPIX_NORMAL"
+   }
+  }
+ },
+ {
+  "templateId": "V0038_POKEMON_NINETALES",
+  "data": {
+   "templateId": "V0038_POKEMON_NINETALES",
+   "pokemonSettings": {
+    "pokemonId": "NINETALES",
+    "type": "POKEMON_TYPE_FIRE",
+    "stats": {
+     "baseStamina": 177,
+     "baseAttack": 169,
+     "baseDefense": 190
+    },
+    "familyId": "FAMILY_VULPIX"
+   }
+  }
+ },
+ {
+  "templateId": "V0038_POKEMON_NINETALES_ALOLA",
+  "data": {
+   "templateId": "V0038_POKEMON_NINETALES_ALOLA",
+   "pokemonSettings": {
+    "pokemonId": "NINETALES",
+    "type": "POKEMON_TYPE_ICE",
+    "type2": "POKEMON_TYPE_FAIRY",
+    "stats": {
+     "baseStamina": 177,
+     "baseAttack": 170,
+     "baseDefense": 193
+    },
+    "familyId": "FAMILY_VULPIX",
+    "form": "NINETALES_ALOLA"
+   }
+  }
+ },
+ {
+  "templateId": "V0038_POKEMON_NINETALES_NORMAL",
+  "data": {
+   "templateId": "V0038_POKEMON_NINETALES_NORMAL",
+   "pokemonSettings": {
+    "pokemonId": "NINETALES",
+    "type": "POKEMON_TYPE_FIRE",
+    "stats": {
+     "baseStamina": 177,
+     "baseAttack": 169,
+     "baseDefense": 190
+    },
+    "familyId": "FAMILY_VULPIX",
+    "form": "NINETALES_NORMAL"
+   }
+  }
+ },
+ {
+  "templateId": "V0039_MOVE_ICE_BEAM",
+  "data": {
+   "templateId": "V0039_MOVE_ICE_BEAM",
+   "moveSettings": {
+    "movementId": "ICE_BEAM",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_ICE",
+    "power": 95.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.09,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "ice_beam",
+    "durationMs": 3500,
+    "damageWindowStartMs": 1500,
+    "damageWindowEndMs": 3000,
+    "energyDelta": -50
+   }
+  }
+ },
+ {
+  "templateId": "V0040_MOVE_BLIZZARD",
+  "data": {
+   "templateId": "V0040_MOVE_BLIZZARD",
+   "moveSettings": {
+    "movementId": "BLIZZARD",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_ICE",
+    "power": 130.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.11,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "blizzard",
+    "durationMs": 3000,
+    "damageWindowStartMs": 1400,
+    "damageWindowEndMs": 2800,
+    "energyDelta": -100
+   }
+  }
+ },
+ {
+  "templateId": "V0042_MOVE_HEAT_WAVE",
+  "data": {
+   "templateId": "V0042_MOVE_HEAT_WAVE",
+   "moveSettings": {
+    "movementId": "HEAT_WAVE",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_FIRE",
+    "power": 95.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.095,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "heat_wave",
+    "durationMs": 3000,
+    "damageWindowStartMs": 1700,
+    "damageWindowEndMs": 2800,
+    "energyDelta": -100
+   }
+  }
+ },
+ {
+  "templateId": "V0045_MOVE_AERIAL_ACE",
+  "data": {
+   "templateId": "V0045_MOVE_AERIAL_ACE",
+   "moveSettings": {
+    "movementId": "AERIAL_ACE",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_FLYING",
+    "power": 55.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.06,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "aerial_ace",
+    "durationMs": 2500,
+    "damageWindowStartMs": 2000,
+    "damageWindowEndMs": 2300,
+    "energyDelta": -33
+   }
+  }
+ },
+ {
+  "templateId": "V0046_MOVE_DRILL_RUN",
+  "data": {
+   "templateId": "V0046_MOVE_DRILL_RUN",
+   "moveSettings": {
+    "movementId": "DRILL_RUN",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_GROUND",
+    "power": 85.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.25,
+    "staminaLossScalar": 0.08,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "drill_run",
+    "durationMs": 3000,
+    "damageWindowStartMs": 1900,
+    "damageWindowEndMs": 2800,
+    "energyDelta": -50
+   }
+  }
+ },
+ {
+  "templateId": "V0047_MOVE_PETAL_BLIZZARD",
+  "data": {
+   "templateId": "V0047_MOVE_PETAL_BLIZZARD",
+   "moveSettings": {
+    "movementId": "PETAL_BLIZZARD",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_GRASS",
+    "power": 110.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.09,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "petal_blizzard",
+    "durationMs": 2500,
+    "damageWindowStartMs": 1600,
+    "damageWindowEndMs": 2200,
+    "energyDelta": -100
+   }
+  }
+ },
+ {
+  "templateId": "V0058_MOVE_AQUA_TAIL",
+  "data": {
+   "templateId": "V0058_MOVE_AQUA_TAIL",
+   "moveSettings": {
+    "movementId": "AQUA_TAIL",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_WATER",
+    "power": 50.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.09,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "aqua_tail",
+    "durationMs": 2000,
+    "damageWindowStartMs": 1300,
+    "damageWindowEndMs": 1750,
+    "energyDelta": -33
+   }
+  }
+ },
+ {
+  "templateId": "V0059_MOVE_SEED_BOMB",
+  "data": {
+   "templateId": "V0059_MOVE_SEED_BOMB",
+   "moveSettings": {
+    "movementId": "SEED_BOMB",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_GRASS",
+    "power": 55.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.08,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "seed_bomb",
+    "durationMs": 2000,
+    "damageWindowStartMs": 1100,
+    "damageWindowEndMs": 1800,
+    "energyDelta": -33
+   }
+  }
+ },
+ {
+  "templateId": "V0060_MOVE_PSYSHOCK",
+  "data": {
+   "templateId": "V0060_MOVE_PSYSHOCK",
+   "moveSettings": {
+    "movementId": "PSYSHOCK",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_PSYCHIC",
+    "power": 60.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.08,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "psyshock",
+    "durationMs": 2500,
+    "damageWindowStartMs": 1800,
+    "damageWindowEndMs": 2400,
+    "energyDelta": -33
+   }
+  }
+ },
+ {
+  "templateId": "V0064_MOVE_ROCK_SLIDE",
+  "data": {
+   "templateId": "V0064_MOVE_ROCK_SLIDE",
+   "moveSettings": {
+    "movementId": "ROCK_SLIDE",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_ROCK",
+    "power": 75.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.075,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "rock_slide",
+    "durationMs": 2500,
+    "damageWindowStartMs": 1300,
+    "damageWindowEndMs": 2400,
+    "energyDelta": -50
+   }
+  }
+ },
+ {
+  "templateId": "V0065_MOVE_POWER_GEM",
+  "data": {
+   "templateId": "V0065_MOVE_POWER_GEM",
+   "moveSettings": {
+    "movementId": "POWER_GEM",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_ROCK",
+    "power": 80.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.08,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "power_gem",
+    "durationMs": 3000,
+    "damageWindowStartMs": 2050,
+    "damageWindowEndMs": 2800,
+    "energyDelta": -50
+   }
+  }
+ },
+ {
+  "templateId": "V0070_MOVE_SHADOW_BALL",
+  "data": {
+   "templateId": "V0070_MOVE_SHADOW_BALL",
+   "moveSettings": {
+    "movementId": "SHADOW_BALL",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_GHOST",
+    "power": 100.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.08,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "shadow_ball",
+    "durationMs": 3000,
+    "damageWindowStartMs": 2400,
+    "damageWindowEndMs": 2800,
+    "energyDelta": -50
+   }
+  }
+ },
+ {
+  "templateId": "V0074_MOVE_IRON_HEAD",
+  "data": {
+   "templateId": "V0074_MOVE_IRON_HEAD",
+   "moveSettings": {
+    "movementId": "IRON_HEAD",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_STEEL",
+    "power": 60.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.08,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "iron_head",
+    "durationMs": 2000,
+    "damageWindowStartMs": 1400,
+    "damageWindowEndMs": 1800,
+    "energyDelta": -50
+   }
+  }
+ },
+ {
+  "templateId": "V0078_MOVE_THUNDER",
+  "data": {
+   "templateId": "V0078_MOVE_THUNDER",
+   "moveSettings": {
+    "movementId": "THUNDER",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_ELECTRIC",
+    "power": 100.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.11,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "thunder",
+    "durationMs": 2500,
+    "damageWindowStartMs": 1300,
+    "damageWindowEndMs": 2300,
+    "energyDelta": -100
+   }
+  }
+ },
+ {
+  "templateId": "V0079_MOVE_THUNDERBOLT",
+  "data": {
+   "templateId": "V0079_MOVE_THUNDERBOLT",
+   "moveSettings": {
+    "movementId": "THUNDERBOLT",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_ELECTRIC",
+    "power": 80.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.09,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "thunderbolt",
+    "durationMs": 2500,
+    "damageWindowStartMs": 1800,
+    "damageWindowEndMs": 2300,
+    "energyDelta": -50
+   }
+  }
+ },
+ {
+  "templateId": "V0083_MOVE_DRAGON_CLAW",
+  "data": {
+   "templateId": "V0083_MOVE_DRAGON_CLAW",
+   "moveSettings": {
+    "movementId": "DRAGON_CLAW",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_DRAGON",
+    "power": 45.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.25,
+    "staminaLossScalar": 0.08,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "dragon_claw",
+    "durationMs": 1500,
+    "damageWindowStartMs": 900,
+    "damageWindowEndMs": 1100,
+    "energyDelta": -33
+   }
+  }
+ },
+ {
+  "templateId": "V0085_MOVE_DRAINING_KISS",
+  "data": {
+   "templateId": "V0085_MOVE_DRAINING_KISS",
+   "moveSettings": {
+    "movementId": "DRAINING_KISS",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_FAIRY",
+    "power": 60.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "healScalar": 1.0,
+    "staminaLossScalar": 0.05,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "draining_kiss",
+    "durationMs": 2500,
+    "damageWindowStartMs": 900,
+    "damageWindowEndMs": 1200,
+    "energyDelta": -50
+   }
+  }
+ },
+ {
+  "templateId": "V0086_MOVE_DAZZLING_GLEAM",
+  "data": {
+   "templateId": "V0086_MOVE_DAZZLING_GLEAM",
+   "moveSettings": {
+    "movementId": "DAZZLING_GLEAM",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_FAIRY",
+    "power": 100.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.08,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "dazzling_gleam",
+    "durationMs": 3500,
+    "damageWindowStartMs": 2100,
+    "damageWindowEndMs": 3300,
+    "energyDelta": -50
+   }
+  }
+ },
+ {
+  "templateId": "V0087_MOVE_MOONBLAST",
+  "data": {
+   "templateId": "V0087_MOVE_MOONBLAST",
+   "moveSettings": {
+    "movementId": "MOONBLAST",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_FAIRY",
+    "power": 130.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.095,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "moonblast",
+    "durationMs": 4000,
+    "damageWindowStartMs": 2300,
+    "damageWindowEndMs": 3800,
+    "energyDelta": -100
+   }
+  }
+ },
+ {
+  "templateId": "V0088_MOVE_PLAY_ROUGH",
+  "data": {
+   "templateId": "V0088_MOVE_PLAY_ROUGH",
+   "moveSettings": {
+    "movementId": "PLAY_ROUGH",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_FAIRY",
+    "power": 90.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.1,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "play_rough",
+    "durationMs": 3000,
+    "damageWindowStartMs": 1400,
+    "damageWindowEndMs": 2800,
+    "energyDelta": -50
+   }
+  }
+ },
+ {
+  "templateId": "V0090_MOVE_SLUDGE_BOMB",
+  "data": {
+   "templateId": "V0090_MOVE_SLUDGE_BOMB",
+   "moveSettings": {
+    "movementId": "SLUDGE_BOMB",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_POISON",
+    "power": 85.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.09,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "sludge_bomb",
+    "durationMs": 2500,
+    "damageWindowStartMs": 1300,
+    "damageWindowEndMs": 2300,
+    "energyDelta": -50
+   }
+  }
+ },
+ {
+  "templateId": "V0100_MOVE_X_SCISSOR",
+  "data": {
+   "templateId": "V0100_MOVE_X_SCISSOR",
+   "moveSettings": {
+    "movementId": "X_SCISSOR",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_BUG",
+    "power": 45.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.08,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "x_scissor",
+    "durationMs": 1500,
+    "damageWindowStartMs": 1100,
+    "damageWindowEndMs": 1300,
+    "energyDelta": -33
+   }
+  }
+ },
+ {
+  "templateId": "V0101_MOVE_FLAME_CHARGE",
+  "data": {
+   "templateId": "V0101_MOVE_FLAME_CHARGE",
+   "moveSettings": {
+    "movementId": "FLAME_CHARGE",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_FIRE",
+    "power": 70.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.05,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "flame_charge",
+    "durationMs": 4000,
+    "damageWindowStartMs": 3100,
+    "damageWindowEndMs": 3650,
+    "energyDelta": -33
+   }
+  }
+ },
+ {
+  "templateId": "V0102_MOVE_FLAME_BURST",
+  "data": {
+   "templateId": "V0102_MOVE_FLAME_BURST",
+   "moveSettings": {
+    "movementId": "FLAME_BURST",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_FIRE",
+    "power": 70.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.07,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "flame_burst",
+    "durationMs": 2500,
+    "damageWindowStartMs": 900,
+    "damageWindowEndMs": 2000,
+    "energyDelta": -50
+   }
+  }
+ },
+ {
+  "templateId": "V0103_MOVE_FIRE_BLAST",
+  "data": {
+   "templateId": "V0103_MOVE_FIRE_BLAST",
+   "moveSettings": {
+    "movementId": "FIRE_BLAST",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_FIRE",
+    "power": 140.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.11,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "fire_blast",
+    "durationMs": 4000,
+    "damageWindowStartMs": 2900,
+    "damageWindowEndMs": 3700,
+    "energyDelta": -100
+   }
+  }
+ },
+ {
+  "templateId": "V0105_MOVE_WATER_PULSE",
+  "data": {
+   "templateId": "V0105_MOVE_WATER_PULSE",
+   "moveSettings": {
+    "movementId": "WATER_PULSE",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_WATER",
+    "power": 65.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.06,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "water_pulse",
+    "durationMs": 3000,
+    "damageWindowStartMs": 2000,
+    "damageWindowEndMs": 2700,
+    "energyDelta": -50
+   }
+  }
+ },
+ {
+  "templateId": "V0106_MOVE_SCALD",
+  "data": {
+   "templateId": "V0106_MOVE_SCALD",
+   "moveSettings": {
+    "movementId": "SCALD",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_WATER",
+    "power": 75.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.08,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "scald",
+    "durationMs": 3500,
+    "damageWindowStartMs": 1100,
+    "damageWindowEndMs": 3200,
+    "energyDelta": -50
+   }
+  }
+ },
+ {
+  "templateId": "V0107_MOVE_HYDRO_PUMP",
+  "data": {
+   "templateId": "V0107_MOVE_HYDRO_PUMP",
+   "moveSettings": {
+    "movementId": "HYDRO_PUMP",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_WATER",
+    "power": 135.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.11,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "hydro_pump",
+    "durationMs": 3500,
+    "damageWindowStartMs": 1100,
+    "damageWindowEndMs": 3200,
+    "energyDelta": -100
+   }
+  }
+ },
+ {
+  "templateId": "V0108_MOVE_PSYCHIC",
+  "data": {
+   "templateId": "V0108_MOVE_PSYCHIC",
+   "moveSettings": {
+    "movementId": "PSYCHIC",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_PSYCHIC",
+    "power": 95.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.09,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "psychic",
+    "durationMs": 3000,
+    "damageWindowStartMs": 1500,
+    "damageWindowEndMs": 2800,
+    "energyDelta": -50
+   }
+  }
+ },
+ {
+  "templateId": "V0111_MOVE_ICY_WIND",
+  "data": {
+   "templateId": "V0111_MOVE_ICY_WIND",
+   "moveSettings": {
+    "movementId": "ICY_WIND",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_ICE",
+    "power": 65.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.055,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "icy_wind",
+    "durationMs": 3500,
+    "damageWindowStartMs": 2200,
+    "damageWindowEndMs": 3000,
+    "energyDelta": -33
+   }
+  }
+ },
+ {
+  "templateId": "V0115_MOVE_FIRE_PUNCH",
+  "data": {
+   "templateId": "V0115_MOVE_FIRE_PUNCH",
+   "moveSettings": {
+    "movementId": "FIRE_PUNCH",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_FIRE",
+    "power": 50.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.075,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "fire_punch",
+    "durationMs": 2000,
+    "damageWindowStartMs": 1300,
+    "damageWindowEndMs": 1700,
+    "energyDelta": -33
+   }
+  }
+ },
+ {
+  "templateId": "V0116_MOVE_SOLAR_BEAM",
+  "data": {
+   "templateId": "V0116_MOVE_SOLAR_BEAM",
+   "moveSettings": {
+    "movementId": "SOLAR_BEAM",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_GRASS",
+    "power": 180.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.12,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "solar_beam",
+    "durationMs": 5000,
+    "damageWindowStartMs": 2800,
+    "damageWindowEndMs": 4800,
+    "energyDelta": -100
+   }
+  }
+ },
+ {
+  "templateId": "V0117_MOVE_LEAF_BLADE",
+  "data": {
+   "templateId": "V0117_MOVE_LEAF_BLADE",
+   "moveSettings": {
+    "movementId": "LEAF_BLADE",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_GRASS",
+    "power": 70.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.25,
+    "staminaLossScalar": 0.09,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "leaf_blade",
+    "durationMs": 2500,
+    "damageWindowStartMs": 1350,
+    "damageWindowEndMs": 2300,
+    "energyDelta": -33
+   }
+  }
+ },
+ {
+  "templateId": "V0118_MOVE_POWER_WHIP",
+  "data": {
+   "templateId": "V0118_MOVE_POWER_WHIP",
+   "moveSettings": {
+    "movementId": "POWER_WHIP",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_GRASS",
+    "power": 90.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.12,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "power_whip",
+    "durationMs": 2500,
+    "damageWindowStartMs": 1150,
+    "damageWindowEndMs": 2250,
+    "energyDelta": -50
+   }
+  }
+ },
+ {
+  "templateId": "V0121_MOVE_AIR_CUTTER",
+  "data": {
+   "templateId": "V0121_MOVE_AIR_CUTTER",
+   "moveSettings": {
+    "movementId": "AIR_CUTTER",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_FLYING",
+    "power": 55.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.25,
+    "staminaLossScalar": 0.06,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "air_cutter",
+    "durationMs": 2500,
+    "damageWindowStartMs": 1600,
+    "damageWindowEndMs": 2300,
+    "energyDelta": -50
+   }
+  }
+ },
+ {
+  "templateId": "V0122_MOVE_HURRICANE",
+  "data": {
+   "templateId": "V0122_MOVE_HURRICANE",
+   "moveSettings": {
+    "movementId": "HURRICANE",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_FLYING",
+    "power": 105.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.11,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "hurricane",
+    "durationMs": 2500,
+    "damageWindowStartMs": 1000,
+    "damageWindowEndMs": 2200,
+    "energyDelta": -100
+   }
+  }
+ },
+ {
+  "templateId": "V0125_MOVE_SWIFT",
+  "data": {
+   "templateId": "V0125_MOVE_SWIFT",
+   "moveSettings": {
+    "movementId": "SWIFT",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_NORMAL",
+    "power": 65.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.06,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "swift",
+    "durationMs": 3000,
+    "damageWindowStartMs": 2200,
+    "damageWindowEndMs": 2800,
+    "energyDelta": -50
+   }
+  }
+ },
+ {
+  "templateId": "V0131_MOVE_BODY_SLAM",
+  "data": {
+   "templateId": "V0131_MOVE_BODY_SLAM",
+   "moveSettings": {
+    "movementId": "BODY_SLAM",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_NORMAL",
+    "power": 50.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.085,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "body_slam",
+    "durationMs": 2000,
+    "damageWindowStartMs": 1300,
+    "damageWindowEndMs": 1800,
+    "energyDelta": -33
+   }
+  }
+ },
+ {
+  "templateId": "V0133_MOVE_STRUGGLE",
+  "data": {
+   "templateId": "V0133_MOVE_STRUGGLE",
+   "moveSettings": {
+    "movementId": "STRUGGLE",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_NORMAL",
+    "power": 35.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.1,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "struggle",
+    "durationMs": 2000,
+    "damageWindowStartMs": 1000,
+    "damageWindowEndMs": 1800
+   }
+  }
+ },
+ {
+  "templateId": "V0133_POKEMON_EEVEE",
+  "data": {
+   "templateId": "V0133_POKEMON_EEVEE",
+   "pokemonSettings": {
+    "pokemonId": "EEVEE",
+    "type": "POKEMON_TYPE_NORMAL",
+    "stats": {
+     "baseStamina": 146,
+     "baseAttack": 104,
+     "baseDefense": 114
+    },
+    "familyId": "FAMILY_EEVEE",
+    "evolutionBranch": [
+     {
+      "evolution": "VAPOREON",
+      "candyCost": 25,
+      "form": "VAPOREON_NORMAL"
+     },
+     {
+      "evolution": "JOLTEON",
+      "candyCost": 25,
+      "form": "JOLTEON_NORMAL"
+     },
+     {
+      "evolution": "FLAREON",
+      "candyCost": 25,
+      "form": "FLAREON_NORMAL"
+     },
+     {
+      "evolution": "ESPEON",
+      "candyCost": 25,
+      "kmBuddyDistanceRequirement": 10.0,
+      "form": "ESPEON_NORMAL",
+      "mustBeBuddy": true,
+      "onlyDaytime": true,
+      "priority": 100,
+      "questDisplay": [
+       {
+        "questRequirementTemplateId": "ESPEON_EVOLUTION_QUEST"
+       }
+      ]
+     },
+     {
+      "evolution": "UMBREON",
+      "candyCost": 25,
+      "kmBuddyDistanceRequirement": 10.0,
+      "form": "UMBREON_NORMAL",
+      "mustBeBuddy": true,
+      "onlyNighttime": true,
+      "priority": 100,
+      "questDisplay": [
+       {
+        "questRequirementTemplateId": "UMBREON_EVOLUTION_QUEST"
+       }
+      ]
+     },
+     {
+      "evolution": "LEAFEON",
+      "candyCost": 25,
+      "form": "LEAFEON_NORMAL",
+      "lureItemRequirement": "ITEM_TROY_DISK_MOSSY",
+      "priority": 200
+     },
+     {
+      "evolution": "GLACEON",
+      "candyCost": 25,
+      "form": "GLACEON_NORMAL",
+      "lureItemRequirement": "ITEM_TROY_DISK_GLACIAL",
+      "priority": 200
+     },
+     {
+      "evolution": "SYLVEON",
+      "candyCost": 25,
+      "form": "SYLVEON_NORMAL",
+      "priority": 100,
+      "questDisplay": [
+       {
+        "questRequirementTemplateId": "SYLVEON_EVOLUTION_QUEST"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "V0133_POKEMON_EEVEE_GOFEST_2024_MTIARA",
+  "data": {
+   "templateId": "V0133_POKEMON_EEVEE_GOFEST_2024_MTIARA",
+   "pokemonSettings": {
+    "pokemonId": "EEVEE",
+    "type": "POKEMON_TYPE_NORMAL",
+    "stats": {
+     "baseStamina": 146,
+     "baseAttack": 104,
+     "baseDefense": 114
+    },
+    "familyId": "FAMILY_EEVEE",
+    "form": "EEVEE_GOFEST_2024_MTIARA"
+   }
+  }
+ },
+ {
+  "templateId": "V0133_POKEMON_EEVEE_GOFEST_2024_STIARA",
+  "data": {
+   "templateId": "V0133_POKEMON_EEVEE_GOFEST_2024_STIARA",
+   "pokemonSettings": {
+    "pokemonId": "EEVEE",
+    "type": "POKEMON_TYPE_NORMAL",
+    "stats": {
+     "baseStamina": 146,
+     "baseAttack": 104,
+     "baseDefense": 114
+    },
+    "familyId": "FAMILY_EEVEE",
+    "form": "EEVEE_GOFEST_2024_STIARA"
+   }
+  }
+ },
+ {
+  "templateId": "V0133_POKEMON_EEVEE_NORMAL",
+  "data": {
+   "templateId": "V0133_POKEMON_EEVEE_NORMAL",
+   "pokemonSettings": {
+    "pokemonId": "EEVEE",
+    "type": "POKEMON_TYPE_NORMAL",
+    "stats": {
+     "baseStamina": 146,
+     "baseAttack": 104,
+     "baseDefense": 114
+    },
+    "familyId": "FAMILY_EEVEE",
+    "evolutionBranch": [
+     {
+      "evolution": "VAPOREON",
+      "candyCost": 25,
+      "form": "VAPOREON_NORMAL"
+     },
+     {
+      "evolution": "JOLTEON",
+      "candyCost": 25,
+      "form": "JOLTEON_NORMAL"
+     },
+     {
+      "evolution": "FLAREON",
+      "candyCost": 25,
+      "form": "FLAREON_NORMAL"
+     },
+     {
+      "evolution": "ESPEON",
+      "candyCost": 25,
+      "kmBuddyDistanceRequirement": 10.0,
+      "form": "ESPEON_NORMAL",
+      "mustBeBuddy": true,
+      "onlyDaytime": true,
+      "priority": 100,
+      "questDisplay": [
+       {
+        "questRequirementTemplateId": "ESPEON_EVOLUTION_QUEST"
+       }
+      ]
+     },
+     {
+      "evolution": "UMBREON",
+      "candyCost": 25,
+      "kmBuddyDistanceRequirement": 10.0,
+      "form": "UMBREON_NORMAL",
+      "mustBeBuddy": true,
+      "onlyNighttime": true,
+      "priority": 100,
+      "questDisplay": [
+       {
+        "questRequirementTemplateId": "UMBREON_EVOLUTION_QUEST"
+       }
+      ]
+     },
+     {
+      "evolution": "LEAFEON",
+      "candyCost": 25,
+      "form": "LEAFEON_NORMAL",
+      "lureItemRequirement": "ITEM_TROY_DISK_MOSSY",
+      "priority": 200
+     },
+     {
+      "evolution": "GLACEON",
+      "candyCost": 25,
+      "form": "GLACEON_NORMAL",
+      "lureItemRequirement": "ITEM_TROY_DISK_GLACIAL",
+      "priority": 200
+     },
+     {
+      "evolution": "SYLVEON",
+      "candyCost": 25,
+      "form": "SYLVEON_NORMAL",
+      "priority": 100,
+      "questDisplay": [
+       {
+        "questRequirementTemplateId": "SYLVEON_EVOLUTION_QUEST"
+       }
+      ]
+     }
+    ],
+    "form": "EEVEE_NORMAL"
+   }
+  }
+ },
+ {
+  "templateId": "V0134_POKEMON_VAPOREON",
+  "data": {
+   "templateId": "V0134_POKEMON_VAPOREON",
+   "pokemonSettings": {
+    "pokemonId": "VAPOREON",
+    "type": "POKEMON_TYPE_WATER",
+    "stats": {
+     "baseStamina": 277,
+     "baseAttack": 205,
+     "baseDefense": 161
+    },
+    "familyId": "FAMILY_EEVEE"
+   }
+  }
+ },
+ {
+  "templateId": "V0134_POKEMON_VAPOREON_NORMAL",
+  "data": {
+   "templateId": "V0134_POKEMON_VAPOREON_NORMAL",
+   "pokemonSettings": {
+    "pokemonId": "VAPOREON",
+    "type": "POKEMON_TYPE_WATER",
+    "stats": {
+     "baseStamina": 277,
+     "baseAttack": 205,
+     "baseDefense": 161
+    },
+    "familyId": "FAMILY_EEVEE",
+    "form": "VAPOREON_NORMAL"
+   }
+  }
+ },
+ {
+  "templateId": "V0135_POKEMON_JOLTEON",
+  "data": {
+   "templateId": "V0135_POKEMON_JOLTEON",
+   "pokemonSettings": {
+    "pokemonId": "JOLTEON",
+    "type": "POKEMON_TYPE_ELECTRIC",
+    "stats": {
+     "baseStamina": 163,
+     "baseAttack": 232,
+     "baseDefense": 182
+    },
+    "familyId": "FAMILY_EEVEE"
+   }
+  }
+ },
+ {
+  "templateId": "V0135_POKEMON_JOLTEON_NORMAL",
+  "data": {
+   "templateId": "V0135_POKEMON_JOLTEON_NORMAL",
+   "pokemonSettings": {
+    "pokemonId": "JOLTEON",
+    "type": "POKEMON_TYPE_ELECTRIC",
+    "stats": {
+     "baseStamina": 163,
+     "baseAttack": 232,
+     "baseDefense": 182
+    },
+    "familyId": "FAMILY_EEVEE",
+    "form": "JOLTEON_NORMAL"
+   }
+  }
+ },
+ {
+  "templateId": "V0136_POKEMON_FLAREON",
+  "data": {
+   "templateId": "V0136_POKEMON_FLAREON",
+   "pokemonSettings": {
+    "pokemonId": "FLAREON",
+    "type": "POKEMON_TYPE_FIRE",
+    "stats": {
+     "baseStamina": 163,
+     "baseAttack": 246,
+     "baseDefense": 179
+    },
+    "familyId": "FAMILY_EEVEE"
+   }
+  }
+ },
+ {
+  "templateId": "V0136_POKEMON_FLAREON_NORMAL",
+  "data": {
+   "templateId": "V0136_POKEMON_FLAREON_NORMAL",
+   "pokemonSettings": {
+    "pokemonId": "FLAREON",
+    "type": "POKEMON_TYPE_FIRE",
+    "stats": {
+     "baseStamina": 163,
+     "baseAttack": 246,
+     "baseDefense": 179
+    },
+    "familyId": "FAMILY_EEVEE",
+    "form": "FLAREON_NORMAL"
+   }
+  }
+ },
+ {
+  "templateId": "V0196_POKEMON_ESPEON",
+  "data": {
+   "templateId": "V0196_POKEMON_ESPEON",
+   "pokemonSettings": {
+    "pokemonId": "ESPEON",
+    "type": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 163,
+     "baseAttack": 261,
+     "baseDefense": 175
+    },
+    "familyId": "FAMILY_EEVEE"
+   }
+  }
+ },
+ {
+  "templateId": "V0196_POKEMON_ESPEON_GOFEST_2024_SSCARF",
+  "data": {
+   "templateId": "V0196_POKEMON_ESPEON_GOFEST_2024_SSCARF",
+   "pokemonSettings": {
+    "pokemonId": "ESPEON",
+    "type": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 163,
+     "baseAttack": 261,
+     "baseDefense": 175
+    },
+    "familyId": "FAMILY_EEVEE",
+    "form": "ESPEON_GOFEST_2024_SSCARF"
+   }
+  }
+ },
+ {
+  "templateId": "V0196_POKEMON_ESPEON_NORMAL",
+  "data": {
+   "templateId": "V0196_POKEMON_ESPEON_NORMAL",
+   "pokemonSettings": {
+    "pokemonId": "ESPEON",
+    "type": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 163,
+     "baseAttack": 261,
+     "baseDefense": 175
+    },
+    "familyId": "FAMILY_EEVEE",
+    "form": "ESPEON_NORMAL"
+   }
+  }
+ },
+ {
+  "templateId": "V0197_POKEMON_UMBREON",
+  "data": {
+   "templateId": "V0197_POKEMON_UMBREON",
+   "pokemonSettings": {
+    "pokemonId": "UMBREON",
+    "type": "POKEMON_TYPE_DARK",
+    "stats": {
+     "baseStamina": 216,
+     "baseAttack": 126,
+     "baseDefense": 240
+    },
+    "familyId": "FAMILY_EEVEE"
+   }
+  }
+ },
+ {
+  "templateId": "V0197_POKEMON_UMBREON_GOFEST_2024_MSCARF",
+  "data": {
+   "templateId": "V0197_POKEMON_UMBREON_GOFEST_2024_MSCARF",
+   "pokemonSettings": {
+    "pokemonId": "UMBREON",
+    "type": "POKEMON_TYPE_DARK",
+    "stats": {
+     "baseStamina": 216,
+     "baseAttack": 126,
+     "baseDefense": 240
+    },
+    "familyId": "FAMILY_EEVEE",
+    "form": "UMBREON_GOFEST_2024_MSCARF"
+   }
+  }
+ },
+ {
+  "templateId": "V0197_POKEMON_UMBREON_NORMAL",
+  "data": {
+   "templateId": "V0197_POKEMON_UMBREON_NORMAL",
+   "pokemonSettings": {
+    "pokemonId": "UMBREON",
+    "type": "POKEMON_TYPE_DARK",
+    "stats": {
+     "baseStamina": 216,
+     "baseAttack": 126,
+     "baseDefense": 240
+    },
+    "familyId": "FAMILY_EEVEE",
+    "form": "UMBREON_NORMAL"
+   }
+  }
+ },
+ {
+  "templateId": "V0201_MOVE_BUG_BITE_FAST",
+  "data": {
+   "templateId": "V0201_MOVE_BUG_BITE_FAST",
+   "moveSettings": {
+    "movementId": "BUG_BITE_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_BUG",
+    "power": 5.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "bug_bite_fast",
+    "durationMs": 500,
+    "damageWindowStartMs": 250,
+    "damageWindowEndMs": 450,
+    "energyDelta": 6
+   }
+  }
+ },
+ {
+  "templateId": "V0201_POKEMON_UNOWN",
+  "data": {
+   "templateId": "V0201_POKEMON_UNOWN",
+   "pokemonSettings": {
+    "pokemonId": "UNOWN",
+    "type": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 134,
+     "baseAttack": 136,
+     "baseDefense": 91
+    },
+    "familyId": "FAMILY_UNOWN"
+   }
+  }
+ },
+ {
+  "templateId": "V0201_POKEMON_UNOWN_A",
+  "data": {
+   "templateId": "V0201_POKEMON_UNOWN_A",
+   "pokemonSettings": {
+    "pokemonId": "UNOWN",
+    "type": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 134,
+     "baseAttack": 136,
+     "baseDefense": 91
+    },
+    "familyId": "FAMILY_UNOWN",
+    "form": "UNOWN_A"
+   }
+  }
+ },
+ {
+  "templateId": "V0201_POKEMON_UNOWN_B",
+  "data": {
+   "templateId": "V0201_POKEMON_UNOWN_B",
+   "pokemonSettings": {
+    "pokemonId": "UNOWN",
+    "type": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 134,
+     "baseAttack": 136,
+     "baseDefense": 91
+    },
+    "familyId": "FAMILY_UNOWN",
+    "form": "UNOWN_B"
+   }
+  }
+ },
+ {
+  "templateId": "V0201_POKEMON_UNOWN_C",
+  "data": {
+   "templateId": "V0201_POKEMON_UNOWN_C",
+   "pokemonSettings": {
+    "pokemonId": "UNOWN",
+    "type": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 134,
+     "baseAttack": 136,
+     "baseDefense": 91
+    },
+    "familyId": "FAMILY_UNOWN",
+    "form": "UNOWN_C"
+   }
+  }
+ },
+ {
+  "templateId": "V0201_POKEMON_UNOWN_D",
+  "data": {
+   "templateId": "V0201_POKEMON_UNOWN_D",
+   "pokemonSettings": {
+    "pokemonId": "UNOWN",
+    "type": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 134,
+     "baseAttack": 136,
+     "baseDefense": 91
+    },
+    "familyId": "FAMILY_UNOWN",
+    "form": "UNOWN_D"
+   }
+  }
+ },
+ {
+  "templateId": "V0201_POKEMON_UNOWN_E",
+  "data": {
+   "templateId": "V0201_POKEMON_UNOWN_E",
+   "pokemonSettings": {
+    "pokemonId": "UNOWN",
+    "type": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 134,
+     "baseAttack": 136,
+     "baseDefense": 91
+    },
+    "familyId": "FAMILY_UNOWN",
+    "form": "UNOWN_E"
+   }
+  }
+ },
+ {
+  "templateId": "V0201_POKEMON_UNOWN_EXCLAMATION_POINT",
+  "data": {
+   "templateId": "V0201_POKEMON_UNOWN_EXCLAMATION_POINT",
+   "pokemonSettings": {
+    "pokemonId": "UNOWN",
+    "type": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 134,
+     "baseAttack": 136,
+     "baseDefense": 91
+    },
+    "familyId": "FAMILY_UNOWN",
+    "form": "UNOWN_EXCLAMATION_POINT"
+   }
+  }
+ },
+ {
+  "templateId": "V0201_POKEMON_UNOWN_F",
+  "data": {
+   "templateId": "V0201_POKEMON_UNOWN_F",
+   "pokemonSettings": {
+    "pokemonId": "UNOWN",
+    "type": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 134,
+     "baseAttack": 136,
+     "baseDefense": 91
+    },
+    "familyId": "FAMILY_UNOWN",
+    "form": "UNOWN_F"
+   }
+  }
+ },
+ {
+  "templateId": "V0201_POKEMON_UNOWN_G",
+  "data": {
+   "templateId": "V0201_POKEMON_UNOWN_G",
+   "pokemonSettings": {
+    "pokemonId": "UNOWN",
+    "type": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 134,
+     "baseAttack": 136,
+     "baseDefense": 91
+    },
+    "familyId": "FAMILY_UNOWN",
+    "form": "UNOWN_G"
+   }
+  }
+ },
+ {
+  "templateId": "V0201_POKEMON_UNOWN_H",
+  "data": {
+   "templateId": "V0201_POKEMON_UNOWN_H",
+   "pokemonSettings": {
+    "pokemonId": "UNOWN",
+    "type": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 134,
+     "baseAttack": 136,
+     "baseDefense": 91
+    },
+    "familyId": "FAMILY_UNOWN",
+    "form": "UNOWN_H"
+   }
+  }
+ },
+ {
+  "templateId": "V0201_POKEMON_UNOWN_I",
+  "data": {
+   "templateId": "V0201_POKEMON_UNOWN_I",
+   "pokemonSettings": {
+    "pokemonId": "UNOWN",
+    "type": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 134,
+     "baseAttack": 136,
+     "baseDefense": 91
+    },
+    "familyId": "FAMILY_UNOWN",
+    "form": "UNOWN_I"
+   }
+  }
+ },
+ {
+  "templateId": "V0201_POKEMON_UNOWN_J",
+  "data": {
+   "templateId": "V0201_POKEMON_UNOWN_J",
+   "pokemonSettings": {
+    "pokemonId": "UNOWN",
+    "type": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 134,
+     "baseAttack": 136,
+     "baseDefense": 91
+    },
+    "familyId": "FAMILY_UNOWN",
+    "form": "UNOWN_J"
+   }
+  }
+ },
+ {
+  "templateId": "V0201_POKEMON_UNOWN_K",
+  "data": {
+   "templateId": "V0201_POKEMON_UNOWN_K",
+   "pokemonSettings": {
+    "pokemonId": "UNOWN",
+    "type": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 134,
+     "baseAttack": 136,
+     "baseDefense": 91
+    },
+    "familyId": "FAMILY_UNOWN",
+    "form": "UNOWN_K"
+   }
+  }
+ },
+ {
+  "templateId": "V0201_POKEMON_UNOWN_L",
+  "data": {
+   "templateId": "V0201_POKEMON_UNOWN_L",
+   "pokemonSettings": {
+    "pokemonId": "UNOWN",
+    "type": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 134,
+     "baseAttack": 136,
+     "baseDefense": 91
+    },
+    "familyId": "FAMILY_UNOWN",
+    "form": "UNOWN_L"
+   }
+  }
+ },
+ {
+  "templateId": "V0201_POKEMON_UNOWN_M",
+  "data": {
+   "templateId": "V0201_POKEMON_UNOWN_M",
+   "pokemonSettings": {
+    "pokemonId": "UNOWN",
+    "type": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 134,
+     "baseAttack": 136,
+     "baseDefense": 91
+    },
+    "familyId": "FAMILY_UNOWN",
+    "form": "UNOWN_M"
+   }
+  }
+ },
+ {
+  "templateId": "V0201_POKEMON_UNOWN_N",
+  "data": {
+   "templateId": "V0201_POKEMON_UNOWN_N",
+   "pokemonSettings": {
+    "pokemonId": "UNOWN",
+    "type": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 134,
+     "baseAttack": 136,
+     "baseDefense": 91
+    },
+    "familyId": "FAMILY_UNOWN",
+    "form": "UNOWN_N"
+   }
+  }
+ },
+ {
+  "templateId": "V0201_POKEMON_UNOWN_O",
+  "data": {
+   "templateId": "V0201_POKEMON_UNOWN_O",
+   "pokemonSettings": {
+    "pokemonId": "UNOWN",
+    "type": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 134,
+     "baseAttack": 136,
+     "baseDefense": 91
+    },
+    "familyId": "FAMILY_UNOWN",
+    "form": "UNOWN_O"
+   }
+  }
+ },
+ {
+  "templateId": "V0201_POKEMON_UNOWN_P",
+  "data": {
+   "templateId": "V0201_POKEMON_UNOWN_P",
+   "pokemonSettings": {
+    "pokemonId": "UNOWN",
+    "type": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 134,
+     "baseAttack": 136,
+     "baseDefense": 91
+    },
+    "familyId": "FAMILY_UNOWN",
+    "form": "UNOWN_P"
+   }
+  }
+ },
+ {
+  "templateId": "V0201_POKEMON_UNOWN_Q",
+  "data": {
+   "templateId": "V0201_POKEMON_UNOWN_Q",
+   "pokemonSettings": {
+    "pokemonId": "UNOWN",
+    "type": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 134,
+     "baseAttack": 136,
+     "baseDefense": 91
+    },
+    "familyId": "FAMILY_UNOWN",
+    "form": "UNOWN_Q"
+   }
+  }
+ },
+ {
+  "templateId": "V0201_POKEMON_UNOWN_QUESTION_MARK",
+  "data": {
+   "templateId": "V0201_POKEMON_UNOWN_QUESTION_MARK",
+   "pokemonSettings": {
+    "pokemonId": "UNOWN",
+    "type": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 134,
+     "baseAttack": 136,
+     "baseDefense": 91
+    },
+    "familyId": "FAMILY_UNOWN",
+    "form": "UNOWN_QUESTION_MARK"
+   }
+  }
+ },
+ {
+  "templateId": "V0201_POKEMON_UNOWN_R",
+  "data": {
+   "templateId": "V0201_POKEMON_UNOWN_R",
+   "pokemonSettings": {
+    "pokemonId": "UNOWN",
+    "type": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 134,
+     "baseAttack": 136,
+     "baseDefense": 91
+    },
+    "familyId": "FAMILY_UNOWN",
+    "form": "UNOWN_R"
+   }
+  }
+ },
+ {
+  "templateId": "V0201_POKEMON_UNOWN_S",
+  "data": {
+   "templateId": "V0201_POKEMON_UNOWN_S",
+   "pokemonSettings": {
+    "pokemonId": "UNOWN",
+    "type": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 134,
+     "baseAttack": 136,
+     "baseDefense": 91
+    },
+    "familyId": "FAMILY_UNOWN",
+    "form": "UNOWN_S"
+   }
+  }
+ },
+ {
+  "templateId": "V0201_POKEMON_UNOWN_T",
+  "data": {
+   "templateId": "V0201_POKEMON_UNOWN_T",
+   "pokemonSettings": {
+    "pokemonId": "UNOWN",
+    "type": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 134,
+     "baseAttack": 136,
+     "baseDefense": 91
+    },
+    "familyId": "FAMILY_UNOWN",
+    "form": "UNOWN_T"
+   }
+  }
+ },
+ {
+  "templateId": "V0201_POKEMON_UNOWN_U",
+  "data": {
+   "templateId": "V0201_POKEMON_UNOWN_U",
+   "pokemonSettings": {
+    "pokemonId": "UNOWN",
+    "type": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 134,
+     "baseAttack": 136,
+     "baseDefense": 91
+    },
+    "familyId": "FAMILY_UNOWN",
+    "form": "UNOWN_U"
+   }
+  }
+ },
+ {
+  "templateId": "V0201_POKEMON_UNOWN_V",
+  "data": {
+   "templateId": "V0201_POKEMON_UNOWN_V",
+   "pokemonSettings": {
+    "pokemonId": "UNOWN",
+    "type": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 134,
+     "baseAttack": 136,
+     "baseDefense": 91
+    },
+    "familyId": "FAMILY_UNOWN",
+    "form": "UNOWN_V"
+   }
+  }
+ },
+ {
+  "templateId": "V0201_POKEMON_UNOWN_W",
+  "data": {
+   "templateId": "V0201_POKEMON_UNOWN_W",
+   "pokemonSettings": {
+    "pokemonId": "UNOWN",
+    "type": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 134,
+     "baseAttack": 136,
+     "baseDefense": 91
+    },
+    "familyId": "FAMILY_UNOWN",
+    "form": "UNOWN_W"
+   }
+  }
+ },
+ {
+  "templateId": "V0201_POKEMON_UNOWN_X",
+  "data": {
+   "templateId": "V0201_POKEMON_UNOWN_X",
+   "pokemonSettings": {
+    "pokemonId": "UNOWN",
+    "type": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 134,
+     "baseAttack": 136,
+     "baseDefense": 91
+    },
+    "familyId": "FAMILY_UNOWN",
+    "form": "UNOWN_X"
+   }
+  }
+ },
+ {
+  "templateId": "V0201_POKEMON_UNOWN_Y",
+  "data": {
+   "templateId": "V0201_POKEMON_UNOWN_Y",
+   "pokemonSettings": {
+    "pokemonId": "UNOWN",
+    "type": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 134,
+     "baseAttack": 136,
+     "baseDefense": 91
+    },
+    "familyId": "FAMILY_UNOWN",
+    "form": "UNOWN_Y"
+   }
+  }
+ },
+ {
+  "templateId": "V0201_POKEMON_UNOWN_Z",
+  "data": {
+   "templateId": "V0201_POKEMON_UNOWN_Z",
+   "pokemonSettings": {
+    "pokemonId": "UNOWN",
+    "type": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 134,
+     "baseAttack": 136,
+     "baseDefense": 91
+    },
+    "familyId": "FAMILY_UNOWN",
+    "form": "UNOWN_Z"
+   }
+  }
+ },
+ {
+  "templateId": "V0204_MOVE_DRAGON_BREATH_FAST",
+  "data": {
+   "templateId": "V0204_MOVE_DRAGON_BREATH_FAST",
+   "moveSettings": {
+    "movementId": "DRAGON_BREATH_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_DRAGON",
+    "power": 6.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "dragon_breath_fast",
+    "durationMs": 500,
+    "damageWindowStartMs": 300,
+    "damageWindowEndMs": 500,
+    "energyDelta": 4
+   }
+  }
+ },
+ {
+  "templateId": "V0205_MOVE_THUNDER_SHOCK_FAST",
+  "data": {
+   "templateId": "V0205_MOVE_THUNDER_SHOCK_FAST",
+   "moveSettings": {
+    "movementId": "THUNDER_SHOCK_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_ELECTRIC",
+    "power": 4.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "thunder_shock_fast",
+    "durationMs": 500,
+    "damageWindowStartMs": 200,
+    "damageWindowEndMs": 500,
+    "energyDelta": 7
+   }
+  }
+ },
+ {
+  "templateId": "V0209_MOVE_EMBER_FAST",
+  "data": {
+   "templateId": "V0209_MOVE_EMBER_FAST",
+   "moveSettings": {
+    "movementId": "EMBER_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_FIRE",
+    "power": 10.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "ember_fast",
+    "durationMs": 1000,
+    "damageWindowStartMs": 600,
+    "damageWindowEndMs": 800,
+    "energyDelta": 10
+   }
+  }
+ },
+ {
+  "templateId": "V0210_MOVE_WING_ATTACK_FAST",
+  "data": {
+   "templateId": "V0210_MOVE_WING_ATTACK_FAST",
+   "moveSettings": {
+    "movementId": "WING_ATTACK_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_FLYING",
+    "power": 10.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "wing_attack_fast",
+    "durationMs": 1000,
+    "damageWindowStartMs": 750,
+    "damageWindowEndMs": 950,
+    "energyDelta": 11
+   }
+  }
+ },
+ {
+  "templateId": "V0214_MOVE_VINE_WHIP_FAST",
+  "data": {
+   "templateId": "V0214_MOVE_VINE_WHIP_FAST",
+   "moveSettings": {
+    "movementId": "VINE_WHIP_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_GRASS",
+    "power": 6.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "vine_whip_fast",
+    "durationMs": 500,
+    "damageWindowStartMs": 250,
+    "damageWindowEndMs": 500,
+    "energyDelta": 5
+   }
+  }
+ },
+ {
+  "templateId": "V0215_MOVE_RAZOR_LEAF_FAST",
+  "data": {
+   "templateId": "V0215_MOVE_RAZOR_LEAF_FAST",
+   "moveSettings": {
+    "movementId": "RAZOR_LEAF_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_GRASS",
+    "power": 13.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "razor_leaf_fast",
+    "durationMs": 1000,
+    "damageWindowStartMs": 600,
+    "damageWindowEndMs": 850,
+    "energyDelta": 7
+   }
+  }
+ },
+ {
+  "templateId": "V0217_MOVE_ICE_SHARD_FAST",
+  "data": {
+   "templateId": "V0217_MOVE_ICE_SHARD_FAST",
+   "moveSettings": {
+    "movementId": "ICE_SHARD_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_ICE",
+    "power": 10.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "ice_shard_fast",
+    "durationMs": 1000,
+    "damageWindowStartMs": 400,
+    "damageWindowEndMs": 700,
+    "energyDelta": 10
+   }
+  }
+ },
+ {
+  "templateId": "V0218_MOVE_FROST_BREATH_FAST",
+  "data": {
+   "templateId": "V0218_MOVE_FROST_BREATH_FAST",
+   "moveSettings": {
+    "movementId": "FROST_BREATH_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_ICE",
+    "power": 11.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "frost_breath_fast",
+    "durationMs": 1000,
+    "damageWindowStartMs": 550,
+    "damageWindowEndMs": 850,
+    "energyDelta": 9
+   }
+  }
+ },
+ {
+  "templateId": "V0219_MOVE_QUICK_ATTACK_FAST",
+  "data": {
+   "templateId": "V0219_MOVE_QUICK_ATTACK_FAST",
+   "moveSettings": {
+    "movementId": "QUICK_ATTACK_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_NORMAL",
+    "power": 10.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "quick_attack_fast",
+    "durationMs": 1000,
+    "damageWindowStartMs": 450,
+    "damageWindowEndMs": 750,
+    "energyDelta": 13
+   }
+  }
+ },
+ {
+  "templateId": "V0220_MOVE_SCRATCH_FAST",
+  "data": {
+   "templateId": "V0220_MOVE_SCRATCH_FAST",
+   "moveSettings": {
+    "movementId": "SCRATCH_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_NORMAL",
+    "power": 6.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "scratch_fast",
+    "durationMs": 500,
+    "damageWindowStartMs": 300,
+    "damageWindowEndMs": 500,
+    "energyDelta": 4
+   }
+  }
+ },
+ {
+  "templateId": "V0221_MOVE_TACKLE_FAST",
+  "data": {
+   "templateId": "V0221_MOVE_TACKLE_FAST",
+   "moveSettings": {
+    "movementId": "TACKLE_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_NORMAL",
+    "power": 5.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "tackle_fast",
+    "durationMs": 500,
+    "damageWindowStartMs": 300,
+    "damageWindowEndMs": 500,
+    "energyDelta": 5
+   }
+  }
+ },
+ {
+  "templateId": "V0224_MOVE_POISON_JAB_FAST",
+  "data": {
+   "templateId": "V0224_MOVE_POISON_JAB_FAST",
+   "moveSettings": {
+    "movementId": "POISON_JAB_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_POISON",
+    "power": 13.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "poison_jab_fast",
+    "durationMs": 1000,
+    "damageWindowStartMs": 400,
+    "damageWindowEndMs": 1000,
+    "energyDelta": 9
+   }
+  }
+ },
+ {
+  "templateId": "V0228_MOVE_METAL_CLAW_FAST",
+  "data": {
+   "templateId": "V0228_MOVE_METAL_CLAW_FAST",
+   "moveSettings": {
+    "movementId": "METAL_CLAW_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_STEEL",
+    "power": 6.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "metal_claw_fast",
+    "durationMs": 500,
+    "damageWindowStartMs": 230,
+    "damageWindowEndMs": 430,
+    "energyDelta": 5
+   }
+  }
+ },
+ {
+  "templateId": "V0230_MOVE_WATER_GUN_FAST",
+  "data": {
+   "templateId": "V0230_MOVE_WATER_GUN_FAST",
+   "moveSettings": {
+    "movementId": "WATER_GUN_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_WATER",
+    "power": 5.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "water_gun_fast",
+    "durationMs": 500,
+    "damageWindowStartMs": 300,
+    "damageWindowEndMs": 500,
+    "energyDelta": 5
+   }
+  }
+ },
+ {
+  "templateId": "V0231_MOVE_SPLASH_FAST",
+  "data": {
+   "templateId": "V0231_MOVE_SPLASH_FAST",
+   "moveSettings": {
+    "movementId": "SPLASH_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_WATER",
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "splash_fast",
+    "durationMs": 1500,
+    "damageWindowStartMs": 800,
+    "damageWindowEndMs": 1000,
+    "energyDelta": 17
+   }
+  }
+ },
+ {
+  "templateId": "V0234_MOVE_ZEN_HEADBUTT_FAST",
+  "data": {
+   "templateId": "V0234_MOVE_ZEN_HEADBUTT_FAST",
+   "moveSettings": {
+    "movementId": "ZEN_HEADBUTT_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_PSYCHIC",
+    "power": 11.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "zen_headbutt_fast",
+    "durationMs": 1000,
+    "damageWindowStartMs": 750,
+    "damageWindowEndMs": 950,
+    "energyDelta": 9
+   }
+  }
+ },
+ {
+  "templateId": "V0235_MOVE_CONFUSION_FAST",
+  "data": {
+   "templateId": "V0235_MOVE_CONFUSION_FAST",
+   "moveSettings": {
+    "movementId": "CONFUSION_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_PSYCHIC",
+    "power": 19.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "confusion_fast",
+    "durationMs": 1500,
+    "damageWindowStartMs": 500,
+    "damageWindowEndMs": 1500,
+    "energyDelta": 14
+   }
+  }
+ },
+ {
+  "templateId": "V0236_MOVE_POISON_STING_FAST",
+  "data": {
+   "templateId": "V0236_MOVE_POISON_STING_FAST",
+   "moveSettings": {
+    "movementId": "POISON_STING_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_POISON",
+    "power": 4.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "poison_sting_fast",
+    "durationMs": 500,
+    "damageWindowStartMs": 275,
+    "damageWindowEndMs": 475,
+    "energyDelta": 6
+   }
+  }
+ },
+ {
+  "templateId": "V0238_MOVE_FEINT_ATTACK_FAST",
+  "data": {
+   "templateId": "V0238_MOVE_FEINT_ATTACK_FAST",
+   "moveSettings": {
+    "movementId": "FEINT_ATTACK_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_DARK",
+    "power": 11.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "feint_attack_fast",
+    "durationMs": 1000,
+    "damageWindowStartMs": 850,
+    "damageWindowEndMs": 1000,
+    "energyDelta": 10
+   }
+  }
+ },
+ {
+  "templateId": "V0240_MOVE_FIRE_FANG_FAST",
+  "data": {
+   "templateId": "V0240_MOVE_FIRE_FANG_FAST",
+   "moveSettings": {
+    "movementId": "FIRE_FANG_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_FIRE",
+    "power": 13.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "fire_fang_fast",
+    "durationMs": 1000,
+    "damageWindowStartMs": 740,
+    "damageWindowEndMs": 940,
+    "energyDelta": 9
+   }
+  }
+ },
+ {
+  "templateId": "V0244_MOVE_POWDER_SNOW_FAST",
+  "data": {
+   "templateId": "V0244_MOVE_POWDER_SNOW_FAST",
+   "moveSettings": {
+    "movementId": "POWDER_SNOW_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_ICE",
+    "power": 6.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "powder_snow_fast",
+    "durationMs": 1000,
+    "damageWindowStartMs": 850,
+    "damageWindowEndMs": 1000,
+    "energyDelta": 15
+   }
+  }
+ },
+ {
+  "templateId": "V0245_MOVE_CLOSE_COMBAT",
+  "data": {
+   "templateId": "V0245_MOVE_CLOSE_COMBAT",
+   "moveSettings": {
+    "movementId": "CLOSE_COMBAT",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_FIGHTING",
+    "power": 105.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.04,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "close_combat",
+    "durationMs": 2500,
+    "damageWindowStartMs": 1200,
+    "damageWindowEndMs": 2500,
+    "energyDelta": -100
+   }
+  }
+ },
+ {
+  "templateId": "V0247_MOVE_FOCUS_BLAST",
+  "data": {
+   "templateId": "V0247_MOVE_FOCUS_BLAST",
+   "moveSettings": {
+    "movementId": "FOCUS_BLAST",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_FIGHTING",
+    "power": 140.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.04,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "focus_blast",
+    "durationMs": 3500,
+    "damageWindowStartMs": 3000,
+    "damageWindowEndMs": 3500,
+    "energyDelta": -100
+   }
+  }
+ },
+ {
+  "templateId": "V0250_MOVE_VOLT_SWITCH_FAST",
+  "data": {
+   "templateId": "V0250_MOVE_VOLT_SWITCH_FAST",
+   "moveSettings": {
+    "movementId": "VOLT_SWITCH_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_ELECTRIC",
+    "power": 13.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "volt_switch_fast",
+    "durationMs": 1500,
+    "damageWindowStartMs": 600,
+    "damageWindowEndMs": 800,
+    "energyDelta": 20
+   }
+  }
+ },
+ {
+  "templateId": "V0251_MOVE_WILD_CHARGE",
+  "data": {
+   "templateId": "V0251_MOVE_WILD_CHARGE",
+   "moveSettings": {
+    "movementId": "WILD_CHARGE",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_ELECTRIC",
+    "power": 90.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.04,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "wild_charge",
+    "durationMs": 2500,
+    "damageWindowStartMs": 1600,
+    "damageWindowEndMs": 2000,
+    "energyDelta": -50
+   }
+  }
+ },
+ {
+  "templateId": "V0252_MOVE_ZAP_CANNON",
+  "data": {
+   "templateId": "V0252_MOVE_ZAP_CANNON",
+   "moveSettings": {
+    "movementId": "ZAP_CANNON",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_ELECTRIC",
+    "power": 140.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.04,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "zap_cannon",
+    "durationMs": 3500,
+    "damageWindowStartMs": 2800,
+    "damageWindowEndMs": 3300,
+    "energyDelta": -100
+   }
+  }
+ },
+ {
+  "templateId": "V0254_MOVE_AVALANCHE",
+  "data": {
+   "templateId": "V0254_MOVE_AVALANCHE",
+   "moveSettings": {
+    "movementId": "AVALANCHE",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_ICE",
+    "power": 85.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.04,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "avalanche",
+    "durationMs": 2500,
+    "damageWindowStartMs": 1500,
+    "damageWindowEndMs": 1900,
+    "energyDelta": -50
+   }
+  }
+ },
+ {
+  "templateId": "V0255_MOVE_AIR_SLASH_FAST",
+  "data": {
+   "templateId": "V0255_MOVE_AIR_SLASH_FAST",
+   "moveSettings": {
+    "movementId": "AIR_SLASH_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_FLYING",
+    "power": 12.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "air_slash_fast",
+    "durationMs": 1000,
+    "damageWindowStartMs": 800,
+    "damageWindowEndMs": 1000,
+    "energyDelta": 8
+   }
+  }
+ },
+ {
+  "templateId": "V0260_MOVE_INFESTATION_FAST",
+  "data": {
+   "templateId": "V0260_MOVE_INFESTATION_FAST",
+   "moveSettings": {
+    "movementId": "INFESTATION_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_BUG",
+    "power": 9.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "infestation_fast",
+    "durationMs": 1000,
+    "damageWindowStartMs": 750,
+    "damageWindowEndMs": 950,
+    "energyDelta": 13
+   }
+  }
+ },
+ {
+  "templateId": "V0263_MOVE_ASTONISH_FAST",
+  "data": {
+   "templateId": "V0263_MOVE_ASTONISH_FAST",
+   "moveSettings": {
+    "movementId": "ASTONISH_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_GHOST",
+    "power": 7.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "astonish_fast",
+    "durationMs": 1000,
+    "damageWindowStartMs": 600,
+    "damageWindowEndMs": 950,
+    "energyDelta": 13
+   }
+  }
+ },
+ {
+  "templateId": "V0264_MOVE_HEX_FAST",
+  "data": {
+   "templateId": "V0264_MOVE_HEX_FAST",
+   "moveSettings": {
+    "movementId": "HEX_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_GHOST",
+    "power": 8.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "hex_fast",
+    "durationMs": 1000,
+    "damageWindowStartMs": 800,
+    "damageWindowEndMs": 1000,
+    "energyDelta": 13
+   }
+  }
+ },
+ {
+  "templateId": "V0269_MOVE_FIRE_SPIN_FAST",
+  "data": {
+   "templateId": "V0269_MOVE_FIRE_SPIN_FAST",
+   "moveSettings": {
+    "movementId": "FIRE_SPIN_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_FIRE",
+    "power": 13.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "fire_spin_fast",
+    "durationMs": 1000,
+    "damageWindowStartMs": 750,
+    "damageWindowEndMs": 950,
+    "energyDelta": 9
+   }
+  }
+ },
+ {
+  "templateId": "V0270_MOVE_OVERHEAT",
+  "data": {
+   "templateId": "V0270_MOVE_OVERHEAT",
+   "moveSettings": {
+    "movementId": "OVERHEAT",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_FIRE",
+    "power": 160.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.04,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "overheat",
+    "durationMs": 4000,
+    "damageWindowStartMs": 2600,
+    "damageWindowEndMs": 3800,
+    "energyDelta": -100
+   }
+  }
+ },
+ {
+  "templateId": "V0271_MOVE_BULLET_SEED_FAST",
+  "data": {
+   "templateId": "V0271_MOVE_BULLET_SEED_FAST",
+   "moveSettings": {
+    "movementId": "BULLET_SEED_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_GRASS",
+    "power": 7.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "bullet_seed_fast",
+    "durationMs": 1000,
+    "damageWindowStartMs": 750,
+    "damageWindowEndMs": 950,
+    "energyDelta": 13
+   }
+  }
+ },
+ {
+  "templateId": "V0273_MOVE_ENERGY_BALL",
+  "data": {
+   "templateId": "V0273_MOVE_ENERGY_BALL",
+   "moveSettings": {
+    "movementId": "ENERGY_BALL",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_GRASS",
+    "power": 90.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.04,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "energy_ball",
+    "durationMs": 4000,
+    "damageWindowStartMs": 3100,
+    "damageWindowEndMs": 3900,
+    "energyDelta": -50
+   }
+  }
+ },
+ {
+  "templateId": "V0275_MOVE_FUTURESIGHT",
+  "data": {
+   "templateId": "V0275_MOVE_FUTURESIGHT",
+   "moveSettings": {
+    "movementId": "FUTURESIGHT",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_PSYCHIC",
+    "power": 115.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.04,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "futuresight",
+    "durationMs": 2500,
+    "damageWindowStartMs": 1200,
+    "damageWindowEndMs": 2500,
+    "energyDelta": -100
+   }
+  }
+ },
+ {
+  "templateId": "V0278_MOVE_SNARL_FAST",
+  "data": {
+   "templateId": "V0278_MOVE_SNARL_FAST",
+   "moveSettings": {
+    "movementId": "SNARL_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_DARK",
+    "power": 11.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "snarl_fast",
+    "durationMs": 1000,
+    "damageWindowStartMs": 750,
+    "damageWindowEndMs": 950,
+    "energyDelta": 13
+   }
+  }
+ },
+ {
+  "templateId": "V0280_MOVE_FOUL_PLAY",
+  "data": {
+   "templateId": "V0280_MOVE_FOUL_PLAY",
+   "moveSettings": {
+    "movementId": "FOUL_PLAY",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_DARK",
+    "power": 70.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.04,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "foul_play",
+    "durationMs": 2000,
+    "damageWindowStartMs": 1700,
+    "damageWindowEndMs": 1900,
+    "energyDelta": -50
+   }
+  }
+ },
+ {
+  "templateId": "V0292_MOVE_WEATHER_BALL_FIRE",
+  "data": {
+   "templateId": "V0292_MOVE_WEATHER_BALL_FIRE",
+   "moveSettings": {
+    "movementId": "WEATHER_BALL_FIRE",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_FIRE",
+    "power": 55.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "weather_ball_fire",
+    "durationMs": 1500,
+    "damageWindowStartMs": 1250,
+    "damageWindowEndMs": 1500,
+    "energyDelta": -33
+   }
+  }
+ },
+ {
+  "templateId": "V0293_MOVE_WEATHER_BALL_ICE",
+  "data": {
+   "templateId": "V0293_MOVE_WEATHER_BALL_ICE",
+   "moveSettings": {
+    "movementId": "WEATHER_BALL_ICE",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_ICE",
+    "power": 55.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "weather_ball_ice",
+    "durationMs": 1500,
+    "damageWindowStartMs": 1250,
+    "damageWindowEndMs": 1500,
+    "energyDelta": -33
+   }
+  }
+ },
+ {
+  "templateId": "V0294_MOVE_WEATHER_BALL_ROCK",
+  "data": {
+   "templateId": "V0294_MOVE_WEATHER_BALL_ROCK",
+   "moveSettings": {
+    "movementId": "WEATHER_BALL_ROCK",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_ROCK",
+    "power": 55.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "weather_ball_rock",
+    "durationMs": 1500,
+    "damageWindowStartMs": 1250,
+    "damageWindowEndMs": 1500,
+    "energyDelta": -33
+   }
+  }
+ },
+ {
+  "templateId": "V0295_MOVE_WEATHER_BALL_WATER",
+  "data": {
+   "templateId": "V0295_MOVE_WEATHER_BALL_WATER",
+   "moveSettings": {
+    "movementId": "WEATHER_BALL_WATER",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_WATER",
+    "power": 55.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "weather_ball_water",
+    "durationMs": 1500,
+    "damageWindowStartMs": 1250,
+    "damageWindowEndMs": 1500,
+    "energyDelta": -33
+   }
+  }
+ },
+ {
+  "templateId": "V0296_MOVE_FRENZY_PLANT",
+  "data": {
+   "templateId": "V0296_MOVE_FRENZY_PLANT",
+   "moveSettings": {
+    "movementId": "FRENZY_PLANT",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_GRASS",
+    "power": 100.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "frenzy_plant",
+    "durationMs": 2500,
+    "damageWindowStartMs": 2045,
+    "damageWindowEndMs": 2450,
+    "energyDelta": -50
+   }
+  }
+ },
+ {
+  "templateId": "V0298_MOVE_BLAST_BURN",
+  "data": {
+   "templateId": "V0298_MOVE_BLAST_BURN",
+   "moveSettings": {
+    "movementId": "BLAST_BURN",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_FIRE",
+    "power": 120.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "blast_burn",
+    "durationMs": 3500,
+    "damageWindowStartMs": 2950,
+    "damageWindowEndMs": 3400,
+    "energyDelta": -50
+   }
+  }
+ },
+ {
+  "templateId": "V0300_MOVE_LAST_RESORT",
+  "data": {
+   "templateId": "V0300_MOVE_LAST_RESORT",
+   "moveSettings": {
+    "movementId": "LAST_RESORT",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_NORMAL",
+    "power": 90.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.065,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "last_resort",
+    "durationMs": 3000,
+    "damageWindowStartMs": 2800,
+    "damageWindowEndMs": 2950,
+    "energyDelta": -50
+   }
+  }
+ },
+ {
+  "templateId": "V0310_MOVE_SUPER_POWER",
+  "data": {
+   "templateId": "V0310_MOVE_SUPER_POWER",
+   "moveSettings": {
+    "movementId": "SUPER_POWER",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_FIGHTING",
+    "power": 85.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "super_power",
+    "durationMs": 3000,
+    "damageWindowStartMs": 2100,
+    "damageWindowEndMs": 2800,
+    "energyDelta": -50
+   }
+  }
+ },
+ {
+  "templateId": "V0311_MOVE_FELL_STINGER",
+  "data": {
+   "templateId": "V0311_MOVE_FELL_STINGER",
+   "moveSettings": {
+    "movementId": "FELL_STINGER",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_BUG",
+    "power": 45.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "fell_stinger",
+    "durationMs": 2000,
+    "damageWindowStartMs": 1600,
+    "damageWindowEndMs": 1800,
+    "energyDelta": -33
+   }
+  }
+ },
+ {
+  "templateId": "V0320_MOVE_CHARM_FAST",
+  "data": {
+   "templateId": "V0320_MOVE_CHARM_FAST",
+   "moveSettings": {
+    "movementId": "CHARM_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_FAIRY",
+    "power": 20.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "charm_fast",
+    "durationMs": 1500,
+    "damageWindowStartMs": 900,
+    "damageWindowEndMs": 1200,
+    "energyDelta": 11
+   }
+  }
+ },
+ {
+  "templateId": "V0321_MOVE_GIGA_IMPACT",
+  "data": {
+   "templateId": "V0321_MOVE_GIGA_IMPACT",
+   "moveSettings": {
+    "movementId": "GIGA_IMPACT",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_NORMAL",
+    "power": 200.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "giga_impact",
+    "durationMs": 4500,
+    "damageWindowStartMs": 800,
+    "damageWindowEndMs": 2200,
+    "energyDelta": -100
+   }
+  }
+ },
+ {
+  "templateId": "V0323_MOVE_RETURN",
+  "data": {
+   "templateId": "V0323_MOVE_RETURN",
+   "moveSettings": {
+    "movementId": "RETURN",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_NORMAL",
+    "power": 25.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "return",
+    "durationMs": 500,
+    "damageWindowEndMs": 150,
+    "energyDelta": -33
+   }
+  }
+ },
+ {
+  "templateId": "V0327_MOVE_ICE_FANG_FAST",
+  "data": {
+   "templateId": "V0327_MOVE_ICE_FANG_FAST",
+   "moveSettings": {
+    "movementId": "ICE_FANG_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_ICE",
+    "power": 12.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "ice_fang_fast",
+    "durationMs": 1500,
+    "damageWindowStartMs": 400,
+    "damageWindowEndMs": 1000,
+    "energyDelta": 20
+   }
+  }
+ },
+ {
+  "templateId": "V0346_MOVE_INCINERATE_FAST",
+  "data": {
+   "templateId": "V0346_MOVE_INCINERATE_FAST",
+   "moveSettings": {
+    "movementId": "INCINERATE_FAST",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_FIRE",
+    "power": 32.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "incinerate_fast",
+    "durationMs": 2500,
+    "damageWindowStartMs": 700,
+    "damageWindowEndMs": 2500,
+    "energyDelta": 22
+   }
+  }
+ },
+ {
+  "templateId": "V0350_MOVE_FAIRY_WIND_FAST",
+  "data": {
+   "templateId": "V0350_MOVE_FAIRY_WIND_FAST",
+   "moveSettings": {
+    "movementId": "FAIRY_WIND_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_FAIRY",
+    "power": 9.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "fairy_wind_fast",
+    "durationMs": 1000,
+    "damageWindowStartMs": 630,
+    "damageWindowEndMs": 1000,
+    "energyDelta": 13
+   }
+  }
+ },
+ {
+  "templateId": "V0351_POKEMON_CASTFORM",
+  "data": {
+   "templateId": "V0351_POKEMON_CASTFORM",
+   "pokemonSettings": {
+    "pokemonId": "CASTFORM",
+    "type": "POKEMON_TYPE_NORMAL",
+    "stats": {
+     "baseStamina": 172,
+     "baseAttack": 139,
+     "baseDefense": 139
+    },
+    "familyId": "FAMILY_CASTFORM"
+   }
+  }
+ },
+ {
+  "templateId": "V0351_POKEMON_CASTFORM_NORMAL",
+  "data": {
+   "templateId": "V0351_POKEMON_CASTFORM_NORMAL",
+   "pokemonSettings": {
+    "pokemonId": "CASTFORM",
+    "type": "POKEMON_TYPE_NORMAL",
+    "stats": {
+     "baseStamina": 172,
+     "baseAttack": 139,
+     "baseDefense": 139
+    },
+    "familyId": "FAMILY_CASTFORM",
+    "form": "CASTFORM_NORMAL"
+   }
+  }
+ },
+ {
+  "templateId": "V0351_POKEMON_CASTFORM_RAINY",
+  "data": {
+   "templateId": "V0351_POKEMON_CASTFORM_RAINY",
+   "pokemonSettings": {
+    "pokemonId": "CASTFORM",
+    "type": "POKEMON_TYPE_WATER",
+    "stats": {
+     "baseStamina": 172,
+     "baseAttack": 139,
+     "baseDefense": 139
+    },
+    "familyId": "FAMILY_CASTFORM",
+    "form": "CASTFORM_RAINY"
+   }
+  }
+ },
+ {
+  "templateId": "V0351_POKEMON_CASTFORM_SNOWY",
+  "data": {
+   "templateId": "V0351_POKEMON_CASTFORM_SNOWY",
+   "pokemonSettings": {
+    "pokemonId": "CASTFORM",
+    "type": "POKEMON_TYPE_ICE",
+    "stats": {
+     "baseStamina": 172,
+     "baseAttack": 139,
+     "baseDefense": 139
+    },
+    "familyId": "FAMILY_CASTFORM",
+    "form": "CASTFORM_SNOWY"
+   }
+  }
+ },
+ {
+  "templateId": "V0351_POKEMON_CASTFORM_SUNNY",
+  "data": {
+   "templateId": "V0351_POKEMON_CASTFORM_SUNNY",
+   "pokemonSettings": {
+    "pokemonId": "CASTFORM",
+    "type": "POKEMON_TYPE_FIRE",
+    "stats": {
+     "baseStamina": 172,
+     "baseAttack": 139,
+     "baseDefense": 139
+    },
+    "familyId": "FAMILY_CASTFORM",
+    "form": "CASTFORM_SUNNY"
+   }
+  }
+ },
+ {
+  "templateId": "V0352_MOVE_WEATHER_BALL_NORMAL",
+  "data": {
+   "templateId": "V0352_MOVE_WEATHER_BALL_NORMAL",
+   "moveSettings": {
+    "movementId": "WEATHER_BALL_NORMAL",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_NORMAL",
+    "power": 55.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "weather_ball_normal",
+    "durationMs": 1500,
+    "damageWindowStartMs": 1250,
+    "damageWindowEndMs": 1500,
+    "energyDelta": -33
+   }
+  }
+ },
+ {
+  "templateId": "V0353_MOVE_PSYCHIC_FANGS",
+  "data": {
+   "templateId": "V0353_MOVE_PSYCHIC_FANGS",
+   "moveSettings": {
+    "movementId": "PSYCHIC_FANGS",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_PSYCHIC",
+    "power": 25.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "psychic_fangs",
+    "durationMs": 1000,
+    "damageWindowStartMs": 200,
+    "damageWindowEndMs": 900,
+    "energyDelta": -33
+   }
+  }
+ },
+ {
+  "templateId": "V0383_MOVE_LIQUIDATION",
+  "data": {
+   "templateId": "V0383_MOVE_LIQUIDATION",
+   "moveSettings": {
+    "movementId": "LIQUIDATION",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_WATER",
+    "power": 70.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "liquidation",
+    "durationMs": 3000,
+    "damageWindowStartMs": 2000,
+    "damageWindowEndMs": 2700,
+    "energyDelta": -33
+   }
+  }
+ },
+ {
+  "templateId": "V0393_MOVE_SCORCHING_SANDS",
+  "data": {
+   "templateId": "V0393_MOVE_SCORCHING_SANDS",
+   "moveSettings": {
+    "movementId": "SCORCHING_SANDS",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_GROUND",
+    "power": 90.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "scorching_sands",
+    "durationMs": 3000,
+    "damageWindowStartMs": 1400,
+    "damageWindowEndMs": 2300,
+    "energyDelta": -50
+   }
+  }
+ },
+ {
+  "templateId": "V0469_MOVE_BEHEMOTH_BLADE",
+  "data": {
+   "templateId": "V0469_MOVE_BEHEMOTH_BLADE",
+   "moveSettings": {
+    "movementId": "BEHEMOTH_BLADE",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_STEEL",
+    "power": 200.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "behemoth_blade",
+    "durationMs": 3500,
+    "damageWindowStartMs": 2500,
+    "damageWindowEndMs": 3500,
+    "energyDelta": -100,
+    "isLocked": true
+   }
+  }
+ },
+ {
+  "templateId": "V0470_POKEMON_LEAFEON",
+  "data": {
+   "templateId": "V0470_POKEMON_LEAFEON",
+   "pokemonSettings": {
+    "pokemonId": "LEAFEON",
+    "type": "POKEMON_TYPE_GRASS",
+    "stats": {
+     "baseStamina": 163,
+     "baseAttack": 216,
+     "baseDefense": 219
+    },
+    "familyId": "FAMILY_EEVEE"
+   }
+  }
+ },
+ {
+  "templateId": "V0470_POKEMON_LEAFEON_NORMAL",
+  "data": {
+   "templateId": "V0470_POKEMON_LEAFEON_NORMAL",
+   "pokemonSettings": {
+    "pokemonId": "LEAFEON",
+    "type": "POKEMON_TYPE_GRASS",
+    "stats": {
+     "baseStamina": 163,
+     "baseAttack": 216,
+     "baseDefense": 219
+    },
+    "familyId": "FAMILY_EEVEE",
+    "form": "LEAFEON_NORMAL"
+   }
+  }
+ },
+ {
+  "templateId": "V0471_POKEMON_GLACEON",
+  "data": {
+   "templateId": "V0471_POKEMON_GLACEON",
+   "pokemonSettings": {
+    "pokemonId": "GLACEON",
+    "type": "POKEMON_TYPE_ICE",
+    "stats": {
+     "baseStamina": 163,
+     "baseAttack": 238,
+     "baseDefense": 205
+    },
+    "familyId": "FAMILY_EEVEE"
+   }
+  }
+ },
+ {
+  "templateId": "V0471_POKEMON_GLACEON_NORMAL",
+  "data": {
+   "templateId": "V0471_POKEMON_GLACEON_NORMAL",
+   "pokemonSettings": {
+    "pokemonId": "GLACEON",
+    "type": "POKEMON_TYPE_ICE",
+    "stats": {
+     "baseStamina": 163,
+     "baseAttack": 238,
+     "baseDefense": 205
+    },
+    "familyId": "FAMILY_EEVEE",
+    "form": "GLACEON_NORMAL"
+   }
+  }
+ },
+ {
+  "templateId": "V0488_MOVE_CHILLING_WATER",
+  "data": {
+   "templateId": "V0488_MOVE_CHILLING_WATER",
+   "moveSettings": {
+    "movementId": "CHILLING_WATER",
+    "animationId": 5,
+    "pokemonType": "POKEMON_TYPE_WATER",
+    "power": 65.0,
+    "accuracyChance": 1.0,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "chilling_water",
+    "durationMs": 3500,
+    "damageWindowStartMs": 2050,
+    "damageWindowEndMs": 3100,
+    "energyDelta": -33
+   }
+  }
+ },
+ {
+  "templateId": "V0554_POKEMON_DARUMAKA",
+  "data": {
+   "templateId": "V0554_POKEMON_DARUMAKA",
+   "pokemonSettings": {
+    "pokemonId": "DARUMAKA",
+    "type": "POKEMON_TYPE_FIRE",
+    "stats": {
+     "baseStamina": 172,
+     "baseAttack": 153,
+     "baseDefense": 86
+    },
+    "familyId": "FAMILY_DARUMAKA",
+    "evolutionBranch": [
+     {
+      "evolution": "DARMANITAN",
+      "candyCost": 50,
+      "form": "DARMANITAN_STANDARD",
+      "candyCostPurified": 45
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "V0554_POKEMON_DARUMAKA_GALARIAN",
+  "data": {
+   "templateId": "V0554_POKEMON_DARUMAKA_GALARIAN",
+   "pokemonSettings": {
+    "pokemonId": "DARUMAKA",
+    "type": "POKEMON_TYPE_ICE",
+    "stats": {
+     "baseStamina": 172,
+     "baseAttack": 153,
+     "baseDefense": 86
+    },
+    "familyId": "FAMILY_DARUMAKA",
+    "evolutionBranch": [
+     {
+      "evolution": "DARMANITAN",
+      "candyCost": 50,
+      "form": "DARMANITAN_GALARIAN_STANDARD",
+      "candyCostPurified": 45
+     }
+    ],
+    "form": "DARUMAKA_GALARIAN"
+   }
+  }
+ },
+ {
+  "templateId": "V0554_POKEMON_DARUMAKA_NORMAL",
+  "data": {
+   "templateId": "V0554_POKEMON_DARUMAKA_NORMAL",
+   "pokemonSettings": {
+    "pokemonId": "DARUMAKA",
+    "type": "POKEMON_TYPE_FIRE",
+    "stats": {
+     "baseStamina": 172,
+     "baseAttack": 153,
+     "baseDefense": 86
+    },
+    "familyId": "FAMILY_DARUMAKA",
+    "evolutionBranch": [
+     {
+      "evolution": "DARMANITAN",
+      "candyCost": 50,
+      "form": "DARMANITAN_STANDARD",
+      "candyCostPurified": 45
+     }
+    ],
+    "form": "DARUMAKA_NORMAL"
+   }
+  }
+ },
+ {
+  "templateId": "V0555_POKEMON_DARMANITAN",
+  "data": {
+   "templateId": "V0555_POKEMON_DARMANITAN",
+   "pokemonSettings": {
+    "pokemonId": "DARMANITAN",
+    "type": "POKEMON_TYPE_FIRE",
+    "stats": {
+     "baseStamina": 233,
+     "baseAttack": 263,
+     "baseDefense": 114
+    },
+    "familyId": "FAMILY_DARUMAKA"
+   }
+  }
+ },
+ {
+  "templateId": "V0555_POKEMON_DARMANITAN_GALARIAN_STANDARD",
+  "data": {
+   "templateId": "V0555_POKEMON_DARMANITAN_GALARIAN_STANDARD",
+   "pokemonSettings": {
+    "pokemonId": "DARMANITAN",
+    "type": "POKEMON_TYPE_ICE",
+    "stats": {
+     "baseStamina": 233,
+     "baseAttack": 263,
+     "baseDefense": 114
+    },
+    "familyId": "FAMILY_DARUMAKA",
+    "form": "DARMANITAN_GALARIAN_STANDARD"
+   }
+  }
+ },
+ {
+  "templateId": "V0555_POKEMON_DARMANITAN_GALARIAN_ZEN",
+  "data": {
+   "templateId": "V0555_POKEMON_DARMANITAN_GALARIAN_ZEN",
+   "pokemonSettings": {
+    "pokemonId": "DARMANITAN",
+    "type": "POKEMON_TYPE_ICE",
+    "type2": "POKEMON_TYPE_FIRE",
+    "stats": {
+     "baseStamina": 233,
+     "baseAttack": 323,
+     "baseDefense": 123
+    },
+    "familyId": "FAMILY_DARUMAKA",
+    "form": "DARMANITAN_GALARIAN_ZEN"
+   }
+  }
+ },
+ {
+  "templateId": "V0555_POKEMON_DARMANITAN_STANDARD",
+  "data": {
+   "templateId": "V0555_POKEMON_DARMANITAN_STANDARD",
+   "pokemonSettings": {
+    "pokemonId": "DARMANITAN",
+    "type": "POKEMON_TYPE_FIRE",
+    "stats": {
+     "baseStamina": 233,
+     "baseAttack": 263,
+     "baseDefense": 114
+    },
+    "familyId": "FAMILY_DARUMAKA",
+    "form": "DARMANITAN_STANDARD"
+   }
+  }
+ },
+ {
+  "templateId": "V0555_POKEMON_DARMANITAN_ZEN",
+  "data": {
+   "templateId": "V0555_POKEMON_DARMANITAN_ZEN",
+   "pokemonSettings": {
+    "pokemonId": "DARMANITAN",
+    "type": "POKEMON_TYPE_FIRE",
+    "type2": "POKEMON_TYPE_PSYCHIC",
+    "stats": {
+     "baseStamina": 233,
+     "baseAttack": 243,
+     "baseDefense": 202
+    },
+    "familyId": "FAMILY_DARUMAKA",
+    "form": "DARMANITAN_ZEN"
+   }
+  }
+ },
+ {
+  "templateId": "V0700_POKEMON_SYLVEON",
+  "data": {
+   "templateId": "V0700_POKEMON_SYLVEON",
+   "pokemonSettings": {
+    "pokemonId": "SYLVEON",
+    "type": "POKEMON_TYPE_FAIRY",
+    "stats": {
+     "baseStamina": 216,
+     "baseAttack": 203,
+     "baseDefense": 205
+    },
+    "familyId": "FAMILY_EEVEE"
+   }
+  }
+ },
+ {
+  "templateId": "V0700_POKEMON_SYLVEON_NORMAL",
+  "data": {
+   "templateId": "V0700_POKEMON_SYLVEON_NORMAL",
+   "pokemonSettings": {
+    "pokemonId": "SYLVEON",
+    "type": "POKEMON_TYPE_FAIRY",
+    "stats": {
+     "baseStamina": 216,
+     "baseAttack": 203,
+     "baseDefense": 205
+    },
+    "familyId": "FAMILY_EEVEE",
+    "form": "SYLVEON_NORMAL"
+   }
+  }
+ },
+ {
+  "templateId": "V0888_POKEMON_ZACIAN",
+  "data": {
+   "templateId": "V0888_POKEMON_ZACIAN",
+   "pokemonSettings": {
+    "pokemonId": "ZACIAN",
+    "type": "POKEMON_TYPE_FAIRY",
+    "type2": "POKEMON_TYPE_STEEL",
+    "stats": {
+     "baseStamina": 192,
+     "baseAttack": 254,
+     "baseDefense": 236
+    },
+    "familyId": "FAMILY_ZACIAN"
+   }
+  }
+ },
+ {
+  "templateId": "V0888_POKEMON_ZACIAN_CROWNED_SWORD",
+  "data": {
+   "templateId": "V0888_POKEMON_ZACIAN_CROWNED_SWORD",
+   "pokemonSettings": {
+    "pokemonId": "ZACIAN",
+    "type": "POKEMON_TYPE_FAIRY",
+    "type2": "POKEMON_TYPE_STEEL",
+    "stats": {
+     "baseStamina": 192,
+     "baseAttack": 332,
+     "baseDefense": 240
+    },
+    "familyId": "FAMILY_ZACIAN",
+    "form": "ZACIAN_CROWNED_SWORD"
+   }
+  }
+ },
+ {
+  "templateId": "V0888_POKEMON_ZACIAN_HERO",
+  "data": {
+   "templateId": "V0888_POKEMON_ZACIAN_HERO",
+   "pokemonSettings": {
+    "pokemonId": "ZACIAN",
+    "type": "POKEMON_TYPE_FAIRY",
+    "stats": {
+     "baseStamina": 192,
+     "baseAttack": 254,
+     "baseDefense": 236
+    },
+    "familyId": "FAMILY_ZACIAN",
+    "form": "ZACIAN_HERO"
+   }
+  }
+ },
+ {
+  "templateId": "V0999_POKEMON_GIMMIGHOUL",
+  "data": {
+   "templateId": "V0999_POKEMON_GIMMIGHOUL",
+   "pokemonSettings": {
+    "pokemonId": "GIMMIGHOUL",
+    "type": "POKEMON_TYPE_GHOST",
+    "stats": {
+     "baseStamina": 128,
+     "baseAttack": 140,
+     "baseDefense": 76
+    },
+    "familyId": "FAMILY_GIMMIGHOUL",
+    "evolutionBranch": [
+     {
+      "evolution": "GHOLDENGO",
+      "evolutionItemRequirement": "ITEM_OTHER_EVOLUTION_STONE_A",
+      "evolutionItemRequirementCost": 999
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "V0999_POKEMON_GIMMIGHOUL_COIN_A1",
+  "data": {
+   "templateId": "V0999_POKEMON_GIMMIGHOUL_COIN_A1",
+   "pokemonSettings": {
+    "pokemonId": "GIMMIGHOUL",
+    "type": "POKEMON_TYPE_GHOST",
+    "stats": {
+     "baseStamina": 128,
+     "baseAttack": 140,
+     "baseDefense": 76
+    },
+    "familyId": "FAMILY_GIMMIGHOUL",
+    "form": "GIMMIGHOUL_COIN_A1"
+   }
+  }
+ },
+ {
+  "templateId": "V0999_POKEMON_GIMMIGHOUL_COIN_A2_2026",
+  "data": {
+   "templateId": "V0999_POKEMON_GIMMIGHOUL_COIN_A2_2026",
+   "pokemonSettings": {
+    "pokemonId": "GIMMIGHOUL",
+    "type": "POKEMON_TYPE_GHOST",
+    "stats": {
+     "baseStamina": 128,
+     "baseAttack": 140,
+     "baseDefense": 76
+    },
+    "familyId": "FAMILY_GIMMIGHOUL",
+    "form": "GIMMIGHOUL_COIN_A2_2026"
+   }
+  }
+ },
+ {
+  "templateId": "V0999_POKEMON_GIMMIGHOUL_NORMAL",
+  "data": {
+   "templateId": "V0999_POKEMON_GIMMIGHOUL_NORMAL",
+   "pokemonSettings": {
+    "pokemonId": "GIMMIGHOUL",
+    "type": "POKEMON_TYPE_GHOST",
+    "stats": {
+     "baseStamina": 128,
+     "baseAttack": 140,
+     "baseDefense": 76
+    },
+    "familyId": "FAMILY_GIMMIGHOUL",
+    "evolutionBranch": [
+     {
+      "evolution": "GHOLDENGO",
+      "evolutionItemRequirement": "ITEM_OTHER_EVOLUTION_STONE_A",
+      "evolutionItemRequirementCost": 999
+     }
+    ],
+    "form": "GIMMIGHOUL_NORMAL"
+   }
+  }
+ },
+ {
+  "templateId": "V1000_POKEMON_GHOLDENGO",
+  "data": {
+   "templateId": "V1000_POKEMON_GHOLDENGO",
+   "pokemonSettings": {
+    "pokemonId": "GHOLDENGO",
+    "type": "POKEMON_TYPE_STEEL",
+    "type2": "POKEMON_TYPE_GHOST",
+    "stats": {
+     "baseStamina": 202,
+     "baseAttack": 252,
+     "baseDefense": 190
+    },
+    "familyId": "FAMILY_GIMMIGHOUL"
+   }
+  }
+ },
+ {
+  "templateId": "V1000_POKEMON_GHOLDENGO_NORMAL",
+  "data": {
+   "templateId": "V1000_POKEMON_GHOLDENGO_NORMAL",
+   "pokemonSettings": {
+    "pokemonId": "GHOLDENGO",
+    "type": "POKEMON_TYPE_STEEL",
+    "type2": "POKEMON_TYPE_GHOST",
+    "stats": {
+     "baseStamina": 202,
+     "baseAttack": 252,
+     "baseDefense": 190
+    },
+    "familyId": "FAMILY_GIMMIGHOUL",
+    "form": "GHOLDENGO_NORMAL"
+   }
+  }
+ },
+ {
+  "templateId": "ESPEON_EVOLUTION_QUEST",
+  "data": {
+   "templateId": "ESPEON_EVOLUTION_QUEST",
+   "evolutionQuestTemplate": {
+    "questTemplateId": "ESPEON_EVOLUTION_QUEST",
+    "questType": "QUEST_BUDDY_EVOLUTION_WALK",
+    "goals": [
+     {
+      "target": 10
+     }
+    ],
+    "context": "EVOLUTION_QUEST",
+    "display": {
+     "description": "quest_buddy_walk_km_plural",
+     "title": "quest_buddy_walk_km_plural"
+    }
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0001_POKEMON_BULBASAUR",
+  "data": {
+   "templateId": "EXTENDED_V0001_POKEMON_BULBASAUR",
+   "pokemonExtendedSettings": {
+    "uniqueId": "BULBASAUR",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0001_POKEMON_BULBASAUR_FALL_2019",
+  "data": {
+   "templateId": "EXTENDED_V0001_POKEMON_BULBASAUR_FALL_2019",
+   "pokemonExtendedSettings": {
+    "uniqueId": "BULBASAUR",
+    "form": "BULBASAUR_FALL_2019"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0001_POKEMON_BULBASAUR_NORMAL",
+  "data": {
+   "templateId": "EXTENDED_V0001_POKEMON_BULBASAUR_NORMAL",
+   "pokemonExtendedSettings": {
+    "uniqueId": "BULBASAUR",
+    "form": "BULBASAUR_NORMAL",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0002_POKEMON_IVYSAUR",
+  "data": {
+   "templateId": "EXTENDED_V0002_POKEMON_IVYSAUR",
+   "pokemonExtendedSettings": {
+    "uniqueId": "IVYSAUR",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0002_POKEMON_IVYSAUR_NORMAL",
+  "data": {
+   "templateId": "EXTENDED_V0002_POKEMON_IVYSAUR_NORMAL",
+   "pokemonExtendedSettings": {
+    "uniqueId": "IVYSAUR",
+    "form": "IVYSAUR_NORMAL",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0003_POKEMON_VENUSAUR",
+  "data": {
+   "templateId": "EXTENDED_V0003_POKEMON_VENUSAUR",
+   "pokemonExtendedSettings": {
+    "uniqueId": "VENUSAUR",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     },
+     {
+      "breadMode": "BREAD_DOUGH_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0003_POKEMON_VENUSAUR_COPY_2019",
+  "data": {
+   "templateId": "EXTENDED_V0003_POKEMON_VENUSAUR_COPY_2019",
+   "pokemonExtendedSettings": {
+    "uniqueId": "VENUSAUR",
+    "form": "VENUSAUR_COPY_2019"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0003_POKEMON_VENUSAUR_NORMAL",
+  "data": {
+   "templateId": "EXTENDED_V0003_POKEMON_VENUSAUR_NORMAL",
+   "pokemonExtendedSettings": {
+    "uniqueId": "VENUSAUR",
+    "form": "VENUSAUR_NORMAL",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     },
+     {
+      "breadMode": "BREAD_DOUGH_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0004_POKEMON_CHARMANDER",
+  "data": {
+   "templateId": "EXTENDED_V0004_POKEMON_CHARMANDER",
+   "pokemonExtendedSettings": {
+    "uniqueId": "CHARMANDER",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0004_POKEMON_CHARMANDER_FALL_2019",
+  "data": {
+   "templateId": "EXTENDED_V0004_POKEMON_CHARMANDER_FALL_2019",
+   "pokemonExtendedSettings": {
+    "uniqueId": "CHARMANDER",
+    "form": "CHARMANDER_FALL_2019"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0004_POKEMON_CHARMANDER_GOGGLES_2026",
+  "data": {
+   "templateId": "EXTENDED_V0004_POKEMON_CHARMANDER_GOGGLES_2026",
+   "pokemonExtendedSettings": {
+    "uniqueId": "CHARMANDER",
+    "form": "CHARMANDER_GOGGLES_2026"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0004_POKEMON_CHARMANDER_NORMAL",
+  "data": {
+   "templateId": "EXTENDED_V0004_POKEMON_CHARMANDER_NORMAL",
+   "pokemonExtendedSettings": {
+    "uniqueId": "CHARMANDER",
+    "form": "CHARMANDER_NORMAL",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0005_POKEMON_CHARMELEON",
+  "data": {
+   "templateId": "EXTENDED_V0005_POKEMON_CHARMELEON",
+   "pokemonExtendedSettings": {
+    "uniqueId": "CHARMELEON",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0005_POKEMON_CHARMELEON_GOGGLES_2026",
+  "data": {
+   "templateId": "EXTENDED_V0005_POKEMON_CHARMELEON_GOGGLES_2026",
+   "pokemonExtendedSettings": {
+    "uniqueId": "CHARMELEON",
+    "form": "CHARMELEON_GOGGLES_2026"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0005_POKEMON_CHARMELEON_NORMAL",
+  "data": {
+   "templateId": "EXTENDED_V0005_POKEMON_CHARMELEON_NORMAL",
+   "pokemonExtendedSettings": {
+    "uniqueId": "CHARMELEON",
+    "form": "CHARMELEON_NORMAL",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0006_POKEMON_CHARIZARD",
+  "data": {
+   "templateId": "EXTENDED_V0006_POKEMON_CHARIZARD",
+   "pokemonExtendedSettings": {
+    "uniqueId": "CHARIZARD",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     },
+     {
+      "breadMode": "BREAD_DOUGH_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0006_POKEMON_CHARIZARD_COPY_2019",
+  "data": {
+   "templateId": "EXTENDED_V0006_POKEMON_CHARIZARD_COPY_2019",
+   "pokemonExtendedSettings": {
+    "uniqueId": "CHARIZARD",
+    "form": "CHARIZARD_COPY_2019"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0006_POKEMON_CHARIZARD_GOGGLES_2026",
+  "data": {
+   "templateId": "EXTENDED_V0006_POKEMON_CHARIZARD_GOGGLES_2026",
+   "pokemonExtendedSettings": {
+    "uniqueId": "CHARIZARD",
+    "form": "CHARIZARD_GOGGLES_2026"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0006_POKEMON_CHARIZARD_NORMAL",
+  "data": {
+   "templateId": "EXTENDED_V0006_POKEMON_CHARIZARD_NORMAL",
+   "pokemonExtendedSettings": {
+    "uniqueId": "CHARIZARD",
+    "form": "CHARIZARD_NORMAL",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     },
+     {
+      "breadMode": "BREAD_DOUGH_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0013_POKEMON_WEEDLE",
+  "data": {
+   "templateId": "EXTENDED_V0013_POKEMON_WEEDLE",
+   "pokemonExtendedSettings": {
+    "uniqueId": "WEEDLE"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0013_POKEMON_WEEDLE_NORMAL",
+  "data": {
+   "templateId": "EXTENDED_V0013_POKEMON_WEEDLE_NORMAL",
+   "pokemonExtendedSettings": {
+    "uniqueId": "WEEDLE",
+    "form": "WEEDLE_NORMAL"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0014_POKEMON_KAKUNA",
+  "data": {
+   "templateId": "EXTENDED_V0014_POKEMON_KAKUNA",
+   "pokemonExtendedSettings": {
+    "uniqueId": "KAKUNA"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0014_POKEMON_KAKUNA_NORMAL",
+  "data": {
+   "templateId": "EXTENDED_V0014_POKEMON_KAKUNA_NORMAL",
+   "pokemonExtendedSettings": {
+    "uniqueId": "KAKUNA",
+    "form": "KAKUNA_NORMAL"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0015_POKEMON_BEEDRILL",
+  "data": {
+   "templateId": "EXTENDED_V0015_POKEMON_BEEDRILL",
+   "pokemonExtendedSettings": {
+    "uniqueId": "BEEDRILL"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0015_POKEMON_BEEDRILL_NORMAL",
+  "data": {
+   "templateId": "EXTENDED_V0015_POKEMON_BEEDRILL_NORMAL",
+   "pokemonExtendedSettings": {
+    "uniqueId": "BEEDRILL",
+    "form": "BEEDRILL_NORMAL"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0037_POKEMON_VULPIX",
+  "data": {
+   "templateId": "EXTENDED_V0037_POKEMON_VULPIX",
+   "pokemonExtendedSettings": {
+    "uniqueId": "VULPIX"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0037_POKEMON_VULPIX_ALOLA",
+  "data": {
+   "templateId": "EXTENDED_V0037_POKEMON_VULPIX_ALOLA",
+   "pokemonExtendedSettings": {
+    "uniqueId": "VULPIX",
+    "form": "VULPIX_ALOLA"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0037_POKEMON_VULPIX_NORMAL",
+  "data": {
+   "templateId": "EXTENDED_V0037_POKEMON_VULPIX_NORMAL",
+   "pokemonExtendedSettings": {
+    "uniqueId": "VULPIX",
+    "form": "VULPIX_NORMAL"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0038_POKEMON_NINETALES",
+  "data": {
+   "templateId": "EXTENDED_V0038_POKEMON_NINETALES",
+   "pokemonExtendedSettings": {
+    "uniqueId": "NINETALES"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0038_POKEMON_NINETALES_ALOLA",
+  "data": {
+   "templateId": "EXTENDED_V0038_POKEMON_NINETALES_ALOLA",
+   "pokemonExtendedSettings": {
+    "uniqueId": "NINETALES",
+    "form": "NINETALES_ALOLA"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0038_POKEMON_NINETALES_NORMAL",
+  "data": {
+   "templateId": "EXTENDED_V0038_POKEMON_NINETALES_NORMAL",
+   "pokemonExtendedSettings": {
+    "uniqueId": "NINETALES",
+    "form": "NINETALES_NORMAL"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0133_POKEMON_EEVEE",
+  "data": {
+   "templateId": "EXTENDED_V0133_POKEMON_EEVEE",
+   "pokemonExtendedSettings": {
+    "uniqueId": "EEVEE",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0133_POKEMON_EEVEE_GOFEST_2024_MTIARA",
+  "data": {
+   "templateId": "EXTENDED_V0133_POKEMON_EEVEE_GOFEST_2024_MTIARA",
+   "pokemonExtendedSettings": {
+    "uniqueId": "EEVEE",
+    "form": "EEVEE_GOFEST_2024_MTIARA"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0133_POKEMON_EEVEE_GOFEST_2024_STIARA",
+  "data": {
+   "templateId": "EXTENDED_V0133_POKEMON_EEVEE_GOFEST_2024_STIARA",
+   "pokemonExtendedSettings": {
+    "uniqueId": "EEVEE",
+    "form": "EEVEE_GOFEST_2024_STIARA"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0133_POKEMON_EEVEE_NORMAL",
+  "data": {
+   "templateId": "EXTENDED_V0133_POKEMON_EEVEE_NORMAL",
+   "pokemonExtendedSettings": {
+    "uniqueId": "EEVEE",
+    "form": "EEVEE_NORMAL",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0134_POKEMON_VAPOREON",
+  "data": {
+   "templateId": "EXTENDED_V0134_POKEMON_VAPOREON",
+   "pokemonExtendedSettings": {
+    "uniqueId": "VAPOREON",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0134_POKEMON_VAPOREON_NORMAL",
+  "data": {
+   "templateId": "EXTENDED_V0134_POKEMON_VAPOREON_NORMAL",
+   "pokemonExtendedSettings": {
+    "uniqueId": "VAPOREON",
+    "form": "VAPOREON_NORMAL",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0135_POKEMON_JOLTEON",
+  "data": {
+   "templateId": "EXTENDED_V0135_POKEMON_JOLTEON",
+   "pokemonExtendedSettings": {
+    "uniqueId": "JOLTEON",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0135_POKEMON_JOLTEON_NORMAL",
+  "data": {
+   "templateId": "EXTENDED_V0135_POKEMON_JOLTEON_NORMAL",
+   "pokemonExtendedSettings": {
+    "uniqueId": "JOLTEON",
+    "form": "JOLTEON_NORMAL",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0136_POKEMON_FLAREON",
+  "data": {
+   "templateId": "EXTENDED_V0136_POKEMON_FLAREON",
+   "pokemonExtendedSettings": {
+    "uniqueId": "FLAREON",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0136_POKEMON_FLAREON_NORMAL",
+  "data": {
+   "templateId": "EXTENDED_V0136_POKEMON_FLAREON_NORMAL",
+   "pokemonExtendedSettings": {
+    "uniqueId": "FLAREON",
+    "form": "FLAREON_NORMAL",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0196_POKEMON_ESPEON",
+  "data": {
+   "templateId": "EXTENDED_V0196_POKEMON_ESPEON",
+   "pokemonExtendedSettings": {
+    "uniqueId": "ESPEON",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0196_POKEMON_ESPEON_GOFEST_2024_SSCARF",
+  "data": {
+   "templateId": "EXTENDED_V0196_POKEMON_ESPEON_GOFEST_2024_SSCARF",
+   "pokemonExtendedSettings": {
+    "uniqueId": "ESPEON",
+    "form": "ESPEON_GOFEST_2024_SSCARF"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0196_POKEMON_ESPEON_NORMAL",
+  "data": {
+   "templateId": "EXTENDED_V0196_POKEMON_ESPEON_NORMAL",
+   "pokemonExtendedSettings": {
+    "uniqueId": "ESPEON",
+    "form": "ESPEON_NORMAL",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0197_POKEMON_UMBREON",
+  "data": {
+   "templateId": "EXTENDED_V0197_POKEMON_UMBREON",
+   "pokemonExtendedSettings": {
+    "uniqueId": "UMBREON",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0197_POKEMON_UMBREON_GOFEST_2024_MSCARF",
+  "data": {
+   "templateId": "EXTENDED_V0197_POKEMON_UMBREON_GOFEST_2024_MSCARF",
+   "pokemonExtendedSettings": {
+    "uniqueId": "UMBREON",
+    "form": "UMBREON_GOFEST_2024_MSCARF"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0197_POKEMON_UMBREON_NORMAL",
+  "data": {
+   "templateId": "EXTENDED_V0197_POKEMON_UMBREON_NORMAL",
+   "pokemonExtendedSettings": {
+    "uniqueId": "UMBREON",
+    "form": "UMBREON_NORMAL",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0201_POKEMON_UNOWN",
+  "data": {
+   "templateId": "EXTENDED_V0201_POKEMON_UNOWN",
+   "pokemonExtendedSettings": {
+    "uniqueId": "UNOWN"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0201_POKEMON_UNOWN_A",
+  "data": {
+   "templateId": "EXTENDED_V0201_POKEMON_UNOWN_A",
+   "pokemonExtendedSettings": {
+    "uniqueId": "UNOWN",
+    "form": "UNOWN_A"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0201_POKEMON_UNOWN_B",
+  "data": {
+   "templateId": "EXTENDED_V0201_POKEMON_UNOWN_B",
+   "pokemonExtendedSettings": {
+    "uniqueId": "UNOWN",
+    "form": "UNOWN_B"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0201_POKEMON_UNOWN_C",
+  "data": {
+   "templateId": "EXTENDED_V0201_POKEMON_UNOWN_C",
+   "pokemonExtendedSettings": {
+    "uniqueId": "UNOWN",
+    "form": "UNOWN_C"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0201_POKEMON_UNOWN_D",
+  "data": {
+   "templateId": "EXTENDED_V0201_POKEMON_UNOWN_D",
+   "pokemonExtendedSettings": {
+    "uniqueId": "UNOWN",
+    "form": "UNOWN_D"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0201_POKEMON_UNOWN_E",
+  "data": {
+   "templateId": "EXTENDED_V0201_POKEMON_UNOWN_E",
+   "pokemonExtendedSettings": {
+    "uniqueId": "UNOWN",
+    "form": "UNOWN_E"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0201_POKEMON_UNOWN_EXCLAMATION_POINT",
+  "data": {
+   "templateId": "EXTENDED_V0201_POKEMON_UNOWN_EXCLAMATION_POINT",
+   "pokemonExtendedSettings": {
+    "uniqueId": "UNOWN",
+    "form": "UNOWN_EXCLAMATION_POINT"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0201_POKEMON_UNOWN_F",
+  "data": {
+   "templateId": "EXTENDED_V0201_POKEMON_UNOWN_F",
+   "pokemonExtendedSettings": {
+    "uniqueId": "UNOWN",
+    "form": "UNOWN_F"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0201_POKEMON_UNOWN_G",
+  "data": {
+   "templateId": "EXTENDED_V0201_POKEMON_UNOWN_G",
+   "pokemonExtendedSettings": {
+    "uniqueId": "UNOWN",
+    "form": "UNOWN_G"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0201_POKEMON_UNOWN_H",
+  "data": {
+   "templateId": "EXTENDED_V0201_POKEMON_UNOWN_H",
+   "pokemonExtendedSettings": {
+    "uniqueId": "UNOWN",
+    "form": "UNOWN_H"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0201_POKEMON_UNOWN_I",
+  "data": {
+   "templateId": "EXTENDED_V0201_POKEMON_UNOWN_I",
+   "pokemonExtendedSettings": {
+    "uniqueId": "UNOWN",
+    "form": "UNOWN_I"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0201_POKEMON_UNOWN_J",
+  "data": {
+   "templateId": "EXTENDED_V0201_POKEMON_UNOWN_J",
+   "pokemonExtendedSettings": {
+    "uniqueId": "UNOWN",
+    "form": "UNOWN_J"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0201_POKEMON_UNOWN_K",
+  "data": {
+   "templateId": "EXTENDED_V0201_POKEMON_UNOWN_K",
+   "pokemonExtendedSettings": {
+    "uniqueId": "UNOWN",
+    "form": "UNOWN_K"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0201_POKEMON_UNOWN_L",
+  "data": {
+   "templateId": "EXTENDED_V0201_POKEMON_UNOWN_L",
+   "pokemonExtendedSettings": {
+    "uniqueId": "UNOWN",
+    "form": "UNOWN_L"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0201_POKEMON_UNOWN_M",
+  "data": {
+   "templateId": "EXTENDED_V0201_POKEMON_UNOWN_M",
+   "pokemonExtendedSettings": {
+    "uniqueId": "UNOWN",
+    "form": "UNOWN_M"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0201_POKEMON_UNOWN_N",
+  "data": {
+   "templateId": "EXTENDED_V0201_POKEMON_UNOWN_N",
+   "pokemonExtendedSettings": {
+    "uniqueId": "UNOWN",
+    "form": "UNOWN_N"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0201_POKEMON_UNOWN_O",
+  "data": {
+   "templateId": "EXTENDED_V0201_POKEMON_UNOWN_O",
+   "pokemonExtendedSettings": {
+    "uniqueId": "UNOWN",
+    "form": "UNOWN_O"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0201_POKEMON_UNOWN_P",
+  "data": {
+   "templateId": "EXTENDED_V0201_POKEMON_UNOWN_P",
+   "pokemonExtendedSettings": {
+    "uniqueId": "UNOWN",
+    "form": "UNOWN_P"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0201_POKEMON_UNOWN_Q",
+  "data": {
+   "templateId": "EXTENDED_V0201_POKEMON_UNOWN_Q",
+   "pokemonExtendedSettings": {
+    "uniqueId": "UNOWN",
+    "form": "UNOWN_Q"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0201_POKEMON_UNOWN_QUESTION_MARK",
+  "data": {
+   "templateId": "EXTENDED_V0201_POKEMON_UNOWN_QUESTION_MARK",
+   "pokemonExtendedSettings": {
+    "uniqueId": "UNOWN",
+    "form": "UNOWN_QUESTION_MARK"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0201_POKEMON_UNOWN_R",
+  "data": {
+   "templateId": "EXTENDED_V0201_POKEMON_UNOWN_R",
+   "pokemonExtendedSettings": {
+    "uniqueId": "UNOWN",
+    "form": "UNOWN_R"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0201_POKEMON_UNOWN_S",
+  "data": {
+   "templateId": "EXTENDED_V0201_POKEMON_UNOWN_S",
+   "pokemonExtendedSettings": {
+    "uniqueId": "UNOWN",
+    "form": "UNOWN_S"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0201_POKEMON_UNOWN_T",
+  "data": {
+   "templateId": "EXTENDED_V0201_POKEMON_UNOWN_T",
+   "pokemonExtendedSettings": {
+    "uniqueId": "UNOWN",
+    "form": "UNOWN_T"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0201_POKEMON_UNOWN_U",
+  "data": {
+   "templateId": "EXTENDED_V0201_POKEMON_UNOWN_U",
+   "pokemonExtendedSettings": {
+    "uniqueId": "UNOWN",
+    "form": "UNOWN_U"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0201_POKEMON_UNOWN_V",
+  "data": {
+   "templateId": "EXTENDED_V0201_POKEMON_UNOWN_V",
+   "pokemonExtendedSettings": {
+    "uniqueId": "UNOWN",
+    "form": "UNOWN_V"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0201_POKEMON_UNOWN_W",
+  "data": {
+   "templateId": "EXTENDED_V0201_POKEMON_UNOWN_W",
+   "pokemonExtendedSettings": {
+    "uniqueId": "UNOWN",
+    "form": "UNOWN_W"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0201_POKEMON_UNOWN_X",
+  "data": {
+   "templateId": "EXTENDED_V0201_POKEMON_UNOWN_X",
+   "pokemonExtendedSettings": {
+    "uniqueId": "UNOWN",
+    "form": "UNOWN_X"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0201_POKEMON_UNOWN_Y",
+  "data": {
+   "templateId": "EXTENDED_V0201_POKEMON_UNOWN_Y",
+   "pokemonExtendedSettings": {
+    "uniqueId": "UNOWN",
+    "form": "UNOWN_Y"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0201_POKEMON_UNOWN_Z",
+  "data": {
+   "templateId": "EXTENDED_V0201_POKEMON_UNOWN_Z",
+   "pokemonExtendedSettings": {
+    "uniqueId": "UNOWN",
+    "form": "UNOWN_Z"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0351_POKEMON_CASTFORM",
+  "data": {
+   "templateId": "EXTENDED_V0351_POKEMON_CASTFORM",
+   "pokemonExtendedSettings": {
+    "uniqueId": "CASTFORM"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0351_POKEMON_CASTFORM_NORMAL",
+  "data": {
+   "templateId": "EXTENDED_V0351_POKEMON_CASTFORM_NORMAL",
+   "pokemonExtendedSettings": {
+    "uniqueId": "CASTFORM",
+    "form": "CASTFORM_NORMAL"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0351_POKEMON_CASTFORM_RAINY",
+  "data": {
+   "templateId": "EXTENDED_V0351_POKEMON_CASTFORM_RAINY",
+   "pokemonExtendedSettings": {
+    "uniqueId": "CASTFORM",
+    "form": "CASTFORM_RAINY"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0351_POKEMON_CASTFORM_SNOWY",
+  "data": {
+   "templateId": "EXTENDED_V0351_POKEMON_CASTFORM_SNOWY",
+   "pokemonExtendedSettings": {
+    "uniqueId": "CASTFORM",
+    "form": "CASTFORM_SNOWY"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0351_POKEMON_CASTFORM_SUNNY",
+  "data": {
+   "templateId": "EXTENDED_V0351_POKEMON_CASTFORM_SUNNY",
+   "pokemonExtendedSettings": {
+    "uniqueId": "CASTFORM",
+    "form": "CASTFORM_SUNNY"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0470_POKEMON_LEAFEON",
+  "data": {
+   "templateId": "EXTENDED_V0470_POKEMON_LEAFEON",
+   "pokemonExtendedSettings": {
+    "uniqueId": "LEAFEON",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0470_POKEMON_LEAFEON_NORMAL",
+  "data": {
+   "templateId": "EXTENDED_V0470_POKEMON_LEAFEON_NORMAL",
+   "pokemonExtendedSettings": {
+    "uniqueId": "LEAFEON",
+    "form": "LEAFEON_NORMAL",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0471_POKEMON_GLACEON",
+  "data": {
+   "templateId": "EXTENDED_V0471_POKEMON_GLACEON",
+   "pokemonExtendedSettings": {
+    "uniqueId": "GLACEON",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0471_POKEMON_GLACEON_NORMAL",
+  "data": {
+   "templateId": "EXTENDED_V0471_POKEMON_GLACEON_NORMAL",
+   "pokemonExtendedSettings": {
+    "uniqueId": "GLACEON",
+    "form": "GLACEON_NORMAL",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0554_POKEMON_DARUMAKA",
+  "data": {
+   "templateId": "EXTENDED_V0554_POKEMON_DARUMAKA",
+   "pokemonExtendedSettings": {
+    "uniqueId": "DARUMAKA",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0554_POKEMON_DARUMAKA_GALARIAN",
+  "data": {
+   "templateId": "EXTENDED_V0554_POKEMON_DARUMAKA_GALARIAN",
+   "pokemonExtendedSettings": {
+    "uniqueId": "DARUMAKA",
+    "form": "DARUMAKA_GALARIAN"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0554_POKEMON_DARUMAKA_NORMAL",
+  "data": {
+   "templateId": "EXTENDED_V0554_POKEMON_DARUMAKA_NORMAL",
+   "pokemonExtendedSettings": {
+    "uniqueId": "DARUMAKA",
+    "form": "DARUMAKA_NORMAL",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0555_POKEMON_DARMANITAN",
+  "data": {
+   "templateId": "EXTENDED_V0555_POKEMON_DARMANITAN",
+   "pokemonExtendedSettings": {
+    "uniqueId": "DARMANITAN",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0555_POKEMON_DARMANITAN_GALARIAN_STANDARD",
+  "data": {
+   "templateId": "EXTENDED_V0555_POKEMON_DARMANITAN_GALARIAN_STANDARD",
+   "pokemonExtendedSettings": {
+    "uniqueId": "DARMANITAN",
+    "form": "DARMANITAN_GALARIAN_STANDARD"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0555_POKEMON_DARMANITAN_GALARIAN_ZEN",
+  "data": {
+   "templateId": "EXTENDED_V0555_POKEMON_DARMANITAN_GALARIAN_ZEN",
+   "pokemonExtendedSettings": {
+    "uniqueId": "DARMANITAN",
+    "form": "DARMANITAN_GALARIAN_ZEN"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0555_POKEMON_DARMANITAN_STANDARD",
+  "data": {
+   "templateId": "EXTENDED_V0555_POKEMON_DARMANITAN_STANDARD",
+   "pokemonExtendedSettings": {
+    "uniqueId": "DARMANITAN",
+    "form": "DARMANITAN_STANDARD",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0555_POKEMON_DARMANITAN_ZEN",
+  "data": {
+   "templateId": "EXTENDED_V0555_POKEMON_DARMANITAN_ZEN",
+   "pokemonExtendedSettings": {
+    "uniqueId": "DARMANITAN",
+    "form": "DARMANITAN_ZEN"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0700_POKEMON_SYLVEON",
+  "data": {
+   "templateId": "EXTENDED_V0700_POKEMON_SYLVEON",
+   "pokemonExtendedSettings": {
+    "uniqueId": "SYLVEON",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0700_POKEMON_SYLVEON_NORMAL",
+  "data": {
+   "templateId": "EXTENDED_V0700_POKEMON_SYLVEON_NORMAL",
+   "pokemonExtendedSettings": {
+    "uniqueId": "SYLVEON",
+    "form": "SYLVEON_NORMAL",
+    "breadOverrides": [
+     {
+      "breadMode": "BREAD_MODE"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0888_POKEMON_ZACIAN",
+  "data": {
+   "templateId": "EXTENDED_V0888_POKEMON_ZACIAN",
+   "pokemonExtendedSettings": {
+    "uniqueId": "ZACIAN"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0888_POKEMON_ZACIAN_CROWNED_SWORD",
+  "data": {
+   "templateId": "EXTENDED_V0888_POKEMON_ZACIAN_CROWNED_SWORD",
+   "pokemonExtendedSettings": {
+    "uniqueId": "ZACIAN",
+    "form": "ZACIAN_CROWNED_SWORD"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0888_POKEMON_ZACIAN_HERO",
+  "data": {
+   "templateId": "EXTENDED_V0888_POKEMON_ZACIAN_HERO",
+   "pokemonExtendedSettings": {
+    "uniqueId": "ZACIAN",
+    "form": "ZACIAN_HERO"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0999_POKEMON_GIMMIGHOUL",
+  "data": {
+   "templateId": "EXTENDED_V0999_POKEMON_GIMMIGHOUL",
+   "pokemonExtendedSettings": {
+    "uniqueId": "GIMMIGHOUL"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0999_POKEMON_GIMMIGHOUL_COIN_A1",
+  "data": {
+   "templateId": "EXTENDED_V0999_POKEMON_GIMMIGHOUL_COIN_A1",
+   "pokemonExtendedSettings": {
+    "uniqueId": "GIMMIGHOUL",
+    "form": "GIMMIGHOUL_COIN_A1"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0999_POKEMON_GIMMIGHOUL_COIN_A2_2026",
+  "data": {
+   "templateId": "EXTENDED_V0999_POKEMON_GIMMIGHOUL_COIN_A2_2026",
+   "pokemonExtendedSettings": {
+    "uniqueId": "GIMMIGHOUL",
+    "form": "GIMMIGHOUL_COIN_A2_2026"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V0999_POKEMON_GIMMIGHOUL_NORMAL",
+  "data": {
+   "templateId": "EXTENDED_V0999_POKEMON_GIMMIGHOUL_NORMAL",
+   "pokemonExtendedSettings": {
+    "uniqueId": "GIMMIGHOUL",
+    "form": "GIMMIGHOUL_NORMAL"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V1000_POKEMON_GHOLDENGO",
+  "data": {
+   "templateId": "EXTENDED_V1000_POKEMON_GHOLDENGO",
+   "pokemonExtendedSettings": {
+    "uniqueId": "GHOLDENGO"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V1000_POKEMON_GHOLDENGO_NORMAL",
+  "data": {
+   "templateId": "EXTENDED_V1000_POKEMON_GHOLDENGO_NORMAL",
+   "pokemonExtendedSettings": {
+    "uniqueId": "GHOLDENGO",
+    "form": "GHOLDENGO_NORMAL"
+   }
+  }
+ },
+ {
+  "templateId": "EXTENDED_V999_POKEMON_GIMMIGHOUL",
+  "data": {
+   "templateId": "EXTENDED_V999_POKEMON_GIMMIGHOUL",
+   "pokemonExtendedSettings": {
+    "uniqueId": "GIMMIGHOUL"
+   }
+  }
+ },
+ {
+  "templateId": "SYLVEON_EVOLUTION_QUEST",
+  "data": {
+   "templateId": "SYLVEON_EVOLUTION_QUEST",
+   "evolutionQuestTemplate": {
+    "questTemplateId": "SYLVEON_EVOLUTION_QUEST",
+    "questType": "QUEST_BUDDY_EARN_AFFECTION_POINTS",
+    "goals": [
+     {
+      "target": 70
+     }
+    ],
+    "context": "EVOLUTION_QUEST",
+    "display": {
+     "description": "CHALLENGE_BUDDY_AFFECTION_SINGLE",
+     "title": "CHALLENGE_BUDDY_AFFECTION_SINGLE"
+    }
+   }
+  }
+ },
+ {
+  "templateId": "UMBREON_EVOLUTION_QUEST",
+  "data": {
+   "templateId": "UMBREON_EVOLUTION_QUEST",
+   "evolutionQuestTemplate": {
+    "questTemplateId": "UMBREON_EVOLUTION_QUEST",
+    "questType": "QUEST_BUDDY_EVOLUTION_WALK",
+    "goals": [
+     {
+      "target": 10
+     }
+    ],
+    "context": "EVOLUTION_QUEST",
+    "display": {
+     "description": "quest_buddy_walk_km_plural",
+     "title": "quest_buddy_walk_km_plural"
+    }
+   }
+  }
+ }
+]

@@ -1,0 +1,182 @@
+[
+ {
+  "speciesId": "zacian_crowned_sword",
+  "speciesName": "Zacian (Crowned Sword)",
+  "score": 97.8,
+  "moveset": [
+   "METAL_CLAW",
+   "CLOSE_COMBAT",
+   "BEHEMOTH_BLADE"
+  ]
+ },
+ {
+  "speciesId": "gholdengo",
+  "speciesName": "Gholdengo",
+  "score": 83.9,
+  "moveset": [
+   "HEX",
+   "SHADOW_BALL",
+   "FOCUS_BLAST"
+  ]
+ },
+ {
+  "speciesId": "sylveon",
+  "speciesName": "Sylveon",
+  "score": 80.1,
+  "moveset": [
+   "FAIRY_WIND",
+   "DRAINING_KISS",
+   "SHADOW_BALL"
+  ]
+ },
+ {
+  "speciesId": "zacian_hero",
+  "speciesName": "Zacian (Hero)",
+  "score": 76.8,
+  "moveset": [
+   "QUICK_ATTACK",
+   "WILD_CHARGE",
+   "PLAY_ROUGH"
+  ]
+ },
+ {
+  "speciesId": "charizard",
+  "speciesName": "Charizard",
+  "score": 65.7,
+  "moveset": [
+   "DRAGON_BREATH",
+   "BLAST_BURN",
+   "AIR_CUTTER"
+  ]
+ },
+ {
+  "speciesId": "charizard_shadow",
+  "speciesName": "Charizard (Shadow)",
+  "score": 62.5,
+  "moveset": [
+   "DRAGON_BREATH",
+   "BLAST_BURN",
+   "DRAGON_CLAW"
+  ]
+ },
+ {
+  "speciesId": "vaporeon",
+  "speciesName": "Vaporeon",
+  "score": 60.2,
+  "moveset": [
+   "WATER_GUN",
+   "AQUA_TAIL",
+   "LIQUIDATION"
+  ]
+ },
+ {
+  "speciesId": "darmanitan_standard",
+  "speciesName": "Darmanitan (Standard)",
+  "score": 58.9,
+  "moveset": [
+   "INCINERATE",
+   "ROCK_SLIDE",
+   "OVERHEAT"
+  ]
+ },
+ {
+  "speciesId": "darmanitan_standard_shadow",
+  "speciesName": "Darmanitan (Standard) (Shadow)",
+  "score": 58.3,
+  "moveset": [
+   "INCINERATE",
+   "ROCK_SLIDE",
+   "OVERHEAT"
+  ]
+ },
+ {
+  "speciesId": "venusaur_shadow",
+  "speciesName": "Venusaur (Shadow)",
+  "score": 56.5,
+  "moveset": [
+   "VINE_WHIP",
+   "FRENZY_PLANT",
+   "SLUDGE"
+  ]
+ },
+ {
+  "speciesId": "venusaur",
+  "speciesName": "Venusaur",
+  "score": 55.8,
+  "moveset": [
+   "VINE_WHIP",
+   "FRENZY_PLANT",
+   "SLUDGE"
+  ]
+ },
+ {
+  "speciesId": "espeon",
+  "speciesName": "Espeon",
+  "score": 53.4,
+  "moveset": [
+   "CONFUSION",
+   "PSYCHIC_FANGS",
+   "SHADOW_BALL"
+  ]
+ },
+ {
+  "speciesId": "flareon",
+  "speciesName": "Flareon",
+  "score": 53,
+  "moveset": [
+   "EMBER",
+   "SUPER_POWER",
+   "HEAT_WAVE"
+  ]
+ },
+ {
+  "speciesId": "darmanitan_galarian_standard",
+  "speciesName": "Darmanitan (Galarian)",
+  "score": 49.2,
+  "moveset": [
+   "ICE_FANG",
+   "AVALANCHE",
+   "SUPER_POWER"
+  ]
+ },
+ {
+  "speciesId": "leafeon",
+  "speciesName": "Leafeon",
+  "score": 47.6,
+  "moveset": [
+   "BULLET_SEED",
+   "LEAF_BLADE",
+   "LAST_RESORT"
+  ]
+ },
+ {
+  "speciesId": "glaceon",
+  "speciesName": "Glaceon",
+  "score": 47.3,
+  "moveset": [
+   "ICE_SHARD",
+   "AVALANCHE",
+   "WATER_PULSE"
+  ]
+ },
+ {
+  "speciesId": "jolteon",
+  "speciesName": "Jolteon",
+  "score": 46.7,
+  "moveset": [
+   "VOLT_SWITCH",
+   "DISCHARGE",
+   "LAST_RESORT"
+  ]
+ },
+ {
+  "speciesId": "umbreon",
+  "speciesName": "Umbreon",
+  "score": 42.7,
+  "moveset": [
+   "SNARL",
+   "FOUL_PLAY",
+   "DARK_PULSE"
+  ]
+ }
+]
