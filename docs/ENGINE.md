@@ -14,6 +14,7 @@ The daily import calculates and stores its results every day (decision 2026-11-0
 | Keeper boxes | `Pvp/KeeperBoxes`, `Pvp/KeeperCalculator` | Per Pokédex number and league: the appraisal bars to keep (below) |
 | Raids | `Raids/RaidFormula`, `Raids/RaidRanker` | DPS, TDO and raid score of a moveset; the tier lists per attacking type with their picks; every form's movesets ranked |
 | Counters | `Raids/BossCounters` | Counters against a specific raid boss, using its moves (below) |
+| Search | `Search/GameSearch`, `Search/KeeperStringCheck` | An independent simulator of the game's storage search for the keywords the app's strings use (below), and the check that a league's keeper strings match exactly its boxes |
 | Types | `Types/TypeChart` | GO's type chart: super effective ×1.6, not very effective ×0.625, "no effect" ×0.390625 (GO has no immunities); dual types multiply. Screens round to ×1.6 / ×0.63 / ×0.39 |
 
 ## PvP rank 1 and ties
@@ -52,6 +53,12 @@ Decision 2026-11-02 (option A):
 - **Averaged over the boss's moves**: with no moves picked, every fast + charged combination of the boss counts equally and counters are ranked by the average score, each with its best moveset on average. Picking the boss's moves uses only that combination.
 - Counters are level 40, 15/15/15, released forms, Shadows included, Elite TM and Legacy moves included (flagged); no weather, friendship or dodging. The page shows 9 with **one Mega slot** (`WithOneMega`).
 
+## The game-search simulator
+
+`GameSearch` is the port of the Python build's `searchsim.py` (E02-F04): Pokédex numbers and ranges (`147`, `147-149`, `-3`, `1025-`), appraisal bars (`3attack`, `3-4defense`, `0-1hp`), CP (`cp-1500`, `cp1501-`) and keyword flags the caller names (`maxmove1-`, `mega0-`), each optionally negated with `!`. `&` and `|` both mean AND, `,` `;` `:` mean OR, and OR binds tighter (the game has no brackets). Anything else (star ratings, `shiny`, names…) is **refused**, not guessed, so a string using it can't be published.
+
+`KeeperStringCheck` checks a league's strings as the Python build's `verify` did: for every Pokédex number 1–1,100 (numbers past the last real one must match nothing), every appraisal cell (125) and a CP at and just over the cap, **exactly one** string matches a Pokémon inside its keeper box under the cap and **none** matches anything else (275,000 cases per league, about half a second); a string is at most 1,950 characters. The daily import runs it on every keeper string before publishing (`docs/DAILY-IMPORT.md`).
+
 ## What the daily import stores
 
 From the same parsed files as the rest of the import (`jobs/.../DailyImport/EngineInputs.cs`, `EngineResults.cs`), in the same transaction:
@@ -72,10 +79,10 @@ Rows for a form or move the import doesn't keep are left out. The calculations t
 - `pvp_boxes.json`: every Pokédex number's box, F1 (rounded to 4 digits like Python's `round`), counts, judging forms and their rank-1 spreads, for Great and Ultra League.
 - `raiders.json`: every scored entry per type with its moveset, DPS, TDO, score, every intermediate number and the picks.
 
-The search strings built from the boxes (`pvp_strings.json`, `data_*.json`) and the search simulator (`searchsim.json`) are ported with the keeper filters (E04-F01) and the verification step (E02-F04).
+`api/MyPoGoCompanion.Engine.UnitTests/SearchTests.cs` checks the simulator against `searchsim.json` (every expression on the same small universe, the same matches in the same order, the same expressions refused) and the Python build's own strings (`pvp_strings.json`) against its own boxes (they pass; a changed box fails them). Building the strings is ported with the keeper filters (E04-F01).
 
 ## Tests
 
-- `api/MyPoGoCompanion.Engine.UnitTests`: the maths on real numbers (CP, ranks and ties, boxes, policies, raid formula, rankings and picks, counters and the boss's moves, type chart) and every error.
+- `api/MyPoGoCompanion.Engine.UnitTests`: the maths on real numbers (CP, ranks and ties, boxes, policies, raid formula, rankings and picks, counters and the boss's moves, type chart), the search simulator and the keeper string check, and every error.
 - `jobs/MyPoGoCompanion.Jobs.UnitTests`: the golden files, and the import's rows from the fixtures (`EngineResultsTests`).
 - `tests/MyPoGoCompanion.IntegrationTests/DailyImportTests.cs`: the stored results on a real PostgreSQL, the same numbers as the golden files for Charizard, and a second run that changes nothing.
