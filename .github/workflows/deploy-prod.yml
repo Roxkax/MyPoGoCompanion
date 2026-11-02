@@ -242,7 +242,7 @@ jobs:
         run: WEB_ORIGIN="$WEB_URL" workflow-scripts/.github/scripts/deploy_api.sh
 
       # --- Web app --------------------------------------------------------------------------------------------
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
           cache: npm
