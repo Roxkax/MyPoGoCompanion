@@ -35,6 +35,12 @@ public sealed class ImportedGameData
 
     public List<RaidMoveset> RaidMovesets { get; } = [];
 
+    /// <summary>
+    /// The ready-made keeper strings, checked by the game-search simulator before they are published. None yet: they
+    /// come with the keeper filters (E04-F01), which also saves them.
+    /// </summary>
+    public List<KeeperFilter> KeeperFilters { get; } = [];
+
     /// <summary>What the import couldn't use, in plain words (kept in the run log; the run still succeeds).</summary>
     public List<string> Warnings { get; } = [];
 }

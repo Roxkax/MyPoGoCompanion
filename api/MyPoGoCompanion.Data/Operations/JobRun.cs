@@ -14,6 +14,12 @@ public enum JobStatus
     Running,
     Succeeded,
     Failed,
+
+    /// <summary>
+    /// The daily import found rows the sources no longer list and published nothing: waiting for the super admin to
+    /// publish them (a run with "Publish what's missing") or keep yesterday's data (E02-F04).
+    /// </summary>
+    Held,
 }
 
 /// <summary>
@@ -28,7 +34,7 @@ public class JobRun
 
     public JobStatus Status { get; set; }
 
-    /// <summary>The admin who pressed "Run now"; null for a scheduled run.</summary>
+    /// <summary>The admin who pressed "Run now"; null for a scheduled run or one started from GitHub.</summary>
     public Guid? RequestedByUserId { get; set; }
 
     public User? RequestedBy { get; set; }
