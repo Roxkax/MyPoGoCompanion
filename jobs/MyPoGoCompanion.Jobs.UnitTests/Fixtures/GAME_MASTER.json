@@ -3470,6 +3470,28 @@
   }
  },
  {
+  "templateId": "V0281_MOVE_HIDDEN_POWER_FAST",
+  "data": {
+   "templateId": "V0281_MOVE_HIDDEN_POWER_FAST",
+   "moveSettings": {
+    "movementId": "HIDDEN_POWER_FAST",
+    "animationId": 4,
+    "pokemonType": "POKEMON_TYPE_NORMAL",
+    "power": 15.0,
+    "accuracyChance": 1.0,
+    "criticalChance": 0.05,
+    "staminaLossScalar": 0.01,
+    "trainerLevelMin": 1,
+    "trainerLevelMax": 100,
+    "vfxName": "hidden_power_fast",
+    "durationMs": 1500,
+    "damageWindowStartMs": 1100,
+    "damageWindowEndMs": 1400,
+    "energyDelta": 15
+   }
+  }
+ },
+ {
   "templateId": "V0292_MOVE_WEATHER_BALL_FIRE",
   "data": {
    "templateId": "V0292_MOVE_WEATHER_BALL_FIRE",

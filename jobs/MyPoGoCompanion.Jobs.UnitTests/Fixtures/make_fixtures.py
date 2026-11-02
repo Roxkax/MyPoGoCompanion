@@ -1,11 +1,13 @@
 """Writes the daily import's test fixtures: small cuts of the real source files for a handful of species.
 
 Each fixture has the real files' shape (PvPoke's gamemaster.json, rankings and Pokemon.js, the datamined
-GAME_MASTER.json), trimmed to the Pokémon below, their moves, Max Battle looks and evolution tasks, so the tests read
-what the job reads without 25 MB of data. Run it with the folder of downloaded files (docs/DAILY-IMPORT.md):
+GAME_MASTER.json and the game's Portuguese text), trimmed to the Pokémon below, their moves, Max Battle looks,
+evolution tasks and names, so the tests read what the job reads without 30 MB of data. Run it with the folder of
+downloaded files (docs/DAILY-IMPORT.md):
 
     python jobs/MyPoGoCompanion.Jobs.UnitTests/Fixtures/make_fixtures.py <folder with gamemaster.json, rankings-1500.json,
-        rankings-2500.json, rankings-10000.json, Pokemon.js and GAME_MASTER.json>
+        rankings-2500.json, rankings-10000.json, Pokemon.js, GAME_MASTER.json, and the game text's release and server
+        files saved as pt-br_raw.json and pt-br_remote_raw.json>
 
 The chosen species cover: a three-stage family with a Mega and Shadows (Bulbasaur, Charmander, with Gigantamax),
 a regional form (Vulpix), branching evolutions with lures, day/night and tasks (Eevee), a Mega with a signature move
@@ -47,6 +49,8 @@ def main(source: Path):
     move_keys = set()
     for m in used:
         key = {"FUTURE_SIGHT": "FUTURESIGHT", "PYRO_BALL": "PYROBALL", "TECHNO_BLAST_DOUSE": "TECHNO_BLAST_WATER"}.get(m, m)
+        # PvPoke's own moves take their Portuguese name from the move they stand for.
+        key = re.sub(r"^HIDDEN_POWER_[A-Z]+$", "HIDDEN_POWER", re.sub(r"^AEGISLASH_CHARGE_|_PLUS$", "", key))
         move_keys |= {key, key + "_FAST"}
     names = set()
     kept = []
@@ -76,6 +80,17 @@ def main(source: Path):
         elif "evolutionQuestTemplate" in data and template["templateId"] in names:
             kept.append(template)
     write("GAME_MASTER.json", kept)
+
+    # The game text: type names, the species' names (with their Mega and Gigantamax names), the moves they use by
+    # number, and every form text (small, and the names are looked up by several keys).
+    numbers = {re.match(r"^V(\d{4})_MOVE_", t["templateId"]).group(1) for t in kept if "moveSettings" in t["data"]}
+    names_wanted = re.compile(r"^(pokemon_type_.*|form_.*|pokemon_name_(%s)(_.*)?|move_name_(%s))$"
+                              % ("|".join(f"{d:04d}" for d in sorted(DEX)), "|".join(sorted(numbers))))
+    for name, out in (("pt-br_raw.json", "game-text-pt-br.json"), ("pt-br_remote_raw.json", "game-text-pt-br-remote.json")):
+        pairs = json.loads((source / name).read_text(encoding="utf-8"))["data"]
+        kept_text = [x for key, text in zip(pairs[::2], pairs[1::2]) if names_wanted.match(key) for x in (key, text)]
+        (OUT / out).write_text(json.dumps({"data": kept_text}, ensure_ascii=False, indent=0) + "\n", encoding="utf-8")
+        print(f"{out}: {(OUT / out).stat().st_size:,} bytes")
 
 
 def write(name, value):

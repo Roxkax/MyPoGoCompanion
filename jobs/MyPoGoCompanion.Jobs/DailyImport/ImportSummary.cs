@@ -32,7 +32,7 @@ public sealed class ImportSummary
     public static Dictionary<string, SourceFingerprint> Fingerprints(SourceFiles files)
     {
         ArgumentNullException.ThrowIfNull(files);
-        return new(StringComparer.Ordinal)
+        var fingerprints = new Dictionary<string, SourceFingerprint>(StringComparer.Ordinal)
         {
             ["pvpokeGameMaster"] = Of(files.PvpokeGameMaster),
             ["cpMultipliers"] = Of(files.CpMultipliers),
@@ -41,6 +41,19 @@ public sealed class ImportSummary
             ["rankingsMaster"] = Of(files.RankingsMaster),
             ["gameMaster"] = Of(files.GameMaster),
         };
+
+        // A missing game text leaves its fingerprint out, so the next run with it doesn't count as "unchanged".
+        if (files.GameText is { } text)
+        {
+            fingerprints["gameText"] = Of(text);
+        }
+
+        if (files.GameTextRemote is { } remote)
+        {
+            fingerprints["gameTextRemote"] = Of(remote);
+        }
+
+        return fingerprints;
     }
 
     /// <summary>The summary of an earlier run, or null when it has none or it doesn't read (an older format).</summary>

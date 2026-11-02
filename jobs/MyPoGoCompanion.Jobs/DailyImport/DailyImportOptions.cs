@@ -11,6 +11,15 @@ public sealed class DailyImportOptions
     /// <summary>The datamined game master (raid move numbers, evolutions, Dynamax).</summary>
     public Uri GameMasterUrl { get; set; } = new("https://raw.githubusercontent.com/alexelgt/game_masters/master/GAME_MASTER.json");
 
+    /// <summary>
+    /// The game's Brazilian Portuguese text from the latest release (Pokémon, move, type and form names), datamined by
+    /// holoholo-text: <c>{"data": [key, text, key, text, …]}</c>.
+    /// </summary>
+    public Uri GameTextUrl { get; set; } = new("https://raw.githubusercontent.com/sora10pls/holoholo-text/main/Release/Brazilian%20Portuguese/pt-br_raw.json");
+
+    /// <summary>The newer texts the game's server sends on top of the release (same format; they win).</summary>
+    public Uri GameTextRemoteUrl { get; set; } = new("https://raw.githubusercontent.com/sora10pls/holoholo-text/main/Remote/Brazilian%20Portuguese/pt-br_raw.json");
+
     /// <summary>What started the run, kept in the run log: <c>schedule</c>, <c>deploy</c> or <c>manual</c>.</summary>
     public string Trigger { get; set; } = "manual";
 

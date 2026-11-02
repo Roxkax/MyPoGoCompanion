@@ -125,8 +125,12 @@ public sealed class ImportSummaryTests
 
     [Fact]
     public void Fingerprints_NameEveryFile() =>
-        Assert.Equal(["pvpokeGameMaster", "cpMultipliers", "rankingsGreat", "rankingsUltra", "rankingsMaster", "gameMaster"],
+        Assert.Equal(["pvpokeGameMaster", "cpMultipliers", "rankingsGreat", "rankingsUltra", "rankingsMaster", "gameMaster", "gameText", "gameTextRemote"],
             ImportSummary.Fingerprints(Fixtures.Sources()).Keys);
+
+    [Fact]
+    public void Fingerprints_LeaveOutAMissingGameText() =>
+        Assert.DoesNotContain("gameText", ImportSummary.Fingerprints(Fixtures.Sources() with { GameText = null, GameTextRemote = null }).Keys);
 
     [Fact]
     public void ImportException_HasTheUsualConstructors()

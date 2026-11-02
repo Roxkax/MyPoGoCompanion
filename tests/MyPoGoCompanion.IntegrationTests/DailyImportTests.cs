@@ -33,6 +33,8 @@ public sealed class DailyImportTests(PostgresFixture postgres)
         [new Uri(_defaults.PvpokeBaseUrl, "data/rankings/all/overall/rankings-2500.json").AbsoluteUri] = "pvpoke-rankings-2500.json",
         [new Uri(_defaults.PvpokeBaseUrl, "data/rankings/all/overall/rankings-10000.json").AbsoluteUri] = "pvpoke-rankings-10000.json",
         [_defaults.GameMasterUrl.AbsoluteUri] = "GAME_MASTER.json",
+        [_defaults.GameTextUrl.AbsoluteUri] = "game-text-pt-br.json",
+        [_defaults.GameTextRemoteUrl.AbsoluteUri] = "game-text-pt-br-remote.json",
     };
 
     /// <summary>Runs the job's command line against <paramref name="database"/>; returns its exit code.</summary>
@@ -66,6 +68,13 @@ public sealed class DailyImportTests(PostgresFixture postgres)
             Assert.True(await db.Evolutions.AnyAsync(e => e.FromFormId == "eevee" && e.ToFormId == "espeon" && e.TimeOfDay == "day", Ct));
             Assert.True(await db.PvpRankings.AnyAsync(Ct));
             Assert.Equal(101, await db.CpMultipliers.CountAsync(Ct));
+
+            // Portuguese names from the game text (E02-F02).
+            Assert.Equal("Mega Charizard X", (await db.Forms.SingleAsync(form => form.Id == "charizard_mega_x", Ct)).NamePt);
+            Assert.Equal("Vulpix de Alola", (await db.Forms.SingleAsync(form => form.Id == "vulpix_alolan", Ct)).NamePt);
+            Assert.Equal("Chama Furacão", (await db.Moves.SingleAsync(move => move.Id == "FIRE_SPIN", Ct)).NamePt);
+            Assert.Equal("Fada", (await db.Types.SingleAsync(type => type.Id == "fairy", Ct)).NamePt);
+            Assert.False(await db.Species.AnyAsync(species => species.NamePt == null, Ct));
         }
 
         var run = Assert.Single(await RunsAsync(database));
@@ -95,6 +104,26 @@ public sealed class DailyImportTests(PostgresFixture postgres)
         Assert.Equal(3, runs.Count);
         Assert.True(ImportSummary.TryParse(runs[1].Summary)!.Unchanged);
         Assert.All(ImportSummary.TryParse(runs[2].Summary)!.Changes.Values, kind => Assert.Equal(0, kind.Total));
+    }
+
+    [Fact]
+    public async Task WithoutTheGameText_TheImportSucceeds_AndKeepsThePortugueseNames()
+    {
+        var database = await postgres.CreateDatabaseAsync(Ct);
+        await RunJobAsync(database);
+
+        var noText = Sources();
+        noText.Remove(_defaults.GameTextUrl.AbsoluteUri);
+        Assert.Equal(0, await RunJobAsync(database, noText, "--APP_VERSION=next"));
+
+        var run = (await RunsAsync(database))[^1];
+        Assert.Equal(JobStatus.Succeeded, run.Status);
+        var summary = ImportSummary.TryParse(run.Summary)!;
+        Assert.Contains(summary.Warnings, warning => warning.StartsWith("Portuguese names not updated", StringComparison.Ordinal));
+        Assert.All(summary.Changes.Values, kind => Assert.Equal(0, kind.Total));
+        await using var db = PostgresFixture.CreateContext(database);
+        Assert.Equal("Chama Furacão", (await db.Moves.SingleAsync(move => move.Id == "FIRE_SPIN", Ct)).NamePt);
+        Assert.Equal("Mega Charizard X", (await db.Forms.SingleAsync(form => form.Id == "charizard_mega_x", Ct)).NamePt);
     }
 
     [Fact]

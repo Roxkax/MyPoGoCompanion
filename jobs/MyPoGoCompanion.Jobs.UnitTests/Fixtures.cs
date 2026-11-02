@@ -18,7 +18,11 @@ internal static class Fixtures
         File("pvpoke-rankings-1500.json", "PvPoke Great League rankings"),
         File("pvpoke-rankings-2500.json", "PvPoke Ultra League rankings"),
         File("pvpoke-rankings-10000.json", "PvPoke Master League rankings"),
-        File("GAME_MASTER.json", "Game master"));
+        File("GAME_MASTER.json", "Game master"),
+        File("game-text-pt-br.json", "Portuguese game text"),
+        File("game-text-pt-br-remote.json", "Portuguese game text (server update)"));
+
+    private static readonly DailyImportOptions _defaults = new();
 
     private static ImportedGameData? _built;
 
@@ -28,6 +32,8 @@ internal static class Fixtures
     /// <summary>Answers each source address with its fixture file, as raw.githubusercontent.com would.</summary>
     public static Dictionary<string, Func<HttpResponseMessage>> Responses(Uri pvpokeBase, Uri gameMaster) => new()
     {
+        [_defaults.GameTextUrl.AbsoluteUri] = () => Ok("game-text-pt-br.json"),
+        [_defaults.GameTextRemoteUrl.AbsoluteUri] = () => Ok("game-text-pt-br-remote.json"),
         [new Uri(pvpokeBase, "data/gamemaster.json").AbsoluteUri] = () => Ok("pvpoke-gamemaster.json"),
         [new Uri(pvpokeBase, "js/pokemon/Pokemon.js").AbsoluteUri] = () => Ok("pvpoke-Pokemon.js"),
         [new Uri(pvpokeBase, "data/rankings/all/overall/rankings-1500.json").AbsoluteUri] = () => Ok("pvpoke-rankings-1500.json"),

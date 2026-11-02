@@ -5,7 +5,8 @@ namespace MyPoGoCompanion.Jobs.DailyImport;
 /// <summary>
 /// The English text for what an evolution needs beyond candy, an item, a buddy distance, a time of day, a lure or a
 /// gender (those have their own columns): its special task ("Win 10 raids"), full moon, dusk, phone upside down, a
-/// move it must know, and how many of an item it uses. Portuguese comes with the game text (E02-F02).
+/// move it must know, and how many of an item it uses. There is no Portuguese version yet (the game text names things,
+/// it doesn't describe these steps), so the app shows this English text.
 /// </summary>
 public static class EvolutionTask
 {

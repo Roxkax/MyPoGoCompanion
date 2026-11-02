@@ -11,17 +11,26 @@ public sealed record SourceFile(string Name, Uri Url, byte[] Content)
     public string Sha256 { get; } = Convert.ToHexStringLower(SHA256.HashData(Content));
 }
 
-/// <summary>Every file one import reads.</summary>
+/// <summary>
+/// Every file one import reads. The game text is optional (decision 2026-11-02): when it can't be downloaded the
+/// import goes on, keeps the Portuguese names it has and says why in <see cref="GameTextProblems"/>.
+/// </summary>
 public sealed record SourceFiles(
     SourceFile PvpokeGameMaster,
     SourceFile CpMultipliers,
     SourceFile RankingsGreat,
     SourceFile RankingsUltra,
     SourceFile RankingsMaster,
-    SourceFile GameMaster)
+    SourceFile GameMaster,
+    SourceFile? GameText = null,
+    SourceFile? GameTextRemote = null)
 {
+    /// <summary>Why a game text file is missing, in plain words (becomes a run log warning).</summary>
+    public IReadOnlyList<string> GameTextProblems { get; init; } = [];
+
     public IEnumerable<SourceFile> All =>
-        [PvpokeGameMaster, CpMultipliers, RankingsGreat, RankingsUltra, RankingsMaster, GameMaster];
+        new[] { PvpokeGameMaster, CpMultipliers, RankingsGreat, RankingsUltra, RankingsMaster, GameMaster, GameText, GameTextRemote }
+            .OfType<SourceFile>();
 }
 
 /// <summary>Downloads the sources over HTTPS, retrying failures that may be temporary.</summary>
@@ -34,14 +43,33 @@ public sealed partial class SourceDownloader(HttpClient http, IOptions<DailyImpo
     public async Task<SourceFiles> DownloadAllAsync(CancellationToken cancellationToken)
     {
         var pvpoke = _options.PvpokeBaseUrl;
-        // One after the other: six files, and GitHub prefers polite clients.
-        return new SourceFiles(
-            await DownloadAsync("PvPoke game master", new Uri(pvpoke, "data/gamemaster.json"), cancellationToken),
-            await DownloadAsync("PvPoke CP multipliers", new Uri(pvpoke, "js/pokemon/Pokemon.js"), cancellationToken),
-            await DownloadAsync("PvPoke Great League rankings", new Uri(pvpoke, "data/rankings/all/overall/rankings-1500.json"), cancellationToken),
-            await DownloadAsync("PvPoke Ultra League rankings", new Uri(pvpoke, "data/rankings/all/overall/rankings-2500.json"), cancellationToken),
-            await DownloadAsync("PvPoke Master League rankings", new Uri(pvpoke, "data/rankings/all/overall/rankings-10000.json"), cancellationToken),
-            await DownloadAsync("Game master", _options.GameMasterUrl, cancellationToken));
+        // One after the other: eight files, and GitHub prefers polite clients.
+        var pvpokeGameMaster = await DownloadAsync("PvPoke game master", new Uri(pvpoke, "data/gamemaster.json"), cancellationToken);
+        var multipliers = await DownloadAsync("PvPoke CP multipliers", new Uri(pvpoke, "js/pokemon/Pokemon.js"), cancellationToken);
+        var great = await DownloadAsync("PvPoke Great League rankings", new Uri(pvpoke, "data/rankings/all/overall/rankings-1500.json"), cancellationToken);
+        var ultra = await DownloadAsync("PvPoke Ultra League rankings", new Uri(pvpoke, "data/rankings/all/overall/rankings-2500.json"), cancellationToken);
+        var master = await DownloadAsync("PvPoke Master League rankings", new Uri(pvpoke, "data/rankings/all/overall/rankings-10000.json"), cancellationToken);
+        var gameMaster = await DownloadAsync("Game master", _options.GameMasterUrl, cancellationToken);
+
+        // The Portuguese names are not worth failing the import for: a missing text file is a warning.
+        var problems = new List<string>();
+        var text = await TryDownloadAsync("Portuguese game text", _options.GameTextUrl, problems, cancellationToken);
+        var remote = text is null ? null
+            : await TryDownloadAsync("Portuguese game text (server update)", _options.GameTextRemoteUrl, problems, cancellationToken);
+        return new SourceFiles(pvpokeGameMaster, multipliers, great, ultra, master, gameMaster, text, remote) { GameTextProblems = problems };
+    }
+
+    private async Task<SourceFile?> TryDownloadAsync(string name, Uri url, List<string> problems, CancellationToken cancellationToken)
+    {
+        try
+        {
+            return await DownloadAsync(name, url, cancellationToken);
+        }
+        catch (ImportException exception)
+        {
+            problems.Add(exception.Message);
+            return null;
+        }
     }
 
     public async Task<SourceFile> DownloadAsync(string name, Uri url, CancellationToken cancellationToken)
