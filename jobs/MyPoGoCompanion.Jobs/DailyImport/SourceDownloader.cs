@@ -81,7 +81,8 @@ public sealed partial class SourceDownloader(HttpClient http, IOptions<DailyImpo
 
             if (attempt >= attempts)
             {
-                throw new ImportException($"Couldn't download the {name} ({url}): {problem}, {attempts} times.");
+                var tries = attempts == 1 ? "on the only try" : $"{attempts} times";
+                throw new ImportException($"Couldn't download the {name} ({url}): {problem}, {tries}.");
             }
 
             LogRetrying(name, problem, delay.TotalSeconds);

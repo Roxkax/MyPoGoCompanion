@@ -37,7 +37,11 @@ public class JobRun
 
     public DateTimeOffset? FinishedAt { get; set; }
 
-    /// <summary>What changed, as counts per kind (JSON), e.g. <c>{"forms": 3, "moves": 1}</c>.</summary>
+    /// <summary>
+    /// What the run did (JSON). The daily import writes what started it, its version, each source file's fingerprint,
+    /// <c>changes</c> per kind (<c>{"forms": {"added": 3, "changed": 1, "removed": 0}, …}</c>) and its warnings
+    /// (docs/DAILY-IMPORT.md).
+    /// </summary>
     public string? Summary { get; set; }
 
     /// <summary>Why it failed, in plain words.</summary>

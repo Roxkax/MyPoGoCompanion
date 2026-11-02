@@ -92,7 +92,7 @@ public sealed class SourceDownloaderTests
             Downloader(http, new DailyImportOptions { RetryDelay = TimeSpan.Zero, DownloadAttempts = 1, DownloadTimeout = TimeSpan.FromMilliseconds(50) })
                 .DownloadAsync("Game master", new Uri("https://example.test/x"), Ct));
 
-        Assert.Contains("no answer within 0 seconds, 1 times", exception.Message, StringComparison.Ordinal);
+        Assert.Contains("no answer within 0 seconds, on the only try", exception.Message, StringComparison.Ordinal);
     }
 
     [Fact]

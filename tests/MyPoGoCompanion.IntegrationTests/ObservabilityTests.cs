@@ -17,8 +17,10 @@ namespace MyPoGoCompanion.IntegrationTests;
 /// <summary>
 /// Telemetry from the real API on a real database (E01-F08): with Application Insights configured, every request and
 /// log goes out without personal data, signed-in requests carry only the user's random id, and the web app's error
-/// reports arrive with their reference. What would be sent is caught just before the exporter.
+/// reports arrive with their reference. What would be sent is caught just before the exporter. Runs on its own: the
+/// capture listens to the whole process, so requests from tests running alongside would show up in it.
 /// </summary>
+[Collection(nameof(ObservabilityTests))]
 public sealed class ObservabilityTests(PostgresFixture postgres)
 {
     private const string Callback = ApiFactory.WebOrigin + "/auth/callback";
@@ -154,3 +156,7 @@ public sealed class ObservabilityTests(PostgresFixture postgres)
         public override void OnEnd(T data) => onEnd(data);
     }
 }
+
+/// <summary>The telemetry tests run after the others, never alongside them.</summary>
+[CollectionDefinition(nameof(ObservabilityTests), DisableParallelization = true)]
+public sealed class ObservabilityTestsRunAlone;

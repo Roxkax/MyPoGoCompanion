@@ -1,6 +1,7 @@
 # Prod deploy (E00-F08, planning/CI-CD.md): every merge to main goes to prod.
-# API image → GitHub Container Registry; migrations → Neon "main" branch; API → container app api-prod; web app →
-# Static Web Apps production; then the smoke test against prod. After a good deploy the Neon "qa" branch is reset to
+# API and jobs images → GitHub Container Registry; migrations → Neon "main" branch; API → container app api-prod;
+# web app → Static Web Apps production; the daily import job → job-import-prod (every day at 06:00 UTC), run once
+# straight away when the import's code changed or the job is new (docs/DAILY-IMPORT.md); then the smoke test. After a good deploy the Neon "qa" branch is reset to
 # a fresh copy of prod, and the PR QA was showing is deployed again on top of it. A failure opens (or adds to) an
 # issue "Prod deploy failed" assigned to the owner; the next good deploy closes it.
 #
@@ -31,10 +32,14 @@ concurrency:
 env:
   RESOURCE_GROUP: rg-mypogocompanion
   API_APP: api-prod
+  IMPORT_JOB: job-import-prod
+  # The daily import's schedule (UTC: 06:00 in Lisbon in winter, 07:00 in summer).
+  IMPORT_SCHEDULE: '0 6 * * *'
   QA_API_APP: api-qa
   STATIC_WEB_APP: swa-mypogocompanion
   # GitHub Container Registry names must be lowercase.
   IMAGE: ghcr.io/roxkax/mypogocompanion-api
+  JOBS_IMAGE: ghcr.io/roxkax/mypogocompanion-jobs
   DOTNET_NOLOGO: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
 
@@ -50,6 +55,7 @@ jobs:
       deploy: ${{ steps.check.outputs.deploy }}
       sha: ${{ steps.check.outputs.sha }}
       rollback: ${{ steps.check.outputs.rollback }}
+      import: ${{ steps.check.outputs.import }}
     steps:
       - name: Compare with what prod runs
         id: check
@@ -58,8 +64,9 @@ jobs:
           EVENT: ${{ github.event_name }}
           COMMIT: ${{ inputs.commit }}
         run: |
+          # import: whether the daily import's code (the job or the schema) changed, so it runs once after the deploy.
           decide() {
-            { echo "deploy=$1"; echo "sha=${2:-$GITHUB_SHA}"; echo "rollback=${4:-false}"; } >> "$GITHUB_OUTPUT"
+            { echo "deploy=$1"; echo "sha=${2:-$GITHUB_SHA}"; echo "rollback=${4:-false}"; echo "import=${5:-false}"; } >> "$GITHUB_OUTPUT"
             echo "$3" | tee -a "$GITHUB_STEP_SUMMARY"
             exit 0
           }
@@ -92,16 +99,18 @@ jobs:
               break
             fi
           done
-          [[ -z $prod ]] && decide true "$GITHUB_SHA" "No successful prod deploy found: deploying ${GITHUB_SHA:0:7}."
+          [[ -z $prod ]] && decide true "$GITHUB_SHA" "No successful prod deploy found: deploying ${GITHUB_SHA:0:7}." false true
 
           json=$(gh api "repos/$GITHUB_REPOSITORY/compare/$prod...$GITHUB_SHA") \
             || decide true "$GITHUB_SHA" "Couldn't compare with ${prod:0:7}: deploying."
           count=$(jq '.files | length' <<<"$json")
           # GitHub lists at most 300 files; none listed means the same commit again, which is deployed again.
-          ((count > 0 && count < 300)) || decide true "$GITHUB_SHA" "$count changed files since ${prod:0:7}: deploying."
+          ((count > 0 && count < 300)) || decide true "$GITHUB_SHA" "$count changed files since ${prod:0:7}: deploying." false true
           notes='(^|/)[^/]+\.md$|^(docs|planning|design)/'
           code=$(jq -r '.files[].filename' <<<"$json" | grep -vE "$notes" || true)
-          [[ -n $code ]] && decide true "$GITHUB_SHA" "Changes since ${prod:0:7} (what prod runs) beyond notes: deploying."
+          import=false
+          grep -qE '^(jobs/MyPoGoCompanion\.Jobs|api/MyPoGoCompanion\.Data)/' <<<"$code" && import=true
+          [[ -n $code ]] && decide true "$GITHUB_SHA" "Changes since ${prod:0:7} (what prod runs) beyond notes: deploying (import code changed: $import)." false "$import"
           decide false "$GITHUB_SHA" "Only notes changed since ${prod:0:7} (Markdown, docs/, planning/, design/): prod deploy skipped."
 
   deploy-prod:
@@ -115,7 +124,7 @@ jobs:
       url: ${{ steps.addresses.outputs.web-url }}
     permissions:
       contents: read
-      packages: write # push the API image
+      packages: write # push the API and jobs images
       id-token: write # OIDC sign-in to Azure
     outputs:
       version: ${{ steps.commit.outputs.version }}
@@ -169,6 +178,37 @@ jobs:
             org.opencontainers.image.revision=${{ needs.changes.outputs.sha }}
           cache-from: type=gha,scope=api
           cache-to: type=gha,scope=api,mode=max
+
+      - name: Is the jobs image already built?
+        # A commit from before the jobs existed (a rollback) has none: the job keeps the image it has.
+        id: jobs-image
+        env:
+          TAG: ${{ env.JOBS_IMAGE }}:${{ needs.changes.outputs.sha }}
+        run: |
+          if [[ ! -f jobs/MyPoGoCompanion.Jobs/Dockerfile ]]; then
+            echo "deploy=false" >> "$GITHUB_OUTPUT"
+            echo "This commit has no jobs: job-import-prod is left as it is."
+          elif docker buildx imagetools inspect "$TAG" >/dev/null 2>&1; then
+            { echo "deploy=true"; echo "exists=true"; } >> "$GITHUB_OUTPUT"
+            echo "Reusing $TAG"
+          else
+            { echo "deploy=true"; echo "exists=false"; } >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build and push the jobs image
+        if: steps.jobs-image.outputs.deploy == 'true' && steps.jobs-image.outputs.exists != 'true'
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: jobs/MyPoGoCompanion.Jobs/Dockerfile
+          build-args: VERSION=${{ steps.commit.outputs.version }}
+          push: true
+          tags: ${{ env.JOBS_IMAGE }}:${{ needs.changes.outputs.sha }}
+          labels: |
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            org.opencontainers.image.revision=${{ needs.changes.outputs.sha }}
+          cache-from: type=gha,scope=jobs
+          cache-to: type=gha,scope=jobs,mode=max
 
       # --- Database migrations --------------------------------------------------------------------------------
       # Before the new API starts, so it finds the tables it expects. Migrations must keep the running version
@@ -271,6 +311,30 @@ jobs:
           WEB_URL: ${{ steps.addresses.outputs.web-url }}
           EXPECTED_VERSION: ${{ steps.commit.outputs.version }}
         run: tests/smoke/smoke.sh
+
+      # --- Daily import (docs/DAILY-IMPORT.md) --------------------------------------------------------------------
+      - name: Deploy the daily import job to job-import-prod
+        id: job
+        if: steps.jobs-image.outputs.deploy == 'true'
+        env:
+          JOB_NAME: ${{ env.IMPORT_JOB }}
+          IMAGE_TAG: ${{ env.JOBS_IMAGE }}:${{ needs.changes.outputs.sha }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          SCHEDULE: ${{ env.IMPORT_SCHEDULE }}
+          TRIGGER: schedule
+        run: workflow-scripts/.github/scripts/deploy_job.sh
+
+      - name: Run the daily import now
+        # When the import's code or the schema changed, or the job is new: prod gets the new data straight away
+        # instead of at the next 06:00 run (and the QA reset below copies it to QA).
+        if: >-
+          steps.jobs-image.outputs.deploy == 'true' && needs.changes.outputs.rollback != 'true' &&
+          (needs.changes.outputs.import == 'true' || steps.job.outputs.created == 'true')
+        env:
+          JOB_NAME: ${{ env.IMPORT_JOB }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          TRIGGER: deploy
+        run: workflow-scripts/.github/scripts/run_import.sh
 
       - name: Summary
         env:
