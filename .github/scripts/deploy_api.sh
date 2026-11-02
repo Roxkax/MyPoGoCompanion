@@ -6,6 +6,8 @@
 # and everything else works: GOOGLE_CLIENT_ID (variable), GOOGLE_CLIENT_SECRET and AUTH_SIGNING_KEY (secrets),
 # SUPER_ADMIN_EMAIL (variable). Setup: docs/SIGN-IN.md.
 # API_DOCS=true serves the interactive API docs page at /docs (QA only; always set, so prod stays off: docs/API.md).
+# Telemetry (E01-F08): the copy's Application Insights (appi-mypogocompanion-<qa|prod>) is created here if it's
+# missing, from infra/monitoring.bicep next to this script's repository, and its connection string passed to the API.
 set -euo pipefail
 
 : "${RESOURCE_GROUP:?}" "${API_APP:?}" "${IMAGE_TAG:?}" "${DATABASE_URL:?}" "${WEB_ORIGIN:?}"
@@ -30,6 +32,21 @@ if [[ -n "${SUPER_ADMIN_EMAIL:-}" ]]; then
   settings+=("Auth__SuperAdminEmail=$SUPER_ADMIN_EMAIL")
 else
   echo "::warning::No SUPER_ADMIN_EMAIL variable: nobody is super admin in this environment. See docs/SIGN-IN.md."
+fi
+
+# Application Insights for this copy. Telemetry isn't worth a failed deploy: without it the API still runs and logs
+# to the console (docs/OBSERVABILITY.md).
+copy="${API_APP#api-}"
+monitoring_template="$(cd "$(dirname "$0")/../.." && pwd)/infra/monitoring.bicep"
+if insights=$(az deployment group create -g "$RESOURCE_GROUP" -n "monitoring-$copy" --template-file "$monitoring_template" \
+  --parameters "{\"environments\": {\"value\": [\"$copy\"]}}" \
+  --query 'properties.outputs.connectionStrings.value[0]' -o tsv --only-show-errors) && [[ -n $insights ]]; then
+  echo "::add-mask::$insights"
+  secrets+=("appinsights-connection=$insights")
+  settings+=("APPLICATIONINSIGHTS_CONNECTION_STRING=secretref:appinsights-connection")
+  echo "Telemetry: Application Insights appi-mypogocompanion-$copy."
+else
+  echo "::warning::Couldn't set up Application Insights for $copy (error above): the API runs without telemetry. See docs/OBSERVABILITY.md."
 fi
 
 az containerapp secret set -g "$RESOURCE_GROUP" -n "$API_APP" --secrets "${secrets[@]}" --only-show-errors -o none

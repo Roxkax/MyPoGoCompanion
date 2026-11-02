@@ -4,6 +4,8 @@
     <Project Path="api/MyPoGoCompanion.Api/MyPoGoCompanion.Api.csproj" />
     <Project Path="api/MyPoGoCompanion.Data.UnitTests/MyPoGoCompanion.Data.UnitTests.csproj" />
     <Project Path="api/MyPoGoCompanion.Data/MyPoGoCompanion.Data.csproj" />
+    <Project Path="api/MyPoGoCompanion.Observability.UnitTests/MyPoGoCompanion.Observability.UnitTests.csproj" />
+    <Project Path="api/MyPoGoCompanion.Observability/MyPoGoCompanion.Observability.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/MyPoGoCompanion.GoldenFiles.UnitTests/MyPoGoCompanion.GoldenFiles.UnitTests.csproj" />

@@ -156,6 +156,12 @@ public sealed partial class OpenApiTests(PostgresFixture postgres)
         // Health and data freshness, then signing out
         await Call(client, HttpMethod.Get, "/health");
         await Call(client, HttpMethod.Get, "/freshness");
+
+        // Web app error reports
+        await Call(client, HttpMethod.Post, "/client-errors",
+            new { reference = "7f3a2c91", kind = "Screen", message = "Boom", stack = "at X", path = "/pokedex", appVersion = "test" });
+        await Call(client, HttpMethod.Post, "/client-errors",
+            new { reference = (string?)null, kind = (string?)null, message = "", stack = (string?)null, path = (string?)null, appVersion = (string?)null });
         await Call(client, HttpMethod.Post, "/auth/sign-out-everywhere");
         await Call(client, HttpMethod.Post, "/auth/sign-out-everywhere", token: owner.AccessToken);
         await Call(client, HttpMethod.Post, "/auth/sign-out", new { refreshToken = misty.RefreshToken });

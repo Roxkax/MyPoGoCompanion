@@ -6,14 +6,14 @@ A free companion for Pokémon GO players: a shared API, a web app and, later, na
 
 | Folder | What it holds |
 |---|---|
-| `api/` | ASP.NET Core (.NET 10) API, domain/calculation engine and EF Core data layer, with their unit tests |
+| `api/` | ASP.NET Core (.NET 10) API, domain/calculation engine, EF Core data layer and shared telemetry (`MyPoGoCompanion.Observability`), with their unit tests |
 | `jobs/` | Scheduled Azure Container Apps Jobs (daily import, weekly AI researcher, backups) |
 | `web/` | React + TypeScript web app (Vite, installable PWA) |
 | `tests/` | Integration tests (Testcontainers), UI tests (Playwright) and golden files |
 | `design/` | App map, screen designs and their sources |
 | `planning/` | Plan, specs, priorities, backlog and CI/CD decisions |
-| `infra/` | Azure template (`main.bicep`) for prod and QA; setup steps in `docs/SETUP-ENVIRONMENTS.md` |
-| `docs/` | Database, environment setup, prod deploy, branch rules, planning process and the keeper-filters methodology |
+| `infra/` | Azure templates (`main.bicep`, `monitoring.bicep`) for prod and QA; setup steps in `docs/SETUP-ENVIRONMENTS.md` |
+| `docs/` | Database, environment setup, prod deploy, observability and errors, branch rules, planning process and the keeper-filters methodology |
 | `legacy/keeper-filters/` | The original Python pipeline and its single-page output. Kept until the app's filters replace it (see `docs/KEEPER-FILTERS.md`) |
 | `.github/` | GitHub Actions workflows, the `main` ruleset, Dependabot and the PR template (`docs/BRANCH-RULES.md`) |
 

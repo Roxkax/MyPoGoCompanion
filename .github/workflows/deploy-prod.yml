@@ -220,12 +220,14 @@ jobs:
           echo "previous-image=$previous" >> "$GITHUB_OUTPUT"
           echo "Prod ran \`$previous\` before this deploy." >> "$GITHUB_STEP_SUMMARY"
 
-      # The deploy script comes from this workflow's own commit, so a rollback to an older commit (which may not have
-      # it, or has an older one) still deploys with today's settings.
+      # The deploy script (and the monitoring template it uses) come from this workflow's own commit, so a rollback to
+      # an older commit (which may not have them, or has older ones) still deploys with today's settings.
       - uses: actions/checkout@v7
         with:
           ref: ${{ github.sha }}
-          sparse-checkout: .github/scripts
+          sparse-checkout: |
+            .github/scripts
+            infra
           path: workflow-scripts
 
       - name: Deploy the API to api-prod

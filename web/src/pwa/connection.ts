@@ -1,10 +1,12 @@
 import type { Middleware } from 'openapi-fetch'
+import { apiBaseUrl } from '../api/client'
 
-// Whether the device has a connection, for the "You're offline" screen (H3, E01-F06). The app shows it when the
-// browser says it's offline, or when a request to the API fails and even the app's own site can't be reached. If the
-// site answers, the internet works and only the API is in trouble: that's an API error, not "offline" (E01-F08).
-// While offline it checks again every few seconds, when the browser says it's back and on Try again; once the site
-// answers it reloads the app, which then gets everything fresh (decision 2026-11-01).
+// Whether the device has a connection, for the "You're offline" screen (H3, E01-F06), and whether the API answers,
+// for "MyPoGoCompanion isn't answering" (E01-F08). The app shows "offline" when the browser says it's offline, or when
+// a request to the API fails and even the app's own site can't be reached. If the site answers but the API's liveness
+// check doesn't, the internet works and only the API is in trouble: the API screen. While either shows, the app
+// checks again every few seconds, when the browser says it's back and on Try again; once everything answers it
+// reloads the app, which then gets everything fresh (decisions 2026-11-01 and 2026-11-02).
 
 /** An address on the app's own site. Any answer at all (even "not found") means there is a connection. */
 export const onlineCheckPath = '/online-check'
@@ -18,12 +20,19 @@ export const checkTimeoutMs = 5_000
 /** At most one check every this often after failed API requests (an API that is down fails every request). */
 export const errorCheckGapMs = 5_000
 
+/** The API's liveness check: answers as long as the API runs, without touching the database. */
+export const apiCheckPath = '/health/live'
+
 export interface ConnectionState {
   offline: boolean
+  /** The internet works but the API doesn't answer. */
+  apiDown: boolean
   /** A check is running (Try again shows "Checking…"). */
   checking: boolean
-  /** Try again found no connection. */
-  stillOffline: boolean
+  /** Try again found the same problem (still offline, or the API still not answering). */
+  stillFailing: boolean
+  /** While the API is down: the failed answer's reference, when it had one (no answer at all has none). */
+  reference: string | null
 }
 
 /** Asks the app's own site for anything, bypassing every cache: true when it answers. */
@@ -48,6 +57,27 @@ export async function reachesSite(
   }
 }
 
+/** Asks the API's liveness check, bypassing every cache: true only for a good answer. */
+export async function reachesApi(
+  fetchApi: typeof fetch = (...args) => globalThis.fetch(...args),
+  baseUrl: string = apiBaseUrl(),
+  timeoutMs: number = checkTimeoutMs,
+): Promise<boolean> {
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), timeoutMs)
+  try {
+    const response = await fetchApi(`${baseUrl}${apiCheckPath}`, {
+      cache: 'no-store',
+      signal: controller.signal,
+    })
+    return response.ok
+  } catch {
+    return false
+  } finally {
+    clearTimeout(timer)
+  }
+}
+
 type Listener = () => void
 
 export interface ConnectionEnvironment {
@@ -59,7 +89,10 @@ export interface ConnectionEnvironment {
 
 export interface ConnectionOptions {
   environment?: ConnectionEnvironment
+  /** Whether the app's own site answers (the internet works). */
   check?: () => Promise<boolean>
+  /** Whether the API answers. */
+  checkApi?: () => Promise<boolean>
   reload?: () => void
   now?: () => number
 }
@@ -69,6 +102,7 @@ export class ConnectionWatch {
   private readonly listeners = new Set<Listener>()
   private readonly environment: ConnectionEnvironment
   private readonly checkSite: () => Promise<boolean>
+  private readonly checkApi: () => Promise<boolean>
   private readonly reload: () => void
   private readonly now: () => number
   private retry: ReturnType<typeof setInterval> | undefined
@@ -77,12 +111,15 @@ export class ConnectionWatch {
   constructor(options: ConnectionOptions = {}) {
     this.environment = options.environment ?? (window as unknown as ConnectionEnvironment)
     this.checkSite = options.check ?? (() => reachesSite())
+    this.checkApi = options.checkApi ?? (() => reachesApi())
     this.reload = options.reload ?? (() => window.location.reload())
     this.now = options.now ?? Date.now
     this.state = {
       offline: !this.environment.navigator.onLine,
+      apiDown: false,
       checking: false,
-      stillOffline: false,
+      stillFailing: false,
+      reference: null,
     }
   }
 
@@ -99,7 +136,7 @@ export class ConnectionWatch {
     const onOffline = () => this.goOffline(false)
     const onOnline = () => void this.check()
     const onVisible = () => {
-      if (this.state.offline && environment.document.visibilityState === 'visible') {
+      if (this.failing() && environment.document.visibilityState === 'visible') {
         void this.check()
       }
     }
@@ -117,21 +154,45 @@ export class ConnectionWatch {
     }
   }
 
-  /** A request couldn't reach the API at all: find out whether the connection is gone. */
-  reportNetworkError(): void {
-    if (this.state.offline || this.state.checking) {
+  /**
+   * A request got no answer at all (or the gateway's "bad gateway" / "unavailable" / "timed out"): find out whether the
+   * connection is gone or only the API. `reference` is the failed answer's, when it had one.
+   */
+  reportNetworkError(reference: string | null = null): void {
+    if (this.failing() || this.state.checking) {
       return
     }
     if (this.now() - this.lastErrorCheck < errorCheckGapMs) {
       return
     }
     this.lastErrorCheck = this.now()
-    void this.check()
+    void this.diagnose(reference)
   }
 
-  /** Try again on the offline screen. */
+  /** Try again on the offline or API screen. */
   tryAgain(): Promise<void> {
     return this.check(true)
+  }
+
+  /** QA and local copies only (`?fail=api`): shows the API screen as if the API had stopped answering. */
+  pretendApiDown(reference: string | null = null): void {
+    this.goApiDown(reference, false)
+  }
+
+  private failing(): boolean {
+    return this.state.offline || this.state.apiDown
+  }
+
+  /** After a failed request: is it the connection, the API, or neither (a one-off)? */
+  private async diagnose(reference: string | null): Promise<void> {
+    this.update({ checking: true })
+    if (!(await this.checkSite())) {
+      this.goOffline(false)
+    } else if (!(await this.checkApi())) {
+      this.goApiDown(reference, false)
+    } else {
+      this.update({ checking: false })
+    }
   }
 
   private async check(byHand = false): Promise<void> {
@@ -139,11 +200,12 @@ export class ConnectionWatch {
       return
     }
     this.update({ checking: true })
-    const connected = await this.checkSite()
-    if (!connected) {
+    if (!(await this.checkSite())) {
       this.goOffline(byHand)
-    } else if (this.state.offline) {
-      // Back online: the app starts again with everything fresh. Stays "checking" until the page goes.
+    } else if (this.state.apiDown && !(await this.checkApi())) {
+      this.goApiDown(this.state.reference, byHand)
+    } else if (this.failing()) {
+      // Back: the app starts again with everything fresh. Stays "checking" until the page goes.
       this.stopChecking()
       this.reload()
     } else {
@@ -152,7 +214,18 @@ export class ConnectionWatch {
   }
 
   private goOffline(byHand: boolean): void {
-    this.update({ offline: true, checking: false, stillOffline: byHand })
+    this.update({
+      offline: true,
+      apiDown: false,
+      checking: false,
+      stillFailing: byHand,
+      reference: null,
+    })
+    this.keepChecking()
+  }
+
+  private goApiDown(reference: string | null, byHand: boolean): void {
+    this.update({ offline: false, apiDown: true, checking: false, stillFailing: byHand, reference })
     this.keepChecking()
   }
 
@@ -171,11 +244,32 @@ export class ConnectionWatch {
   }
 }
 
-/** Tells the watch when an API request fails without any answer (fetch throws a TypeError: no connection, DNS…). */
+/** Answers that come from Azure's gateway rather than the API itself: the API isn't running or answering. */
+export function isGatewayTrouble(response: Response): boolean {
+  if (response.status === 502 || response.status === 504) {
+    return true
+  }
+  // The API's own 503 (e.g. "sign-in isn't set up") is problem details; the gateway's isn't.
+  return (
+    response.status === 503 &&
+    !(response.headers.get('Content-Type') ?? '').includes('application/problem+json')
+  )
+}
+
+/**
+ * Tells the watch when an API request fails without any answer (fetch throws a TypeError: no connection, DNS, CORS…)
+ * or the gateway answers instead of the API.
+ */
 export function connectionMiddleware(
   watch: Pick<ConnectionWatch, 'reportNetworkError'>,
 ): Middleware {
   return {
+    onResponse({ response }) {
+      if (isGatewayTrouble(response)) {
+        watch.reportNetworkError()
+      }
+      return undefined
+    },
     onError({ error }) {
       if (error instanceof TypeError) {
         watch.reportNetworkError()
