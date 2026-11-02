@@ -183,7 +183,7 @@ jobs:
         with:
           global-json-file: global.json
 
-      - uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@v8
         # Missing when a job failed before its tests; the summary says so.
         continue-on-error: true
         with:
