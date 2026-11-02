@@ -138,6 +138,27 @@
         ]
       }
     },
+    "/freshness": {
+      "get": {
+        "tags": [
+          "Data"
+        ],
+        "summary": "Whether game data (daily) and raids and events (weekly) are up to date, for the out-of-date warning.",
+        "operationId": "GetFreshness",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FreshnessResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/auth/google/client": {
       "get": {
         "tags": [
@@ -661,6 +682,51 @@
         },
         "description": "A user as the super admin sees them in Users and roles."
       },
+      "DataFreshness": {
+        "examples": [
+          {
+            "lastUpdatedAt": "2026-10-15T18:00:00+00:00",
+            "daysSinceUpdate": 12,
+            "outOfDate": true,
+            "limitDays": 9
+          }
+        ],
+        "required": [
+          "lastUpdatedAt",
+          "daysSinceUpdate",
+          "outOfDate",
+          "limitDays"
+        ],
+        "type": "object",
+        "properties": {
+          "lastUpdatedAt": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "When the last successful run finished; null when it has never run.",
+            "format": "date-time"
+          },
+          "daysSinceUpdate": {
+            "type": [
+              "null",
+              "integer"
+            ],
+            "description": "Whole days since then; null when it has never run.",
+            "format": "int32"
+          },
+          "outOfDate": {
+            "type": "boolean",
+            "description": "True once DaysSinceUpdate reaches the limit for this kind (3 days for game data, 9 for raids and\nevents). Never true for data that has never been updated: there is nothing to be out of date."
+          },
+          "limitDays": {
+            "type": "integer",
+            "description": "The limit for this kind, in days.",
+            "format": "int32"
+          }
+        },
+        "description": "When one kind of data was last updated, and whether the app should warn that it is out of date."
+      },
       "EffectiveRole": {
         "enum": [
           "User",
@@ -669,6 +735,40 @@
         ],
         "type": "string",
         "description": "What a user may do: the stored role, or super admin when their email is the configured one."
+      },
+      "FreshnessResponse": {
+        "examples": [
+          {
+            "gameData": {
+              "lastUpdatedAt": "2026-10-27T06:04:00+00:00",
+              "daysSinceUpdate": 0,
+              "outOfDate": false,
+              "limitDays": 3
+            },
+            "liveData": {
+              "lastUpdatedAt": "2026-10-15T18:00:00+00:00",
+              "daysSinceUpdate": 12,
+              "outOfDate": true,
+              "limitDays": 9
+            }
+          }
+        ],
+        "required": [
+          "gameData",
+          "liveData"
+        ],
+        "type": "object",
+        "properties": {
+          "gameData": {
+            "description": "Pokédex, moves, tier lists, filters: updated by the daily import.",
+            "$ref": "#/components/schemas/DataFreshness"
+          },
+          "liveData": {
+            "description": "Raid bosses, Max Battles, events, eggs and research: updated by the weekly AI researcher.",
+            "$ref": "#/components/schemas/DataFreshness"
+          }
+        },
+        "description": "How up to date the app's data is, per kind of data."
       },
       "GoogleClientResponse": {
         "examples": [
@@ -1023,6 +1123,9 @@
     },
     {
       "name": "Account"
+    },
+    {
+      "name": "Data"
     },
     {
       "name": "Sign-in"

@@ -30,6 +30,9 @@ The words the app uses in Portuguese (E01-F04), so every screen says the same th
 | Shiny · Lucky | Brilhante · Sortudo | The game's words |
 | Great · Ultra · Master League | Liga Grande · Liga Ultra · Liga Mestra | The game's words |
 | Eggs & research | Ovos e pesquisas | The game's words |
+| Event · Events | Evento · Eventos | |
+| Game data | Dados do jogo | |
+| Out of date · hasn't updated in N days | Desatualizado · não são atualizados há N dias | |
 | Types | Normal, Fogo, Água, Planta, Elétrico, Gelo, Lutador, Venenoso, Terrestre, Voador, Psíquico, Inseto, Pedra, Fantasma, Dragão, Sombrio, Aço, Fada | The game's words |
 | Tier list | Tier list | No common Portuguese word; players use the English |
 | Counters | Counters | Players use the English |

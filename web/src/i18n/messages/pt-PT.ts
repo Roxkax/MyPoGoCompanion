@@ -269,6 +269,16 @@ export const ptPT: Messages<typeof en> = {
     hintInstall: 'Instalar',
     hintClose: 'Não mostrar de novo',
   },
+  stale: {
+    game_one:
+      'Os dados do jogo não são atualizados há {{count}} dia. Podem faltar mudanças recentes no jogo.',
+    game_other:
+      'Os dados do jogo não são atualizados há {{count}} dias. Podem faltar mudanças recentes no jogo.',
+    live_one:
+      'Os reides e eventos não são atualizados há {{count}} dia. Alguns podem ter mudado no jogo.',
+    live_other:
+      'Os reides e eventos não são atualizados há {{count}} dias. Alguns podem ter mudado no jogo.',
+  },
   apiStatus: {
     title: 'Estado da API',
     checking: 'A verificar a API…',
@@ -328,6 +338,7 @@ export const ptPT: Messages<typeof en> = {
   },
   chip: { remove: 'Remover {{name}}' },
   design: {
+    staleWarnings: 'Avisos de dados desatualizados',
     typeBadges: 'Distintivos de tipo',
     versionMarkers: 'Marcadores de versão',
     pills: 'Etiquetas',

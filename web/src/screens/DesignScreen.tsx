@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { StaleBar } from '../freshness/StaleWarnings'
 import { useFormats } from '../i18n/languageContext'
 import { DetailScreen } from '../layout/Screen'
 import { Card } from '../ui/Card'
@@ -27,6 +28,13 @@ export function DesignScreen() {
   return (
     <DetailScreen back={{ to: '/', label: 'today' }} title="designSystem">
       <div className="stack">
+        <Card as="section" aria-labelledby="design-stale">
+          <h2 id="design-stale" className="group-label">
+            {t('design.staleWarnings')}
+          </h2>
+          <StaleBar kind="live" days={12} />
+          <StaleBar kind="game" days={4} />
+        </Card>
         <Card as="section" aria-labelledby="design-types">
           <h2 id="design-types" className="group-label">
             {t('design.typeBadges')}

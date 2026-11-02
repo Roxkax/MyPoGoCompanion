@@ -153,8 +153,9 @@ public sealed partial class OpenApiTests(PostgresFixture postgres)
         await Call(client, HttpMethod.Put, $"/admin/users/{misty.User.Id}/role", new { role = "Nope" }, owner.AccessToken);
         await Call(client, HttpMethod.Put, $"/admin/users/{misty.User.Id}/role", new { role = "Admin" }, owner.AccessToken);
 
-        // Health, then signing out
+        // Health and data freshness, then signing out
         await Call(client, HttpMethod.Get, "/health");
+        await Call(client, HttpMethod.Get, "/freshness");
         await Call(client, HttpMethod.Post, "/auth/sign-out-everywhere");
         await Call(client, HttpMethod.Post, "/auth/sign-out-everywhere", token: owner.AccessToken);
         await Call(client, HttpMethod.Post, "/auth/sign-out", new { refreshToken = misty.RefreshToken });

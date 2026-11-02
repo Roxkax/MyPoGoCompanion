@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { Navigate, type RouteObject } from 'react-router'
 import type { AppEnvironment } from '../environment'
+import type { DataKind } from '../freshness/freshness'
 import type { SoonKey, TitleKey } from '../i18n/keys'
 import { AppShell, type ScreenHandle } from '../layout/AppShell'
 import { battleSections, filterSections, pokedexSections } from '../layout/nav'
@@ -46,6 +47,15 @@ function detail(back: BackTarget, title: TitleKey | undefined, content: ReactNod
   )
 }
 
+/*
+ * The data each screen shows, for the out-of-date warning (E01-F07): `live` is raids and events (weekly AI
+ * researcher), `game` is everything from the daily import. Screens without it (Settings, Admin, sign-in, uploads,
+ * saved filters) never show the warning.
+ */
+const live: readonly DataKind[] = ['live']
+const game: readonly DataKind[] = ['game']
+const both: readonly DataKind[] = ['live', 'game']
+
 const today: BackTarget = { to: '/', label: 'today' }
 const calendar: BackTarget = { to: '/calendar', label: 'calendar' }
 const pokedexBack: BackTarget = { to: '/pokedex', label: 'pokedex' }
@@ -61,17 +71,19 @@ function screen(path: string, element: ReactNode, handle: ScreenHandle): RouteOb
 export function appRoutes(environment: AppEnvironment): RouteObject[] {
   const children: RouteObject[] = [
     // A. Today
-    { index: true, element: <TodayScreen />, handle: {} satisfies ScreenHandle },
+    { index: true, element: <TodayScreen />, handle: { data: live } satisfies ScreenHandle },
     screen('calendar', detail(today, 'calendar', soon('calendar', 'A2', 'E06-F02 Calendar')), {
       title: 'calendar',
+      data: live,
     }),
     screen(
       'calendar/:event',
       detail(calendar, 'event', soon('event', 'A3', 'E06-F03 Event details')),
-      { title: 'event' },
+      { title: 'event', data: live },
     ),
     screen('eggs', detail(today, 'eggs', soon('eggs', 'A4', 'E06-F04 Eggs & research')), {
       title: 'eggs',
+      data: live,
     }),
 
     // B. Pokédex
@@ -81,7 +93,7 @@ export function appRoutes(environment: AppEnvironment): RouteObject[] {
         { title: 'pokedex', sections: pokedex, search: true },
         soon('pokedex', 'B1', 'E03-F01 Pokédex list'),
       ),
-      { title: 'pokedex' },
+      { title: 'pokedex', data: game },
     ),
     screen(
       'pokedex/moves',
@@ -89,12 +101,12 @@ export function appRoutes(environment: AppEnvironment): RouteObject[] {
         { title: 'pokedex', desktopTitle: 'moves', sections: pokedex },
         soon('moves', 'B3', 'E03-F03 Moves list'),
       ),
-      { title: 'moves' },
+      { title: 'moves', data: game },
     ),
     screen(
       'pokedex/moves/:move',
       detail(moves, undefined, soon('move', 'B4', 'E03-F04 Move page')),
-      { title: 'move' },
+      { title: 'move', data: game },
     ),
     screen(
       'pokedex/types',
@@ -102,12 +114,12 @@ export function appRoutes(environment: AppEnvironment): RouteObject[] {
         { title: 'pokedex', desktopTitle: 'typeChart', sections: pokedex },
         soon('typeChart', 'B5', 'E03-F05 Type chart'),
       ),
-      { title: 'typeChart' },
+      { title: 'typeChart', data: game },
     ),
     screen(
       'pokedex/:pokemon',
       detail(pokedexBack, undefined, soon('pokemon', 'B2', 'E03-F02 Pokémon page')),
-      { title: 'pokemon' },
+      { title: 'pokemon', data: game },
     ),
 
     // C. Battle
@@ -115,37 +127,37 @@ export function appRoutes(environment: AppEnvironment): RouteObject[] {
     screen(
       'battle/raids',
       tab({ title: 'battle', sections: battle }, soon('raids', 'C1', 'E08-F01 Raid bosses')),
-      { title: 'raids' },
+      { title: 'raids', data: both },
     ),
     screen(
       'battle/raids/:boss',
       detail(raids, undefined, soon('raidBoss', 'C2', 'E08-F02 Raid boss page')),
-      { title: 'raidBoss' },
+      { title: 'raidBoss', data: both },
     ),
     { path: 'battle/tiers', element: <Navigate to="/battle/tiers/great-league" replace /> },
     ...['battle/tiers/raids/:type?', 'battle/tiers/:league'].map((path) =>
       screen(
         path,
         tab({ title: 'battle', sections: battle }, soon('tierLists', 'C3', 'E08-F03 Tier lists')),
-        { title: 'tierLists' },
+        { title: 'tierLists', data: game },
       ),
     ),
     screen(
       'battle/teams',
       tab({ title: 'battle', sections: battle }, soon('teams', 'C4', 'E08-F04 Best team')),
-      { title: 'teams' },
+      { title: 'teams', data: both },
     ),
 
     // D. Filters
     screen(
       'filters',
       tab({ title: 'filters', sections: filters }, soon('keepers', 'D1', 'E04-F01 Keeper filters')),
-      { title: 'filters' },
+      { title: 'filters', data: game },
     ),
     screen(
       'filters/builder',
       tab({ title: 'filters', sections: filters }, soon('builder', 'D2', 'E04-F04 Filter builder')),
-      { title: 'filterBuilder' },
+      { title: 'filterBuilder', data: game },
     ),
     screen(
       'filters/saved',
@@ -167,7 +179,7 @@ export function appRoutes(environment: AppEnvironment): RouteObject[] {
           {soon('collection', 'E1', 'E07-F03 Collection list')}
         </SignedInOnly>,
       ),
-      { title: 'collection' },
+      { title: 'collection', data: game, personal: true },
     ),
     screen(
       'collection/upload',

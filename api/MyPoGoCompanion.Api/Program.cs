@@ -3,6 +3,7 @@ using MyPoGoCompanion.Api.Account;
 using MyPoGoCompanion.Api.Admin;
 using MyPoGoCompanion.Api.Auth;
 using MyPoGoCompanion.Api.Configuration;
+using MyPoGoCompanion.Api.Freshness;
 using MyPoGoCompanion.Api.Health;
 using MyPoGoCompanion.Api.OpenApi;
 
@@ -20,6 +21,7 @@ builder.Services.AddDatabase(builder.Configuration);
 builder.Services.AddWebAppCors(builder.Configuration);
 builder.Services.AddApiHealthChecks(builder.Configuration);
 builder.Services.AddSignIn(builder.Configuration);
+builder.Services.AddFreshness(builder.Configuration);
 
 var app = builder.Build();
 
@@ -36,6 +38,7 @@ app.MapHealthEndpoints();
 app.MapAuthEndpoints();
 app.MapAccountEndpoints();
 app.MapUserRoleEndpoints();
+app.MapFreshnessEndpoints();
 
 if (app.Environment.IsDevelopment())
 {

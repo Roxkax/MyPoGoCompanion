@@ -517,6 +517,32 @@ kbd {
   color: var(--warn);
 }
 
+/* ---------- out-of-date warning (E01-F07, G1's "What users see if updates stop") ---------- */
+
+.stale-warnings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+.stale-warning {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--warn-soft);
+  color: var(--warn);
+  font-size: 13.5px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+.stale-warning svg {
+  flex: none;
+  margin-top: 1px;
+}
+
 /* ---------- installable app and offline (E01-F06) ---------- */
 
 /* Settings rows that open something (F2 "More"): label on the left, value and chevron on the right. */
