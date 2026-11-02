@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MyPoGoCompanion.Jobs\MyPoGoCompanion.Jobs.csproj" />
+    <ProjectReference Include="..\..\tests\MyPoGoCompanion.GoldenFiles\MyPoGoCompanion.GoldenFiles.csproj" />
   </ItemGroup>
 
   <!-- Small cuts of the real source files (Fixtures/make_fixtures.py), read by the tests. -->

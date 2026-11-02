@@ -78,7 +78,8 @@ public sealed partial class GameMasterSource
                 (int)Number(move, "durationMs"),
                 (int)Number(move, "damageWindowStartMs"),
                 (int)Number(move, "damageWindowEndMs"),
-                (int)Number(move, "energyDelta"));
+                (int)Number(move, "energyDelta"),
+                Text(move, "pokemonType")?.Replace("POKEMON_TYPE_", "", StringComparison.Ordinal).ToLowerInvariant() ?? "");
         }
         else if (data.TryGetProperty("pokemonExtendedSettings", out var extended))
         {
@@ -282,7 +283,8 @@ public sealed record GameMasterEvolution(
     bool OnlyDusk,
     string? MoveRequired);
 
-public sealed record GameMasterMove(double Power, int DurationMs, int DamageWindowStartMs, int DamageWindowEndMs, int EnergyDelta);
+/// <param name="Type">The game master's type id (<c>fire</c>), empty when it has none.</param>
+public sealed record GameMasterMove(double Power, int DurationMs, int DamageWindowStartMs, int DamageWindowEndMs, int EnergyDelta, string Type = "");
 
 public sealed record GameMasterQuest(
     string Id, string QuestType, int Target, IReadOnlyList<string> Types, IReadOnlyList<string> Conditions, string? ThrowType);

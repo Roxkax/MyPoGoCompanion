@@ -32,10 +32,12 @@ Written only by the daily import (`docs/DAILY-IMPORT.md`), which keeps these tab
 
 ### Rankings and calculated data (daily import)
 
+PvPoke's rankings come from its files; the rest is calculated by the engine (`docs/ENGINE.md`) in the same daily import.
+
 | Table | One row per | Notes |
 |---|---|---|
 | `pvp_rankings` | league × form × Shadow | PvPoke's rank, score and recommended moveset (tier lists, Pokémon page) |
-| `pvp_best_ivs` | league × form | the rank-1 IVs, level, CP and stat product. **Only rank 1 is stored**; the IV rank checker and "your copies" rank all 4,096 spreads on demand (about a millisecond) |
+| `pvp_best_ivs` | league × form | the rank-1 IVs, level, CP and stat product (a tie goes to the higher CP: Master League's is 15/15/15). Megas have none. **Only rank 1 is stored**; the IV rank checker and "your copies" rank all 4,096 spreads on demand (about a millisecond) |
 | `pvp_keeper_boxes` | league × Pokédex number | the appraisal bars the keeper filters keep, and the forms that chose them |
 | `raid_rankings` | attacking type × form × Shadow | best same-type moveset, DPS, TDO, score and rank (raid tier lists, best teams); Megas included, the lists keep one Mega slot |
 | `raid_movesets` | form × Shadow × fast + charged move | every combination ranked for raids (Pokémon page) |

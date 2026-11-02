@@ -1,6 +1,6 @@
 # Golden files: keeper filters
 
-What the Python keeper-filters build (`legacy/keeper-filters/`, methodology in `docs/KEEPER-FILTERS.md`) produced from one snapshot of its source data. The C# port of the calculation engine (E02-F03) reads the same inputs and must produce the same outputs; then the Python pipeline can be removed.
+What the Python keeper-filters build (`legacy/keeper-filters/`, methodology in `docs/KEEPER-FILTERS.md`) produced from one snapshot of its source data. The C# port of the calculation engine (E02-F03, `docs/ENGINE.md`) reads the same inputs and must produce the same outputs; then the Python pipeline can be removed. **`pvp_boxes` and `raiders` already match exactly** (`jobs/MyPoGoCompanion.Jobs.UnitTests/KeeperGoldenFilesTests.cs`); the strings, page data and simulator follow with E04-F01 and E02-F04.
 
 | Path | What it is |
 |---|---|

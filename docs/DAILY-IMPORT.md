@@ -1,18 +1,18 @@
 # Daily import
 
-The job that keeps the game data up to date (E02-F01, spec 16.1): every morning it downloads PvPoke's files, the datamined game master and the game's Portuguese text, and brings the database's species, forms, moves, movepools, evolutions, CP multipliers, PvP rankings and Portuguese names (E02-F02, spec 16.2) in line with them. The code is `jobs/MyPoGoCompanion.Jobs/DailyImport/`; the decisions behind it are in CLAUDE.md's decision log (2026-11-02).
+The job that keeps the game data up to date (E02-F01, spec 16.1): every morning it downloads PvPoke's files, the datamined game master and the game's Portuguese text, and brings the database's species, forms, moves, movepools, evolutions, CP multipliers, PvP rankings and Portuguese names (E02-F02, spec 16.2) in line with them. From the same files the calculation engine then works out the PvP best IVs, keeper boxes and raid rankings (E02-F03, `docs/ENGINE.md`). The code is `jobs/MyPoGoCompanion.Jobs/DailyImport/`; the decisions behind it are in CLAUDE.md's decision log (2026-11-02).
 
-Later features build on it: the recalculated rankings, IVs and search filters (E02-F03), the sanity checks and the admin's "Run now" button (E02-F04), and the admin's Data status screen (E10-F01).
+Later features build on it: the search filters (E04-F01), the sanity checks and the admin's "Run now" button (E02-F04), and the admin's Data status screen (E10-F01).
 
 ## Where it runs
 
 | | Prod | QA |
 |---|---|---|
 | Container Apps Job | `job-import-prod` | `job-import-qa` |
-| When | **Every day at 06:00 UTC** (Azure's schedules are UTC only: 06:00 in Lisbon in winter, 07:00 in summer); once more right after a prod deploy that changed the import's code or the schema | After **every QA deploy**, and by hand. No schedule: QA's database also gets prod's data at each prod deploy (the QA reset) |
+| When | **Every day at 06:00 UTC** (Azure's schedules are UTC only: 06:00 in Lisbon in winter, 07:00 in summer); once more right after a prod deploy that changed the import's code, the engine or the schema | After **every QA deploy**, and by hand. No schedule: QA's database also gets prod's data at each prod deploy (the QA reset) |
 | By hand | **Actions → Run daily import → Run workflow**, `prod` | the same, `qa` |
 
-Both jobs run the image `ghcr.io/roxkax/mypogocompanion-jobs:<commit>` (`jobs/MyPoGoCompanion.Jobs/Dockerfile`), built and deployed by the QA and prod deploys (`.github/scripts/deploy_job.sh`): 0.5 vCPU and 1 GiB, one run at a time, 30 minutes at most, no automatic retry (the job retries its downloads itself; a failed scheduled run waits for the next day). A run takes about a minute, well inside Azure's free monthly allowance for Container Apps, so it costs nothing.
+Both jobs run the image `ghcr.io/roxkax/mypogocompanion-jobs:<commit>` (`jobs/MyPoGoCompanion.Jobs/Dockerfile`), built and deployed by the QA and prod deploys (`.github/scripts/deploy_job.sh`): 0.5 vCPU and 1 GiB, one run at a time, 30 minutes at most, no automatic retry (the job retries its downloads itself; a failed scheduled run waits for the next day). A run takes about a minute (the calculations add about 2 s, saving their rows on the first run some more), well inside Azure's free monthly allowance for Container Apps, so it costs nothing.
 
 The deploys and the **Run daily import** workflow start a run with `.github/scripts/run_import.sh`, wait for it, and show its run log on the GitHub run's Summary page (status, duration, changes per kind, warnings). A failed run fails that step: on QA the deploy check goes red, on prod the "Prod deploy failed" issue opens. A failed **scheduled** run raises no alert (decision 2026-11-02): it shows in the run log, and after 3 days without a successful run the out-of-date warning appears on the game data screens.
 
@@ -41,6 +41,7 @@ All are fetched over HTTPS from `raw.githubusercontent.com` (addresses in `Daily
 - **Moves**: fast when PvPoke gives them energy (or no cost); PvP numbers from PvPoke, raid numbers from the game master's `V0xxx_MOVE_*` templates (fast ones end in `_FAST`; `FUTURE_SIGHT`, `PYRO_BALL` and `TECHNO_BLAST_DOUSE` are spelled differently there, as in the Python build). A move with no raid version (Hidden Power, Aegislash's charge moves, the Mega `…_PLUS` moves) gets **raid numbers 0** (power 0, duration 0): the raid engine leaves those out.
 - **Evolutions** come from the game master's evolution branches of each matched form; Mega Evolutions are forms, not steps. When a step exists twice (the usual one and a Community Day or event version), the usual one is kept. `task_en` describes in English what the columns don't: the special task ("Win 10 raids", "Walk 10 km with it as your buddy", "Earn 70 hearts…"), how many of an item it uses ("Uses 999 Gimmighoul Coins"), a move it must know, full moon, dusk, phone upside down.
 - **Rankings**: one row per league, form and Shadow, in PvPoke's order (rank = position). Rows for a form or move the import doesn't have are left out (a warning); PvPoke's `"none"` padding in a moveset is dropped (Unown).
+- **The engine's results** (`EngineResults`, `docs/ENGINE.md`): rank-1 PvP IVs per form (Great, Ultra, Master), the keeper box per Pokédex number (Great, Ultra), the raid ranking per attacking type and every form's raid movesets, calculated from PvPoke's entries (Shadows included) and the game master's raid move numbers, as the Python build did. A CP multiplier table that misses levels (never PvPoke's) skips them with a warning; a Pokédex number with no form to judge its box fails the run.
 
 ## Portuguese names
 
@@ -71,7 +72,7 @@ The run brings every table in line with the sources and counts each kind's rows 
 | types, families, species, moves | Never removed (live data, collections and rankings point at them) |
 | forms | **Kept, marked not released** (counted as removed) |
 | movepools, evolutions | Deleted, for the forms the sources still list |
-| CP multipliers, PvP rankings | Deleted |
+| CP multipliers, PvP rankings, PvP best IVs, keeper boxes, raid rankings, raid movesets | Deleted |
 
 What the sources don't say this time is kept: shiny (the AI researcher fills it), the evolution tasks' Portuguese text, and a Portuguese name the game text no longer has or couldn't be downloaded.
 
@@ -107,4 +108,5 @@ It downloads the real files (about 27 MB) and replaces the dev seed's game data 
 ## Tests
 
 - **Unit tests** (`jobs/MyPoGoCompanion.Jobs.UnitTests`): reading each file, building the game data, the English task texts, the downloader's retries, a whole run on an in-memory database (run log, nothing-changed shortcut, failures, guard, lock, kept fields, counts). They read **fixtures**: the real files cut to 28 species that cover the tricky cases, with their game text (`Fixtures/make_fixtures.py`; regenerate with the folder of downloaded files when the sources change shape). The Portuguese names have their own tests (`GameTextTests`, `PortugueseNamesTests`): the real fixture names, the naming rules on made-up text, missing names and a missing or broken text file.
-- **Integration tests** (`tests/MyPoGoCompanion.IntegrationTests/DailyImportTests.cs`): the job's command line on a real PostgreSQL 17 with the same fixtures: a first import and `/freshness`, a second one that changes nothing, a failed download that leaves the data, a main form that moves, the lock, an import without the game text that keeps the Portuguese names, and an import on top of the dev seed (live data and collections pointing at forms).
+- **Engine tests**: the golden files and the engine's rows (`KeeperGoldenFilesTests`, `EngineResultsTests`; `docs/ENGINE.md`).
+- **Integration tests** (`tests/MyPoGoCompanion.IntegrationTests/DailyImportTests.cs`): the job's command line on a real PostgreSQL 17 with the same fixtures: a first import and `/freshness`, the engine's stored results, a second one that changes nothing, a failed download that leaves the data, a main form that moves, the lock, an import without the game text that keeps the Portuguese names, and an import on top of the dev seed (live data and collections pointing at forms).
