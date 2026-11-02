@@ -304,6 +304,21 @@ export const ptPT: Messages<typeof en> = {
     title: 'Algo correu mal',
     text: 'Não foi possível mostrar esta página. Normalmente, recarregar resolve.',
     reload: 'Recarregar',
+    goToday: 'Ir para Hoje',
+  },
+  apiDown: {
+    title: 'O MyPoGoCompanion não está a responder',
+    text: 'A tua ligação está a funcionar, mas o servidor da app não responde. Tenta de novo daqui a pouco; a app recarrega sozinha quando voltar.',
+    stillDown:
+      'Continua sem resposta. A app continua a verificar e recarrega sozinha quando voltar.',
+  },
+  loadError: {
+    title: 'Não foi possível carregar isto',
+    text: 'Algo correu mal do nosso lado. Tenta de novo daqui a pouco.',
+    tryAgain: 'Tentar de novo',
+  },
+  errors: {
+    reference: 'Referência',
   },
   types: {
     normal: 'Normal',
@@ -339,6 +354,8 @@ export const ptPT: Messages<typeof en> = {
   chip: { remove: 'Remover {{name}}' },
   design: {
     staleWarnings: 'Avisos de dados desatualizados',
+    errors: 'Erros',
+    tryErrors: 'Provocar um de propósito (fica registado no Application Insights desta cópia):',
     typeBadges: 'Distintivos de tipo',
     versionMarkers: 'Marcadores de versão',
     pills: 'Etiquetas',

@@ -72,6 +72,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/client-errors": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Reports an error in the web app (a screen that broke or a script error), so it can be found by its reference. */
+        post: operations["ReportClientError"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/auth/google/client": {
         parameters: {
             query?: never;
@@ -231,6 +248,32 @@ export interface components {
              * @description When they last signed in.
              */
             lastSignInAt: string;
+        };
+        /** @enum {string} */
+        ClientErrorKind: "Screen" | "Script";
+        /**
+         * @description An error in the web app, reported so it can be found in Application Insights.
+         * @example {
+         *       "reference": "7f3a2c91",
+         *       "kind": "Screen",
+         *       "message": "Cannot read properties of undefined (reading 'cp')",
+         *       "stack": "TypeError: Cannot read properties of undefined (reading 'cp')\n    at RaidCounters (assets/index-3cd4b0c.js:1:23456)",
+         *       "path": "/battle/raids/mewtwo",
+         *       "appVersion": "3cd4b0c"
+         *     }
+         */
+        ClientErrorRequest: {
+            /** @description The reference the app showed (8 to 32 hex characters, the start of the trace id). */
+            reference: null | string;
+            kind: null | components["schemas"]["ClientErrorKind"];
+            /** @description The error's message. */
+            message: null | string;
+            /** @description The stack trace, when the browser gives one. */
+            stack: null | string;
+            /** @description The app's address where it happened, without the query. */
+            path: null | string;
+            /** @description The web app's build (commit). */
+            appVersion: null | string;
         };
         /**
          * @description When one kind of data was last updated, and whether the app should warn that it is out of date.
@@ -597,6 +640,61 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["FreshnessResponse"];
+                };
+            };
+        };
+    };
+    ReportClientError: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ClientErrorRequest"];
+            };
+        };
+        responses: {
+            /** @description Accepted */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+                     *       "title": "Bad Request",
+                     *       "status": 400,
+                     *       "detail": "What was wrong with the request, written for people."
+                     *     }
+                     */
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc6585#section-4",
+                     *       "title": "Too Many Requests",
+                     *       "status": 429
+                     *     }
+                     */
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
                 };
             };
         };

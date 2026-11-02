@@ -9,10 +9,12 @@ WORKDIR /src
 COPY global.json Directory.Build.props Directory.Packages.props .editorconfig ./
 COPY api/MyPoGoCompanion.Api/MyPoGoCompanion.Api.csproj api/MyPoGoCompanion.Api/
 COPY api/MyPoGoCompanion.Data/MyPoGoCompanion.Data.csproj api/MyPoGoCompanion.Data/
+COPY api/MyPoGoCompanion.Observability/MyPoGoCompanion.Observability.csproj api/MyPoGoCompanion.Observability/
 RUN dotnet restore api/MyPoGoCompanion.Api/MyPoGoCompanion.Api.csproj
 
 COPY api/MyPoGoCompanion.Api/ api/MyPoGoCompanion.Api/
 COPY api/MyPoGoCompanion.Data/ api/MyPoGoCompanion.Data/
+COPY api/MyPoGoCompanion.Observability/ api/MyPoGoCompanion.Observability/
 RUN dotnet publish api/MyPoGoCompanion.Api/MyPoGoCompanion.Api.csproj --no-restore -c Release -o /app /p:UseAppHost=false
 
 # Chiseled: no shell or package manager, runs as a non-root user; enough for this app (invariant globalization).

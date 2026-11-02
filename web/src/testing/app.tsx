@@ -5,6 +5,8 @@ import type { Me } from '../auth/authApi'
 import { AuthProvider } from '../auth/AuthProvider'
 import type { SessionManager } from '../auth/session'
 import { readEnvironment, type AppEnvironment } from '../environment'
+import type { ErrorReporter } from '../errors/reporter'
+import { ErrorReporterContext } from '../errors/reporterContext'
 import { desktopQuery } from '../layout/useMediaQuery'
 import { ThemeProvider } from '../theme/ThemeProvider'
 import { ThemeStore } from '../theme/theme'
@@ -56,6 +58,8 @@ interface AppOptions {
   navigate?: (url: string) => void
   /** Install, hint and connection; online, not installable, first visit when left out. */
   pwa?: Partial<Pwa>
+  /** Where error reports go; nowhere when left out. */
+  reporter?: Pick<ErrorReporter, 'report'>
 }
 
 /**
@@ -70,7 +74,11 @@ export function testPwa(parts: Partial<Pwa> = {}): Pwa {
     hint: parts.hint ?? new InstallHintStore(new MemoryStorage(), new MemoryStorage()),
     connection:
       parts.connection ??
-      new ConnectionWatch({ check: () => Promise.resolve(true), reload: () => {} }),
+      new ConnectionWatch({
+        check: () => Promise.resolve(true),
+        checkApi: () => Promise.resolve(true),
+        reload: () => {},
+      }),
   }
 }
 
@@ -94,9 +102,13 @@ export function renderApp(path = '/', options: AppOptions = {}) {
             pathname={new URL(path, 'http://localhost').pathname}
           >
             <PwaProvider pwa={pwa}>
-              <App
-                environment={options.environment ?? readEnvironment({ VITE_APP_ENV: 'production' })}
-              />
+              <ErrorReporterContext value={options.reporter ?? silentReporter}>
+                <App
+                  environment={
+                    options.environment ?? readEnvironment({ VITE_APP_ENV: 'production' })
+                  }
+                />
+              </ErrorReporterContext>
             </PwaProvider>
           </AuthProvider>
         </QueryClientProvider>
@@ -110,6 +122,10 @@ export function renderApp(path = '/', options: AppOptions = {}) {
 }
 
 export const admin: Me = { ...ash, role: 'Admin' }
+
+const silentReporter: Pick<ErrorReporter, 'report'> = {
+  report: (_kind, _error, reference) => reference ?? '00000000',
+}
 
 /** The address the app is showing now. */
 export function currentAddress(): string {

@@ -7,7 +7,7 @@ import { useConnection } from '../pwa/pwaContext'
  * connection is back; Try again checks at once.
  */
 export function OfflineScreen() {
-  const { checking, stillOffline, tryAgain } = useConnection()
+  const { checking, stillFailing, tryAgain } = useConnection()
   const { t } = useTranslation()
   return (
     <main className="screen offline-screen">
@@ -20,7 +20,7 @@ export function OfflineScreen() {
         {checking ? t('offline.checking') : t('offline.tryAgain')}
       </button>
       <p className="offline-status" role="status">
-        {stillOffline && !checking ? t('offline.stillOffline') : ''}
+        {stillFailing && !checking ? t('offline.stillOffline') : ''}
       </p>
       <p className="fine-print">{t('offline.later')}</p>
     </main>

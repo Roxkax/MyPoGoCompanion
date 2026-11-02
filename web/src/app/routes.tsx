@@ -16,6 +16,7 @@ import { SettingsScreen } from '../screens/SettingsScreen'
 import { SignInRoute } from '../screens/SignInRoute'
 import { TodayScreen } from '../screens/TodayScreen'
 import { AdminOnly, SignedInOnly } from './guards'
+import { ScreenSlot } from './ScreenSlot'
 
 /*
  * Every screen's address (decision 2026-11-01): English names in lowercase whatever the app language, filters after
@@ -249,12 +250,20 @@ export function appRoutes(environment: AppEnvironment): RouteObject[] {
 
   children.push(screen('*', <NotFoundScreen />, { title: 'pageNotFound' }))
 
+  // A screen that breaks shows "Something went wrong" inside the frame (the slot's error screen); the outer one is
+  // for the rare break in the frame itself.
   return [
     {
       path: '/',
       element: <AppShell environment={environment} />,
       errorElement: <RouteError />,
-      children,
+      children: [
+        {
+          element: <ScreenSlot environment={environment} />,
+          errorElement: <RouteError />,
+          children,
+        },
+      ],
     },
   ]
 }

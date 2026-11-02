@@ -25,15 +25,17 @@ param budgetStartDate string = utcNow('yyyy-MM-01')
 var name = 'mypogocompanion'
 var environments = ['prod', 'qa']
 
-// --- Logs: capped at 0.5 GB/day and 30 days, inside the free allowance -------------------------------------
-resource logs 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
-  name: 'log-${name}'
-  location: location
-  properties: {
-    sku: { name: 'PerGB2018' }
-    retentionInDays: 30
-    workspaceCapping: { dailyQuotaGb: json('0.5') }
+// --- Logs and Application Insights (one per copy), capped at Azure's free 5 GB a month: monitoring.bicep --------
+module monitoring 'monitoring.bicep' = {
+  name: 'monitoring'
+  params: {
+    location: location
+    environments: environments
   }
+}
+
+resource logs 'Microsoft.OperationalInsights/workspaces@2023-09-01' existing = {
+  name: 'log-${name}'
 }
 
 // --- Container Apps: consumption plan, scale to zero ------------------------------------------------------
@@ -44,7 +46,7 @@ resource containerEnv 'Microsoft.App/managedEnvironments@2024-03-01' = {
     appLogsConfiguration: {
       destination: 'log-analytics'
       logAnalyticsConfiguration: {
-        customerId: logs.properties.customerId
+        customerId: monitoring.outputs.workspaceCustomerId
         sharedKey: logs.listKeys().primarySharedKey
       }
     }

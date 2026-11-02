@@ -1,5 +1,6 @@
 import createFetchClient, { type Middleware } from 'openapi-fetch'
 import createQueryHooks from 'openapi-react-query'
+import { referenceFromTraceId } from '../errors/reference'
 import type { components, paths } from './generated/schema'
 
 // The API client, typed from the API's OpenAPI document (api/openapi.json → generated/schema.ts, `npm run api:generate`).
@@ -20,14 +21,19 @@ export function apiBaseUrl(
   return (base || origin).replace(/\/+$/, '')
 }
 
-/** A request the API refused, with its status (401 means "sign in again") and the API's own message. */
+/**
+ * A request the API refused, with its status (401 means "sign in again"), the API's own message and the error's
+ * reference (the start of the API's trace id, to find it in Application Insights; null when the answer had none).
+ */
 export class ApiError extends Error {
   readonly status: number
+  readonly reference: string | null
 
-  constructor(status: number, message: string) {
+  constructor(status: number, message: string, reference: string | null = null) {
     super(message)
     this.name = 'ApiError'
     this.status = status
+    this.reference = reference
   }
 }
 
@@ -36,8 +42,12 @@ export function dataOrThrow<T>(result: { data?: T; error?: unknown; response: Re
   if (result.response.ok) {
     return result.data as T
   }
-  const detail = (result.error as Problem | undefined)?.detail
-  throw new ApiError(result.response.status, detail ?? `The API answered ${result.response.status}`)
+  const problem = result.error as (Problem & { traceId?: unknown }) | undefined
+  throw new ApiError(
+    result.response.status,
+    problem?.detail ?? `The API answered ${result.response.status}`,
+    referenceFromTraceId(problem?.traceId),
+  )
 }
 
 /**

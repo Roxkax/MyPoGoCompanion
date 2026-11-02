@@ -7,7 +7,7 @@ What you'll create:
 | Where | What | Cost |
 |---|---|---|
 | Neon | Project `mypogocompanion` (PostgreSQL 17) with branches `main` (prod) and `qa` | Free plan |
-| Azure | Resource group `rg-mypogocompanion` with the API container apps `api-prod` and `api-qa` (scale to zero), the web app `swa-mypogocompanion` (Static Web Apps, free), a log workspace (capped at 0.5 GB/day), the GitHub sign-in identity and a €5/month budget alert | ~€0 at our usage; the budget emails you if that changes |
+| Azure | Resource group `rg-mypogocompanion` with the API container apps `api-prod` and `api-qa` (scale to zero), the web app `swa-mypogocompanion` (Static Web Apps, free), a log workspace (capped at 0.16 GB/day, Azure's free 5 GB a month) with one Application Insights per copy (`docs/OBSERVABILITY.md`), the GitHub sign-in identity and a €5/month budget alert | ~€0 at our usage; the budget emails you if that changes |
 | GitHub | Environments `prod` and `qa` with their secrets | Free |
 
 Container images go to **GitHub Container Registry** (free for a public repository) instead of an Azure registry, which would cost about €5/month.
@@ -139,7 +139,7 @@ Running `infra/main.bicep` again (step 2) resets `api-prod` and `api-qa` to the 
 
 ## What lives where
 
-- Azure template: `infra/main.bicep`
+- Azure template: `infra/main.bicep` (logs and Application Insights in `infra/monitoring.bicep`, also run by the deploys)
 - Check workflow: `.github/workflows/environment-check.yml`
 - QA deploy: `.github/workflows/deploy-qa.yml`
 - Prod deploy, QA database reset and alerts: `.github/workflows/deploy-prod.yml` (guide: `docs/PROD-DEPLOY.md`)

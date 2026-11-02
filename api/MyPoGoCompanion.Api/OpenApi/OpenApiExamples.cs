@@ -3,6 +3,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using MyPoGoCompanion.Api.Account;
 using MyPoGoCompanion.Api.Admin;
 using MyPoGoCompanion.Api.Auth;
+using MyPoGoCompanion.Api.Diagnostics;
 using MyPoGoCompanion.Api.Freshness;
 using MyPoGoCompanion.Api.Health;
 using MyPoGoCompanion.Data.Users;
@@ -44,6 +45,10 @@ internal static class OpenApiExamples
         [typeof(SetRoleRequest)] = new SetRoleRequest(UserRole.Admin),
         [typeof(FreshnessResponse)] = new FreshnessResponse(_gameDataUpToDate, _liveDataOutOfDate),
         [typeof(DataFreshness)] = _liveDataOutOfDate,
+        [typeof(ClientErrorRequest)] = new ClientErrorRequest(
+            "7f3a2c91", ClientErrorKind.Screen, "Cannot read properties of undefined (reading 'cp')",
+            "TypeError: Cannot read properties of undefined (reading 'cp')\n    at RaidCounters (assets/index-3cd4b0c.js:1:23456)",
+            "/battle/raids/mewtwo", "3cd4b0c"),
         [typeof(ProblemDetails)] = Problem("rfc9110#section-15.5.1", "Bad Request", 400, "The language must be one of: en, pt-PT."),
     };
 

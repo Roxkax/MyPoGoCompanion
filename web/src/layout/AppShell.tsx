@@ -4,11 +4,13 @@ import { Outlet, ScrollRestoration, useLocation } from 'react-router'
 import { SignInDialog } from '../components/SignInDialog'
 import { EnvironmentBanner } from '../components/EnvironmentBanner'
 import type { AppEnvironment } from '../environment'
+import { FailOnPurposeError, readFail } from '../errors/failOnPurpose'
 import { readOverride } from '../freshness/freshness'
 import { StaleOverrideContext } from '../freshness/freshnessContext'
 import { storageOrNull } from '../pwa/installHint'
 import { InstallHint } from '../pwa/InstallHint'
-import { useConnection } from '../pwa/pwaContext'
+import { useConnection, usePwa } from '../pwa/pwaContext'
+import { ApiDownScreen } from '../screens/ApiDownScreen'
 import { OfflineScreen } from '../screens/OfflineScreen'
 import { Overlays } from './Overlays'
 import { useOverlay } from './overlay'
@@ -23,17 +25,19 @@ export type { ScreenHandle }
 /**
  * The frame around every screen. Phone: the screen (with its own header) and the bottom tab bar. Desktop: the
  * sidebar and the top bar around the screen. Both: the QA/local strip, the sign-in window, search and Ask. Without a
- * connection the "You're offline" screen (H3) takes the screen's place; the phone also has the one-time install hint.
+ * connection the "You're offline" screen (H3) takes the screen's place, and "isn't answering" when only the API is
+ * down (E01-F08); the phone also has the one-time install hint.
  */
 export function AppShell({ environment }: { environment: AppEnvironment }) {
   const desktop = useIsDesktop()
   const handle = useScreenHandle()
   const { open, current } = useOverlay()
   const { t } = useTranslation()
-  const { offline } = useConnection()
+  const { offline, apiDown } = useConnection()
   const title = handle.title && t(`titles.${handle.title}`)
-  const screen = offline ? <OfflineScreen /> : <Outlet />
+  const screen = offline ? <OfflineScreen /> : apiDown ? <ApiDownScreen /> : <Outlet />
   const stale = useStaleOverrideSetting(environment)
+  useFailOnPurpose(environment)
 
   useEffect(() => {
     document.title = title ? `${title} · ${environment.title}` : environment.title
@@ -78,6 +82,24 @@ export function AppShell({ environment }: { environment: AppEnvironment }) {
       </div>
     </StaleOverrideContext>
   )
+}
+
+/** QA and local copies: `?fail=api` shows "isn't answering", `?fail=script` throws an error nobody catches. */
+function useFailOnPurpose(environment: AppEnvironment) {
+  const { search } = useLocation()
+  const { connection } = usePwa()
+  const fail = readFail(environment.kind, search)
+  useEffect(() => {
+    if (fail === 'api') {
+      connection.pretendApiDown()
+    } else if (fail === 'script') {
+      const timer = setTimeout(() => {
+        throw new FailOnPurposeError('script')
+      })
+      return () => clearTimeout(timer)
+    }
+    return undefined
+  }, [fail, connection])
 }
 
 /** QA and local copies: `?stale=` pretends data is out of date for this browser tab (see freshness.ts). */

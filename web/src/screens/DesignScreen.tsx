@@ -1,5 +1,8 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router'
+import { ApiError } from '../api/client'
+import { LoadError } from '../components/LoadError'
 import { StaleBar } from '../freshness/StaleWarnings'
 import { useFormats } from '../i18n/languageContext'
 import { DetailScreen } from '../layout/Screen'
@@ -35,6 +38,19 @@ export function DesignScreen() {
           <StaleBar kind="live" days={12} />
           <StaleBar kind="game" days={4} />
         </Card>
+        <section className="stack" aria-labelledby="design-errors">
+          <h2 id="design-errors" className="group-label">
+            {t('design.errors')}
+          </h2>
+          <LoadError error={new ApiError(500, 'Example', '4bf92f35')} onRetry={() => {}} />
+          <Card>
+            <p className="design-fail-links">
+              {t('design.tryErrors')} <Link to="/pokedex?fail=screen">?fail=screen</Link> ·{' '}
+              <Link to="/?fail=api">?fail=api</Link> ·{' '}
+              <Link to="/design?fail=script">?fail=script</Link>
+            </p>
+          </Card>
+        </section>
         <Card as="section" aria-labelledby="design-types">
           <h2 id="design-types" className="group-label">
             {t('design.typeBadges')}

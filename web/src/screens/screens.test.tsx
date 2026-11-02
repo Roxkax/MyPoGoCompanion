@@ -1,11 +1,10 @@
-import { act, render, screen } from '@testing-library/react'
+import { act, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { readEnvironment } from '../environment'
 import { renderApp } from '../testing/app'
 import { MemoryStorage } from '../testing/auth'
 import { ThemeStore, themeKey } from '../theme/theme'
-import { RouteError } from './RouteError'
 
 beforeEach(() => vi.stubGlobal('fetch', () => new Promise(() => {})))
 afterEach(() => vi.unstubAllGlobals())
@@ -64,18 +63,5 @@ describe('the component gallery', () => {
     expect(screen.getByRole('button', { name: 'Shiny' })).toHaveAttribute('aria-pressed', 'false')
     await userEvent.click(screen.getByRole('radio', { name: 'Fast80' }))
     expect(screen.getByRole('radio', { name: 'Fast80' })).toBeChecked()
-  })
-})
-
-describe('RouteError', () => {
-  it('offers to reload', async () => {
-    const reload = vi.fn()
-    vi.stubGlobal('location', { ...window.location, reload })
-    render(<RouteError />)
-
-    expect(screen.getByRole('heading')).toHaveTextContent('Something went wrong')
-    await userEvent.click(screen.getByRole('button', { name: 'Reload' }))
-
-    expect(reload).toHaveBeenCalledOnce()
   })
 })

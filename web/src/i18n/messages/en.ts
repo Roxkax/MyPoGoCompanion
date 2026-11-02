@@ -280,6 +280,20 @@ export const en = {
     title: 'Something went wrong',
     text: 'This page couldn’t be shown. Reloading usually fixes it.',
     reload: 'Reload',
+    goToday: 'Go to Today',
+  },
+  apiDown: {
+    title: 'MyPoGoCompanion isn’t answering right now',
+    text: 'Your connection works, but the app’s server isn’t responding. Try again in a moment; the app reloads by itself when it’s back.',
+    stillDown: 'Still no answer. The app keeps checking and reloads by itself when it’s back.',
+  },
+  loadError: {
+    title: 'This couldn’t be loaded',
+    text: 'Something went wrong on our side. Try again in a moment.',
+    tryAgain: 'Try again',
+  },
+  errors: {
+    reference: 'Reference',
   },
   types: {
     normal: 'Normal',
@@ -315,6 +329,8 @@ export const en = {
   chip: { remove: 'Remove {{name}}' },
   design: {
     staleWarnings: 'Out-of-date warnings',
+    errors: 'Errors',
+    tryErrors: 'Make one on purpose (reported to this copy’s Application Insights):',
     typeBadges: 'Type badges',
     versionMarkers: 'Version markers',
     pills: 'Pills',

@@ -159,6 +159,61 @@
         }
       }
     },
+    "/client-errors": {
+      "post": {
+        "tags": [
+          "Diagnostics"
+        ],
+        "summary": "Reports an error in the web app (a screen that broke or a script error), so it can be found by its reference.",
+        "operationId": "ReportClientError",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientErrorRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+                  "title": "Bad Request",
+                  "status": 400,
+                  "detail": "What was wrong with the request, written for people."
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc6585#section-4",
+                  "title": "Too Many Requests",
+                  "status": 429
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/auth/google/client": {
       "get": {
         "tags": [
@@ -682,6 +737,83 @@
         },
         "description": "A user as the super admin sees them in Users and roles."
       },
+      "ClientErrorKind": {
+        "enum": [
+          "Screen",
+          "Script"
+        ],
+        "type": "string"
+      },
+      "ClientErrorRequest": {
+        "examples": [
+          {
+            "reference": "7f3a2c91",
+            "kind": "Screen",
+            "message": "Cannot read properties of undefined (reading 'cp')",
+            "stack": "TypeError: Cannot read properties of undefined (reading 'cp')\n    at RaidCounters (assets/index-3cd4b0c.js:1:23456)",
+            "path": "/battle/raids/mewtwo",
+            "appVersion": "3cd4b0c"
+          }
+        ],
+        "required": [
+          "reference",
+          "kind",
+          "message",
+          "stack",
+          "path",
+          "appVersion"
+        ],
+        "type": "object",
+        "properties": {
+          "reference": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The reference the app showed (8 to 32 hex characters, the start of the trace id)."
+          },
+          "kind": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "description": "Whether a screen broke or a script failed.",
+                "$ref": "#/components/schemas/ClientErrorKind"
+              }
+            ]
+          },
+          "message": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The error's message."
+          },
+          "stack": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The stack trace, when the browser gives one."
+          },
+          "path": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The app's address where it happened, without the query."
+          },
+          "appVersion": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The web app's build (commit)."
+          }
+        },
+        "description": "An error in the web app, reported so it can be found in Application Insights."
+      },
       "DataFreshness": {
         "examples": [
           {
@@ -1126,6 +1258,9 @@
     },
     {
       "name": "Data"
+    },
+    {
+      "name": "Diagnostics"
     },
     {
       "name": "Sign-in"

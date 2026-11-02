@@ -1,9 +1,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import {
+  apiCheckPath,
   ConnectionWatch,
   connectionMiddleware,
   errorCheckGapMs,
   onlineCheckPath,
+  reachesApi,
   reachesSite,
   retryEveryMs,
   type ConnectionEnvironment,
@@ -45,15 +47,26 @@ function fakeBrowser(onLine = true) {
   }
 }
 
-function watchWith(options: { onLine?: boolean; connected?: boolean } = {}) {
+const online = {
+  offline: false,
+  apiDown: false,
+  checking: false,
+  stillFailing: false,
+  reference: null,
+}
+
+function watchWith(options: { onLine?: boolean; connected?: boolean; apiUp?: boolean } = {}) {
   const browser = fakeBrowser(options.onLine ?? true)
   let connected = options.connected ?? true
+  let apiUp = options.apiUp ?? true
   const check = vi.fn(async () => connected)
+  const checkApi = vi.fn(async () => apiUp)
   const reload = vi.fn()
   let time = 0
   const watch = new ConnectionWatch({
     environment: browser.environment,
     check,
+    checkApi,
     reload,
     now: () => time,
   })
@@ -61,8 +74,10 @@ function watchWith(options: { onLine?: boolean; connected?: boolean } = {}) {
     watch,
     browser,
     check,
+    checkApi,
     reload,
     connect: (value: boolean) => (connected = value),
+    setApiUp: (value: boolean) => (apiUp = value),
     later: (ms: number) => (time += ms),
   }
 }
@@ -73,6 +88,37 @@ beforeEach(() => {
 
 afterEach(() => {
   vi.useRealTimers()
+})
+
+describe('reachesApi', () => {
+  it('asks the API’s liveness check, skipping every cache, and needs a good answer', async () => {
+    const fetchApi = vi.fn().mockResolvedValue(new Response('{}', { status: 200 }))
+    expect(await reachesApi(fetchApi, 'https://api.example')).toBe(true)
+    expect(fetchApi).toHaveBeenCalledWith(
+      `https://api.example${apiCheckPath}`,
+      expect.objectContaining({ cache: 'no-store' }),
+    )
+    expect(
+      await reachesApi(vi.fn().mockResolvedValue(new Response(null, { status: 502 })), 'x'),
+    ).toBe(false)
+    expect(await reachesApi(vi.fn().mockRejectedValue(new TypeError('Failed to fetch')), 'x')).toBe(
+      false,
+    )
+  })
+
+  it('gives up after the time limit', async () => {
+    const fetchApi = vi.fn(
+      (_: RequestInfo | URL, init?: RequestInit) =>
+        new Promise<Response>((_, reject) =>
+          init?.signal?.addEventListener('abort', () =>
+            reject(new DOMException('aborted', 'AbortError')),
+          ),
+        ),
+    )
+    const result = reachesApi(fetchApi, 'x', 1000)
+    await vi.advanceTimersByTimeAsync(1000)
+    expect(await result).toBe(false)
+  })
 })
 
 describe('reachesSite', () => {
@@ -109,7 +155,7 @@ describe('reachesSite', () => {
 describe('ConnectionWatch', () => {
   it('starts online when the browser is online', () => {
     const { watch } = watchWith()
-    expect(watch.getState()).toEqual({ offline: false, checking: false, stillOffline: false })
+    expect(watch.getState()).toEqual(online)
   })
 
   it('shows the offline screen as soon as the browser goes offline, and tells listeners', () => {
@@ -119,7 +165,7 @@ describe('ConnectionWatch', () => {
     watch.start()
     browser.fire('offline')
     expect(watch.getState().offline).toBe(true)
-    expect(watch.getState().stillOffline).toBe(false)
+    expect(watch.getState().stillFailing).toBe(false)
     expect(listener).toHaveBeenCalled()
   })
 
@@ -177,7 +223,7 @@ describe('ConnectionWatch', () => {
     const trying = watch.tryAgain()
     expect(watch.getState().checking).toBe(true)
     await trying
-    expect(watch.getState()).toEqual({ offline: true, checking: false, stillOffline: true })
+    expect(watch.getState()).toEqual({ ...online, offline: true, stillFailing: true })
     expect(reload).not.toHaveBeenCalled()
   })
 
@@ -201,20 +247,79 @@ describe('ConnectionWatch', () => {
     expect(watch.getState().offline).toBe(true)
   })
 
-  it('stays online when only the API fails: that’s an API error, not offline', async () => {
-    const { watch, check } = watchWith({ connected: true })
+  it('stays as it is when a request fails but the site and the API both answer (a one-off)', async () => {
+    const { watch, check, checkApi } = watchWith({ connected: true })
     watch.reportNetworkError()
-    await Promise.resolve()
-    await Promise.resolve()
+    await vi.runOnlyPendingTimersAsync()
     expect(check).toHaveBeenCalledTimes(1)
-    expect(watch.getState()).toEqual({ offline: false, checking: false, stillOffline: false })
+    expect(checkApi).toHaveBeenCalledTimes(1)
+    expect(watch.getState()).toEqual(online)
+  })
+
+  it('shows the API screen when the site answers but the API doesn’t: that’s not offline', async () => {
+    const { watch, reload } = watchWith({ apiUp: false })
+    watch.reportNetworkError('7f3a2c91')
+    await vi.runOnlyPendingTimersAsync()
+    expect(watch.getState()).toEqual({ ...online, apiDown: true, reference: '7f3a2c91' })
+    expect(reload).not.toHaveBeenCalled()
+  })
+
+  it('keeps checking the API while it is down, and reloads once it answers', async () => {
+    const { watch, checkApi, reload, setApiUp } = watchWith({ apiUp: false })
+    watch.reportNetworkError()
+    await vi.advanceTimersByTimeAsync(0)
+    expect(checkApi).toHaveBeenCalledTimes(1)
+    await vi.advanceTimersByTimeAsync(retryEveryMs)
+    expect(checkApi).toHaveBeenCalledTimes(2)
+    expect(reload).not.toHaveBeenCalled()
+    setApiUp(true)
+    await vi.advanceTimersByTimeAsync(retryEveryMs)
+    expect(reload).toHaveBeenCalledTimes(1)
+  })
+
+  it('Try again on the API screen says when the API still doesn’t answer, keeping the reference', async () => {
+    const { watch } = watchWith({ apiUp: false })
+    watch.reportNetworkError('7f3a2c91')
+    await vi.runOnlyPendingTimersAsync()
+    await watch.tryAgain()
+    expect(watch.getState()).toEqual({
+      ...online,
+      apiDown: true,
+      stillFailing: true,
+      reference: '7f3a2c91',
+    })
+  })
+
+  it('switches from the API screen to offline when the connection goes too', async () => {
+    const { watch, connect } = watchWith({ apiUp: false })
+    watch.reportNetworkError()
+    await vi.runOnlyPendingTimersAsync()
+    connect(false)
+    await watch.tryAgain()
+    expect(watch.getState()).toEqual({ ...online, offline: true, stillFailing: true })
+  })
+
+  it('checks again on coming back to the screen while the API is down', async () => {
+    const { watch, browser, checkApi } = watchWith({ apiUp: false })
+    watch.start()
+    watch.reportNetworkError()
+    await vi.runOnlyPendingTimersAsync()
+    const calls = checkApi.mock.calls.length
+    browser.show('visible')
+    await vi.advanceTimersByTimeAsync(0)
+    expect(checkApi.mock.calls.length).toBeGreaterThan(calls)
+  })
+
+  it('can pretend the API is down (QA and local copies)', () => {
+    const { watch } = watchWith()
+    watch.pretendApiDown()
+    expect(watch.getState()).toEqual({ ...online, apiDown: true })
   })
 
   it('checks at most once every few seconds when API requests keep failing', async () => {
     const { watch, check, later } = watchWith({ connected: true })
     watch.reportNetworkError()
-    await Promise.resolve()
-    await Promise.resolve()
+    await vi.runOnlyPendingTimersAsync()
     watch.reportNetworkError()
     expect(check).toHaveBeenCalledTimes(1)
     later(errorCheckGapMs)
@@ -265,5 +370,21 @@ describe('connectionMiddleware', () => {
   it('ignores other errors (a cancelled request)', () => {
     const { watch } = run(new DOMException('aborted', 'AbortError'))
     expect(watch.reportNetworkError).not.toHaveBeenCalled()
+  })
+
+  it('reports the gateway answering instead of the API, not the API’s own answers', () => {
+    const answer = (response: Response) => {
+      const watch = { reportNetworkError: vi.fn() }
+      const result = connectionMiddleware(watch).onResponse!({ response } as never)
+      expect(result).toBeUndefined()
+      return watch.reportNetworkError.mock.calls.length
+    }
+    const problem = { 'Content-Type': 'application/problem+json' }
+    expect(answer(new Response(null, { status: 502 }))).toBe(1)
+    expect(answer(new Response(null, { status: 504 }))).toBe(1)
+    expect(answer(new Response('down', { status: 503 }))).toBe(1)
+    expect(answer(new Response('{}', { status: 503, headers: problem }))).toBe(0)
+    expect(answer(new Response('{}', { status: 500, headers: problem }))).toBe(0)
+    expect(answer(new Response('{}', { status: 200 }))).toBe(0)
   })
 })

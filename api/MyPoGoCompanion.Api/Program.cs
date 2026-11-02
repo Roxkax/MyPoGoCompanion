@@ -3,11 +3,14 @@ using MyPoGoCompanion.Api.Account;
 using MyPoGoCompanion.Api.Admin;
 using MyPoGoCompanion.Api.Auth;
 using MyPoGoCompanion.Api.Configuration;
+using MyPoGoCompanion.Api.Diagnostics;
 using MyPoGoCompanion.Api.Freshness;
 using MyPoGoCompanion.Api.Health;
 using MyPoGoCompanion.Api.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.AddApiTelemetry();
 
 builder.Services.AddProblemDetails();
 builder.Services.ConfigureHttpJsonOptions(options =>
@@ -22,6 +25,7 @@ builder.Services.AddWebAppCors(builder.Configuration);
 builder.Services.AddApiHealthChecks(builder.Configuration);
 builder.Services.AddSignIn(builder.Configuration);
 builder.Services.AddFreshness(builder.Configuration);
+builder.Services.AddClientErrors();
 
 var app = builder.Build();
 
@@ -31,6 +35,7 @@ app.UseStatusCodePages();
 app.UseCors();
 app.UseRateLimiter();
 app.UseAuthentication();
+app.UseUserIdInTelemetry();
 app.UseAuthorization();
 
 app.MapApiDocument();
@@ -39,6 +44,7 @@ app.MapAuthEndpoints();
 app.MapAccountEndpoints();
 app.MapUserRoleEndpoints();
 app.MapFreshnessEndpoints();
+app.MapClientErrorEndpoints();
 
 if (app.Environment.IsDevelopment())
 {

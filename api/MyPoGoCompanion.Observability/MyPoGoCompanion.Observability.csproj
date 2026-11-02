@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Telemetry shared by the API and the scheduled jobs (E01-F08, docs/OBSERVABILITY.md): OpenTelemetry traces and logs
+    sent to Azure Application Insights when APPLICATIONINSIGHTS_CONNECTION_STRING is set, JSON console logs, and the
+    filter that keeps personal data out of both.
+  -->
+  <ItemGroup>
+    <PackageReference Include="Azure.Monitor.OpenTelemetry.Exporter" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" />
+    <PackageReference Include="Npgsql.OpenTelemetry" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="MyPoGoCompanion.Observability.UnitTests" />
+  </ItemGroup>
+
+</Project>

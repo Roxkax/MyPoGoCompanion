@@ -35,7 +35,7 @@ Generated with **openapi-typescript** (types only) and called with **openapi-fet
 | What | Where |
 |---|---|
 | The types, generated and committed | `web/src/api/generated/schema.ts` (`npm run api:generate` in `web/`; not linted, formatted or counted for coverage) |
-| The client | `web/src/api/client.ts`: `api.GET('/me')`, `api.PUT('/me/language', { body })`; in components `$api.useQuery('get', '/health')` and `$api.useMutation('put', '/me/language')`. Paths, parameters, bodies and answers are checked by the type check. `dataOrThrow()` turns a refusal into an `ApiError` with the problem's `detail`. `Schemas['MeResponse']` names a type |
+| The client | `web/src/api/client.ts`: `api.GET('/me')`, `api.PUT('/me/language', { body })`; in components `$api.useQuery('get', '/health')` and `$api.useMutation('put', '/me/language')`. Paths, parameters, bodies and answers are checked by the type check. `dataOrThrow()` turns a refusal into an `ApiError` with the problem's `detail` and its reference (the start of the problem's `traceId`, to find it in Application Insights: `docs/OBSERVABILITY.md`). `Schemas['MeResponse']` names a type |
 | The access token | added by a middleware (`bearerToken`) while signed in, to every call except the four token endpoints (`/auth/google/client`, `/auth/google`, `/auth/refresh`, `/auth/sign-out`); a unit test checks this against the document's `security` |
 
 After changing the API: build it (step 3 above), then `npm run api:generate` in `web/` and commit both files; a type error then shows every place in the web app the change affects.
