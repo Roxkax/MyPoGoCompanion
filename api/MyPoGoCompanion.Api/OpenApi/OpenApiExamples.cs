@@ -43,6 +43,8 @@ internal static class OpenApiExamples
         [typeof(AdminUserResponse)] = new AdminUserResponse(
             _ashId, "Ash_PT", "ash.pt@example.com", "https://lh3.googleusercontent.com/a/ash-pt", EffectiveRole.Admin, _now.AddHours(-2)),
         [typeof(SetRoleRequest)] = new SetRoleRequest(UserRole.Admin),
+        [typeof(RunImportRequest)] = new RunImportRequest(PublishMissing: false),
+        [typeof(RunImportResponse)] = new RunImportResponse("job-import-prod-k3x9q2m", PublishMissing: false, _now),
         [typeof(FreshnessResponse)] = new FreshnessResponse(_gameDataUpToDate, _liveDataOutOfDate),
         [typeof(DataFreshness)] = _liveDataOutOfDate,
         [typeof(ClientErrorRequest)] = new ClientErrorRequest(
@@ -59,7 +61,9 @@ internal static class OpenApiExamples
         [StatusCodes.Status401Unauthorized] = Problem("rfc9110#section-15.5.2", "Unauthorized", 401, null),
         [StatusCodes.Status403Forbidden] = Problem("rfc9110#section-15.5.4", "Forbidden", 403, null),
         [StatusCodes.Status404NotFound] = Problem("rfc9110#section-15.5.5", "Not Found", 404, null),
+        [StatusCodes.Status409Conflict] = Problem("rfc9110#section-15.5.10", "Conflict", 409, "A daily import is already running (started 2 minutes ago)."),
         [StatusCodes.Status429TooManyRequests] = Problem("rfc6585#section-4", "Too Many Requests", 429, null),
+        [StatusCodes.Status502BadGateway] = Problem("rfc9110#section-15.6.3", "Bad Gateway", 502, "Couldn't start the job: Azure answered 500 Internal Server Error."),
         [StatusCodes.Status503ServiceUnavailable] = Problem("rfc9110#section-15.6.4", "Service Unavailable", 503, "Sign-in isn't set up on this server yet."),
     };
 

@@ -26,6 +26,7 @@ builder.Services.AddApiHealthChecks(builder.Configuration);
 builder.Services.AddSignIn(builder.Configuration);
 builder.Services.AddFreshness(builder.Configuration);
 builder.Services.AddClientErrors();
+builder.Services.AddRunNow(builder.Configuration);
 
 var app = builder.Build();
 
@@ -43,6 +44,7 @@ app.MapHealthEndpoints();
 app.MapAuthEndpoints();
 app.MapAccountEndpoints();
 app.MapUserRoleEndpoints();
+app.MapRunNowEndpoints();
 app.MapFreshnessEndpoints();
 app.MapClientErrorEndpoints();
 
