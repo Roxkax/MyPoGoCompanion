@@ -26,6 +26,15 @@ public sealed class ImportedGameData
 
     public List<PvpRanking> PvpRankings { get; } = [];
 
+    // The calculation engine's results (EngineResults).
+    public List<PvpBestIvs> PvpBestIvs { get; } = [];
+
+    public List<PvpKeeperBox> PvpKeeperBoxes { get; } = [];
+
+    public List<RaidRanking> RaidRankings { get; } = [];
+
+    public List<RaidMoveset> RaidMovesets { get; } = [];
+
     /// <summary>What the import couldn't use, in plain words (kept in the run log; the run still succeeds).</summary>
     public List<string> Warnings { get; } = [];
 }
@@ -34,7 +43,8 @@ public sealed class ImportedGameData
 /// Turns the downloaded files into game data. PvPoke is the main source (species, form ids, stats, types, movepools,
 /// Elite TM and Legacy flags, released, Shadow, families, nicknames, buddy distance, second-move cost, PvP move numbers
 /// and rankings); the game master adds raid move numbers, evolution steps and Dynamax/Gigantamax (decisions
-/// 2026-11-02). Shiny stays unknown: neither source says which shinies are out.
+/// 2026-11-02). Shiny stays unknown: neither source says which shinies are out. The calculation engine then adds the
+/// PvP best IVs, keeper boxes and raid rankings from the same files (<see cref="EngineResults"/>).
 /// </summary>
 public static partial class GameDataBuilder
 {
@@ -208,6 +218,15 @@ public static partial class GameDataBuilder
         data.Families.AddRange(families.Select(id => new Family { Id = id }));
         AddEvolutions(data, matches, gameMaster, formIdByKey, defaultByDex);
         AddRankings(data, rankings, moveIds);
+        if (EngineInputs.HasEveryLevel(multipliers))
+        {
+            EngineResults.Add(data, EngineInputs.From(pvpoke, gameMaster, multipliers), rankings);
+        }
+        else
+        {
+            data.Warnings.Add("PvP best IVs, keeper boxes and raid rankings not calculated: the CP multiplier table misses levels.");
+        }
+
         if (text is not null)
         {
             PortugueseNames.Apply(data, text, gameMaster);
@@ -512,9 +531,9 @@ public static partial class GameDataBuilder
         && template.Types.Order(StringComparer.Ordinal)
             .SequenceEqual(entry.Types.Where(type => type != "none").Order(StringComparer.Ordinal), StringComparer.Ordinal);
 
-    /// <summary>15/15/15 at level 50 (the game's CP formula, at least 10).</summary>
+    /// <summary>15/15/15 at level 50 (the engine's CP formula, at least 10).</summary>
     internal static int Cp(PvpokeStats stats, double cpm) =>
-        Math.Max(10, (int)Math.Floor((stats.Atk + 15) * Math.Sqrt(stats.Def + 15) * Math.Sqrt(stats.Hp + 15) * cpm * cpm / 10));
+        Engine.Cp.Of(new Engine.BaseStats(stats.Atk, stats.Def, stats.Hp), Engine.Ivs.Perfect, cpm);
 
     /// <summary>"Giratina (Altered)" → "Giratina".</summary>
     internal static string SpeciesName(string name) => TrailingBrackets().Replace(name, "");

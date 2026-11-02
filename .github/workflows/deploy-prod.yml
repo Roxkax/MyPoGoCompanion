@@ -110,7 +110,7 @@ jobs:
           notes='(^|/)[^/]+\.md$|^(docs|planning|design)/'
           code=$(jq -r '.files[].filename' <<<"$json" | grep -vE "$notes" || true)
           import=false
-          grep -qE '^(jobs/MyPoGoCompanion\.Jobs|api/MyPoGoCompanion\.Data)/' <<<"$code" && import=true
+          grep -qE '^(jobs/MyPoGoCompanion\.Jobs|api/MyPoGoCompanion\.(Data|Engine))/' <<<"$code" && import=true
           [[ -n $code ]] && decide true "$GITHUB_SHA" "Changes since ${prod:0:7} (what prod runs) beyond notes: deploying (import code changed: $import)." false "$import"
           decide false "$GITHUB_SHA" "Only notes changed since ${prod:0:7} (Markdown, docs/, planning/, design/): prod deploy skipped."
 

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MyPoGoCompanion.Api.Freshness;
 using MyPoGoCompanion.Data.Operations;
+using MyPoGoCompanion.Data.Rankings;
 using MyPoGoCompanion.Data.Seed;
 using MyPoGoCompanion.Jobs;
 using MyPoGoCompanion.Jobs.DailyImport;
@@ -88,6 +89,43 @@ public sealed class DailyImportTests(PostgresFixture postgres)
         var freshness = await client.GetFromJsonAsync<FreshnessResponse>(new Uri("/freshness", UriKind.Relative), _json, Ct);
         Assert.Equal(0, freshness!.GameData.DaysSinceUpdate);
         Assert.False(freshness.GameData.OutOfDate);
+    }
+
+    [Fact]
+    public async Task Import_StoresTheEnginesResults()
+    {
+        var database = await postgres.CreateDatabaseAsync(Ct);
+        Assert.Equal(0, await RunJobAsync(database));
+
+        await using var db = PostgresFixture.CreateContext(database);
+
+        // The same numbers as the Python keeper build's golden files (tests/golden/keeper-filters) for Charizard.
+        var great = await db.PvpBestIvs.SingleAsync(best => best.League == League.Great && best.FormId == "charizard", Ct);
+        Assert.Equal((0, 15, 13, 19.5m, 1500), (great.AttackIv, great.DefenseIv, great.StaminaIv, great.Level, great.Cp));
+        var master = await db.PvpBestIvs.SingleAsync(best => best.League == League.Master && best.FormId == "charizard", Ct);
+        Assert.Equal((15, 15, 15, 50m, 3266), (master.AttackIv, master.DefenseIv, master.StaminaIv, master.Level, master.Cp));
+        Assert.False(await db.PvpBestIvs.AnyAsync(best => best.FormId == "charizard_mega_y", Ct));
+
+        var charmander = await db.PvpKeeperBoxes.SingleAsync(box => box.League == League.Ultra && box.Dex == 4, Ct);
+        Assert.Equal((0, 1, 3, 4, 2, 4), (charmander.AttackBarMin, charmander.AttackBarMax, charmander.DefenseBarMin,
+            charmander.DefenseBarMax, charmander.StaminaBarMin, charmander.StaminaBarMax));
+        Assert.Equal(["charizard"], charmander.JudgedBy);
+        Assert.Equal(28 * 2, await db.PvpKeeperBoxes.CountAsync(Ct));
+
+        var fire = await db.RaidRankings.Where(ranking => ranking.AttackingTypeId == "fire").OrderBy(ranking => ranking.Rank).ToListAsync(Ct);
+        Assert.Equal(Enumerable.Range(1, fire.Count), fire.Select(ranking => ranking.Rank));
+        var shadow = Assert.Single(fire, ranking => ranking.FormId == "charizard" && ranking.IsShadow);
+        Assert.Equal(("FIRE_SPIN", "BLAST_BURN"), (shadow.FastMoveId, shadow.ChargedMoveId));
+        Assert.Equal(17.748826058703834, shadow.Dps);
+        Assert.Equal(38.32352295847056, shadow.Score);
+
+        var movesets = await db.RaidMovesets.Where(m => m.FormId == "charizard" && !m.IsShadow).OrderBy(m => m.Rank).ToListAsync(Ct);
+        Assert.True(movesets.Count > 1);
+        Assert.Equal(Enumerable.Range(1, movesets.Count), movesets.Select(m => m.Rank));
+        Assert.True(movesets.Zip(movesets.Skip(1)).All(pair => pair.First.Score >= pair.Second.Score));
+
+        var summary = ImportSummary.TryParse((await RunsAsync(database))[^1].Summary)!;
+        Assert.Equal(await db.RaidMovesets.CountAsync(Ct), summary.Changes["raidMovesets"].Added);
     }
 
     [Fact]

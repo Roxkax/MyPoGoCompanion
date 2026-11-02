@@ -2,12 +2,12 @@
 
 The shared HTTP API used by the web app and, later, the mobile apps. ASP.NET Core (.NET 10) minimal APIs, EF Core with PostgreSQL, OpenAPI with generated clients.
 
-Projects (`Core` arrives with the calculation engine):
+Projects:
 
 | Folder | What it holds |
 |---|---|
 | `MyPoGoCompanion.Api/` | Endpoints, sign-in, OpenAPI, Dockerfile (deployed to Azure Container Apps `api-prod` / `api-qa`). Today: health, sign-in, account, users & roles; `/openapi/v1.json` and, on local and QA, the docs page `/docs` |
-| `MyPoGoCompanion.Core/` | Domain model, calculation engine (C# port of the keeper-filters pipeline), search-string simulator; shared with `jobs/` |
+| `MyPoGoCompanion.Engine/` | The calculation engine (C# port of the keeper-filters pipeline): CP, PvP IV ranks and keeper boxes, raid DPS / TDO / score, counters against a boss, type chart. Only maths; shared with `jobs/`. `docs/ENGINE.md` |
 | `MyPoGoCompanion.Data/` | EF Core `AppDbContext`, entities by area (`GameData/`, `Rankings/`, `LiveData/`, `Users/`, `Operations/`), their table setup (`Model/`), migrations and the dev seed (`Seed/`). Tables and rules: `docs/DATABASE.md` |
 | `*.UnitTests/` | xUnit v3 unit tests (Microsoft Testing Platform), one project next to each project above |
 

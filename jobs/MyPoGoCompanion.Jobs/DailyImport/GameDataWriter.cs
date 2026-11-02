@@ -16,7 +16,7 @@ public sealed record KindChanges(int Added, int Changed, int Removed)
 /// Brings the database's game data in line with what the sources say, counting the differences per kind. Rows are
 /// updated in place (the game's own ids are the keys). Types, families, species and moves are never removed, and a
 /// form that disappears is marked not released, because live data and collections point at them (docs/DATABASE.md).
-/// A form's movepool, its evolutions and the rankings follow the sources exactly. What other jobs fill in (shiny,
+/// A form's movepool, its evolutions, the rankings and the engine's results follow the sources exactly. What other jobs fill in (shiny,
 /// from the AI researcher; Portuguese text, from the game text) is kept when the sources don't say.
 /// Call it inside a transaction and save afterwards: it saves once itself (see the main forms below), and the rest
 /// is left for the caller's save.
@@ -76,6 +76,16 @@ public static class GameDataWriter
                 keep: null, remove: multiplier => Delete(db, multiplier, true), cancellationToken),
             ["pvpRankings"] = await SyncAsync(0, db, db.PvpRankings, data.PvpRankings, ranking => (ranking.League, ranking.FormId, ranking.IsShadow),
                 keep: null, remove: ranking => Delete(db, ranking, true), cancellationToken),
+            ["pvpBestIvs"] = await SyncAsync(0, db, db.PvpBestIvs, data.PvpBestIvs, best => (best.League, best.FormId),
+                keep: null, remove: best => Delete(db, best, true), cancellationToken),
+            ["pvpKeeperBoxes"] = await SyncAsync(0, db, db.PvpKeeperBoxes, data.PvpKeeperBoxes, box => (box.League, box.Dex),
+                keep: null, remove: box => Delete(db, box, true), cancellationToken),
+            ["raidRankings"] = await SyncAsync(0, db, db.RaidRankings, data.RaidRankings,
+                ranking => (ranking.AttackingTypeId, ranking.FormId, ranking.IsShadow),
+                keep: null, remove: ranking => Delete(db, ranking, true), cancellationToken),
+            ["raidMovesets"] = await SyncAsync(0, db, db.RaidMovesets, data.RaidMovesets,
+                moveset => (moveset.FormId, moveset.IsShadow, moveset.FastMoveId, moveset.ChargedMoveId),
+                keep: null, remove: moveset => Delete(db, moveset, true), cancellationToken),
         };
         return changes;
     }

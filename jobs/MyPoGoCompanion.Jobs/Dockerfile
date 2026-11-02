@@ -10,11 +10,13 @@ WORKDIR /src
 COPY global.json Directory.Build.props Directory.Packages.props .editorconfig ./
 COPY jobs/MyPoGoCompanion.Jobs/MyPoGoCompanion.Jobs.csproj jobs/MyPoGoCompanion.Jobs/
 COPY api/MyPoGoCompanion.Data/MyPoGoCompanion.Data.csproj api/MyPoGoCompanion.Data/
+COPY api/MyPoGoCompanion.Engine/MyPoGoCompanion.Engine.csproj api/MyPoGoCompanion.Engine/
 COPY api/MyPoGoCompanion.Observability/MyPoGoCompanion.Observability.csproj api/MyPoGoCompanion.Observability/
 RUN dotnet restore jobs/MyPoGoCompanion.Jobs/MyPoGoCompanion.Jobs.csproj
 
 COPY jobs/MyPoGoCompanion.Jobs/ jobs/MyPoGoCompanion.Jobs/
 COPY api/MyPoGoCompanion.Data/ api/MyPoGoCompanion.Data/
+COPY api/MyPoGoCompanion.Engine/ api/MyPoGoCompanion.Engine/
 COPY api/MyPoGoCompanion.Observability/ api/MyPoGoCompanion.Observability/
 RUN dotnet publish jobs/MyPoGoCompanion.Jobs/MyPoGoCompanion.Jobs.csproj --no-restore -c Release -o /app /p:UseAppHost=false
 

@@ -68,6 +68,12 @@ public sealed class PvpokeStats
 public sealed class PvpokeFamily
 {
     public string? Id { get; set; }
+
+    /// <summary>The entry it evolves from (a PvPoke id).</summary>
+    public string? Parent { get; set; }
+
+    /// <summary>The entries it evolves into (PvPoke ids).</summary>
+    public List<string> Evolutions { get; set; } = [];
 }
 
 public sealed class PvpokeMove

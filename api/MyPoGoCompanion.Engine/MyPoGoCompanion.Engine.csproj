@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    The calculation engine (docs/ENGINE.md): CP, PvP IV ranks and keeper boxes, raid DPS / TDO / score, counters
+    against a boss and the type chart. Only maths: no database, files or network, so the jobs and the API share it.
+    Ported from the Python keeper build (legacy/keeper-filters/) and checked against its golden files.
+  -->
+  <ItemGroup>
+    <InternalsVisibleTo Include="MyPoGoCompanion.Engine.UnitTests" />
+  </ItemGroup>
+
+</Project>
