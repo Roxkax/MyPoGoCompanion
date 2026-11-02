@@ -1,10 +1,12 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Outlet, ScrollRestoration, useMatches } from 'react-router'
+import { Outlet, ScrollRestoration, useLocation } from 'react-router'
 import { SignInDialog } from '../components/SignInDialog'
 import { EnvironmentBanner } from '../components/EnvironmentBanner'
 import type { AppEnvironment } from '../environment'
-import type { TitleKey } from '../i18n/keys'
+import { readOverride } from '../freshness/freshness'
+import { StaleOverrideContext } from '../freshness/freshnessContext'
+import { storageOrNull } from '../pwa/installHint'
 import { InstallHint } from '../pwa/InstallHint'
 import { useConnection } from '../pwa/pwaContext'
 import { OfflineScreen } from '../screens/OfflineScreen'
@@ -13,23 +15,10 @@ import { useOverlay } from './overlay'
 import { Sidebar } from './Sidebar'
 import { TabBar } from './TabBar'
 import { TopBar } from './TopBar'
+import { useScreenHandle, type ScreenHandle } from './screenHandle'
 import { useIsDesktop } from './useMediaQuery'
 
-/** What a route tells the shell about its screen (React Router's `handle`). */
-export interface ScreenHandle {
-  /** The browser tab's title for the screen, titles.<title> (Today shows just the app's name). */
-  title?: TitleKey
-  /** Settings and Admin hide the phone's tab bar (approved screens F2, G1, G2). */
-  hideTabBar?: boolean
-}
-
-function useScreenHandle(): ScreenHandle {
-  const matches = useMatches()
-  return matches.reduce<ScreenHandle>(
-    (handle, match) => ({ ...handle, ...(match.handle as ScreenHandle | undefined) }),
-    {},
-  )
-}
+export type { ScreenHandle }
 
 /**
  * The frame around every screen. Phone: the screen (with its own header) and the bottom tab bar. Desktop: the
@@ -44,6 +33,7 @@ export function AppShell({ environment }: { environment: AppEnvironment }) {
   const { offline } = useConnection()
   const title = handle.title && t(`titles.${handle.title}`)
   const screen = offline ? <OfflineScreen /> : <Outlet />
+  const stale = useStaleOverrideSetting(environment)
 
   useEffect(() => {
     document.title = title ? `${title} · ${environment.title}` : environment.title
@@ -64,26 +54,41 @@ export function AppShell({ environment }: { environment: AppEnvironment }) {
   }, [open, current])
 
   return (
-    <div className="app" data-layout={desktop ? 'desktop' : 'phone'}>
-      <EnvironmentBanner environment={environment} />
-      {desktop ? (
-        <div className="desktop">
-          <Sidebar environment={environment} />
-          <div className="desktop-main">
-            <TopBar />
-            {screen}
+    <StaleOverrideContext value={stale}>
+      <div className="app" data-layout={desktop ? 'desktop' : 'phone'}>
+        <EnvironmentBanner environment={environment} />
+        {desktop ? (
+          <div className="desktop">
+            <Sidebar environment={environment} />
+            <div className="desktop-main">
+              <TopBar />
+              {screen}
+            </div>
           </div>
-        </div>
-      ) : (
-        <div className="phone" data-tab-bar={handle.hideTabBar ? undefined : true}>
-          {screen}
-          {!handle.hideTabBar && <InstallHint icon={environment.icon} />}
-          {!handle.hideTabBar && <TabBar />}
-        </div>
-      )}
-      <Overlays />
-      <SignInDialog />
-      <ScrollRestoration />
-    </div>
+        ) : (
+          <div className="phone" data-tab-bar={handle.hideTabBar ? undefined : true}>
+            {screen}
+            {!handle.hideTabBar && <InstallHint icon={environment.icon} />}
+            {!handle.hideTabBar && <TabBar />}
+          </div>
+        )}
+        <Overlays />
+        <SignInDialog />
+        <ScrollRestoration />
+      </div>
+    </StaleOverrideContext>
   )
+}
+
+/** QA and local copies: `?stale=` pretends data is out of date for this browser tab (see freshness.ts). */
+function useStaleOverrideSetting(environment: AppEnvironment) {
+  const { search } = useLocation()
+  const [storage] = useState(() => storageOrNull(() => window.sessionStorage))
+  const [override, setOverride] = useState(() => readOverride(environment.kind, search, storage))
+  const [seen, setSeen] = useState(search)
+  if (search !== seen) {
+    setSeen(search)
+    setOverride(readOverride(environment.kind, search, storage))
+  }
+  return override
 }

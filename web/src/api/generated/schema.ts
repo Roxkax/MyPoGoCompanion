@@ -55,6 +55,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/freshness": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Whether game data (daily) and raids and events (weekly) are up to date, for the out-of-date warning. */
+        get: operations["GetFreshness"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/auth/google/client": {
         parameters: {
             query?: never;
@@ -216,10 +233,64 @@ export interface components {
             lastSignInAt: string;
         };
         /**
+         * @description When one kind of data was last updated, and whether the app should warn that it is out of date.
+         * @example {
+         *       "lastUpdatedAt": "2026-10-15T18:00:00+00:00",
+         *       "daysSinceUpdate": 12,
+         *       "outOfDate": true,
+         *       "limitDays": 9
+         *     }
+         */
+        DataFreshness: {
+            /**
+             * Format: date-time
+             * @description When the last successful run finished; null when it has never run.
+             */
+            lastUpdatedAt: null | string;
+            /**
+             * Format: int32
+             * @description Whole days since then; null when it has never run.
+             */
+            daysSinceUpdate: null | number;
+            /**
+             * @description True once DaysSinceUpdate reaches the limit for this kind (3 days for game data, 9 for raids and
+             *     events). Never true for data that has never been updated: there is nothing to be out of date.
+             */
+            outOfDate: boolean;
+            /**
+             * Format: int32
+             * @description The limit for this kind, in days.
+             */
+            limitDays: number;
+        };
+        /**
          * @description What a user may do: the stored role, or super admin when their email is the configured one.
          * @enum {string}
          */
         EffectiveRole: "User" | "Admin" | "SuperAdmin";
+        /**
+         * @description How up to date the app's data is, per kind of data.
+         * @example {
+         *       "gameData": {
+         *         "lastUpdatedAt": "2026-10-27T06:04:00+00:00",
+         *         "daysSinceUpdate": 0,
+         *         "outOfDate": false,
+         *         "limitDays": 3
+         *       },
+         *       "liveData": {
+         *         "lastUpdatedAt": "2026-10-15T18:00:00+00:00",
+         *         "daysSinceUpdate": 12,
+         *         "outOfDate": true,
+         *         "limitDays": 9
+         *       }
+         *     }
+         */
+        FreshnessResponse: {
+            /** @description Pokédex, moves, tier lists, filters: updated by the daily import. */
+            gameData: components["schemas"]["DataFreshness"];
+            /** @description Raid bosses, Max Battles, events, eggs and research: updated by the weekly AI researcher. */
+            liveData: components["schemas"]["DataFreshness"];
+        };
         /**
          * @description Where the web app sends people to sign in with Google.
          * @example {
@@ -506,6 +577,26 @@ export interface operations {
                      *     }
                      */
                     "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    GetFreshness: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FreshnessResponse"];
                 };
             };
         };

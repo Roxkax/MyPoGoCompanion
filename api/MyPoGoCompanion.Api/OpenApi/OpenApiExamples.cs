@@ -3,6 +3,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using MyPoGoCompanion.Api.Account;
 using MyPoGoCompanion.Api.Admin;
 using MyPoGoCompanion.Api.Auth;
+using MyPoGoCompanion.Api.Freshness;
 using MyPoGoCompanion.Api.Health;
 using MyPoGoCompanion.Data.Users;
 
@@ -21,6 +22,10 @@ internal static class OpenApiExamples
     private static readonly MeResponse _ash = new(
         _ashId, "ash.pt@example.com", "Ash_PT", "https://lh3.googleusercontent.com/a/ash-pt", EffectiveRole.User, Languages.Portuguese, Theme.Device);
 
+    // Game data imported this morning; raids and events last updated 12 days ago (over the 9-day limit).
+    private static readonly DataFreshness _gameDataUpToDate = new(new DateTimeOffset(2026, 10, 27, 6, 4, 0, TimeSpan.Zero), 0, OutOfDate: false, 3);
+    private static readonly DataFreshness _liveDataOutOfDate = new(new DateTimeOffset(2026, 10, 15, 18, 0, 0, TimeSpan.Zero), 12, OutOfDate: true, 9);
+
     private static readonly Dictionary<Type, object> _examples = new()
     {
         [typeof(HealthResponse)] = new HealthResponse(
@@ -37,6 +42,8 @@ internal static class OpenApiExamples
         [typeof(AdminUserResponse)] = new AdminUserResponse(
             _ashId, "Ash_PT", "ash.pt@example.com", "https://lh3.googleusercontent.com/a/ash-pt", EffectiveRole.Admin, _now.AddHours(-2)),
         [typeof(SetRoleRequest)] = new SetRoleRequest(UserRole.Admin),
+        [typeof(FreshnessResponse)] = new FreshnessResponse(_gameDataUpToDate, _liveDataOutOfDate),
+        [typeof(DataFreshness)] = _liveDataOutOfDate,
         [typeof(ProblemDetails)] = Problem("rfc9110#section-15.5.1", "Bad Request", 400, "The language must be one of: en, pt-PT."),
     };
 

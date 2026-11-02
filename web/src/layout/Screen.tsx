@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Link, useLocation, useNavigate } from 'react-router'
 import { ProfileButton } from '../components/ProfileButton'
 import { Icon } from '../components/icons'
+import { ScreenWarnings } from '../freshness/ScreenWarnings'
 import type { SectionKey, TitleKey } from '../i18n/keys'
 import { SegmentedLinks, type SegmentLink } from '../ui/SegmentedLinks'
 import type { PokemonType } from '../ui/pokemonTypes'
@@ -70,6 +71,7 @@ export function TabScreen({
           </div>
           {sections?.onDesktop && switcher}
         </div>
+        <ScreenWarnings />
         {children}
       </main>
     )
@@ -88,7 +90,10 @@ export function TabScreen({
         {switcher}
         {search && <SearchButton />}
       </header>
-      <main className="screen">{children}</main>
+      <main className="screen">
+        <ScreenWarnings />
+        {children}
+      </main>
     </>
   )
 }
@@ -148,6 +153,7 @@ export function DetailScreen({ back, title, tint, children }: DetailScreenProps)
           <BackLink back={back} />
           {name && <h1 className="page-title">{name}</h1>}
         </div>
+        <ScreenWarnings />
         {children}
       </main>
     )
@@ -163,6 +169,7 @@ export function DetailScreen({ back, title, tint, children }: DetailScreenProps)
         </span>
       </header>
       <main className="screen" data-tinted={tint ? true : undefined} style={tintStyle}>
+        <ScreenWarnings />
         {children}
       </main>
     </>

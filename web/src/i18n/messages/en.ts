@@ -245,6 +245,16 @@ export const en = {
     hintInstall: 'Install',
     hintClose: 'Don’t show this again',
   },
+  stale: {
+    game_one:
+      'Game data hasn’t updated in {{count}} day. Recent changes in the game may be missing.',
+    game_other:
+      'Game data hasn’t updated in {{count}} days. Recent changes in the game may be missing.',
+    live_one:
+      'Raids and events haven’t updated in {{count}} day. Some may have changed in the game.',
+    live_other:
+      'Raids and events haven’t updated in {{count}} days. Some may have changed in the game.',
+  },
   apiStatus: {
     title: 'API status',
     checking: 'Checking the API…',
@@ -304,6 +314,7 @@ export const en = {
   },
   chip: { remove: 'Remove {{name}}' },
   design: {
+    staleWarnings: 'Out-of-date warnings',
     typeBadges: 'Type badges',
     versionMarkers: 'Version markers',
     pills: 'Pills',
