@@ -1,8 +1,8 @@
 # Prod deploy (E00-F08, planning/CI-CD.md): every merge to main goes to prod.
 # API and jobs images → GitHub Container Registry; migrations → Neon "main" branch; API → container app api-prod;
 # web app → Static Web Apps production; the smoke test against prod; then the daily import job → job-import-prod
-# (every day at 06:00 UTC), run once straight away when the import's code changed or the job is new
-# (docs/DAILY-IMPORT.md). After a good deploy the Neon "qa" branch is reset to a fresh copy of prod, and the PR QA
+# (started every day at 06:00 UTC by the "Run daily import" workflow), run once straight away when the import's code
+# changed or the job is new (docs/DAILY-IMPORT.md); a held or failed run there opens the owner's import alert. After a good deploy the Neon "qa" branch is reset to a fresh copy of prod, and the PR QA
 # was showing is deployed again on top of it. A failure opens (or adds to) an issue "Prod deploy failed" assigned to
 # the owner; the next good deploy closes it.
 #
@@ -34,8 +34,6 @@ env:
   RESOURCE_GROUP: rg-mypogocompanion
   API_APP: api-prod
   IMPORT_JOB: job-import-prod
-  # The daily import's schedule (UTC: 06:00 in Lisbon in winter, 07:00 in summer).
-  IMPORT_SCHEDULE: '0 6 * * *'
   QA_API_APP: api-qa
   STATIC_WEB_APP: swa-mypogocompanion
   # GitHub Container Registry names must be lowercase.
@@ -127,6 +125,7 @@ jobs:
       contents: read
       packages: write # push the API and jobs images
       id-token: write # OIDC sign-in to Azure
+      issues: write # the daily import's alert (import_alert.py)
     outputs:
       version: ${{ steps.commit.outputs.version }}
       qa-commit: ${{ steps.qa.outputs.commit }}
@@ -335,13 +334,13 @@ jobs:
           JOB_NAME: ${{ env.IMPORT_JOB }}
           IMAGE_TAG: ${{ env.JOBS_IMAGE }}:${{ needs.changes.outputs.sha }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          SCHEDULE: ${{ env.IMPORT_SCHEDULE }}
-          TRIGGER: schedule
+          TRIGGER: manual
         run: workflow-scripts/.github/scripts/deploy_job.sh
 
       - name: Run the daily import now
+        id: import
         # When the import's code or the schema changed, or the job is new: prod gets the new data straight away
-        # instead of at the next 06:00 run (and the QA reset below copies it to QA).
+        # instead of at the next 06:00 run (and the QA reset below copies it to QA). A held run isn't a failure.
         if: >-
           steps.jobs-image.outputs.deploy == 'true' && needs.changes.outputs.rollback != 'true' &&
           (needs.changes.outputs.import == 'true' || steps.job.outputs.created == 'true')
@@ -349,7 +348,20 @@ jobs:
           JOB_NAME: ${{ env.IMPORT_JOB }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           TRIGGER: deploy
+          IMPORT_RUN_FILE: ${{ runner.temp }}/import-run.json
         run: workflow-scripts/.github/scripts/run_import.sh
+
+      - name: Tell the owner about the import
+        # Held or failed: opens or adds to the import alert; published: closes it (as the 06:00 run does).
+        if: always() && steps.import.outcome != 'skipped' && steps.import.outcome != 'cancelled'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RESULT: ${{ steps.import.outputs.result || 'failed' }}
+          RUN_FILE: ${{ runner.temp }}/import-run.json
+          OWNER: ${{ github.repository_owner }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          WORKFLOW_URL: ${{ github.server_url }}/${{ github.repository }}/actions/workflows/run-import.yml
+        run: python3 workflow-scripts/.github/scripts/import_alert.py
 
       - name: Summary
         env:
