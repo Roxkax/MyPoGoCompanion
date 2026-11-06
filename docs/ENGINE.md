@@ -41,7 +41,7 @@ GamePress' "comprehensive DPS", as the Python build computes it:
 - **Damage per hit**: `floor(½ × power × Atk ÷ target Def × bonuses) + 1`.
 - **The fight**: fast moves and the charged move whenever there is energy; energy also from damage taken; a 100-energy move wastes some. **DPS**, **TDO** (total damage before fainting) and **score = (DPS³ × TDO)^¼** (damage per second counts three times as much as staying power). A charged move worse per second than the fast move is not used.
 - **Tier lists** (`raid_rankings`): against a neutral target with Defense 180 that deals 900 ÷ Defense damage per second; each released form (and Shadow) with its best moveset whose fast and charged moves are both of the type; Return and Frustration left out. The picks: the first 10 Pokédex numbers (Megas aside) and every Mega scoring above the 10th.
-- **Moveset ranking** (`raid_movesets`): every fast + charged combination of a form against the same neutral target, best first (Return and Frustration included here).
+- **Moveset ranking** (`raid_movesets`): every fast + charged combination of a form against the same neutral target, best first (Return and Frustration included here). A combination that deals no damage and gains no energy has no score (0 ÷ 0) and is left out: Ditto (Transform + Struggle) has no raid movesets, and isn't a counter against any boss. The sanity checks caught it on the first QA run (E02-F04).
 
 ## Counters against a boss
 

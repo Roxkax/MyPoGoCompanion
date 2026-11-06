@@ -138,6 +138,14 @@ public sealed class RaidTests
     }
 
     [Fact]
+    public void Movesets_ThatCantDealDamage_AreLeftOut()
+    {
+        // As the real Ditto: Transform + Struggle gives 0 / 0 (no damage, no energy), not a score.
+        Assert.True(double.IsNaN(RaidFormula.Neutral(Data.Ditto, RaidFormula.Stats(Data.Ditto, Data.Multipliers.At(RaidFormula.Level)), Data.Moves.Fast("TRANSFORM")!, Data.Moves.Charged("STRUGGLE")!).Score));
+        Assert.Empty(new RaidRanker([Data.Ditto], Data.Moves, Data.Multipliers).Movesets(Data.Ditto));
+    }
+
+    [Fact]
     public void MoveBook_RemembersWhatItLacks()
     {
         var book = new RaidMoveBook([("EMBER", true, RaidMove.FromMilliseconds("EMBER", "fire", 10, 1000, 0, 10))]);

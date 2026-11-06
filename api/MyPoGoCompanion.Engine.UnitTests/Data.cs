@@ -54,6 +54,9 @@ internal static class Data
 
     public static PokemonEntry Magikarp { get; } = Entry("magikarp", 129, ["water"], new(29, 85, 85), fast: ["SPLASH"], charged: ["STRUGGLE"]);
 
+    /// <summary>Ditto: Transform has no power and gives no energy, so it can't be scored (it copies its opponent in battle).</summary>
+    public static PokemonEntry Ditto { get; } = Entry("ditto", 132, ["normal"], new(91, 91, 134), fast: ["TRANSFORM"], charged: ["STRUGGLE"]);
+
     public static RaidMoveBook Moves { get; } = new(
     [
         Fast("FIRE_SPIN", "fire", 14, 1100, 9),
@@ -80,6 +83,7 @@ internal static class Data
         Charged("WILD_CHARGE", "electric", 100, 2600, 2000, 50),
         Charged("OUTRAGE", "dragon", 110, 3900, 1500, 50),
         Fast("SPLASH", "water", 0, 1730, 20),
+        Fast("TRANSFORM", "normal", 0, 2000, 0),
         Charged("STRUGGLE", "normal", 35, 2200, 1200, 0),
     ]);
 

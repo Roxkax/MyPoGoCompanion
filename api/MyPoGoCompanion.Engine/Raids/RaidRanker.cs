@@ -120,7 +120,9 @@ public sealed partial class RaidRanker
         var stats = RaidFormula.Stats(pokemon, _cpm);
         var fast = Moves(pokemon.FastMoves, true, excluded: false).ToList();
         var charged = Moves(pokemon.ChargedMoves, false, excluded: false).ToList();
-        return [.. (from f in fast from c in charged select RaidFormula.Neutral(pokemon, stats, f, c)).OrderByDescending(s => s.Score)];
+        // A moveset that deals no damage and gains no energy (Ditto's Transform + Struggle) has no score: left out.
+        return [.. (from f in fast from c in charged select RaidFormula.Neutral(pokemon, stats, f, c))
+            .Where(s => double.IsFinite(s.Score)).OrderByDescending(s => s.Score)];
     }
 
     /// <summary>The Pokédex numbers picked by any type, and their pre-evolutions not picked themselves (both sorted).</summary>

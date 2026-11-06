@@ -136,7 +136,8 @@ public sealed class BossCounters
                     var per = bossMovesets.Select((m, i) => new CounterAgainst(m.Fast.Id, m.Charged.Id,
                         RaidFormula.Score(stats, f, c, fastMultiplier, chargedMultiplier, bossStats.Defense, incoming[i]))).ToList();
                     var score = per.Average(x => x.Score.Score);
-                    if (best is null || score > best.Score)
+                    // A moveset that deals no damage and gains no energy (Ditto's Transform) has no score: left out.
+                    if (double.IsFinite(score) && (best is null || score > best.Score))
                     {
                         var elite = p.EliteMoves.ToHashSet(StringComparer.Ordinal);
                         best = new Counter(p, f.Id, c.Id, elite.Contains(f.Id), elite.Contains(c.Id),
