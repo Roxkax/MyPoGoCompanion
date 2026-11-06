@@ -2,19 +2,19 @@
 
 The job that keeps the game data up to date (E02-F01, spec 16.1): every morning it downloads PvPoke's files, the datamined game master and the game's Portuguese text, and brings the database's species, forms, moves, movepools, evolutions, CP multipliers, PvP rankings and Portuguese names (E02-F02, spec 16.2) in line with them. From the same files the calculation engine then works out the PvP best IVs, keeper boxes and raid rankings (E02-F03, `docs/ENGINE.md`). The code is `jobs/MyPoGoCompanion.Jobs/DailyImport/`; the decisions behind it are in CLAUDE.md's decision log (2026-11-02).
 
-Later features build on it: the search filters (E04-F01), the sanity checks and the admin's "Run now" button (E02-F04), and the admin's Data status screen (E10-F01).
+Before publishing, every run checks the new data and holds anything that would go missing for the super admin (E02-F04, [below](#checking-and-publishing)); the admin can start a run from the API (**Run now**). Later features build on it: the search filters (E04-F01) and the admin's Data status screen (E10-F01).
 
 ## Where it runs
 
 | | Prod | QA |
 |---|---|---|
 | Container Apps Job | `job-import-prod` | `job-import-qa` |
-| When | **Every day at 06:00 UTC** (Azure's schedules are UTC only: 06:00 in Lisbon in winter, 07:00 in summer); once more right after a prod deploy that changed the import's code, the engine or the schema | After **every QA deploy**, and by hand. No schedule: QA's database also gets prod's data at each prod deploy (the QA reset) |
-| By hand | **Actions → Run daily import → Run workflow**, `prod` | the same, `qa` |
+| When | **Every day at 06:00 UTC**, started by the **Run daily import** workflow's schedule (06:00 in Lisbon in winter, 07:00 in summer; GitHub may start it 5–30 minutes late); once more right after a prod deploy that changed the import's code, the engine or the schema | After **every QA deploy**, and by hand. No schedule: QA's database also gets prod's data at each prod deploy (the QA reset) |
+| By hand | **Actions → Run daily import → Run workflow**, `prod` (tick **Publish what's missing** to publish a held run's list), or **Run now** (`POST /admin/jobs/daily-import/run`, admins) | the same, `qa` |
 
-Both jobs run the image `ghcr.io/roxkax/mypogocompanion-jobs:<commit>` (`jobs/MyPoGoCompanion.Jobs/Dockerfile`), built and deployed by the QA and prod deploys (`.github/scripts/deploy_job.sh`): 0.5 vCPU and 1 GiB, one run at a time, 30 minutes at most, no automatic retry (the job retries its downloads itself; a failed scheduled run waits for the next day). A run takes about a minute (the calculations add about 2 s, saving their rows on the first run some more), well inside Azure's free monthly allowance for Container Apps, so it costs nothing.
+Both jobs run the image `ghcr.io/roxkax/mypogocompanion-jobs:<commit>` (`jobs/MyPoGoCompanion.Jobs/Dockerfile`), built and deployed by the QA and prod deploys (`.github/scripts/deploy_job.sh`): 0.5 vCPU and 1 GiB, one run at a time, 30 minutes at most, no automatic retry (the job retries its downloads itself; a failed scheduled run waits for the next day). Both are **started by hand** in Azure's terms: the schedule is GitHub's (decision 2026-11-02), so a held or failed run can open the owner's issue; the deploy switched `job-import-prod` off Azure's own schedule. A run takes about a minute (the calculations add about 2 s, saving their rows on the first run some more), well inside Azure's free monthly allowance for Container Apps, so it costs nothing.
 
-The deploys and the **Run daily import** workflow start a run with `.github/scripts/run_import.sh`, wait for it, and show its run log on the GitHub run's Summary page (status, duration, changes per kind, warnings). A failed run fails that step: on QA the deploy check goes red, on prod the "Prod deploy failed" issue opens. A failed **scheduled** run raises no alert (decision 2026-11-02): it shows in the run log, and after 3 days without a successful run the out-of-date warning appears on the game data screens.
+The deploys and the **Run daily import** workflow start a run with `.github/scripts/run_import.sh`, wait for it, and show its run log on the GitHub run's Summary page (status, duration, changes per kind, what's missing, the sanity checks, warnings). A failed run fails that step (on QA the deploy check goes red); a held run doesn't (it's a warning). **On prod**, a held run opens (or comments on) the issue **"Daily import needs your decision"** and a failed one **"Daily import failed"** (label `import-alert`, assigned to the owner, `.github/scripts/import_alert.py`); the next published run closes it. A failed prod deploy still opens "Prod deploy failed" as well. Runs started with Run now open no issue (the admin is watching).
 
 ## What it reads
 
@@ -78,13 +78,53 @@ What the sources don't say this time is kept: shiny (the AI researcher fills it)
 
 Everything is saved in **one transaction**: a run that fails anywhere changes nothing, and yesterday's data stays live.
 
-A guard refuses sources that list **fewer than 80% of the released forms** already stored (`DailyImport__MinimumReleasedFormsShare`): a cut-off file would otherwise mark most Pokémon as not released. E02-F04 adds the fuller sanity checks.
+## Checking and publishing
+
+Decisions 2026-11-02 (E02-F04). Between building the new data and committing it, every run:
+
+1. **Runs the sanity checks** (`ImportChecks`) on the new data. Broken data can't be published: a failed check **fails the run**, nothing changes and the run log says what is wrong (the first 10 problems per check, the rest counted):
+
+   | Check | What it wants |
+   |---|---|
+   | Pokédex | every number from 1 to the highest, the highest never lower than what's stored, exactly one main form per species |
+   | Numbers | base stats above 0; max CP at level 50 between 10 and 10,000 (today: Magikarp 310 to Eternamax Eternatus 9,255); the CP multipliers for every level 1–51 in steps of 0.5, each higher than the one before |
+   | PvP rankings | each league has a ranking and no rank twice (PvPoke's order: a form the import doesn't have leaves a gap, which is a warning) |
+   | Best IVs | CP within the league's cap, level 1–51, IVs 0–15; every main form (Pokédex 1–1,025, not a Mega or battle-only form) has best IVs in all three leagues |
+   | Keeper boxes | every Pokédex number 1–1,025 has a Great and an Ultra League box, with valid bars and the forms that judged it |
+   | Raid rankings | each of the 18 types has at least 10 entries, ranks 1, 2, 3… with no gaps or repeats, DPS / TDO / score above 0 |
+   | Raid movesets | per form, ranks 1, 2, 3… with no gaps or repeats, DPS / TDO / score above 0 |
+   | Keeper strings | every Great and Ultra League string run through the game-search simulator against the new boxes (`docs/ENGINE.md`): exactly one string matches each Pokémon inside its box under the cap, none anything else, each at most 1,950 characters. **No strings yet**: they come with the keeper filters (E04-F01), which only adds them to `ImportedGameData.KeeperFilters` |
+
+2. **Saves everything in one transaction**, counting the changes, and lists every row the sources **no longer list**: a form no longer released, a move gone from a movepool, an evolution, a CP multiplier, a ranking entry, a best-IVs row, a keeper box, a raid ranking or moveset (types, families, species and moves are never removed). Any such row **holds the run**: it rolls back (nothing published, yesterday's data stays live) and ends with the status **Held** ("waiting for the super admin"), with what would go in the run log (the first 20 per kind, in order, with the total) and a fingerprint of all of it.
+3. Otherwise **commits**: the new data is live.
+
+**The super admin decides** a held run (the issue says how):
+
+- **Publish**: **Run daily import** with **Publish what's missing** ticked (or Run now with `publishMissing`, super admin only). That run publishes the removals **only when they are exactly the ones the latest held run showed** (same fingerprint); if something else has gone missing since, it holds again with the new list and a warning. Its run log says `publishedMissing: true`, and who started it.
+- **Keep**: do nothing. Each later run holds again while the rows are missing; a held run isn't a successful one, so after 3 days the out-of-date warning appears on the game-data screens.
+
+**The first import into a database** (no import published yet; the dev seed's sample run doesn't count) has no published data to lose, so it publishes and still lists the removals. Small removals happen in normal updates (PvPoke's lists change entries now and then), so expect a decision now and then; the rankings could later be let through without asking.
+
+## Run now
+
+`POST /admin/jobs/daily-import/run` (admins; body `{"publishMissing": false}`) starts the copy's own import job straight away and answers `202` with the job execution's name; the job writes its run log as it starts (trigger `admin`, `requested_by_user_id` = who pressed it). `publishMissing: true` is for the **super admin only** (`403` for other admins). `409` while a run started in the last 35 minutes is still running; `503` on a copy without a job (local, tests); `502` with the reason when Azure refuses. Until the Data status screen's button (E10-F01) it's tried from the API docs page on QA (`/docs`, **Copy API token** from the profile menu).
+
+The API starts the job with **its own Azure identity** (system-assigned, switched on by `deploy_api.sh`, which also sets `RunNow__SubscriptionId`, `RunNow__ResourceGroup` and `RunNow__JobName`): it reads the job's container and starts it with the run's arguments, as `run_import.sh` does, so nothing secret passes through the API (`api/MyPoGoCompanion.Api/Admin/AzureJobStarter.cs`). The identity may only read and start that one job (**Container Apps Jobs Operator** on `job-import-<copy>`). The pipeline can't hand out that permission (it's Contributor), so **the owner runs once per copy, in Azure Cloud Shell**:
+
+```bash
+bash infra/grant-run-now.sh qa     # after a QA deploy of this version
+bash infra/grant-run-now.sh prod   # after the prod deploy of this version
+```
+
+(Upload the script to Cloud Shell, or paste its contents. Running it again changes nothing.)
 
 ## The run log
 
 Each run is a row in `job_runs` (`job = 'DailyImport'`): status (Running → Succeeded or Failed), start and finish (so the duration), and:
 
-- `summary` (JSON): `trigger` (`schedule`, `deploy` or `manual`), `version` (the job's commit), `unchanged`, `sources` (each file's SHA-256 and size), `changes` per kind (`{"forms": {"added": 3, "changed": 1, "removed": 0}, …}`) and `warnings` (what the import couldn't use, in plain words; the run still succeeds).
+- `status`: Running → **Succeeded**, **Failed** or **Held** (rows missing, nothing published, the super admin decides).
+- `requested_by_user_id`: who pressed Run now (null for the schedule, the deploys and the workflow).
+- `summary` (JSON): `trigger` (`schedule`, `deploy`, `manual` or `admin`), `version` (the job's commit), `unchanged`, `sources` (each file's SHA-256 and size), `changes` per kind (`{"forms": {"added": 3, "changed": 1, "removed": 0}, …}`; for a held run, what would have changed), `checks` (each sanity check: `name`, `passed`, `problems`, `detail`), `removals` per kind (`{"forms": {"count": 1, "items": ["Vulpix (Alolan)"]}}`), `removalsFingerprint`, `publishedMissing`, and `warnings` (what the import couldn't use, in plain words; the run still succeeds).
 - `error`: why it failed, in plain words, e.g. "Couldn't download the Game master (…): the server answered 404 Not Found." or "The PvPoke game master isn't the JSON the import expects (…)". No personal data or secrets (scrubbed like the logs).
 
 The out-of-date warning (`GET /freshness`) reads the last **successful** run.
@@ -103,10 +143,10 @@ With the local database running (`docker compose up -d --wait`) and migrated (st
 ConnectionStrings__Database="Host=localhost;Database=mypogocompanion;Username=mypogocompanion;Password=localdev" dotnet run --project jobs/MyPoGoCompanion.Jobs -- daily-import
 ```
 
-It downloads the real files (about 27 MB) and replaces the dev seed's game data with the real one (the seed's made-up values change; its forms that the sources don't list are marked not released). Settings can be passed after the command, e.g. `--DailyImport:Trigger=manual`. Exit code 0 = succeeded or nothing to do, 1 = failed, 64 = unknown command.
+It downloads the real files (about 27 MB) and replaces the dev seed's game data with the real one (the seed's made-up values change; its forms that the sources don't list are marked not released: the first import publishes that without holding). Settings can be passed after the command, e.g. `--DailyImport:Trigger=manual` or `--DailyImport:PublishMissing=true` after a held run. Exit code 0 = succeeded, held or nothing to do, 1 = failed, 64 = unknown command.
 
 ## Tests
 
-- **Unit tests** (`jobs/MyPoGoCompanion.Jobs.UnitTests`): reading each file, building the game data, the English task texts, the downloader's retries, a whole run on an in-memory database (run log, nothing-changed shortcut, failures, guard, lock, kept fields, counts). They read **fixtures**: the real files cut to 28 species that cover the tricky cases, with their game text (`Fixtures/make_fixtures.py`; regenerate with the folder of downloaded files when the sources change shape). The Portuguese names have their own tests (`GameTextTests`, `PortugueseNamesTests`): the real fixture names, the naming rules on made-up text, missing names and a missing or broken text file.
+- **Unit tests** (`jobs/MyPoGoCompanion.Jobs.UnitTests`): reading each file, building the game data, the English task texts, the downloader's retries, a whole run on an in-memory database (run log, nothing-changed shortcut, failures, a held run, publishing what's missing and when it doesn't apply, lock, kept fields, counts), and every sanity check on broken data (`ImportChecksTests`). The fixtures are too small for two rules (the whole Pokédex, 10 raiders per type), which the tests switch off with `DailyImport__FullPokedex=false` and `DailyImport__MinimumRaidRankingsPerType=0`. They read **fixtures**: the real files cut to 28 species that cover the tricky cases, with their game text (`Fixtures/make_fixtures.py`; regenerate with the folder of downloaded files when the sources change shape). The Portuguese names have their own tests (`GameTextTests`, `PortugueseNamesTests`): the real fixture names, the naming rules on made-up text, missing names and a missing or broken text file.
 - **Engine tests**: the golden files and the engine's rows (`KeeperGoldenFilesTests`, `EngineResultsTests`; `docs/ENGINE.md`).
-- **Integration tests** (`tests/MyPoGoCompanion.IntegrationTests/DailyImportTests.cs`): the job's command line on a real PostgreSQL 17 with the same fixtures: a first import and `/freshness`, the engine's stored results, a second one that changes nothing, a failed download that leaves the data, a main form that moves, the lock, an import without the game text that keeps the Portuguese names, and an import on top of the dev seed (live data and collections pointing at forms).
+- **Integration tests** (`tests/MyPoGoCompanion.IntegrationTests/DailyImportTests.cs`): the job's command line on a real PostgreSQL 17 with the same fixtures: a first import and `/freshness`, the engine's stored results, a second one that changes nothing, a failed download that leaves the data, a main form that moves, the lock, an import without the game text that keeps the Portuguese names, an import on top of the dev seed (live data and collections pointing at forms), and a held run published by the super admin. Run now: `RunNowTests` (roles, through HTTP) and the API unit tests (`RunNowEndpointsTests`, `AzureImportStarterTests` with a fake Azure).

@@ -41,7 +41,9 @@ public sealed class DailyImportTests(PostgresFixture postgres)
     /// <summary>Runs the job's command line against <paramref name="database"/>; returns its exit code.</summary>
     private static Task<int> RunJobAsync(string database, Dictionary<string, string>? sources = null, params string[] settings) =>
         JobHost.RunAsync(
-            ["daily-import", $"--ConnectionStrings:Database={database}", "--DailyImport:RetryDelay=00:00:00", .. settings],
+            // The fixtures hold 28 species, not the whole Pokédex, and not 10 raid attackers of every type.
+            ["daily-import", $"--ConnectionStrings:Database={database}", "--DailyImport:RetryDelay=00:00:00",
+                "--DailyImport:FullPokedex=false", "--DailyImport:MinimumRaidRankingsPerType=0", .. settings],
             builder => builder.Services.AddHttpClient<SourceDownloader>(SourceDownloader.HttpClientName)
                 .ConfigurePrimaryHttpMessageHandler(() => new FixtureHttp(sources ?? Sources())),
             Ct);
@@ -236,15 +238,63 @@ public sealed class DailyImportTests(PostgresFixture postgres)
             await DevSeed.SeedAsync(db, DateTimeOffset.UtcNow, Ct);
         }
 
-        // The seed holds more species than the fixtures, so the cut-off guard is switched off here.
-        Assert.Equal(0, await RunJobAsync(database, settings: "--DailyImport:MinimumReleasedFormsShare=0"));
+        // The seed holds more species than the fixtures; the first import into a database publishes their removal.
+        Assert.Equal(0, await RunJobAsync(database));
 
         await using var check = PostgresFixture.CreateContext(database);
         var kyogre = await check.Forms.SingleAsync(f => f.Id == "kyogre", Ct);
         Assert.False(kyogre.Released); // not in the fixtures: kept (raids and collections point at it), not released
         Assert.True(await check.RaidBosses.AnyAsync(boss => boss.FormId == "kyogre", Ct));
         Assert.True((await check.Forms.SingleAsync(f => f.Id == "charizard", Ct)).Released);
-        Assert.Equal(JobStatus.Succeeded, (await RunsAsync(database))[^1].Status);
+        var run = (await RunsAsync(database))[^1];
+        Assert.Equal(JobStatus.Succeeded, run.Status);
+        var summary = JsonSerializer.Deserialize<ImportSummary>(run.Summary!, _json)!;
+        Assert.True(summary.Removals["forms"].Count > 0); // the seed's forms the fixtures lack, Kyogre among them
+        Assert.False(summary.PublishedMissing);
+    }
+
+    [Fact]
+    public async Task MissingRows_HoldTheRun_UntilTheSuperAdminPublishesThem()
+    {
+        var database = await postgres.CreateDatabaseAsync(Ct);
+        await RunJobAsync(database);
+        var admin = Guid.CreateVersion7();
+        int released;
+        await using (var db = PostgresFixture.CreateContext(database))
+        {
+            db.Users.Add(new Data.Users.User { Id = admin, GoogleSubject = "google-admin", Email = "admin@example.test", DisplayName = "Admin" });
+            await db.SaveChangesAsync(Ct);
+            released = await db.Forms.CountAsync(form => form.Released, Ct);
+        }
+
+        // PvPoke no longer lists Alolan Vulpix.
+        var pvpoke = JsonSerializer.Deserialize<PvpokeGameMaster>(await File.ReadAllBytesAsync(Fixture("pvpoke-gamemaster.json"), Ct), _json)!;
+        pvpoke.Pokemon.RemoveAll(p => p.SpeciesId == "vulpix_alolan");
+        var folder = Directory.CreateTempSubdirectory("import-").FullName;
+        var changed = Path.Combine(folder, "pvpoke-gamemaster.json");
+        await File.WriteAllBytesAsync(changed, JsonSerializer.SerializeToUtf8Bytes(pvpoke, _json), Ct);
+        var sources = Sources();
+        sources[new Uri(_defaults.PvpokeBaseUrl, "data/gamemaster.json").AbsoluteUri] = changed;
+
+        Assert.Equal(0, await RunJobAsync(database, sources, "--APP_VERSION=next"));
+        var held = (await RunsAsync(database))[^1];
+        Assert.Equal((JobStatus.Held, null), (held.Status, held.Error));
+        Assert.NotNull(held.FinishedAt);
+        await using (var db = PostgresFixture.CreateContext(database))
+        {
+            Assert.Equal(released, await db.Forms.CountAsync(form => form.Released, Ct)); // nothing published
+            // A held run doesn't count as an update (the out-of-date warning reads the last successful run).
+            var lastSuccess = await db.JobRuns.Where(r => r.Job == JobKind.DailyImport && r.Status == JobStatus.Succeeded).MaxAsync(r => r.FinishedAt, Ct);
+            Assert.True(lastSuccess < held.StartedAt);
+        }
+
+        Assert.Equal(0, await RunJobAsync(database, sources, "--APP_VERSION=next", "--DailyImport:PublishMissing=true", $"--DailyImport:RequestedBy={admin}", "--DailyImport:Trigger=admin"));
+        var published = (await RunsAsync(database))[^1];
+        Assert.Equal((JobStatus.Succeeded, admin), (published.Status, published.RequestedByUserId));
+        var summary = JsonSerializer.Deserialize<ImportSummary>(published.Summary!, _json)!;
+        Assert.Equal(("admin", true), (summary.Trigger, summary.PublishedMissing));
+        await using var check = PostgresFixture.CreateContext(database);
+        Assert.False((await check.Forms.SingleAsync(f => f.Id == "vulpix_alolan", Ct)).Released);
     }
 
     /// <summary>Answers the source addresses with the fixture files; anything else is 404.</summary>

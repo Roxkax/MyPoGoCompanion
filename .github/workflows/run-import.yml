@@ -1,10 +1,17 @@
-# Run daily import (E02-F01, docs/DAILY-IMPORT.md): starts one run of the daily game-data import on QA or prod by
-# hand (Actions → Run daily import → Run workflow), waits for it and shows its run log on the run's summary page.
-# Until the admin's "Run now" button (E02-F04), this is how to import outside the schedule. The job itself is
-# created and updated by the QA and prod deploys.
+# Run daily import (E02-F01, E02-F04, docs/DAILY-IMPORT.md): one run of the daily game-data import on QA or prod,
+# waits for it and shows its run log on the run's summary page.
+# - Every day at 06:00 UTC on prod (06:00 in Lisbon in winter, 07:00 in summer; GitHub may start it 5–30 minutes late).
+#   The schedule lives here, not in Azure, so a held or failed run can open the owner's issue (decision 2026-11-02).
+# - By hand: Actions → Run daily import → Run workflow, on qa or prod. Tick "Publish what's missing" to publish the
+#   rows the last held run showed as missing (the super admin's decision).
+# On prod, a held run (nothing published, rows missing) opens or adds to the issue "Daily import needs your decision",
+# a failed one "Daily import failed" (label import-alert, assigned to the owner); the next published run closes it.
+# The jobs themselves are created and updated by the QA and prod deploys; the admin's Run now (API) starts them too.
 name: Run daily import
 
 on:
+  schedule:
+    - cron: '0 6 * * *'
   workflow_dispatch:
     inputs:
       environment:
@@ -12,27 +19,34 @@ on:
         type: choice
         options: [qa, prod]
         default: qa
+      publish_missing:
+        description: Publish what's missing (the rows the last held run listed)
+        type: boolean
+        default: false
 
 permissions:
   contents: read
 
 env:
   RESOURCE_GROUP: rg-mypogocompanion
+  # The schedule runs on prod; a run by hand on the copy it names.
+  COPY: ${{ inputs.environment || 'prod' }}
 
 jobs:
   run-import:
-    name: Daily import on ${{ inputs.environment }}
+    name: Daily import on ${{ inputs.environment || 'prod' }}
     runs-on: ubuntu-latest
     timeout-minutes: 35
     # Waits for a deploy of the same copy (QA's queue is shared with its deploys and UI tests).
     concurrency:
-      group: ${{ inputs.environment == 'prod' && 'prod-environment' || 'qa-environment' }}
+      group: ${{ (inputs.environment || 'prod') == 'prod' && 'prod-environment' || 'qa-environment' }}
       cancel-in-progress: false
     environment:
-      name: ${{ inputs.environment }}
+      name: ${{ inputs.environment || 'prod' }}
     permissions:
       contents: read
       id-token: write # OIDC sign-in to Azure
+      issues: write # the owner's alert (prod)
     steps:
       - uses: actions/checkout@v7
         with:
@@ -46,13 +60,28 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Run the import
+        id: import
         env:
-          JOB_NAME: job-import-${{ inputs.environment }}
+          JOB_NAME: job-import-${{ env.COPY }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          TRIGGER: manual
+          TRIGGER: ${{ github.event_name == 'schedule' && 'schedule' || 'manual' }}
+          PUBLISH_MISSING: ${{ inputs.publish_missing && 'true' || 'false' }}
+          IMPORT_RUN_FILE: ${{ runner.temp }}/import-run.json
         run: |
           if ! az containerapp job show -g "$RESOURCE_GROUP" -n "$JOB_NAME" --only-show-errors -o none 2>/dev/null; then
-            echo "::error::There's no $JOB_NAME yet: the ${{ inputs.environment }} deploy creates it (QA: a PR with the \"qa\" label; prod: a merge to main)."
+            echo "::error::There's no $JOB_NAME yet: the $COPY deploy creates it (QA: a PR with the \"qa\" label; prod: a merge to main)."
+            echo "result=failed" >> "$GITHUB_OUTPUT"
             exit 1
           fi
           .github/scripts/run_import.sh
+
+      - name: Tell the owner (prod)
+        if: always() && env.COPY == 'prod' && steps.import.outcome != 'skipped' && steps.import.outcome != 'cancelled'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RESULT: ${{ steps.import.outputs.result || 'failed' }}
+          RUN_FILE: ${{ runner.temp }}/import-run.json
+          OWNER: ${{ github.repository_owner }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          WORKFLOW_URL: ${{ github.server_url }}/${{ github.repository }}/actions/workflows/run-import.yml
+        run: python3 .github/scripts/import_alert.py

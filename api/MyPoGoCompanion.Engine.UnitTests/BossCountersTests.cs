@@ -10,7 +10,7 @@ public sealed class BossCountersTests
         [Data.Moves.Charged("ORIGIN_PULSE")!, Data.Moves.Charged("SURF")!, Data.Moves.Charged("BLIZZARD")!, Data.Moves.Charged("THUNDER")!]);
 
     private static readonly BossCounters _counters = new(
-        [Data.Charizard, Data.CharizardShadow, Data.CharizardMegaY, Data.Sceptile, Data.SceptileMega, Data.Zekrom, Data.Magikarp,
+        [Data.Charizard, Data.CharizardShadow, Data.CharizardMegaY, Data.Sceptile, Data.SceptileMega, Data.Zekrom, Data.Magikarp, Data.Ditto,
          Data.Zekrom with { Id = "zekrom_unreleased", Released = false }, Data.Entry("aegislash_blade", 681, ["steel"], new(1, 1, 1))],
         Data.Moves, Data.Multipliers);
 
@@ -78,6 +78,8 @@ public sealed class BossCountersTests
         var ids = ranked.Select(c => c.Pokemon.Id).ToList();
         Assert.True(ids.IndexOf("zekrom") < ids.IndexOf("charizard"));
         Assert.DoesNotContain(ranked, c => c.Pokemon.Id is "zekrom_unreleased" or "aegislash_blade");
+        Assert.DoesNotContain(ranked, c => c.Pokemon.Id == "ditto"); // Transform can't be scored
+        Assert.All(ranked, c => Assert.True(double.IsFinite(c.Score)));
 
         // Every one of the boss's 4 movesets counts, equally.
         var sceptile = ranked.Single(c => c.Pokemon.Id == "sceptile");

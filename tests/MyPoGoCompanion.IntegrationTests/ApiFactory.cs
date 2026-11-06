@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using MyPoGoCompanion.Api.Admin;
 using MyPoGoCompanion.Api.Auth;
 
 namespace MyPoGoCompanion.IntegrationTests;
@@ -10,11 +11,12 @@ namespace MyPoGoCompanion.IntegrationTests;
 /// <summary>
 /// The real API in memory, pointed at the given database and allowing calls from <see cref="WebOrigin"/>. Sign-in is
 /// configured with test secrets; <paramref name="google"/> stands in for Google's token endpoint when given;
-/// <paramref name="settings"/> adds or overrides configuration (e.g. <c>ApiDocs:Enabled</c>).
+/// <paramref name="settings"/> adds or overrides configuration (e.g. <c>ApiDocs:Enabled</c>); <paramref name="importStarter"/>
+/// stands in for Azure when Run now starts the daily import.
 /// </summary>
 public sealed class ApiFactory(
     string connectionString, IGoogleTokenExchange? google = null, bool signInConfigured = true,
-    IReadOnlyDictionary<string, string?>? settings = null)
+    IReadOnlyDictionary<string, string?>? settings = null, IImportStarter? importStarter = null)
     : WebApplicationFactory<Program>
 {
     public const string WebOrigin = "https://web.example.test";
@@ -44,6 +46,34 @@ public sealed class ApiFactory(
         {
             builder.ConfigureTestServices(services => services.Replace(ServiceDescriptor.Singleton(google)));
         }
+
+        if (importStarter is not null)
+        {
+            builder.ConfigureTestServices(services => services.Replace(ServiceDescriptor.Singleton(importStarter)));
+        }
+    }
+}
+
+/// <summary>Stands in for Azure's job start: records each run asked for, or fails when told to.</summary>
+public sealed class FakeImportStarter : IImportStarter
+{
+    public List<ImportRunRequest> Requests { get; } = [];
+
+    /// <summary>When set, the next start fails with this reason (as Azure refusing would).</summary>
+    public string? FailWith { get; set; }
+
+    public bool IsConfigured => true;
+
+    public Task<string> StartAsync(ImportRunRequest request, CancellationToken cancellationToken)
+    {
+        if (FailWith is { } reason)
+        {
+            FailWith = null;
+            throw new JobStartException(reason);
+        }
+
+        Requests.Add(request);
+        return Task.FromResult($"job-import-test-{Requests.Count}");
     }
 }
 

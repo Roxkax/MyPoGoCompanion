@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MyPoGoCompanion.Engine\MyPoGoCompanion.Engine.csproj" />
+    <ProjectReference Include="..\..\tests\MyPoGoCompanion.GoldenFiles\MyPoGoCompanion.GoldenFiles.csproj" />
   </ItemGroup>
 
 </Project>

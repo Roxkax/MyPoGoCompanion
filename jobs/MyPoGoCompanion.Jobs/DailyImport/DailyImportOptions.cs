@@ -20,14 +20,26 @@ public sealed class DailyImportOptions
     /// <summary>The newer texts the game's server sends on top of the release (same format; they win).</summary>
     public Uri GameTextRemoteUrl { get; set; } = new("https://raw.githubusercontent.com/sora10pls/holoholo-text/main/Remote/Brazilian%20Portuguese/pt-br_raw.json");
 
-    /// <summary>What started the run, kept in the run log: <c>schedule</c>, <c>deploy</c> or <c>manual</c>.</summary>
+    /// <summary>
+    /// What started the run, kept in the run log: <c>schedule</c>, <c>deploy</c>, <c>manual</c> (the Run daily import
+    /// workflow) or <c>admin</c> (Run now).
+    /// </summary>
     public string Trigger { get; set; } = "manual";
 
+    /// <summary>The admin who pressed Run now (their user id), kept in the run log.</summary>
+    public Guid? RequestedBy { get; set; }
+
     /// <summary>
-    /// The import refuses sources that list fewer released forms than this share of the released forms already
-    /// stored: a cut-off or broken file would otherwise mark most Pokémon as not released.
+    /// "Publish what's missing": publish the rows the sources no longer list, when they are exactly the ones the last
+    /// held run showed (otherwise the run holds again with the new list). Decision 2026-11-02.
     /// </summary>
-    public double MinimumReleasedFormsShare { get; set; } = 0.8;
+    public bool PublishMissing { get; set; }
+
+    /// <summary>The Pokédex check expects every number from 1 to the highest (off only for the tests' small fixtures).</summary>
+    public bool FullPokedex { get; set; } = true;
+
+    /// <summary>The raid ranking check expects at least this many entries per attacking type.</summary>
+    public int MinimumRaidRankingsPerType { get; set; } = 10;
 
     /// <summary>Attempts per file before the download counts as failed (GitHub's raw files sometimes answer 5xx).</summary>
     public int DownloadAttempts { get; set; } = 3;
