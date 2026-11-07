@@ -14,6 +14,13 @@ const old = (days: number, limitDays: number) => ({
   limitDays,
 })
 
+const fresh = (limitDays: number) => ({
+  lastUpdatedAt: '2026-10-27T06:00:00+00:00',
+  daysSinceUpdate: 0,
+  outOfDate: false,
+  limitDays,
+})
+
 async function answerOld(page: Page) {
   await page.route('**/freshness', (route) =>
     route.fulfill({ json: { gameData: old(4, 3), liveData: old(12, 9) } }),
@@ -100,6 +107,11 @@ test('old data, in Portuguese', async ({ page }) => {
 test('QA and local: ?stale= pretends the data is old until ?stale=off', async ({ page }) => {
   await page.goto('/')
   test.skip((await page.locator('html[data-env="production"]').count()) > 0, 'Not in production')
+  // The API answers "up to date" here: QA's real data can itself be out of date (a held import), which isn't
+  // what this test is about.
+  await page.route('**/freshness', (route) =>
+    route.fulfill({ json: { gameData: fresh(3), liveData: fresh(9) } }),
+  )
 
   await page.goto('/?stale=both')
   await expect(warnings(page)).toHaveText([liveText])
