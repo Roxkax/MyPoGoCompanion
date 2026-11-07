@@ -3,6 +3,7 @@ import {
   appPage,
   cacheName,
   precachePaths,
+  spriteCacheName,
   startServiceWorker,
   type FetchLikeEvent,
   type PrecacheEntry,
@@ -36,6 +37,10 @@ function fakeWorker(
             const path = new URL(request.url).pathname
             store.set(path, new Response(`saved ${path}`))
           }
+        },
+        match: async (path: string) => store.get(path)?.clone(),
+        put: async (path: string, response: Response) => {
+          store.set(path, response)
         },
       }
     }),
@@ -193,5 +198,56 @@ describe('answering requests', () => {
     expect(await worker.request('https://api.example/health')).toBeUndefined()
     expect(await worker.request('https://api.example/me', { mode: 'navigate' })).toBeUndefined()
     expect(await worker.request('/', { method: 'POST', mode: 'navigate' })).toBeUndefined()
+  })
+})
+
+describe('Pokémon pictures', () => {
+  const picture = '/sprites/pm6.fMEGA_X.webp'
+
+  it('names the saved pictures after the picture set, "local" when the build has none', () => {
+    expect(spriteCacheName('db10df7')).toBe('sprites-db10df7')
+    expect(spriteCacheName(undefined)).toBe('sprites-local')
+    expect(spriteCacheName('')).toBe('sprites-local')
+  })
+
+  it('fetches a picture the first time and saves it, then shows the saved one (also offline)', async () => {
+    let online = true
+    const worker = fakeWorker(() =>
+      online ? Promise.resolve(new Response('picture')) : Promise.reject(new TypeError('offline')),
+    )
+    startServiceWorker(worker.scope, entries, { spriteSet: 'db10df7' })
+
+    expect(await (await worker.request(picture))!.text()).toBe('picture')
+    await vi.waitFor(() => expect(worker.stores.get('sprites-db10df7')?.has(picture)).toBe(true))
+
+    online = false
+    expect(await (await worker.request(picture))!.text()).toBe('picture')
+    expect(worker.scope.fetch).toHaveBeenCalledTimes(1)
+  })
+
+  it('doesn’t save a picture the server hasn’t got, so the box shows its placeholder and asks again later', async () => {
+    const worker = fakeWorker(() => Promise.resolve(new Response('', { status: 404 })))
+    startServiceWorker(worker.scope, entries, { spriteSet: 'db10df7' })
+
+    expect((await worker.request('/sprites/pm9999.webp'))!.status).toBe(404)
+    expect(worker.stores.get('sprites-db10df7')?.size ?? 0).toBe(0)
+  })
+
+  it('keeps the pictures through a new build with the same set, and drops them for a new set', async () => {
+    const worker = fakeWorker()
+    worker.stores.set('sprites-old', new Map())
+    worker.stores.set('sprites-db10df7', new Map())
+    startServiceWorker(worker.scope, entries, { spriteSet: 'db10df7' })
+    await worker.lifecycle('install')
+    await worker.lifecycle('activate')
+
+    expect([...worker.stores.keys()].sort()).toEqual([cacheName(entries), 'sprites-db10df7'].sort())
+  })
+
+  it('leaves other files in the pictures folder to the browser', async () => {
+    const worker = fakeWorker()
+    startServiceWorker(worker.scope, entries)
+
+    expect(await worker.request('/sprites/set.json')).toBeUndefined()
   })
 })

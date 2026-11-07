@@ -48,6 +48,9 @@ internal sealed class FormConfiguration : IEntityTypeConfiguration<Form>
         builder.Property(form => form.Type1Id).HasColumnName("type1_id");
         builder.Property(form => form.Type2Id).HasColumnName("type2_id");
         builder.Property(form => form.MaxCp50).HasColumnName("max_cp_50");
+        builder.Property(form => form.Sprite).HasMaxLength(100);
+        builder.Property(form => form.SpriteShiny).HasMaxLength(100);
+        builder.Property(form => form.SpriteGigantamax).HasMaxLength(100);
         builder.HasOne(form => form.Species).WithMany(species => species.Forms).HasForeignKey(form => form.Dex)
             .OnDelete(DeleteBehavior.Restrict);
         builder.HasOne(form => form.Type1).WithMany().HasForeignKey(form => form.Type1Id).OnDelete(DeleteBehavior.Restrict)

@@ -60,6 +60,19 @@ public class Form
 
     public bool CanGigantamax { get; set; }
 
+    /// <summary>
+    /// The picture's file name without its extension (PokeMiners' name, <c>pm37.fALOLA</c>): the web app serves it as
+    /// <c>/sprites/pm37.fALOLA.webp</c>. The form's own picture, else its main form's; null when there is none
+    /// (the app shows a placeholder). Filled by the daily import (docs/SPRITES.md).
+    /// </summary>
+    public string? Sprite { get; set; }
+
+    /// <summary>The shiny picture (<c>pm37.fALOLA.s</c>); null when there is none (the app shows <see cref="Sprite"/>).</summary>
+    public string? SpriteShiny { get; set; }
+
+    /// <summary>The Gigantamax picture (<c>pm6.fGIGANTAMAX</c>) of a form that can Gigantamax; otherwise null.</summary>
+    public string? SpriteGigantamax { get; set; }
+
     public int BuddyDistanceKm { get; set; }
 
     /// <summary>Stardust for the second charged move (the candy cost follows from the buddy distance).</summary>

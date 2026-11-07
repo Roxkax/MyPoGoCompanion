@@ -40,6 +40,13 @@ describe('hosting the installable app', () => {
     ).toBe(true)
   })
 
+  it('serves the Pokémon pictures as WebP, kept by browsers for a week, and a missing one as "not found"', () => {
+    // A week, not forever: the file names stay the same when PokeMiners redraws a picture (docs/SPRITES.md).
+    expect(headersOf('/sprites/*')?.['Cache-Control']).toBe('public, max-age=604800')
+    expect(config.mimeTypes['.webp']).toBe('image/webp')
+    expect(config.navigationFallback.exclude).toContain('/sprites/*')
+  })
+
   it('lets the installed app use the whole screen, so the bars can keep clear of the phone’s own', () => {
     // Without viewport-fit=cover, iOS reports no safe areas and the tab bar sits under the home indicator.
     expect(indexHtml).toMatch(/<meta name="viewport" content="[^"]*viewport-fit=cover/)

@@ -1,27 +1,40 @@
 {
   "navigationFallback": {
     "rewrite": "/index.html",
-    "exclude": ["/assets/*", "/icons/*", "/*.{svg,png,ico,js,webmanifest,json,txt}"]
+    "exclude": ["/assets/*", "/icons/*", "/sprites/*", "/*.{svg,png,ico,js,webmanifest,json,txt}"]
   },
   "globalHeaders": {
     "X-Content-Type-Options": "nosniff",
     "Referrer-Policy": "strict-origin-when-cross-origin"
   },
   "mimeTypes": {
-    ".webmanifest": "application/manifest+json"
+    ".webmanifest": "application/manifest+json",
+    ".webp": "image/webp"
   },
   "routes": [
     {
       "route": "/assets/*",
-      "headers": { "Cache-Control": "public, max-age=31536000, immutable" }
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
+      "route": "/sprites/*",
+      "headers": {
+        "Cache-Control": "public, max-age=604800"
+      }
     },
     {
       "route": "/sw.js",
-      "headers": { "Cache-Control": "no-cache" }
+      "headers": {
+        "Cache-Control": "no-cache"
+      }
     },
     {
       "route": "/manifest.webmanifest",
-      "headers": { "Cache-Control": "no-cache" }
+      "headers": {
+        "Cache-Control": "no-cache"
+      }
     }
   ]
 }

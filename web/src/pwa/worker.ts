@@ -4,6 +4,9 @@
 // - Pages come from the network first, so online the app is always the latest deploy (no "update available"
 //   message, decision 2026-11-01); the saved page is used only when the network fails or takes too long.
 // - Scripts, styles, fonts and icons of this version come from the saved copy (their names change with every build).
+// - Pokémon pictures (/sprites/*.webp, docs/SPRITES.md) are saved as they are shown and come from the saved copy
+//   afterwards, so a picture seen once also shows offline. They are kept per picture set ("sprites-<set>", PokeMiners'
+//   commit) rather than per build: a deploy with the same set keeps them; a new set starts again.
 // - Nothing else is touched: API answers are never saved (read-only offline is a later feature).
 //
 // Each build saves its files under its own name ("app-<hash>") and removes the older copies once it takes over.
@@ -45,6 +48,14 @@ export function precachePaths(entries: readonly PrecacheEntry[]): string[] {
   return entries.map((entry) => new URL(entry.url, 'https://app.invalid/').pathname)
 }
 
+/** Where the web app's Pokémon pictures live (built into each deploy for the MVP). */
+export const spritesPath = '/sprites/'
+
+/** The saved pictures' cache name: one per picture set. */
+export function spriteCacheName(set: string | undefined): string {
+  return `sprites-${set || 'local'}`
+}
+
 /** A name that changes whenever any file of the build changes. */
 export function cacheName(entries: readonly PrecacheEntry[]): string {
   const text = entries.map((entry) => `${entry.url}@${entry.revision ?? ''}`).join('\n')
@@ -74,9 +85,10 @@ async function fromNetwork(
 export function startServiceWorker(
   scope: WorkerScope,
   entries: readonly PrecacheEntry[],
-  { timeoutMs = pageTimeoutMs }: { timeoutMs?: number } = {},
+  { timeoutMs = pageTimeoutMs, spriteSet }: { timeoutMs?: number; spriteSet?: string } = {},
 ): void {
   const name = cacheName(entries)
+  const sprites = spriteCacheName(spriteSet)
   const paths = precachePaths(entries)
   const saved = new Set(paths)
 
@@ -103,7 +115,11 @@ export function startServiceWorker(
         .then((keys) =>
           Promise.all(
             keys
-              .filter((key) => key.startsWith('app-') && key !== name)
+              .filter(
+                (key) =>
+                  (key.startsWith('app-') && key !== name) ||
+                  (key.startsWith('sprites-') && key !== sprites),
+              )
               .map((key) => scope.caches.delete(key)),
           ),
         )
@@ -124,8 +140,24 @@ export function startServiceWorker(
       event.respondWith(page(request))
     } else if (saved.has(url.pathname)) {
       event.respondWith(file(request, url.pathname))
+    } else if (url.pathname.startsWith(spritesPath) && url.pathname.endsWith('.webp')) {
+      event.respondWith(picture(request, url.pathname))
     }
   })
+
+  async function picture(request: Request, path: string): Promise<Response> {
+    const cache = await scope.caches.open(sprites)
+    const savedPicture = await cache.match(path)
+    if (savedPicture) {
+      return savedPicture
+    }
+    const response = await scope.fetch(request)
+    if (response.ok) {
+      // Saving must not hold up the picture; a failed save only means it is fetched again next time.
+      cache.put(path, response.clone()).catch(() => undefined)
+    }
+    return response
+  }
 
   async function page(request: Request): Promise<Response> {
     const response = await fromNetwork(() => scope.fetch(request), timeoutMs)

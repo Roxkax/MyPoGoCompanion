@@ -21,6 +21,18 @@ public sealed class DailyImportOptions
     public Uri GameTextRemoteUrl { get; set; } = new("https://raw.githubusercontent.com/sora10pls/holoholo-text/main/Remote/Brazilian%20Portuguese/pt-br_raw.json");
 
     /// <summary>
+    /// PokeMiners' folder of Pokémon pictures (<c>pm37.fALOLA.icon.png</c>): the import checks which pictures exist
+    /// there; the web deploys build the same folder into the web app (docs/SPRITES.md).
+    /// </summary>
+    public Uri SpriteBaseUrl { get; set; } = new("https://raw.githubusercontent.com/PokeMiners/pogo_assets/master/Images/Pokemon%20-%20256x256/Addressable%20Assets/");
+
+    /// <summary>Pictures checked at the same time (a first import checks about 2,500).</summary>
+    public int SpriteCheckParallelism { get; set; } = 8;
+
+    /// <summary>Per picture check.</summary>
+    public TimeSpan SpriteCheckTimeout { get; set; } = TimeSpan.FromSeconds(15);
+
+    /// <summary>
     /// What started the run, kept in the run log: <c>schedule</c>, <c>deploy</c>, <c>manual</c> (the Run daily import
     /// workflow) or <c>admin</c> (Run now).
     /// </summary>

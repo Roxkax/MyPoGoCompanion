@@ -307,6 +307,8 @@ Golden files from Sprint 0 must match exactly before the Python page is retired.
 
 *MVP · Sprint 4 · 13 h*
 
+For the MVP the pictures are built into the web app at every deploy, not Blob storage with a CDN (decision 2026-11-07: a CDN is about $35/month). After the MVP, move them to Blob storage without a CDN (docs/SPRITES.md).
+
 - Fetch game sprites, trim to content, square; store in Blob storage with CDN caching — 5 h
 - Shiny and Mega variants — 2 h
 - Fallback image when a sprite is missing — 1 h

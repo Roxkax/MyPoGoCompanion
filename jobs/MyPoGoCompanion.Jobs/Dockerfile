@@ -12,13 +12,15 @@ COPY jobs/MyPoGoCompanion.Jobs/MyPoGoCompanion.Jobs.csproj jobs/MyPoGoCompanion.
 COPY api/MyPoGoCompanion.Data/MyPoGoCompanion.Data.csproj api/MyPoGoCompanion.Data/
 COPY api/MyPoGoCompanion.Engine/MyPoGoCompanion.Engine.csproj api/MyPoGoCompanion.Engine/
 COPY api/MyPoGoCompanion.Observability/MyPoGoCompanion.Observability.csproj api/MyPoGoCompanion.Observability/
-RUN dotnet restore jobs/MyPoGoCompanion.Jobs/MyPoGoCompanion.Jobs.csproj
+# Linux x64 only (Azure's Container Apps): without it SkiaSharp's native libraries for every system come along
+# (about 450 MB instead of 25 MB).
+RUN dotnet restore jobs/MyPoGoCompanion.Jobs/MyPoGoCompanion.Jobs.csproj -r linux-x64
 
 COPY jobs/MyPoGoCompanion.Jobs/ jobs/MyPoGoCompanion.Jobs/
 COPY api/MyPoGoCompanion.Data/ api/MyPoGoCompanion.Data/
 COPY api/MyPoGoCompanion.Engine/ api/MyPoGoCompanion.Engine/
 COPY api/MyPoGoCompanion.Observability/ api/MyPoGoCompanion.Observability/
-RUN dotnet publish jobs/MyPoGoCompanion.Jobs/MyPoGoCompanion.Jobs.csproj --no-restore -c Release -o /app /p:UseAppHost=false
+RUN dotnet publish jobs/MyPoGoCompanion.Jobs/MyPoGoCompanion.Jobs.csproj --no-restore -c Release -r linux-x64 --self-contained false -o /app /p:UseAppHost=false
 
 # Chiseled: no shell or package manager, runs as a non-root user; has the CA certificates for HTTPS downloads.
 FROM mcr.microsoft.com/dotnet/runtime:10.0-noble-chiseled AS final

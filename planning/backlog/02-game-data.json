@@ -163,7 +163,7 @@
     "data",
     "web"
    ],
-   "description": "",
+   "description": "For the MVP the pictures are built into the web app at every deploy, not Blob storage with a CDN (decision 2026-11-07: a CDN is about $35/month). After the MVP, move them to Blob storage without a CDN (docs/SPRITES.md).",
    "tasks": [
     [
      "Fetch game sprites, trim to content, square; store in Blob storage with CDN caching",

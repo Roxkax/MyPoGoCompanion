@@ -326,7 +326,7 @@ Plus:
 | Monitoring | Azure Application Insights (free allowance) |
 | Backups | Scheduled job to Azure Blob Storage (a few cents/month) |
 | CI/CD | GitHub Actions: build, test, deploy |
-| Sprites | Datamined game sprites (e.g. PokeMiners' public asset repo), cached in our storage |
+| Sprites | Datamined game sprites from PokeMiners' public asset repo, cropped and squared as WebP: built into the web app at each deploy for the MVP, moved to Azure Blob storage after it (decision 2026-11-07, `docs/SPRITES.md`) |
 | Weather check | A free weather service (e.g. Open-Meteo), approximate |
 | Current Python page | Kept as it is until the app includes its filters; then the Python code and page are removed (golden files saved first) |
 

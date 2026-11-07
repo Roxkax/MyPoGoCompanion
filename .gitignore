@@ -4,8 +4,9 @@
 __pycache__/
 *.pyc
 
-# Design sprites (fetched locally, not committed) and backlog build output
+# Sprites (copyrighted game art: fetched or built locally, never committed) and backlog build output
 design/source/sprites/
+web/public/sprites/
 planning/backlog/backlog.out.json
 
 # .NET

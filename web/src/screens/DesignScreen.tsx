@@ -14,6 +14,30 @@ import { SpriteBox } from '../ui/SpriteBox'
 import { TypeBadge } from '../ui/TypeBadge'
 import { VersionMarker } from '../ui/VersionMarker'
 import { pokemonTypes, versionKinds, type PokemonType } from '../ui/pokemonTypes'
+import { pictureSources } from '../ui/sprites'
+
+/**
+ * Real pictures from the deploy's /sprites/ folder (docs/SPRITES.md), as the daily import names them: on a copy
+ * built without the pictures (local, unless `.github/scripts/build_sprites.sh web/public/sprites` was run) each shows
+ * the placeholder. Urshifu (Rapid Strike) has no shiny picture, so its shiny box falls back to the normal one.
+ */
+const pictureExamples = [
+  { key: 'pictureNormal', form: { sprite: 'pm6' } },
+  { key: 'pictureShiny', form: { sprite: 'pm6', spriteShiny: 'pm6.s' }, shiny: true },
+  { key: 'pictureMega', form: { sprite: 'pm6.fMEGA_X', spriteShiny: 'pm6.fMEGA_X.s' } },
+  {
+    key: 'pictureGigantamax',
+    form: { sprite: 'pm6', spriteGigantamax: 'pm6.fGIGANTAMAX' },
+    gigantamax: true,
+  },
+  { key: 'pictureRegional', form: { sprite: 'pm37.fALOLA' } },
+  {
+    key: 'pictureNoShiny',
+    form: { sprite: 'pm892.fRAPID_STRIKE', spriteShiny: null },
+    shiny: true,
+  },
+  { key: 'pictureMissing', form: { sprite: null } },
+] as const
 
 /**
  * /design, on QA and local copies only: every shared component in one place, to check the design system in light
@@ -121,6 +145,26 @@ export function DesignScreen() {
             <SpriteBox alt={t('design.noPicture')} size={64} />
             <SpriteBox src="/missing-sprite.png" alt={t('design.brokenPicture')} size={40} />
           </div>
+        </Card>
+        <Card as="section" aria-labelledby="design-pictures">
+          <h2 id="design-pictures" className="group-label">
+            {t('design.pictures')}
+          </h2>
+          <ul className="design-pictures" data-testid="design-pictures">
+            {pictureExamples.map((example) => (
+              <li key={example.key}>
+                <SpriteBox
+                  src={pictureSources(example.form, {
+                    shiny: 'shiny' in example,
+                    gigantamax: 'gigantamax' in example,
+                  })}
+                  alt=""
+                  size={72}
+                />
+                <span>{t(`design.${example.key}`)}</span>
+              </li>
+            ))}
+          </ul>
         </Card>
         <Card padded={false} as="section" aria-labelledby="design-card">
           <h2 id="design-card" className="group-label card-rows-title">
