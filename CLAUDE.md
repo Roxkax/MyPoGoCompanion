@@ -106,7 +106,6 @@ Board: https://github.com/users/Roxkax/projects/2 (kept in sync by the `Project 
 - Neon: the old `qa` branch had **auto-delete** on and was removed; it was re-created from `main` with auto-delete **Never**. The real project is `mypogocompanion` (`soft-lab-02601198`, the one the secrets and the QA reset use); **delete the other Neon project**.
 - Optional: delete the stale branches `claude/dreamy-ptolemy-lvqw25` and `claude/project-board` (their commits are already on `main`).
 - Clone the repo (`https://github.com/Roxkax/MyPoGoCompanion.git`) to `C:\Dev` and set `git config user.name/user.email` (see Git above).
-- **Sprint 1 is current**: on the board, open the **Current sprint** view, change its filter from `milestone:"Sprint 0"` to `milestone:"Sprint 1" -label:"type: epic"` and click **Save** (GitHub's API can't edit a view, so this one is by hand). Optionally close the **Sprint 0** milestone (Issues → Milestones). Do the same at each sprint change.
 
 ## The idea (owner's words, 2026-10-26)
 
