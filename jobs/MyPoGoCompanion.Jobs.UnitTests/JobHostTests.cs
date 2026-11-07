@@ -26,7 +26,7 @@ public sealed class JobHostTests
     {
         var database = Guid.NewGuid().ToString();
         var root = new InMemoryDatabaseRoot();
-        var exit = await JobHost.RunAsync(["daily-import", "--DailyImport:Trigger=deploy", "--DailyImport:RetryDelay=00:00:00"], builder =>
+        var exit = await JobHost.RunAsync(["daily-import", "--DailyImport:Trigger=deploy", "--DailyImport:RetryDelay=00:00:00", "--DailyImport:FullPokedex=false", "--DailyImport:MinimumRaidRankingsPerType=0"], builder =>
         {
             builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase(database, root)
                 .ConfigureWarnings(warnings => warnings.Ignore(InMemoryEventId.TransactionIgnoredWarning)));
@@ -85,13 +85,16 @@ public sealed class JobHostTests
         {
             ["DailyImport:Trigger"] = "schedule",
             ["DailyImport:PvpokeBaseUrl"] = "https://mirror.example.test/pvpoke/",
-            ["DailyImport:MinimumReleasedFormsShare"] = "0.9",
+            ["DailyImport:PublishMissing"] = "true",
+            ["DailyImport:RequestedBy"] = "0197e9b5-7d1f-7c3a-9a5e-3f1c2b4d5e6f",
         }).Build();
         using var provider = new ServiceCollection().AddLogging().AddDailyImport(configuration).BuildServiceProvider();
 
         var options = provider.GetRequiredService<IOptions<DailyImportOptions>>().Value;
 
-        Assert.Equal(("schedule", "https://mirror.example.test/pvpoke/", 0.9), (options.Trigger, options.PvpokeBaseUrl.AbsoluteUri, options.MinimumReleasedFormsShare));
+        Assert.Equal(("schedule", "https://mirror.example.test/pvpoke/", true), (options.Trigger, options.PvpokeBaseUrl.AbsoluteUri, options.PublishMissing));
+        Assert.Equal(Guid.Parse("0197e9b5-7d1f-7c3a-9a5e-3f1c2b4d5e6f"), options.RequestedBy);
+        Assert.Equal((true, 10), (options.FullPokedex, options.MinimumRaidRankingsPerType));
         Assert.NotNull(provider.GetRequiredService<SourceDownloader>());
         Assert.Same(TimeProvider.System, provider.GetRequiredService<TimeProvider>());
     }

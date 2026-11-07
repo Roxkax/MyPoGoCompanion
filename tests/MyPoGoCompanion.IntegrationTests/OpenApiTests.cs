@@ -7,6 +7,7 @@ using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using MyPoGoCompanion.Api.Auth;
+using MyPoGoCompanion.Data.Operations;
 
 namespace MyPoGoCompanion.IntegrationTests;
 
@@ -103,10 +104,13 @@ public sealed partial class OpenApiTests(PostgresFixture postgres)
         var google = new FakeGoogle()
             .Add("owner-code", ApiFactory.SuperAdminEmail, "Diogo")
             .Add("misty-code", "misty@example.test", "Misty");
-        await using var api = new ApiFactory(database, google);
+        var azure = new FakeImportStarter();
+        await using var api = new ApiFactory(database, google, importStarter: azure);
         await using var notConfigured = new ApiFactory(database, signInConfigured: false);
+        await using var noRunNow = new ApiFactory(database, google);
         using var client = api.CreateClient();
         using var withoutSignIn = notConfigured.CreateClient();
+        using var withoutRunNow = noRunNow.CreateClient();
         var document = Committed;
         var seen = new HashSet<string>(StringComparer.Ordinal);
 
@@ -152,6 +156,22 @@ public sealed partial class OpenApiTests(PostgresFixture postgres)
         await Call(client, HttpMethod.Put, $"/admin/users/{Guid.NewGuid()}/role", new { role = "Admin" }, owner.AccessToken);
         await Call(client, HttpMethod.Put, $"/admin/users/{misty.User.Id}/role", new { role = "Nope" }, owner.AccessToken);
         await Call(client, HttpMethod.Put, $"/admin/users/{misty.User.Id}/role", new { role = "Admin" }, owner.AccessToken);
+
+        // Run now (the daily import)
+        const string runNow = "/admin/jobs/daily-import/run";
+        await Call(client, HttpMethod.Post, runNow, new { publishMissing = false });
+        await Call(client, HttpMethod.Post, runNow, new { publishMissing = true }, misty.AccessToken); // only the super admin
+        await Call(withoutRunNow, HttpMethod.Post, runNow, new { publishMissing = false }, owner.AccessToken);
+        azure.FailWith = "Couldn't start the job: Azure answered 500 Internal Server Error.";
+        await Call(client, HttpMethod.Post, runNow, new { publishMissing = false }, owner.AccessToken);
+        await Call(client, HttpMethod.Post, runNow, new { publishMissing = true }, owner.AccessToken);
+        await using (var db = PostgresFixture.CreateContext(database))
+        {
+            db.JobRuns.Add(new JobRun { Job = JobKind.DailyImport, Status = JobStatus.Running, StartedAt = DateTimeOffset.UtcNow.AddMinutes(-2) });
+            await db.SaveChangesAsync(Ct);
+        }
+
+        await Call(client, HttpMethod.Post, runNow, new { publishMissing = false }, misty.AccessToken);
 
         // Health and data freshness, then signing out
         await Call(client, HttpMethod.Get, "/health");

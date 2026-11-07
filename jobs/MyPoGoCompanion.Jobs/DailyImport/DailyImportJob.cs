@@ -20,6 +20,9 @@ public enum DailyImportOutcome
 
     Failed,
 
+    /// <summary>The sources no longer list some rows: nothing was published, the super admin decides (still exit code 0).</summary>
+    Held,
+
     /// <summary>Another run holds the lock; this one did nothing and left no run log.</summary>
     AlreadyRunning,
 }
@@ -27,7 +30,9 @@ public enum DailyImportOutcome
 /// <summary>
 /// One run of the daily import (docs/DAILY-IMPORT.md): takes the run lock, logs the run in <c>job_runs</c>,
 /// downloads the sources, and — unless they and the job are the same as at the last successful run — rebuilds the
-/// game data and saves it in one transaction, so a failed run changes nothing and yesterday's data stays live.
+/// game data, runs the sanity checks and saves it in one transaction, so a failed run changes nothing and
+/// yesterday's data stays live. A run that would remove rows the sources no longer list is held: it publishes
+/// nothing until the super admin accepts exactly those removals (decision 2026-11-02).
 /// </summary>
 public sealed partial class DailyImportJob(
     AppDbContext db,
@@ -76,7 +81,10 @@ public sealed partial class DailyImportJob(
             LogMarkedStopped(stopped.Count);
         }
 
-        var run = new JobRun { Job = JobKind.DailyImport, Status = JobStatus.Running, StartedAt = startedAt };
+        var requestedBy = _options.RequestedBy is { } userId && await db.Users.AnyAsync(user => user.Id == userId, cancellationToken)
+            ? userId
+            : (Guid?)null;
+        var run = new JobRun { Job = JobKind.DailyImport, Status = JobStatus.Running, StartedAt = startedAt, RequestedByUserId = requestedBy };
         db.JobRuns.Add(run);
         await db.SaveChangesAsync(cancellationToken);
         LogStarted(run.Id, _options.Trigger);
@@ -104,11 +112,32 @@ public sealed partial class DailyImportJob(
                 LogWarning(warning);
             }
 
-            await CheckReleasedFormsAsync(data, cancellationToken);
+            var storedHighestDex = await db.Species.MaxAsync(species => (int?)species.Dex, cancellationToken) ?? 0;
+            summary.Checks = ImportChecks.Run(data, storedHighestDex, _options);
+            if (summary.Checks.Any(check => !check.Passed))
+            {
+                throw new ImportException(ImportChecks.Explain(summary.Checks));
+            }
 
             await using (var transaction = await db.Database.BeginTransactionAsync(cancellationToken))
             {
-                summary.Changes = new(await GameDataWriter.ApplyAsync(db, data, cancellationToken), StringComparer.Ordinal);
+                var written = await GameDataWriter.ApplyAsync(db, data, cancellationToken);
+                summary.Changes = written.Changes;
+                summary.SetRemovals(written.Removals);
+                // The first import into a database (no import published yet; the dev seed's sample run doesn't count)
+                // has no published data to lose: it publishes.
+                var firstImport = (await LastSuccessAsync(run.Id, cancellationToken))?.Sources.Count is null or 0;
+                if (written.Removals.Count > 0 && !firstImport && !await AcceptedAsync(run.Id, summary, cancellationToken))
+                {
+                    await transaction.RollbackAsync(cancellationToken);
+                    db.ChangeTracker.Clear();
+                    var held = await db.JobRuns.SingleAsync(r => r.Id == run.Id, cancellationToken);
+                    await FinishAsync(held, JobStatus.Held, summary, error: null, cancellationToken);
+                    LogHeld(written.Removals.Values.Sum(rows => rows.Count), string.Join(", ", written.Removals.Keys));
+                    return DailyImportOutcome.Held;
+                }
+
+                summary.PublishedMissing = written.Removals.Count > 0 && !firstImport;
                 await db.SaveChangesAsync(cancellationToken);
                 await transaction.CommitAsync(cancellationToken);
             }
@@ -126,6 +155,7 @@ public sealed partial class DailyImportJob(
             // Whatever was pending belongs to the rolled-back transaction; only the run log is saved.
             db.ChangeTracker.Clear();
             summary.Changes = [];
+            summary.SetRemovals(new Dictionary<string, List<RemovedRow>>());
             var row = await db.JobRuns.SingleAsync(r => r.Id == run.Id, CancellationToken.None);
             await FinishAsync(row, JobStatus.Failed, summary, error, CancellationToken.None);
             return DailyImportOutcome.Failed;
@@ -141,19 +171,32 @@ public sealed partial class DailyImportJob(
     }) ?? "Unexpected error.";
 
     /// <summary>
-    /// Refuses sources that list far fewer released forms than the database has: a cut-off file would otherwise mark
-    /// most Pokémon as not released.
+    /// Whether the super admin accepted these removals: the run was started with "Publish what's missing" and the
+    /// latest earlier run (published or held) was held with exactly the same removals. Otherwise the run holds again,
+    /// with a warning when the acceptance didn't match.
     /// </summary>
-    private async Task CheckReleasedFormsAsync(ImportedGameData data, CancellationToken cancellationToken)
+    private async Task<bool> AcceptedAsync(Guid currentRunId, ImportSummary summary, CancellationToken cancellationToken)
     {
-        var stored = await db.Forms.CountAsync(form => form.Released, cancellationToken);
-        var incoming = data.Forms.Count(form => form.Released);
-        if (stored > 0 && incoming < stored * _options.MinimumReleasedFormsShare)
+        if (!_options.PublishMissing)
         {
-            throw new ImportException(
-                $"PvPoke's game master lists {incoming} released forms, far fewer than the {stored} already stored "
-                + $"(at least {_options.MinimumReleasedFormsShare:P0} expected): it looks incomplete, so nothing was imported.");
+            return false;
         }
+
+        var latest = await db.JobRuns.AsNoTracking()
+            .Where(r => r.Job == JobKind.DailyImport && r.Id != currentRunId && (r.Status == JobStatus.Held || r.Status == JobStatus.Succeeded))
+            .OrderByDescending(r => r.StartedAt).ThenByDescending(r => r.Id)
+            .Select(r => new { r.Status, r.Summary })
+            .FirstOrDefaultAsync(cancellationToken);
+        if (latest?.Status == JobStatus.Held
+            && ImportSummary.TryParse(latest.Summary)?.RemovalsFingerprint is { } accepted && accepted == summary.RemovalsFingerprint)
+        {
+            return true;
+        }
+
+        summary.Warnings.Add(latest?.Status == JobStatus.Held
+            ? "\"Publish what's missing\" wasn't applied: the rows missing changed since the held run you saw. Check the new list."
+            : "\"Publish what's missing\" wasn't applied: no run was waiting for a decision. Check the list of what's missing.");
+        return false;
     }
 
     private async Task<ImportSummary?> LastSuccessAsync(Guid currentRunId, CancellationToken cancellationToken)
@@ -195,6 +238,9 @@ public sealed partial class DailyImportJob(
 
     [LoggerMessage(Level = LogLevel.Information, Message = "Daily import succeeded: {Changes} rows added, changed or removed, {Warnings} warning(s), {Seconds:0.0} s.")]
     private partial void LogSucceeded(int changes, int warnings, double seconds);
+
+    [LoggerMessage(Level = LogLevel.Warning, Message = "Daily import held: the sources no longer list {Count} row(s) ({Kinds}); nothing was published until the super admin decides.")]
+    private partial void LogHeld(int count, string kinds);
 
     [LoggerMessage(Level = LogLevel.Error, Message = "Daily import failed: {Reason}")]
     private partial void LogFailed(Exception exception, string reason);

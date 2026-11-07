@@ -9,6 +9,8 @@
 # Telemetry (E01-F08): the copy's Application Insights (appi-mypogocompanion-<qa|prod>) is created here if it's
 # missing (appinsights.sh, from infra/monitoring.bicep next to this script's repository), and its connection string
 # passed to the API.
+# Run now (E02-F04): the API gets its own Azure identity (system-assigned) and the address of its copy's import job
+# (job-import-<qa|prod>); the owner allows that identity to start the job once (infra/grant-run-now.sh).
 set -euo pipefail
 
 : "${RESOURCE_GROUP:?}" "${API_APP:?}" "${IMAGE_TAG:?}" "${DATABASE_URL:?}" "${WEB_ORIGIN:?}"
@@ -48,6 +50,15 @@ if [[ -n $insights ]]; then
 else
   echo "::warning::Couldn't set up Application Insights for $copy (error above): the API runs without telemetry. See docs/OBSERVABILITY.md."
 fi
+
+# Run now: the copy's own import job, started with the API's identity.
+settings+=(
+  "RunNow__SubscriptionId=$(az account show --query id -o tsv)"
+  "RunNow__ResourceGroup=$RESOURCE_GROUP"
+  "RunNow__JobName=job-import-$copy"
+)
+identity=$(az containerapp identity assign -g "$RESOURCE_GROUP" -n "$API_APP" --system-assigned --query principalId -o tsv --only-show-errors)
+echo "Run now: $API_APP's identity ($identity) starts job-import-$copy once allowed (infra/grant-run-now.sh $copy)."
 
 az containerapp secret set -g "$RESOURCE_GROUP" -n "$API_APP" --secrets "${secrets[@]}" --only-show-errors -o none
 # The API listens on 8080 (the bicep placeholder used 80).

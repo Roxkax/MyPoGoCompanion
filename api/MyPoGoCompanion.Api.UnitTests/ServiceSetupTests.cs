@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
+using MyPoGoCompanion.Api.Admin;
 using MyPoGoCompanion.Api.Configuration;
 using MyPoGoCompanion.Api.Health;
 using MyPoGoCompanion.Data;
@@ -115,5 +116,26 @@ public class ServiceSetupTests
             .OfType<RouteEndpoint>()
             .Select(endpoint => endpoint.RoutePattern.RawText);
         Assert.Equal(["/health", "/health/live"], routes);
+    }
+
+    [Fact]
+    public void AddRunNow_ReadsTheJobFromConfiguration_AndUsesTheApisOwnIdentity()
+    {
+        using var services = new ServiceCollection()
+            .AddLogging()
+            .AddRunNow(Config(("RunNow:SubscriptionId", "sub-1"), ("RunNow:ResourceGroup", "rg-mypogocompanion"), ("RunNow:JobName", "job-import-qa")))
+            .BuildServiceProvider();
+
+        Assert.True(services.GetRequiredService<IImportStarter>().IsConfigured);
+        Assert.IsType<Azure.Identity.ManagedIdentityCredential>(services.GetRequiredService<Azure.Core.TokenCredential>());
+        Assert.Equal("job-import-qa", services.GetRequiredService<IOptions<RunNowOptions>>().Value.JobName);
+    }
+
+    [Fact]
+    public void AddRunNow_WithoutAJob_IsNotConfigured()
+    {
+        using var services = new ServiceCollection().AddLogging().AddRunNow(Config()).BuildServiceProvider();
+
+        Assert.False(services.GetRequiredService<IImportStarter>().IsConfigured);
     }
 }

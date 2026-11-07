@@ -19,7 +19,18 @@ namespace MyPoGoCompanion.Jobs.UnitTests;
 public sealed class DailyImportJobTests : IDisposable
 {
     private static readonly DateTimeOffset _now = new(2026, 11, 2, 6, 0, 0, TimeSpan.Zero);
-    private static readonly DailyImportOptions _options = new() { RetryDelay = TimeSpan.Zero, Trigger = "schedule" };
+    // The fixtures hold 28 species, not the whole Pokédex, and not 10 raid attackers of every type.
+    private static readonly DailyImportOptions _options = Options();
+
+    private static DailyImportOptions Options(bool publishMissing = false, Guid? requestedBy = null) => new()
+    {
+        RetryDelay = TimeSpan.Zero,
+        Trigger = "schedule",
+        FullPokedex = false,
+        MinimumRaidRankingsPerType = 0,
+        PublishMissing = publishMissing,
+        RequestedBy = requestedBy,
+    };
 
     private readonly string _database = Guid.NewGuid().ToString();
     private readonly FakeHttp _http = new(Fixtures.Responses(_options.PvpokeBaseUrl, _options.GameMasterUrl));
@@ -36,8 +47,8 @@ public sealed class DailyImportJobTests : IDisposable
     {
         await using var db = Db();
         var configuration = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?> { ["APP_VERSION"] = version }).Build();
-        var downloader = new SourceDownloader(new HttpClient(_http), Options.Create(options ?? _options), NullLogger<SourceDownloader>.Instance);
-        var job = new DailyImportJob(db, runLock ?? new FreeLock(), downloader, Options.Create(options ?? _options), configuration, _time, NullLogger<DailyImportJob>.Instance);
+        var downloader = new SourceDownloader(new HttpClient(_http), Microsoft.Extensions.Options.Options.Create(options ?? _options), NullLogger<SourceDownloader>.Instance);
+        var job = new DailyImportJob(db, runLock ?? new FreeLock(), downloader, Microsoft.Extensions.Options.Options.Create(options ?? _options), configuration, _time, NullLogger<DailyImportJob>.Instance);
         return await job.RunAsync(cancellationToken ?? Ct);
     }
 
@@ -113,29 +124,137 @@ public sealed class DailyImportJobTests : IDisposable
     }
 
     [Fact]
-    public async Task ACutOffSource_IsRefused()
+    public async Task MissingRows_HoldTheRun_AndChangeNothing()
     {
+        await RunAsync();
+        // A broken PvPoke game master that still reads: every Shadow and Mega is gone.
+        var pvpoke = JsonSerializer.Deserialize<PvpokeGameMaster>(Fixtures.Bytes("pvpoke-gamemaster.json"), JsonSerializerOptions.Web)!;
+        pvpoke.Pokemon.RemoveAll(p => p.SpeciesId.EndsWith("_shadow", StringComparison.Ordinal) || p.SpeciesId.Contains("_mega", StringComparison.Ordinal));
+        ServePvpoke(pvpoke);
+        _time.Advance(TimeSpan.FromDays(1));
+
+        Assert.Equal(DailyImportOutcome.Held, await RunAsync(version: "def5678"));
+
+        var held = (await RunsAsync())[1];
+        Assert.Equal((JobStatus.Held, _now.AddDays(1), null), (held.Status, held.FinishedAt, held.Error));
+        var summary = Summary(held);
+        Assert.True(summary.Removals["forms"].Count >= 3); // the Megas, kept but no longer released
+        Assert.True(summary.Removals["raidMovesets"].Count > RemovalList.Shown);
+        Assert.Equal(RemovalList.Shown, summary.Removals["raidMovesets"].Items.Count);
+        Assert.NotNull(summary.RemovalsFingerprint);
+        Assert.False(summary.PublishedMissing);
+        Assert.All(summary.Checks, check => Assert.True(check.Passed));
+        await using var db = Db();
+        Assert.Equal(Fixtures.Built.Forms.Count(form => form.Released), await db.Forms.CountAsync(form => form.Released, Ct));
+        Assert.Equal(Fixtures.Built.PvpRankings.Count, await db.PvpRankings.CountAsync(Ct));
+    }
+
+    [Fact]
+    public async Task ACutOffSource_FailsThePokedexCheck()
+    {
+        await RunAsync();
+        var pvpoke = JsonSerializer.Deserialize<PvpokeGameMaster>(Fixtures.Bytes("pvpoke-gamemaster.json"), JsonSerializerOptions.Web)!;
+        pvpoke.Pokemon.RemoveRange(pvpoke.Pokemon.Count / 2, pvpoke.Pokemon.Count - (pvpoke.Pokemon.Count / 2));
+        ServePvpoke(pvpoke);
+
+        Assert.Equal(DailyImportOutcome.Failed, await RunAsync(version: "def5678"));
+
+        var failed = (await RunsAsync())[1];
+        Assert.Contains("Pokédex: The highest Pokédex number is #", failed.Error, StringComparison.Ordinal);
+        Assert.Contains("lower than the #1000 already stored.", failed.Error, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task BrokenData_FailsTheChecks_AndChangesNothing()
+    {
+        await RunAsync();
+        var pvpoke = JsonSerializer.Deserialize<PvpokeGameMaster>(Fixtures.Bytes("pvpoke-gamemaster.json"), JsonSerializerOptions.Web)!;
+        pvpoke.Pokemon.Single(p => p.SpeciesId == "charizard").BaseStats.Atk = 0;
+        ServePvpoke(pvpoke);
+        _time.Advance(TimeSpan.FromDays(1));
+
+        Assert.Equal(DailyImportOutcome.Failed, await RunAsync(version: "def5678"));
+
+        var failed = (await RunsAsync())[1];
+        Assert.StartsWith("The new data failed 1 sanity check, so nothing was published (yesterday's data stays live). Numbers: Charizard (charizard) has base stats 0/", failed.Error, StringComparison.Ordinal);
+        var summary = Summary(failed);
+        Assert.False(summary.Checks.Single(check => check.Name == "Numbers").Passed);
+        Assert.Empty(summary.Changes);
+        await using var db = Db();
+        Assert.Equal(223, (await db.Forms.SingleAsync(f => f.Id == "charizard", Ct)).Attack);
+    }
+
+    [Fact]
+    public async Task PublishWhatsMissing_PublishesTheRemovalsTheHeldRunShowed()
+    {
+        var admin = Guid.CreateVersion7();
         await using (var db = Db())
         {
-            // Pretend the database already holds many more released forms than the sources list.
-            db.Types.Add(new PokemonType { Id = "normal", NameEn = "Normal", NamePt = "Normal", SortOrder = 1 });
-            db.Families.Add(new Family { Id = "FAMILY_X" });
-            db.Species.Add(new Species { Dex = 9000, NameEn = "X", FamilyId = "FAMILY_X", Generation = 9 });
-            for (var i = 0; i < 500; i++)
-            {
-                db.Forms.Add(new Form { Id = $"x{i}", Dex = 9000, NameEn = "X", Type1Id = "normal", Attack = 1, Defense = 1, Stamina = 1, Released = true, IsDefault = i == 0 });
-            }
-
+            db.Users.Add(new Data.Users.User { Id = admin, GoogleSubject = "google-admin", Email = "admin@example.test", DisplayName = "Admin" });
             await db.SaveChangesAsync(Ct);
         }
 
-        Assert.Equal(DailyImportOutcome.Failed, await RunAsync());
+        await RunAsync();
+        var pvpoke = JsonSerializer.Deserialize<PvpokeGameMaster>(Fixtures.Bytes("pvpoke-gamemaster.json"), JsonSerializerOptions.Web)!;
+        pvpoke.Pokemon.RemoveAll(p => p.SpeciesId == "vulpix_alolan");
+        ServePvpoke(pvpoke);
+        _time.Advance(TimeSpan.FromDays(1));
+        Assert.Equal(DailyImportOutcome.Held, await RunAsync(version: "def5678"));
+        var held = Summary((await RunsAsync())[1]);
+        Assert.Equal(["Vulpix (Alolan)"], held.Removals["forms"].Items);
 
-        var run = Assert.Single(await RunsAsync());
-        Assert.Contains("far fewer than the 500 already stored", run.Error, StringComparison.Ordinal);
+        _time.Advance(TimeSpan.FromHours(1));
+        Assert.Equal(DailyImportOutcome.Succeeded, await RunAsync(version: "def5678", options: Options(publishMissing: true, requestedBy: admin)));
+
+        var published = (await RunsAsync())[2];
+        Assert.Equal((JobStatus.Succeeded, admin), (published.Status, published.RequestedByUserId));
+        var summary = Summary(published);
+        Assert.True(summary.PublishedMissing);
+        Assert.Equal(held.RemovalsFingerprint, summary.RemovalsFingerprint);
+        Assert.Equal(1, summary.Changes["forms"].Removed);
         await using var check = Db();
-        Assert.Equal(500, await check.Forms.CountAsync(form => form.Released, Ct));
+        Assert.False((await check.Forms.SingleAsync(f => f.Id == "vulpix_alolan", Ct)).Released);
     }
+
+    [Fact]
+    public async Task PublishWhatsMissing_HoldsAgain_WhenTheRemovalsChanged()
+    {
+        await RunAsync();
+        var pvpoke = JsonSerializer.Deserialize<PvpokeGameMaster>(Fixtures.Bytes("pvpoke-gamemaster.json"), JsonSerializerOptions.Web)!;
+        pvpoke.Pokemon.RemoveAll(p => p.SpeciesId == "vulpix_alolan");
+        ServePvpoke(pvpoke);
+        _time.Advance(TimeSpan.FromDays(1));
+        Assert.Equal(DailyImportOutcome.Held, await RunAsync(version: "def5678"));
+
+        // Overnight something else went missing too: what was accepted isn't what would go now.
+        pvpoke.Pokemon.RemoveAll(p => p.SpeciesId == "bulbasaur");
+        ServePvpoke(pvpoke);
+        _time.Advance(TimeSpan.FromHours(1));
+        Assert.Equal(DailyImportOutcome.Held, await RunAsync(version: "def5678", options: Options(publishMissing: true, requestedBy: Guid.CreateVersion7())));
+
+        var again = (await RunsAsync())[2];
+        Assert.Equal((JobStatus.Held, null), (again.Status, again.RequestedByUserId)); // an unknown user isn't recorded
+        Assert.Contains(Summary(again).Warnings, w => w.Contains("the rows missing changed since the held run you saw", StringComparison.Ordinal));
+        await using var db = Db();
+        Assert.True((await db.Forms.SingleAsync(f => f.Id == "vulpix_alolan", Ct)).Released);
+    }
+
+    [Fact]
+    public async Task PublishWhatsMissing_WithNothingWaiting_Holds()
+    {
+        await RunAsync();
+        var pvpoke = JsonSerializer.Deserialize<PvpokeGameMaster>(Fixtures.Bytes("pvpoke-gamemaster.json"), JsonSerializerOptions.Web)!;
+        pvpoke.Pokemon.RemoveAll(p => p.SpeciesId == "vulpix_alolan");
+        ServePvpoke(pvpoke);
+
+        Assert.Equal(DailyImportOutcome.Held, await RunAsync(version: "def5678", options: Options(publishMissing: true)));
+
+        Assert.Contains(Summary((await RunsAsync())[1]).Warnings, w => w.Contains("no run was waiting for a decision", StringComparison.Ordinal));
+    }
+
+    private void ServePvpoke(PvpokeGameMaster pvpoke) =>
+        _http.Responses[new Uri(_options.PvpokeBaseUrl, "data/gamemaster.json").AbsoluteUri] = () =>
+            new HttpResponseMessage(System.Net.HttpStatusCode.OK) { Content = new ByteArrayContent(JsonSerializer.SerializeToUtf8Bytes(pvpoke, JsonSerializerOptions.Web)) };
 
     [Fact]
     public async Task ARunThatNeverFinished_IsMarkedFailed()
@@ -273,13 +392,13 @@ public sealed class DailyImportJobTests : IDisposable
         charizard.EliteMoves.Remove("WING_ATTACK");
         pvpoke.Pokemon.RemoveAll(p => p.SpeciesId == "vulpix_alolan"); // gone from PvPoke
         pvpoke.Pokemon.RemoveAll(p => p.SpeciesId == "bulbasaur");
-        _http.Responses[new Uri(_options.PvpokeBaseUrl, "data/gamemaster.json").AbsoluteUri] = () =>
-            new HttpResponseMessage(System.Net.HttpStatusCode.OK) { Content = new ByteArrayContent(JsonSerializer.SerializeToUtf8Bytes(pvpoke, JsonSerializerOptions.Web)) };
+        ServePvpoke(pvpoke);
 
-        // Bulbasaur's only form is gone, so the share of released forms drops: allow it here.
-        Assert.Equal(DailyImportOutcome.Succeeded, await RunAsync(version: "def5678", options: new DailyImportOptions { RetryDelay = TimeSpan.Zero, MinimumReleasedFormsShare = 0.5 }));
+        // Rows go missing, so the run is held, then published with the super admin's OK.
+        Assert.Equal(DailyImportOutcome.Held, await RunAsync(version: "def5678"));
+        Assert.Equal(DailyImportOutcome.Succeeded, await RunAsync(version: "def5678", options: Options(publishMissing: true)));
 
-        var changes = Summary((await RunsAsync())[1]).Changes;
+        var changes = Summary((await RunsAsync())[2]).Changes;
         Assert.Equal(2, changes["forms"].Removed); // Alolan Vulpix and Bulbasaur: kept, marked not released
         Assert.True(changes["forms"].Changed >= 1);
         Assert.True(changes["movepools"].Removed >= 1);

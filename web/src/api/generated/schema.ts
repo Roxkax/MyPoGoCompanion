@@ -55,6 +55,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/admin/jobs/daily-import/run": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Starts the daily import now (admins). "Publish what's missing" is for the super admin only. */
+        post: operations["RunDailyImport"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/freshness": {
         parameters: {
             query?: never;
@@ -453,6 +470,38 @@ export interface components {
             refreshToken: null | string;
         };
         /**
+         * @description Run now's options.
+         * @example {
+         *       "publishMissing": false
+         *     }
+         */
+        RunImportRequest: {
+            /**
+             * @description "Publish what's missing" (super admin only): publish the rows the sources no longer list, when they are exactly
+             *     the ones the last held run showed. Left out: a normal run, which holds again if rows are missing.
+             */
+            publishMissing: null | boolean;
+        };
+        /**
+         * @description The run Azure started. The job writes its own run log (job_runs) as soon as it starts.
+         * @example {
+         *       "execution": "job-import-prod-k3x9q2m",
+         *       "publishMissing": false,
+         *       "startedAt": "2026-10-27T18:30:00+00:00"
+         *     }
+         */
+        RunImportResponse: {
+            /** @description The job execution's name, to find it in the Azure portal. */
+            execution: string;
+            /** @description Whether it publishes what's missing. */
+            publishMissing: boolean;
+            /**
+             * Format: date-time
+             * @description When it was asked to start.
+             */
+            startedAt: string;
+        };
+        /**
          * @description What a sign-in or refresh returns: a 15-minute access token, the next refresh token and the user.
          * @example {
          *       "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwZjhjMmQxZSJ9.c2lnbmF0dXJl",
@@ -617,6 +666,113 @@ export interface operations {
                      *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.2",
                      *       "title": "Unauthorized",
                      *       "status": 401
+                     *     }
+                     */
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    RunDailyImport: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RunImportRequest"];
+            };
+        };
+        responses: {
+            /** @description Accepted */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RunImportResponse"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.2",
+                     *       "title": "Unauthorized",
+                     *       "status": 401
+                     *     }
+                     */
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.4",
+                     *       "title": "Forbidden",
+                     *       "status": 403
+                     *     }
+                     */
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.10",
+                     *       "title": "Conflict",
+                     *       "status": 409,
+                     *       "detail": "A daily import is already running (started 2 minutes ago)."
+                     *     }
+                     */
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Bad Gateway */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.6.3",
+                     *       "title": "Bad Gateway",
+                     *       "status": 502,
+                     *       "detail": "Couldn't start the job: Azure answered 500 Internal Server Error."
+                     *     }
+                     */
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.6.4",
+                     *       "title": "Service Unavailable",
+                     *       "status": 503,
+                     *       "detail": "Sign-in isn't set up on this server yet."
                      *     }
                      */
                     "application/problem+json": components["schemas"]["ProblemDetails"];
