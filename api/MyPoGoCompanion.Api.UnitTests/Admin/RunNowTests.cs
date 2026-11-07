@@ -106,6 +106,17 @@ public sealed class RunNowEndpointsTests
         Assert.Equal((StatusCodes.Status502BadGateway, "Couldn't start the job: Azure answered 500."), (problem.StatusCode, problem.ProblemDetails.Detail));
     }
 
+    [Fact]
+    public async Task AzureSayingARunIsStarting_Returns409()
+    {
+        using var kit = new AuthTestKit();
+        var owner = await kit.AddUserAsync(AuthTestKit.SuperAdminEmail);
+
+        var problem = Problem(await RunAsync(kit, owner, false, new Starter { Busy = "job-import-qa-abc" }));
+
+        Assert.Equal((StatusCodes.Status409Conflict, "A daily import is already starting or running (job-import-qa-abc)."), (problem.StatusCode, problem.ProblemDetails.Detail));
+    }
+
     private sealed class Starter : IImportStarter
     {
         public List<ImportRunRequest> Requests { get; } = [];
@@ -114,11 +125,18 @@ public sealed class RunNowEndpointsTests
 
         public string? Fail { get; init; }
 
+        public string? Busy { get; init; }
+
         public Task<string> StartAsync(ImportRunRequest request, CancellationToken cancellationToken)
         {
             if (Fail is not null)
             {
                 throw new JobStartException(Fail);
+            }
+
+            if (Busy is not null)
+            {
+                throw new ImportAlreadyRunningException(Busy);
             }
 
             Requests.Add(request);
@@ -156,20 +174,22 @@ public sealed class AzureImportStarterTests
         },
     }.ToJsonString();
 
+    private const string NoneRunning = """{"value":[{"name":"job-import-qa-old1","properties":{"status":"Succeeded"}},{"name":"job-import-qa-old2","properties":{"status":"Failed"}}]}""";
+
     private static AzureImportStarter Starter(Azure azure, RunNowOptions? options = null, TokenCredential? credential = null) =>
         new(new HttpClient(azure), credential ?? new FakeCredential(), Options.Create(options ?? _configured));
 
     [Fact]
     public async Task Starts_TheJobsOwnContainer_WithTheRunsArguments()
     {
-        var azure = new Azure((HttpStatusCode.OK, Definition()), (HttpStatusCode.Accepted, """{"name":"job-import-qa-x1y2z3","id":"/x"}"""));
+        var azure = new Azure((HttpStatusCode.OK, NoneRunning), (HttpStatusCode.OK, Definition()), (HttpStatusCode.Accepted, """{"name":"job-import-qa-x1y2z3","id":"/x"}"""));
 
         var execution = await Starter(azure).StartAsync(new ImportRunRequest(_owner, PublishMissing: true), Ct);
 
         Assert.Equal("job-import-qa-x1y2z3", execution);
-        Assert.Equal([$"GET {Job}?api-version=2024-03-01", $"POST {Job}/start?api-version=2024-03-01"], azure.Calls);
+        Assert.Equal([$"GET {Job}/executions?api-version=2024-03-01", $"GET {Job}?api-version=2024-03-01", $"POST {Job}/start?api-version=2024-03-01"], azure.Calls);
         Assert.All(azure.Tokens, token => Assert.Equal("Bearer azure-token", token));
-        var container = JsonNode.Parse(azure.Bodies[1]!)!["containers"]![0]!;
+        var container = JsonNode.Parse(azure.Bodies[2]!)!["containers"]![0]!;
         Assert.Equal(
             ["daily-import", "--DailyImport:Trigger=admin", $"--DailyImport:RequestedBy={_owner}", "--DailyImport:PublishMissing=true"],
             container["args"]!.AsArray().Select(a => (string)a!));
@@ -178,14 +198,42 @@ public sealed class AzureImportStarterTests
         Assert.Null(container["probes"]);
     }
 
+    [Theory]
+    [InlineData("Running")]
+    [InlineData("Processing")]
+    public async Task AnExecutionStartingOrRunning_IsNotStartedAgain(string status)
+    {
+        // A run's own log only appears once its container has started, so Azure is asked first.
+        var azure = new Azure((HttpStatusCode.OK, """{"value":[{"name":"job-import-qa-done","properties":{"status":"Succeeded"}},{"name":"job-import-qa-busy","properties":{"status":"STATUS"}}]}""".Replace("STATUS", status, StringComparison.Ordinal)));
+
+        var running = await Assert.ThrowsAsync<ImportAlreadyRunningException>(() => Starter(azure).StartAsync(new ImportRunRequest(_owner, false), Ct));
+
+        Assert.Equal(("job-import-qa-busy", "A daily import is already starting or running (job-import-qa-busy)."), (running.Execution, running.Message));
+        Assert.Single(azure.Calls);
+    }
+
+    [Fact]
+    public async Task Executions_AreReadPageByPage()
+    {
+        var next = $"{Job}/executions?api-version=2024-03-01&$skiptoken=2";
+        var azure = new Azure(
+            (HttpStatusCode.OK, """{"value":[{"name":"a","properties":{"status":"Succeeded"}}],"nextLink":"NEXT"}""".Replace("NEXT", next, StringComparison.Ordinal)),
+            (HttpStatusCode.OK, """{"value":[{"properties":{"status":"Running"}}]}"""));
+
+        var running = await Assert.ThrowsAsync<ImportAlreadyRunningException>(() => Starter(azure).StartAsync(new ImportRunRequest(_owner, false), Ct));
+
+        Assert.Equal("an earlier run", running.Execution);
+        Assert.Equal($"GET {next}", azure.Calls[1]);
+    }
+
     [Fact]
     public async Task ANormalRun_DoesntPublishWhatsMissing()
     {
-        var azure = new Azure((HttpStatusCode.OK, Definition()), (HttpStatusCode.Accepted, """{"name":"run"}"""));
+        var azure = new Azure((HttpStatusCode.OK, NoneRunning), (HttpStatusCode.OK, Definition()), (HttpStatusCode.Accepted, """{"name":"run"}"""));
 
         await Starter(azure).StartAsync(new ImportRunRequest(_owner, PublishMissing: false), Ct);
 
-        Assert.DoesNotContain("PublishMissing", azure.Bodies[1], StringComparison.Ordinal);
+        Assert.DoesNotContain("PublishMissing", azure.Bodies[2], StringComparison.Ordinal);
     }
 
     [Theory]
@@ -194,7 +242,7 @@ public sealed class AzureImportStarterTests
     [InlineData(HttpStatusCode.InternalServerError, "Couldn't read the job: Azure answered 500 Internal Server Error.")]
     public async Task AzureRefusing_SaysWhy(HttpStatusCode status, string message)
     {
-        var azure = new Azure((status, "{}"));
+        var azure = new Azure((HttpStatusCode.OK, NoneRunning), (status, "{}"));
 
         var failure = await Assert.ThrowsAsync<JobStartException>(() => Starter(azure).StartAsync(new ImportRunRequest(_owner, false), Ct));
 
@@ -204,7 +252,7 @@ public sealed class AzureImportStarterTests
     [Fact]
     public async Task RefusedStart_SaysWhy()
     {
-        var azure = new Azure((HttpStatusCode.OK, Definition()), (HttpStatusCode.Forbidden, "{}"));
+        var azure = new Azure((HttpStatusCode.OK, NoneRunning), (HttpStatusCode.OK, Definition()), (HttpStatusCode.Forbidden, "{}"));
 
         var failure = await Assert.ThrowsAsync<JobStartException>(() => Starter(azure).StartAsync(new ImportRunRequest(_owner, false), Ct));
 
@@ -215,14 +263,14 @@ public sealed class AzureImportStarterTests
     public async Task NoAnswer_NoContainer_NoRunName_AndNoIdentity()
     {
         var silent = new Azure();
-        Assert.Equal("Azure didn't answer when the API tried to read the job.",
+        Assert.Equal("Azure didn't answer when the API tried to read the job's runs.",
             (await Assert.ThrowsAsync<JobStartException>(() => Starter(silent).StartAsync(new ImportRunRequest(_owner, false), Ct))).Message);
 
-        var empty = new Azure((HttpStatusCode.OK, """{"properties":{"template":{"containers":[]}}}"""));
+        var empty = new Azure((HttpStatusCode.OK, NoneRunning), (HttpStatusCode.OK, """{"properties":{"template":{"containers":[]}}}"""));
         Assert.Equal("The job job-import-qa has no container to run.",
             (await Assert.ThrowsAsync<JobStartException>(() => Starter(empty).StartAsync(new ImportRunRequest(_owner, false), Ct))).Message);
 
-        var nameless = new Azure((HttpStatusCode.OK, Definition()), (HttpStatusCode.Accepted, "{}"));
+        var nameless = new Azure((HttpStatusCode.OK, NoneRunning), (HttpStatusCode.OK, Definition()), (HttpStatusCode.Accepted, "{}"));
         Assert.Equal("Azure started the job but didn't say which run it is.",
             (await Assert.ThrowsAsync<JobStartException>(() => Starter(nameless).StartAsync(new ImportRunRequest(_owner, false), Ct))).Message);
 

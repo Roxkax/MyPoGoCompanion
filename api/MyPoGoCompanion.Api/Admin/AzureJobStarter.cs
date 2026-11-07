@@ -31,6 +31,14 @@ public sealed record ImportRunRequest(Guid RequestedBy, bool PublishMissing);
 /// <summary>Azure didn't start the job; the message says why, in plain words.</summary>
 public sealed class JobStartException(string message, Exception? inner = null) : Exception(message, inner);
 
+/// <summary>The job already has an execution starting or running in Azure.</summary>
+/// <param name="execution">That execution's name.</param>
+public sealed class ImportAlreadyRunningException(string execution)
+    : Exception($"A daily import is already starting or running ({execution}).")
+{
+    public string Execution { get; } = execution;
+}
+
 /// <summary>Starts one run of the daily import.</summary>
 public interface IImportStarter
 {
@@ -38,6 +46,7 @@ public interface IImportStarter
     bool IsConfigured { get; }
 
     /// <summary>Starts the run; returns the job execution's name (to find it in the Azure portal).</summary>
+    /// <exception cref="ImportAlreadyRunningException">An execution is already starting or running.</exception>
     /// <exception cref="JobStartException">Azure refused or didn't answer.</exception>
     Task<string> StartAsync(ImportRunRequest request, CancellationToken cancellationToken);
 }
@@ -46,13 +55,21 @@ public interface IImportStarter
 /// Starts the copy's daily import job with the API's own Azure identity (decision 2026-11-02): it reads the job's
 /// container (image, settings as secret references) and starts an execution of it with the run's arguments, as
 /// <c>.github/scripts/run_import.sh</c> does. The identity needs "Container Apps Jobs Operator" on that job only
-/// (<c>infra/grant-run-now.sh</c>, run once per copy by the owner).
+/// (<c>infra/grant-run-now.sh</c>, run once per copy by the owner). It first asks Azure whether the job already has an
+/// execution starting or running: a run's own log only appears once its container has started (20–40 s), so the
+/// database alone can't tell during that time.
 /// </summary>
 public sealed class AzureImportStarter(HttpClient http, TokenCredential credential, IOptions<RunNowOptions> options) : IImportStarter
 {
     public const string HttpClientName = "AzureJobs";
 
     internal const string ApiVersion = "2024-03-01";
+
+    /// <summary>Execution states that mean "starting or running" (Azure's other ones are finished).</summary>
+    private static readonly HashSet<string> _active = new(StringComparer.OrdinalIgnoreCase) { "Running", "Processing", "Pending" };
+
+    /// <summary>Pages of executions read at most (Azure keeps about the last hundred).</summary>
+    private const int MaxPages = 5;
 
     private static readonly TokenRequestContext _scope = new(["https://management.azure.com/.default"]);
 
@@ -77,6 +94,11 @@ public sealed class AzureImportStarter(HttpClient http, TokenCredential credenti
         catch (Exception exception) when (exception is not OperationCanceledException)
         {
             throw new JobStartException("The API couldn't sign in to Azure with its own identity (is it switched on for this copy?).", exception);
+        }
+
+        if (await ActiveExecutionAsync(job, token, cancellationToken) is { } active)
+        {
+            throw new ImportAlreadyRunningException(active);
         }
 
         var definition = await SendAsync(HttpMethod.Get, $"{job}?api-version={ApiVersion}", token, body: null, "read the job", cancellationToken);
@@ -105,6 +127,27 @@ public sealed class AzureImportStarter(HttpClient http, TokenCredential credenti
         var started = await SendAsync(HttpMethod.Post, $"{job}/start?api-version={ApiVersion}", token,
             new JsonObject { ["containers"] = new JsonArray(run) }, "start the job", cancellationToken);
         return (string?)started["name"] ?? throw new JobStartException("Azure started the job but didn't say which run it is.");
+    }
+
+    /// <summary>The name of an execution that is starting or running, or null when there is none.</summary>
+    private async Task<string?> ActiveExecutionAsync(string job, AccessToken token, CancellationToken cancellationToken)
+    {
+        var url = $"{job}/executions?api-version={ApiVersion}";
+        for (var page = 0; page < MaxPages && !string.IsNullOrEmpty(url); page++)
+        {
+            var executions = await SendAsync(HttpMethod.Get, url, token, body: null, "read the job's runs", cancellationToken);
+            foreach (var execution in executions["value"]?.AsArray() ?? [])
+            {
+                if (execution?["properties"]?["status"]?.GetValue<string>() is { } status && _active.Contains(status))
+                {
+                    return (string?)execution["name"] ?? "an earlier run";
+                }
+            }
+
+            url = (string?)executions["nextLink"];
+        }
+
+        return null;
     }
 
     private async Task<JsonNode> SendAsync(HttpMethod method, string url, AccessToken token, JsonNode? body, string what, CancellationToken cancellationToken)

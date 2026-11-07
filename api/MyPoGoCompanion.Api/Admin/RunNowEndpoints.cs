@@ -98,6 +98,10 @@ internal static class RunNowEndpoints
             var execution = await starter.StartAsync(new ImportRunRequest(userId, publishMissing), cancellationToken);
             return TypedResults.Accepted((string?)null, new RunImportResponse(execution, publishMissing, now));
         }
+        catch (ImportAlreadyRunningException exception)
+        {
+            return TypedResults.Problem(exception.Message, statusCode: StatusCodes.Status409Conflict);
+        }
         catch (JobStartException exception)
         {
             return TypedResults.Problem(exception.Message, statusCode: StatusCodes.Status502BadGateway);
