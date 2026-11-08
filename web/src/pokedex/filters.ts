@@ -156,6 +156,12 @@ export function countFilters(filters: Filters): number {
   )
 }
 
+/** Types toggle; a third type replaces the first (a Pokémon has at most two). */
+export function toggleType(types: readonly PokemonType[], type: PokemonType): PokemonType[] {
+  if (types.includes(type)) return types.filter((other) => other !== type)
+  return [...types, type].slice(-2)
+}
+
 /** Tapping a column: the same column reverses, another starts in its own direction. */
 export function sortBy(filters: Filters, sort: SortKey): Filters {
   const order: SortOrder =

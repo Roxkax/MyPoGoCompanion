@@ -31,6 +31,8 @@ interface TabScreenProps {
   sections?: Sections
   /** The search bar under the title (phone; the desktop has it in the top bar). */
   search?: boolean
+  /** A screen's own search box in place of that search bar (the Pokédex's), phone only. */
+  searchBox?: ReactNode
   children: ReactNode
 }
 
@@ -46,6 +48,7 @@ export function TabScreen({
   actions,
   sections,
   search = false,
+  searchBox,
   children,
 }: TabScreenProps) {
   const desktop = useIsDesktop()
@@ -88,7 +91,7 @@ export function TabScreen({
         </div>
         {subtitle && <p className="tab-subtitle">{subtitle}</p>}
         {switcher}
-        {search && <SearchButton />}
+        {searchBox ?? (search && <SearchButton />)}
       </header>
       <main className="screen">
         <ScreenWarnings />
