@@ -129,6 +129,7 @@ internal static class PokemonPageEndpoints
             .Concat(pvp.SelectMany(r => new[] { r.FastMoveId, r.ChargedMove1Id, r.ChargedMove2Id }).OfType<string>())
             .Concat(usage.Select(u => u.MoveId))
             .Concat(raidMovesets.SelectMany(r => new[] { r.FastMoveId, r.ChargedMoveId }))
+            .Concat(raidRanks.SelectMany(r => new[] { r.FastMoveId, r.ChargedMoveId }))
             .Distinct(StringComparer.Ordinal).ToList();
         var moves = await db.Moves.AsNoTracking().Where(m => moveIds.Contains(m.Id)).OrderBy(m => m.Id).ToListAsync(cancellationToken);
 
@@ -163,6 +164,7 @@ internal static class PokemonPageEndpoints
                 form.CanDynamax,
                 form.CanGigantamax,
                 form.Sprite,
+                form.SpriteShiny,
                 form.CanGigantamax ? form.SpriteGigantamax : null,
                 main is not null && !form.IsDefault && form.Kind is FormKind.Alternate or FormKind.Costume
                     && form.Attack == main.Attack && form.Defense == main.Defense && form.Stamina == main.Stamina
@@ -179,7 +181,7 @@ internal static class PokemonPageEndpoints
                 [.. bestIvs.Where(b => b.FormId == form.Id).OrderBy(b => b.League)
                     .Select(b => new PageBestIvs(b.League, b.AttackIv, b.DefenseIv, b.StaminaIv, b.Level, b.Cp))],
                 [.. raidRanks.Where(r => r.FormId == form.Id).OrderBy(r => r.Rank).ThenBy(r => r.AttackingTypeId, StringComparer.Ordinal)
-                    .Select(r => new PageRaidRank(r.AttackingTypeId, r.IsShadow, r.Rank))],
+                    .Select(r => new PageRaidRank(r.AttackingTypeId, r.IsShadow, r.Rank, r.FastMoveId, r.ChargedMoveId))],
                 [.. raidMovesets.Where(r => r.FormId == form.Id).OrderBy(r => r.IsShadow).ThenBy(r => r.Rank)
                     .Select(r => new PageRaidMoveset(r.IsShadow, r.FastMoveId, r.ChargedMoveId, r.Rank, r.Dps, r.Tdo, r.Score))]);
         }

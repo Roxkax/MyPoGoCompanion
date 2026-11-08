@@ -769,6 +769,7 @@ export interface components {
          *       "dynamax": false,
          *       "gigantamax": false,
          *       "sprite": "pm445",
+         *       "spriteShiny": "pm445.s",
          *       "spriteGigantamax": null,
          *       "looksOnly": false,
          *       "buddyDistanceKm": 5,
@@ -828,7 +829,9 @@ export interface components {
          *         {
          *           "type": "ground",
          *           "isShadow": false,
-         *           "rank": 12
+         *           "rank": 12,
+         *           "fastMoveId": "MUD_SHOT",
+         *           "chargedMoveId": "EARTH_POWER"
          *         }
          *       ],
          *       "raidMovesets": [
@@ -892,6 +895,8 @@ export interface components {
             gigantamax: boolean;
             /** @description Its picture's name; null when none. */
             sprite: null | string;
+            /** @description Its shiny picture's name; null when none. */
+            spriteShiny: null | string;
             /** @description Its Gigantamax picture's name; null when none. */
             spriteGigantamax: null | string;
             /** @description Same stats and types as the main form, only a different look. */
@@ -1117,11 +1122,13 @@ export interface components {
             score: number;
         };
         /**
-         * @description The form's place in an attacking type's raid list.
+         * @description The form's place in an attacking type's raid list, with the moveset it is ranked with.
          * @example {
          *       "type": "ground",
          *       "isShadow": false,
-         *       "rank": 12
+         *       "rank": 12,
+         *       "fastMoveId": "MUD_SHOT",
+         *       "chargedMoveId": "EARTH_POWER"
          *     }
          */
         PageRaidRank: {
@@ -1129,6 +1136,8 @@ export interface components {
             isShadow: boolean;
             /** Format: int32 */
             rank: number;
+            fastMoveId: string;
+            chargedMoveId: string;
         };
         /**
          * @description A version of a species with its own stats, types or picture.
@@ -1556,6 +1565,7 @@ export interface components {
          *           "dynamax": false,
          *           "gigantamax": false,
          *           "sprite": "pm445",
+         *           "spriteShiny": "pm445.s",
          *           "spriteGigantamax": null,
          *           "looksOnly": false,
          *           "buddyDistanceKm": 5,
@@ -1615,7 +1625,9 @@ export interface components {
          *             {
          *               "type": "ground",
          *               "isShadow": false,
-         *               "rank": 12
+         *               "rank": 12,
+         *               "fastMoveId": "MUD_SHOT",
+         *               "chargedMoveId": "EARTH_POWER"
          *             }
          *           ],
          *           "raidMovesets": [

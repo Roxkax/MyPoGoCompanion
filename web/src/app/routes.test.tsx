@@ -13,7 +13,6 @@ const screens: [string, string, string][] = [
   ['/calendar', 'Calendar', 'A2'],
   ['/calendar/community-day-gible-2026-11-07', 'Event details', 'A3'],
   ['/eggs', 'Eggs & research', 'A4'],
-  ['/pokedex/garchomp?version=mega', 'Pokémon', 'B2'],
   ['/pokedex/moves?kind=charged&type=ground', 'Moves', 'B3'],
   ['/pokedex/moves/earth-power', 'Move', 'B4'],
   ['/pokedex/types', 'Type chart', 'B5'],
@@ -53,9 +52,9 @@ describe('routes', () => {
   })
 
   it('shows what the address points at', () => {
-    renderApp('/pokedex/garchomp')
+    renderApp('/pokedex/moves/earth-power')
 
-    expect(screen.getByRole('region', { name: 'Pokémon' })).toHaveTextContent('garchomp')
+    expect(screen.getByRole('region', { name: 'Move' })).toHaveTextContent('earth-power')
   })
 
   it.each([

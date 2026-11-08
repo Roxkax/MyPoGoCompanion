@@ -75,7 +75,7 @@ describe('the out-of-date warning', () => {
     ['/calendar/community-day', 'live'],
     ['/eggs', 'live'],
     ['/pokedex', 'game'],
-    ['/pokedex/garchomp', 'game'],
+    ['/pokedex/garchomp', 'both'],
     ['/pokedex/moves', 'game'],
     ['/pokedex/moves/earthquake', 'game'],
     ['/pokedex/types', 'game'],

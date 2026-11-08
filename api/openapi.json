@@ -1877,6 +1877,7 @@
             "dynamax": false,
             "gigantamax": false,
             "sprite": "pm445",
+            "spriteShiny": "pm445.s",
             "spriteGigantamax": null,
             "looksOnly": false,
             "buddyDistanceKm": 5,
@@ -1936,7 +1937,9 @@
               {
                 "type": "ground",
                 "isShadow": false,
-                "rank": 12
+                "rank": 12,
+                "fastMoveId": "MUD_SHOT",
+                "chargedMoveId": "EARTH_POWER"
               }
             ],
             "raidMovesets": [
@@ -1972,6 +1975,7 @@
           "dynamax",
           "gigantamax",
           "sprite",
+          "spriteShiny",
           "spriteGigantamax",
           "looksOnly",
           "buddyDistanceKm",
@@ -2087,6 +2091,13 @@
               "string"
             ],
             "description": "Its picture's name; null when none."
+          },
+          "spriteShiny": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Its shiny picture's name; null when none."
           },
           "spriteGigantamax": {
             "type": [
@@ -2490,13 +2501,17 @@
           {
             "type": "ground",
             "isShadow": false,
-            "rank": 12
+            "rank": 12,
+            "fastMoveId": "MUD_SHOT",
+            "chargedMoveId": "EARTH_POWER"
           }
         ],
         "required": [
           "type",
           "isShadow",
-          "rank"
+          "rank",
+          "fastMoveId",
+          "chargedMoveId"
         ],
         "type": "object",
         "properties": {
@@ -2509,9 +2524,15 @@
           "rank": {
             "type": "integer",
             "format": "int32"
+          },
+          "fastMoveId": {
+            "type": "string"
+          },
+          "chargedMoveId": {
+            "type": "string"
           }
         },
-        "description": "The form's place in an attacking type's raid list."
+        "description": "The form's place in an attacking type's raid list, with the moveset it is ranked with."
       },
       "PokedexForm": {
         "examples": [
@@ -3091,6 +3112,7 @@
                 "dynamax": false,
                 "gigantamax": false,
                 "sprite": "pm445",
+                "spriteShiny": "pm445.s",
                 "spriteGigantamax": null,
                 "looksOnly": false,
                 "buddyDistanceKm": 5,
@@ -3150,7 +3172,9 @@
                   {
                     "type": "ground",
                     "isShadow": false,
-                    "rank": 12
+                    "rank": 12,
+                    "fastMoveId": "MUD_SHOT",
+                    "chargedMoveId": "EARTH_POWER"
                   }
                 ],
                 "raidMovesets": [

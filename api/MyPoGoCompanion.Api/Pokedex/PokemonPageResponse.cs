@@ -62,6 +62,7 @@ public sealed record PokemonPageResponse(
 /// <param name="Dynamax">It can Dynamax.</param>
 /// <param name="Gigantamax">It can Gigantamax.</param>
 /// <param name="Sprite">Its picture's name; null when none.</param>
+/// <param name="SpriteShiny">Its shiny picture's name; null when none.</param>
 /// <param name="SpriteGigantamax">Its Gigantamax picture's name; null when none.</param>
 /// <param name="LooksOnly">Same stats and types as the main form, only a different look.</param>
 /// <param name="BuddyDistanceKm">Walking distance per candy as a buddy.</param>
@@ -92,6 +93,7 @@ public sealed record PageForm(
     bool Dynamax,
     bool Gigantamax,
     string? Sprite,
+    string? SpriteShiny,
     string? SpriteGigantamax,
     bool LooksOnly,
     int BuddyDistanceKm,
@@ -140,8 +142,8 @@ public sealed record PageBestIvs(League League, int Attack, int Defense, int Sta
 /// <summary>The bars (0–4 each) the keeper filters keep in a league.</summary>
 public sealed record PageKeeperBox(League League, int AttackMin, int AttackMax, int DefenseMin, int DefenseMax, int StaminaMin, int StaminaMax);
 
-/// <summary>The form's place in an attacking type's raid list.</summary>
-public sealed record PageRaidRank(string Type, bool IsShadow, int Rank);
+/// <summary>The form's place in an attacking type's raid list, with the moveset it is ranked with.</summary>
+public sealed record PageRaidRank(string Type, bool IsShadow, int Rank, string FastMoveId, string ChargedMoveId);
 
 /// <summary>A fast + charged combination ranked for raids.</summary>
 public sealed record PageRaidMoveset(bool IsShadow, string FastMoveId, string ChargedMoveId, int Rank, double Dps, double Tdo, double Score);

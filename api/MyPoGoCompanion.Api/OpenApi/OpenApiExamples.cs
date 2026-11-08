@@ -58,13 +58,13 @@ internal static class OpenApiExamples
         League.Master, IsShadow: false, 31, 88.4, "DRAGON_TAIL", "EARTH_POWER", "OUTRAGE", [_dragonTailUses, new MoveUses("EARTH_POWER", 48211)]);
     private static readonly PageBestIvs _garchompGreat = new(League.Great, 0, 15, 14, 14m, 1495);
     private static readonly PageKeeperBox _gibleGreatBox = new(League.Great, 0, 1, 3, 4, 2, 4);
-    private static readonly PageRaidRank _groundRank = new("ground", IsShadow: false, 12);
+    private static readonly PageRaidRank _groundRank = new("ground", IsShadow: false, 12, "MUD_SHOT", "EARTH_POWER");
     private static readonly PageRaidMoveset _mudShotEarthPower = new(IsShadow: false, "MUD_SHOT", "EARTH_POWER", 1, 17.82, 612.5, 41.3);
     private static readonly PageForm _garchomp = new(
         "garchomp", FormKind.Base, IsDefault: true, "Garchomp", "Garchomp", null, null, ["dragon", "ground"], 261, 193, 239,
         [_garchompL40, new LevelCpRow(50m, 4479), new LevelCpRow(51m, 4532)],
         [new LevelCpRow(15m, 1698), new LevelCpRow(20m, 2264), new LevelCpRow(25m, 2830), new LevelCpRow(30m, 3396), new LevelCpRow(35m, 3679)],
-        Released: true, Shadow: true, Shiny: true, Dynamax: false, Gigantamax: false, "pm445", null, LooksOnly: false, 5, 75000,
+        Released: true, Shadow: true, Shiny: true, Dynamax: false, Gigantamax: false, "pm445", "pm445.s", null, LooksOnly: false, 5, 75000,
         [_dragonTail, new PageFormMove("EARTH_POWER", MoveAvailability.EliteTm)],
         [_ice, new TypeMultiplier("electric", 0.244)],
         [_garchompMaster], [_garchompGreat], [_groundRank], [_mudShotEarthPower]);
