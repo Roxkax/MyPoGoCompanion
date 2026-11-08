@@ -238,6 +238,8 @@ public sealed class DailyImportTests(PostgresFixture postgres)
             await DevSeed.SeedAsync(db, DateTimeOffset.UtcNow, Ct);
         }
 
+        var seeded = (await RunsAsync(database)).Select(r => r.Id).ToHashSet();
+
         // The seed holds more species than the fixtures; the first import into a database publishes their removal.
         Assert.Equal(0, await RunJobAsync(database));
 
@@ -246,7 +248,8 @@ public sealed class DailyImportTests(PostgresFixture postgres)
         Assert.False(kyogre.Released); // not in the fixtures: kept (raids and collections point at it), not released
         Assert.True(await check.RaidBosses.AnyAsync(boss => boss.FormId == "kyogre", Ct));
         Assert.True((await check.Forms.SingleAsync(f => f.Id == "charizard", Ct)).Released);
-        var run = (await RunsAsync(database))[^1];
+        // The import's own run, not the seed's sample run: that one is dated today at 06:00, so before 06:00 it sorts last.
+        var run = Assert.Single(await RunsAsync(database), r => !seeded.Contains(r.Id));
         Assert.Equal(JobStatus.Succeeded, run.Status);
         var summary = JsonSerializer.Deserialize<ImportSummary>(run.Summary!, _json)!;
         Assert.True(summary.Removals["forms"].Count > 0); // the seed's forms the fixtures lack, Kyogre among them

@@ -261,14 +261,20 @@ jobs:
             echo "commit=unknown" >> "$GITHUB_OUTPUT"
           fi
 
+      # Prod's sets (saved on pushes to main) or this pull request's own. A QA run's set is saved only on pull request
+      # runs, which GitHub keeps to that pull request: a run started by hand builds a PR's code in main's cache scope,
+      # where prod would find it (CodeQL's cache poisoning rule).
       - name: Saved pictures
         id: sprites-cache
         if: steps.sprites.outputs.commit
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: web/public/sprites
-          key: sprites-${{ steps.sprites.outputs.commit }}-${{ hashFiles('jobs/MyPoGoCompanion.Jobs/Sprites/**', '.github/scripts/build_sprites.sh') }}
-          restore-keys: sprites-
+          key: sprites-pr-${{ steps.sprites.outputs.commit }}-${{ hashFiles('jobs/MyPoGoCompanion.Jobs/Sprites/**', '.github/scripts/build_sprites.sh') }}
+          restore-keys: |
+            sprites-main-${{ steps.sprites.outputs.commit }}-${{ hashFiles('jobs/MyPoGoCompanion.Jobs/Sprites/**', '.github/scripts/build_sprites.sh') }}
+            sprites-pr-
+            sprites-main-
 
       - name: Build the pictures
         id: sprites-built
@@ -278,7 +284,16 @@ jobs:
           CACHE_HIT: ${{ steps.sprites-cache.outputs.cache-hit }}
         run: |
           if [[ $CACHE_HIT != true && $POKEMINERS_COMMIT != unknown ]]; then
-            .github/scripts/build_sprites.sh web/public/sprites || echo "::warning::Building the pictures failed (above): using the last saved set if there is one."
+            if .github/scripts/build_sprites.sh web/public/sprites; then
+              echo "built=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "::warning::Building the pictures failed (above): using the last saved set if there is one."
+            fi
+          fi
+          # Only pictures and set.json go out with the web app, whatever a cache held.
+          if [[ -d web/public/sprites ]]; then
+            find web/public/sprites -mindepth 1 \( -type d -o ! \( -name '*.webp' -o -name set.json \) \) -print -exec rm -rf {} + \
+              | sed 's/^/::warning::Removed from the pictures folder: /'
           fi
           set=$(jq -r '.set // empty' web/public/sprites/set.json 2>/dev/null || true)
           if [[ -z $set ]]; then
@@ -288,6 +303,14 @@ jobs:
             echo "Pokémon pictures: PokeMiners \`${set:0:7}\`, $count files." >> "$GITHUB_STEP_SUMMARY"
             echo "set=${set:0:12}" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Save the pictures
+        # Only from a pull request run (kept to that pull request); see "Saved pictures".
+        if: github.event_name == 'pull_request' && steps.sprites-built.outputs.built == 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: web/public/sprites
+          key: sprites-pr-${{ steps.sprites.outputs.commit }}-${{ hashFiles('jobs/MyPoGoCompanion.Jobs/Sprites/**', '.github/scripts/build_sprites.sh') }}
 
       - name: Build the web app
         working-directory: web
