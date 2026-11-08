@@ -17,7 +17,7 @@ How the app gets its Pokémon pictures (E02-F05, spec items 1–2; decision 2026
 | Shiny | `pm6.s.icon.png` |
 | Form, Mega, Primal, regional | `pm6.fMEGA_X.icon.png`, `pm382.fPRIMAL.icon.png`, `pm37.fALOLA.icon.png` |
 | G-Max | `pm6.fGIGANTAMAX.icon.png` |
-| Event costume (not used) | `pm25.cFALL_2018.icon.png` |
+| Event costume (Pokémon page, Versions; its shiny `.s` picture not used) | `pm25.cFALL_2018.icon.png`, `pm710.fSMALL.cFALL_2022.icon.png` |
 | Female variant (not used) | `pm3.g2.icon.png` |
 
 The names aren't consistent: Kyurem's plain picture is `pm646.fNORMAL`, Unown's letters are `pm201.fUNOWN_A`, and some species (Toxtricity, Shellos, Spinda) have no plain picture at all, only their forms'. Every **released** Pokémon has a picture today; the 61 Pokédex numbers without one are all unreleased in GO (Great Tusk, Terapagos and so on). They get their pictures when PokeMiners adds them, usually when they come out.
@@ -29,7 +29,7 @@ The names aren't consistent: Kyurem's plain picture is `pm646.fNORMAL`, Unown's 
 `.github/scripts/build_sprites.sh <output folder>`:
 
 1. Finds PokeMiners' latest commit (`git ls-remote`), or uses `POKEMINERS_COMMIT`.
-2. Downloads only the folder's `pm*.icon.png` files without costumes or female variants (a sparse, history-less clone: about 150 MB, 20 seconds).
+2. Downloads only the folder's `pm*.icon.png` files without female variants or shiny costume pictures (costumes are in since E03-F02, about 220 more pictures) (a sparse, history-less clone: about 150 MB, 20 seconds).
 3. Runs the jobs' **`sprites` command** (`jobs/MyPoGoCompanion.Jobs/Sprites/SpriteSetBuilder.cs`, SkiaSharp, MIT): each picture is **cropped to what isn't transparent** (alpha above 8), **centred on a transparent square**, **scaled down to 256 px** when bigger (never up), and saved as **WebP** (quality 85). So every Pokémon fills its box equally, as in the design (`design/source/CONVENTIONS.md`).
 4. Writes `set.json` (`{"set": "<PokeMiners commit>", "pictures": 2861, "built": "…"}`).
 
