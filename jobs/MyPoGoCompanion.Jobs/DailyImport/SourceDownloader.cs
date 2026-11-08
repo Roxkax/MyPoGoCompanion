@@ -33,6 +33,9 @@ public sealed record SourceFiles(
             .OfType<SourceFile>();
 }
 
+/// <summary>PokeMiners' picture file names, or why they couldn't be read.</summary>
+public sealed record SpriteFolderListing(IReadOnlyList<string>? FileNames, string? Problem);
+
 /// <summary>Downloads the sources over HTTPS, retrying failures that may be temporary.</summary>
 public sealed partial class SourceDownloader(HttpClient http, IOptions<DailyImportOptions> options, ILogger<SourceDownloader> logger)
 {
@@ -170,6 +173,71 @@ public sealed partial class SourceDownloader(HttpClient http, IOptions<DailyImpo
 
         return SpriteCheck.Unknown;
     }
+
+    /// <summary>
+    /// The file names in PokeMiners' picture folder, through GitHub's tree API one folder at a time (a few requests;
+    /// the tree API has no 1,000-file limit). Never throws for GitHub's answers: a failure gives the reason instead,
+    /// and the import keeps the costumes it had.
+    /// </summary>
+    public async Task<SpriteFolderListing> ListSpriteFolderAsync(CancellationToken cancellationToken)
+    {
+        var tree = _options.SpriteBranch;
+        try
+        {
+            foreach (var folder in _options.SpriteFolderPath.Split('/', StringSplitOptions.RemoveEmptyEntries))
+            {
+                var entries = await TreeAsync(tree, cancellationToken);
+                var next = entries?.Tree.FirstOrDefault(entry => entry.Type == "tree" && entry.Path == folder);
+                if (next is null)
+                {
+                    return new SpriteFolderListing(null, $"the folder \"{folder}\" wasn't found in PokeMiners' pictures");
+                }
+
+                tree = next.Sha;
+            }
+
+            var files = await TreeAsync(tree, cancellationToken);
+            if (files is null || files.Truncated)
+            {
+                return new SpriteFolderListing(null, "GitHub cut the picture list short");
+            }
+
+            return new SpriteFolderListing([.. files.Tree.Where(entry => entry.Type == "blob").Select(entry => entry.Path)], null);
+        }
+        catch (HttpRequestException exception)
+        {
+            return new SpriteFolderListing(null, exception.StatusCode is { } status
+                ? $"GitHub answered {(int)status} {status}"
+                : $"no answer from GitHub ({exception.HttpRequestError})");
+        }
+        catch (System.Text.Json.JsonException)
+        {
+            return new SpriteFolderListing(null, "GitHub's answer couldn't be read");
+        }
+        catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
+        {
+            return new SpriteFolderListing(null, $"no answer from GitHub within {_options.SpriteCheckTimeout.TotalSeconds:0} seconds");
+        }
+    }
+
+    private async Task<GitTree?> TreeAsync(string tree, CancellationToken cancellationToken)
+    {
+        using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        timeout.CancelAfter(_options.SpriteCheckTimeout);
+        var url = new Uri(_options.SpriteRepositoryApiUrl, "git/trees/" + Uri.EscapeDataString(tree));
+        using var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Accept.ParseAdd("application/vnd.github+json");
+        using var response = await http.SendAsync(request, timeout.Token);
+        response.EnsureSuccessStatusCode();
+        return await System.Net.Http.Json.HttpContentJsonExtensions.ReadFromJsonAsync<GitTree>(
+            response.Content, GitTreeJson, timeout.Token);
+    }
+
+    private static readonly System.Text.Json.JsonSerializerOptions GitTreeJson = new(System.Text.Json.JsonSerializerDefaults.Web);
+
+    private sealed record GitTree(IReadOnlyList<GitTreeEntry> Tree, bool Truncated);
+
+    private sealed record GitTreeEntry(string Path, string Type, string Sha);
 
     private volatile bool _spriteChecksStopped;
 

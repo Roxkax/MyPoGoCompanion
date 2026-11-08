@@ -79,6 +79,8 @@ KINDS = {
     "pvpKeeperBoxes": "Keeper boxes",
     "raidRankings": "Raid rankings",
     "raidMovesets": "Raid movesets",
+    "costumes": "Costumes",
+    "pvpMoveUsage": "PvP move usage",
 }
 
 

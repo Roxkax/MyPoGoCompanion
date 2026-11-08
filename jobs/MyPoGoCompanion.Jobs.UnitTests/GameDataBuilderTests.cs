@@ -155,6 +155,21 @@ public sealed class GameDataBuilderTests
     }
 
     [Fact]
+    public void MoveUsage_PerRankedForm_FastAndCharged_WithPvpokesCounts()
+    {
+        var ninetales = _data.PvpMoveUsage
+            .Where(u => u.League == League.Great && u.FormId == "ninetales" && u.IsShadow)
+            .ToDictionary(u => u.MoveId, u => u.Uses);
+        Assert.Equal(63207, ninetales["EMBER"]);
+        Assert.Equal(38719, ninetales["WEATHER_BALL_FIRE"]);
+        // Only for ranked forms and known moves, once per move.
+        var ranked = _data.PvpRankings.Select(r => (r.League, r.FormId, r.IsShadow)).ToHashSet();
+        var moves = _data.Moves.Select(m => m.Id).ToHashSet();
+        Assert.All(_data.PvpMoveUsage, u => Assert.True(ranked.Contains((u.League, u.FormId, u.IsShadow)) && moves.Contains(u.MoveId)));
+        Assert.Equal(_data.PvpMoveUsage.Count, _data.PvpMoveUsage.Select(u => (u.League, u.FormId, u.IsShadow, u.MoveId)).Distinct().Count());
+    }
+
+    [Fact]
     public void Warnings_NameWhatTheGameMasterDoesntHave()
     {
         Assert.Contains("2 forms not found in the game master (no evolutions or Dynamax for them yet): basculegion_female, basculegion_male", _data.Warnings);

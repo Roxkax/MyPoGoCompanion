@@ -23,6 +23,47 @@ namespace MyPoGoCompanion.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("MyPoGoCompanion.Data.GameData.Costume", b =>
+                {
+                    b.Property<string>("Sprite")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("sprite");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)")
+                        .HasColumnName("code");
+
+                    b.Property<int>("Dex")
+                        .HasColumnType("integer")
+                        .HasColumnName("dex");
+
+                    b.Property<string>("FormCode")
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)")
+                        .HasColumnName("form_code");
+
+                    b.Property<bool>("HasShinySprite")
+                        .HasColumnType("boolean")
+                        .HasColumnName("has_shiny_sprite");
+
+                    b.Property<string>("NameEn")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("name_en");
+
+                    b.HasKey("Sprite")
+                        .HasName("pk_costumes");
+
+                    b.HasIndex("Dex")
+                        .HasDatabaseName("ix_costumes_dex");
+
+                    b.ToTable("costumes", (string)null);
+                });
+
             modelBuilder.Entity("MyPoGoCompanion.Data.GameData.CpMultiplier", b =>
                 {
                     b.Property<decimal>("Level")
@@ -1353,6 +1394,43 @@ namespace MyPoGoCompanion.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("MyPoGoCompanion.Data.Rankings.PvpMoveUsage", b =>
+                {
+                    b.Property<string>("League")
+                        .HasColumnType("text")
+                        .HasColumnName("league");
+
+                    b.Property<string>("FormId")
+                        .HasColumnType("text")
+                        .HasColumnName("form_id");
+
+                    b.Property<bool>("IsShadow")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_shadow");
+
+                    b.Property<string>("MoveId")
+                        .HasColumnType("text")
+                        .HasColumnName("move_id");
+
+                    b.Property<int>("Uses")
+                        .HasColumnType("integer")
+                        .HasColumnName("uses");
+
+                    b.HasKey("League", "FormId", "IsShadow", "MoveId")
+                        .HasName("pk_pvp_move_usage");
+
+                    b.HasIndex("FormId")
+                        .HasDatabaseName("ix_pvp_move_usage_form_id");
+
+                    b.HasIndex("MoveId")
+                        .HasDatabaseName("ix_pvp_move_usage_move_id");
+
+                    b.ToTable("pvp_move_usage", null, t =>
+                        {
+                            t.HasCheckConstraint("ck_pvp_move_usage_uses", "uses >= 0");
+                        });
+                });
+
             modelBuilder.Entity("MyPoGoCompanion.Data.Rankings.PvpRanking", b =>
                 {
                     b.Property<string>("League")
@@ -2017,6 +2095,18 @@ namespace MyPoGoCompanion.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("MyPoGoCompanion.Data.GameData.Costume", b =>
+                {
+                    b.HasOne("MyPoGoCompanion.Data.GameData.Species", "Species")
+                        .WithMany()
+                        .HasForeignKey("Dex")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_costumes_species_dex");
+
+                    b.Navigation("Species");
+                });
+
             modelBuilder.Entity("MyPoGoCompanion.Data.GameData.Evolution", b =>
                 {
                     b.HasOne("MyPoGoCompanion.Data.GameData.Form", "FromForm")
@@ -2379,6 +2469,27 @@ namespace MyPoGoCompanion.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_pvp_keeper_boxes_species_dex");
+                });
+
+            modelBuilder.Entity("MyPoGoCompanion.Data.Rankings.PvpMoveUsage", b =>
+                {
+                    b.HasOne("MyPoGoCompanion.Data.GameData.Form", "Form")
+                        .WithMany()
+                        .HasForeignKey("FormId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_pvp_move_usage_forms_form_id");
+
+                    b.HasOne("MyPoGoCompanion.Data.GameData.Move", "Move")
+                        .WithMany()
+                        .HasForeignKey("MoveId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_pvp_move_usage_moves_move_id");
+
+                    b.Navigation("Form");
+
+                    b.Navigation("Move");
                 });
 
             modelBuilder.Entity("MyPoGoCompanion.Data.Rankings.PvpRanking", b =>

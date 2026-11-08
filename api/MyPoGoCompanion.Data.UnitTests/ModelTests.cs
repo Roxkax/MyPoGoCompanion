@@ -54,9 +54,9 @@ public partial class ModelTests
     {
         string[] expected =
         [
-            "admin_fixes", "ai_usage", "collection_changes", "collection_imports", "collection_pokemon", "cp_multipliers",
+            "admin_fixes", "ai_usage", "collection_changes", "collection_imports", "collection_pokemon", "costumes", "cp_multipliers",
             "egg_pool_entries", "event_bonuses", "event_moves", "event_pokemon", "events", "evolutions", "families",
-            "form_moves", "forms", "job_runs", "keeper_filters", "max_bosses", "moves", "pvp_best_ivs", "pvp_keeper_boxes",
+            "form_moves", "forms", "job_runs", "keeper_filters", "max_bosses", "moves", "pvp_best_ivs", "pvp_keeper_boxes", "pvp_move_usage",
             "pvp_rankings", "raid_bosses", "raid_movesets", "raid_rankings", "refresh_tokens", "research_rewards", "research_tasks",
             "role_changes", "saved_filters", "species", "types", "unrecognised_rows", "users",
         ];

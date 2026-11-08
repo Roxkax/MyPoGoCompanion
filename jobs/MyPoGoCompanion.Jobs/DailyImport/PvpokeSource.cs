@@ -118,6 +118,24 @@ public sealed class PvpokeRanking
 
     /// <summary>Fast move, then one or two charged moves.</summary>
     public List<string> Moveset { get; set; } = [];
+
+    /// <summary>How often PvPoke's simulations used each move (missing in the trimmed golden-file copies).</summary>
+    public PvpokeMoveUses? Moves { get; set; }
+}
+
+public sealed class PvpokeMoveUses
+{
+    public List<PvpokeMoveUse> FastMoves { get; set; } = [];
+
+    public List<PvpokeMoveUse> ChargedMoves { get; set; } = [];
+}
+
+public sealed class PvpokeMoveUse
+{
+    public string MoveId { get; set; } = "";
+
+    [JsonConverter(typeof(LenientIntConverter))]
+    public int Uses { get; set; }
 }
 
 /// <summary>A whole number that PvPoke sometimes writes as <c>false</c>, <c>null</c> or text: 0 unless it is a number.</summary>

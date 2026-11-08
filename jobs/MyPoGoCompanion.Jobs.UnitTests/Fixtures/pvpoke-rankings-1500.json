@@ -7,7 +7,61 @@
    "EMBER",
    "WEATHER_BALL_FIRE",
    "ENERGY_BALL"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "EMBER",
+     "uses": 63207
+    },
+    {
+     "moveId": "FIRE_SPIN",
+     "uses": 47252
+    },
+    {
+     "moveId": "FEINT_ATTACK",
+     "uses": 24308
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "WEATHER_BALL_FIRE",
+     "uses": 38719
+    },
+    {
+     "moveId": "PSYSHOCK",
+     "uses": 22185
+    },
+    {
+     "moveId": "ENERGY_BALL",
+     "uses": 20055
+    },
+    {
+     "moveId": "SCORCHING_SANDS",
+     "uses": 15108
+    },
+    {
+     "moveId": "OVERHEAT",
+     "uses": 13057
+    },
+    {
+     "moveId": "HEAT_WAVE",
+     "uses": 11171
+    },
+    {
+     "moveId": "FLAMETHROWER",
+     "uses": 7115
+    },
+    {
+     "moveId": "FIRE_BLAST",
+     "uses": 3768
+    },
+    {
+     "moveId": "SOLAR_BEAM",
+     "uses": 3382
+    }
+   ]
+  }
  },
  {
   "speciesId": "ninetales",
@@ -17,7 +71,65 @@
    "EMBER",
    "WEATHER_BALL_FIRE",
    "ENERGY_BALL"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "EMBER",
+     "uses": 62084
+    },
+    {
+     "moveId": "FIRE_SPIN",
+     "uses": 47675
+    },
+    {
+     "moveId": "FEINT_ATTACK",
+     "uses": 25138
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "WEATHER_BALL_FIRE",
+     "uses": 37010
+    },
+    {
+     "moveId": "PSYSHOCK",
+     "uses": 20800
+    },
+    {
+     "moveId": "ENERGY_BALL",
+     "uses": 19111
+    },
+    {
+     "moveId": "SCORCHING_SANDS",
+     "uses": 14508
+    },
+    {
+     "moveId": "OVERHEAT",
+     "uses": 12548
+    },
+    {
+     "moveId": "HEAT_WAVE",
+     "uses": 10570
+    },
+    {
+     "moveId": "FLAMETHROWER",
+     "uses": 6729
+    },
+    {
+     "moveId": "RETURN",
+     "uses": 6673
+    },
+    {
+     "moveId": "FIRE_BLAST",
+     "uses": 3591
+    },
+    {
+     "moveId": "SOLAR_BEAM",
+     "uses": 3218
+    }
+   ]
+  }
  },
  {
   "speciesId": "umbreon",
@@ -27,7 +139,37 @@
    "SNARL",
    "DARK_PULSE",
    "LAST_RESORT"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "SNARL",
+     "uses": 74665
+    },
+    {
+     "moveId": "FEINT_ATTACK",
+     "uses": 60135
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "FOUL_PLAY",
+     "uses": 64470
+    },
+    {
+     "moveId": "DARK_PULSE",
+     "uses": 30185
+    },
+    {
+     "moveId": "LAST_RESORT",
+     "uses": 22094
+    },
+    {
+     "moveId": "PSYCHIC",
+     "uses": 18154
+    }
+   ]
+  }
  },
  {
   "speciesId": "ninetales_alolan",
@@ -37,7 +179,53 @@
    "POWDER_SNOW",
    "WEATHER_BALL_ICE",
    "CHILLING_WATER"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "POWDER_SNOW",
+     "uses": 69420
+    },
+    {
+     "moveId": "CHARM",
+     "uses": 37806
+    },
+    {
+     "moveId": "FEINT_ATTACK",
+     "uses": 27576
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "WEATHER_BALL_ICE",
+     "uses": 48316
+    },
+    {
+     "moveId": "PSYSHOCK",
+     "uses": 23856
+    },
+    {
+     "moveId": "CHILLING_WATER",
+     "uses": 21227
+    },
+    {
+     "moveId": "DAZZLING_GLEAM",
+     "uses": 19001
+    },
+    {
+     "moveId": "ICE_BEAM",
+     "uses": 8780
+    },
+    {
+     "moveId": "RETURN",
+     "uses": 7409
+    },
+    {
+     "moveId": "BLIZZARD",
+     "uses": 6251
+    }
+   ]
+  }
  },
  {
   "speciesId": "ninetales_alolan_shadow",
@@ -47,7 +235,49 @@
    "POWDER_SNOW",
    "WEATHER_BALL_ICE",
    "CHILLING_WATER"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "POWDER_SNOW",
+     "uses": 70222
+    },
+    {
+     "moveId": "CHARM",
+     "uses": 37202
+    },
+    {
+     "moveId": "FEINT_ATTACK",
+     "uses": 27438
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "WEATHER_BALL_ICE",
+     "uses": 50870
+    },
+    {
+     "moveId": "PSYSHOCK",
+     "uses": 25486
+    },
+    {
+     "moveId": "CHILLING_WATER",
+     "uses": 22506
+    },
+    {
+     "moveId": "DAZZLING_GLEAM",
+     "uses": 20102
+    },
+    {
+     "moveId": "ICE_BEAM",
+     "uses": 9450
+    },
+    {
+     "moveId": "BLIZZARD",
+     "uses": 6500
+    }
+   ]
+  }
  },
  {
   "speciesId": "castform_sunny",
@@ -57,7 +287,33 @@
    "EMBER",
    "WEATHER_BALL_FIRE",
    "SOLAR_BEAM"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "EMBER",
+     "uses": 92525
+    },
+    {
+     "moveId": "TACKLE",
+     "uses": 42275
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "WEATHER_BALL_FIRE",
+     "uses": 103260
+    },
+    {
+     "moveId": "SOLAR_BEAM",
+     "uses": 21249
+    },
+    {
+     "moveId": "FIRE_BLAST",
+     "uses": 10328
+    }
+   ]
+  }
  },
  {
   "speciesId": "charizard_shadow",
@@ -67,7 +323,57 @@
    "EMBER",
    "BLAST_BURN",
    "AIR_CUTTER"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "EMBER",
+     "uses": 35305
+    },
+    {
+     "moveId": "DRAGON_BREATH",
+     "uses": 29508
+    },
+    {
+     "moveId": "WING_ATTACK",
+     "uses": 28799
+    },
+    {
+     "moveId": "FIRE_SPIN",
+     "uses": 25710
+    },
+    {
+     "moveId": "AIR_SLASH",
+     "uses": 15325
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "BLAST_BURN",
+     "uses": 47421
+    },
+    {
+     "moveId": "AIR_CUTTER",
+     "uses": 41177
+    },
+    {
+     "moveId": "DRAGON_CLAW",
+     "uses": 19444
+    },
+    {
+     "moveId": "FLAMETHROWER",
+     "uses": 10722
+    },
+    {
+     "moveId": "OVERHEAT",
+     "uses": 10206
+    },
+    {
+     "moveId": "FIRE_BLAST",
+     "uses": 6027
+    }
+   ]
+  }
  },
  {
   "speciesId": "sylveon",
@@ -77,7 +383,49 @@
    "FAIRY_WIND",
    "PSYSHOCK",
    "DRAINING_KISS"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "FAIRY_WIND",
+     "uses": 59166
+    },
+    {
+     "moveId": "QUICK_ATTACK",
+     "uses": 40339
+    },
+    {
+     "moveId": "CHARM",
+     "uses": 35263
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "MOONBLAST",
+     "uses": 36607
+    },
+    {
+     "moveId": "PSYSHOCK",
+     "uses": 32351
+    },
+    {
+     "moveId": "SHADOW_BALL",
+     "uses": 26210
+    },
+    {
+     "moveId": "DRAINING_KISS",
+     "uses": 14762
+    },
+    {
+     "moveId": "LAST_RESORT",
+     "uses": 12899
+    },
+    {
+     "moveId": "DAZZLING_GLEAM",
+     "uses": 12018
+    }
+   ]
+  }
  },
  {
   "speciesId": "castform_rainy",
@@ -87,7 +435,33 @@
    "WATER_GUN",
    "WEATHER_BALL_WATER",
    "THUNDER"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "WATER_GUN",
+     "uses": 79707
+    },
+    {
+     "moveId": "TACKLE",
+     "uses": 55093
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "WEATHER_BALL_WATER",
+     "uses": 94225
+    },
+    {
+     "moveId": "THUNDER",
+     "uses": 29999
+    },
+    {
+     "moveId": "HYDRO_PUMP",
+     "uses": 10144
+    }
+   ]
+  }
  },
  {
   "speciesId": "charizard",
@@ -97,7 +471,57 @@
    "EMBER",
    "BLAST_BURN",
    "AIR_CUTTER"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "EMBER",
+     "uses": 33783
+    },
+    {
+     "moveId": "DRAGON_BREATH",
+     "uses": 30415
+    },
+    {
+     "moveId": "WING_ATTACK",
+     "uses": 28857
+    },
+    {
+     "moveId": "FIRE_SPIN",
+     "uses": 25749
+    },
+    {
+     "moveId": "AIR_SLASH",
+     "uses": 16023
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "BLAST_BURN",
+     "uses": 47419
+    },
+    {
+     "moveId": "AIR_CUTTER",
+     "uses": 41152
+    },
+    {
+     "moveId": "DRAGON_CLAW",
+     "uses": 19455
+    },
+    {
+     "moveId": "FLAMETHROWER",
+     "uses": 10710
+    },
+    {
+     "moveId": "OVERHEAT",
+     "uses": 10222
+    },
+    {
+     "moveId": "FIRE_BLAST",
+     "uses": 5979
+    }
+   ]
+  }
  },
  {
   "speciesId": "castform",
@@ -107,7 +531,37 @@
    "HEX",
    "WEATHER_BALL_ROCK",
    "ENERGY_BALL"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "HEX",
+     "uses": 82976
+    },
+    {
+     "moveId": "TACKLE",
+     "uses": 51824
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "WEATHER_BALL_ROCK",
+     "uses": 47081
+    },
+    {
+     "moveId": "WEATHER_BALL_NORMAL",
+     "uses": 43161
+    },
+    {
+     "moveId": "ENERGY_BALL",
+     "uses": 27769
+    },
+    {
+     "moveId": "HURRICANE",
+     "uses": 16879
+    }
+   ]
+  }
  },
  {
   "speciesId": "castform_snowy",
@@ -117,7 +571,33 @@
    "POWDER_SNOW",
    "WEATHER_BALL_ICE",
    "BLIZZARD"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "POWDER_SNOW",
+     "uses": 95384
+    },
+    {
+     "moveId": "TACKLE",
+     "uses": 39416
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "WEATHER_BALL_ICE",
+     "uses": 102804
+    },
+    {
+     "moveId": "ICE_BEAM",
+     "uses": 18858
+    },
+    {
+     "moveId": "BLIZZARD",
+     "uses": 13415
+    }
+   ]
+  }
  },
  {
   "speciesId": "venusaur",
@@ -127,7 +607,41 @@
    "VINE_WHIP",
    "FRENZY_PLANT",
    "SLUDGE"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "VINE_WHIP",
+     "uses": 99741
+    },
+    {
+     "moveId": "RAZOR_LEAF",
+     "uses": 35059
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "FRENZY_PLANT",
+     "uses": 59573
+    },
+    {
+     "moveId": "SLUDGE",
+     "uses": 47602
+    },
+    {
+     "moveId": "SLUDGE_BOMB",
+     "uses": 12517
+    },
+    {
+     "moveId": "PETAL_BLIZZARD",
+     "uses": 8307
+    },
+    {
+     "moveId": "SOLAR_BEAM",
+     "uses": 6718
+    }
+   ]
+  }
  },
  {
   "speciesId": "venusaur_shadow",
@@ -137,7 +651,41 @@
    "VINE_WHIP",
    "FRENZY_PLANT",
    "SLUDGE"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "VINE_WHIP",
+     "uses": 101865
+    },
+    {
+     "moveId": "RAZOR_LEAF",
+     "uses": 32935
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "FRENZY_PLANT",
+     "uses": 59539
+    },
+    {
+     "moveId": "SLUDGE",
+     "uses": 47585
+    },
+    {
+     "moveId": "SLUDGE_BOMB",
+     "uses": 12481
+    },
+    {
+     "moveId": "PETAL_BLIZZARD",
+     "uses": 8247
+    },
+    {
+     "moveId": "SOLAR_BEAM",
+     "uses": 6719
+    }
+   ]
+  }
  },
  {
   "speciesId": "beedrill_shadow",
@@ -147,7 +695,49 @@
    "POISON_STING",
    "X_SCISSOR",
    "DRILL_RUN"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "INFESTATION",
+     "uses": 39177
+    },
+    {
+     "moveId": "POISON_STING",
+     "uses": 37292
+    },
+    {
+     "moveId": "POISON_JAB",
+     "uses": 31816
+    },
+    {
+     "moveId": "BUG_BITE",
+     "uses": 26559
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "DRILL_RUN",
+     "uses": 45181
+    },
+    {
+     "moveId": "X_SCISSOR",
+     "uses": 34836
+    },
+    {
+     "moveId": "SLUDGE_BOMB",
+     "uses": 25344
+    },
+    {
+     "moveId": "AERIAL_ACE",
+     "uses": 20020
+    },
+    {
+     "moveId": "FELL_STINGER",
+     "uses": 9169
+    }
+   ]
+  }
  },
  {
   "speciesId": "vaporeon",
@@ -157,7 +747,41 @@
    "WATER_GUN",
    "AQUA_TAIL",
    "LAST_RESORT"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "WATER_GUN",
+     "uses": 134800
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "AQUA_TAIL",
+     "uses": 56965
+    },
+    {
+     "moveId": "LIQUIDATION",
+     "uses": 19374
+    },
+    {
+     "moveId": "SCALD",
+     "uses": 18744
+    },
+    {
+     "moveId": "LAST_RESORT",
+     "uses": 17889
+    },
+    {
+     "moveId": "WATER_PULSE",
+     "uses": 14611
+    },
+    {
+     "moveId": "HYDRO_PUMP",
+     "uses": 7611
+    }
+   ]
+  }
  },
  {
   "speciesId": "charmeleon_shadow",
@@ -167,7 +791,37 @@
    "EMBER",
    "FIRE_PUNCH",
    "FLAMETHROWER"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "EMBER",
+     "uses": 48194
+    },
+    {
+     "moveId": "SCRATCH",
+     "uses": 44808
+    },
+    {
+     "moveId": "FIRE_FANG",
+     "uses": 41734
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "FIRE_PUNCH",
+     "uses": 89546
+    },
+    {
+     "moveId": "FLAMETHROWER",
+     "uses": 28196
+    },
+    {
+     "moveId": "FLAME_BURST",
+     "uses": 17316
+    }
+   ]
+  }
  },
  {
   "speciesId": "beedrill",
@@ -177,7 +831,53 @@
    "INFESTATION",
    "X_SCISSOR",
    "DRILL_RUN"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "INFESTATION",
+     "uses": 38094
+    },
+    {
+     "moveId": "POISON_STING",
+     "uses": 36477
+    },
+    {
+     "moveId": "POISON_JAB",
+     "uses": 31935
+    },
+    {
+     "moveId": "BUG_BITE",
+     "uses": 28229
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "DRILL_RUN",
+     "uses": 42339
+    },
+    {
+     "moveId": "X_SCISSOR",
+     "uses": 32327
+    },
+    {
+     "moveId": "SLUDGE_BOMB",
+     "uses": 23106
+    },
+    {
+     "moveId": "AERIAL_ACE",
+     "uses": 18254
+    },
+    {
+     "moveId": "RETURN",
+     "uses": 10200
+    },
+    {
+     "moveId": "FELL_STINGER",
+     "uses": 8546
+    }
+   ]
+  }
  },
  {
   "speciesId": "gholdengo",
@@ -187,7 +887,37 @@
    "HEX",
    "SHADOW_BALL",
    "POWER_GEM"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "HEX",
+     "uses": 71127
+    },
+    {
+     "moveId": "ASTONISH",
+     "uses": 63673
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "SHADOW_BALL",
+     "uses": 49909
+    },
+    {
+     "moveId": "POWER_GEM",
+     "uses": 36182
+    },
+    {
+     "moveId": "DAZZLING_GLEAM",
+     "uses": 26397
+    },
+    {
+     "moveId": "FOCUS_BLAST",
+     "uses": 22340
+    }
+   ]
+  }
  },
  {
   "speciesId": "charmeleon",
@@ -197,7 +927,41 @@
    "EMBER",
    "FIRE_PUNCH",
    "RETURN"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "EMBER",
+     "uses": 47470
+    },
+    {
+     "moveId": "SCRATCH",
+     "uses": 45339
+    },
+    {
+     "moveId": "FIRE_FANG",
+     "uses": 41878
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "FIRE_PUNCH",
+     "uses": 72652
+    },
+    {
+     "moveId": "RETURN",
+     "uses": 25541
+    },
+    {
+     "moveId": "FLAMETHROWER",
+     "uses": 22662
+    },
+    {
+     "moveId": "FLAME_BURST",
+     "uses": 13677
+    }
+   ]
+  }
  },
  {
   "speciesId": "darumaka_shadow",
@@ -207,7 +971,29 @@
    "FIRE_FANG",
    "FIRE_PUNCH",
    "FLAME_CHARGE"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "FIRE_FANG",
+     "uses": 87160
+    },
+    {
+     "moveId": "TACKLE",
+     "uses": 47640
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "FIRE_PUNCH",
+     "uses": 98034
+    },
+    {
+     "moveId": "FLAME_CHARGE",
+     "uses": 36577
+    }
+   ]
+  }
  },
  {
   "speciesId": "flareon",
@@ -217,7 +1003,45 @@
    "EMBER",
    "HEAT_WAVE",
    "SUPER_POWER"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "EMBER",
+     "uses": 75680
+    },
+    {
+     "moveId": "FIRE_SPIN",
+     "uses": 59120
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "HEAT_WAVE",
+     "uses": 38982
+    },
+    {
+     "moveId": "SUPER_POWER",
+     "uses": 36939
+    },
+    {
+     "moveId": "OVERHEAT",
+     "uses": 23144
+    },
+    {
+     "moveId": "LAST_RESORT",
+     "uses": 16268
+    },
+    {
+     "moveId": "FLAMETHROWER",
+     "uses": 12575
+    },
+    {
+     "moveId": "FIRE_BLAST",
+     "uses": 6819
+    }
+   ]
+  }
  },
  {
   "speciesId": "darumaka",
@@ -227,7 +1051,33 @@
    "FIRE_FANG",
    "FIRE_PUNCH",
    "FLAME_CHARGE"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "FIRE_FANG",
+     "uses": 86398
+    },
+    {
+     "moveId": "TACKLE",
+     "uses": 48402
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "FIRE_PUNCH",
+     "uses": 78154
+    },
+    {
+     "moveId": "FLAME_CHARGE",
+     "uses": 29490
+    },
+    {
+     "moveId": "RETURN",
+     "uses": 27320
+    }
+   ]
+  }
  },
  {
   "speciesId": "leafeon",
@@ -237,7 +1087,41 @@
    "QUICK_ATTACK",
    "LEAF_BLADE",
    "ENERGY_BALL"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "BULLET_SEED",
+     "uses": 55022
+    },
+    {
+     "moveId": "QUICK_ATTACK",
+     "uses": 53135
+    },
+    {
+     "moveId": "RAZOR_LEAF",
+     "uses": 26488
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "LEAF_BLADE",
+     "uses": 85017
+    },
+    {
+     "moveId": "ENERGY_BALL",
+     "uses": 21305
+    },
+    {
+     "moveId": "LAST_RESORT",
+     "uses": 21273
+    },
+    {
+     "moveId": "SOLAR_BEAM",
+     "uses": 7106
+    }
+   ]
+  }
  },
  {
   "speciesId": "darmanitan_standard_shadow",
@@ -247,7 +1131,41 @@
    "INCINERATE",
    "ROCK_SLIDE",
    "OVERHEAT"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "INCINERATE",
+     "uses": 75628
+    },
+    {
+     "moveId": "FIRE_FANG",
+     "uses": 36743
+    },
+    {
+     "moveId": "TACKLE",
+     "uses": 22465
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "ROCK_SLIDE",
+     "uses": 50733
+    },
+    {
+     "moveId": "OVERHEAT",
+     "uses": 39490
+    },
+    {
+     "moveId": "FOCUS_BLAST",
+     "uses": 24162
+    },
+    {
+     "moveId": "PSYCHIC",
+     "uses": 20251
+    }
+   ]
+  }
  },
  {
   "speciesId": "ivysaur",
@@ -257,7 +1175,37 @@
    "VINE_WHIP",
    "POWER_WHIP",
    "SLUDGE_BOMB"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "VINE_WHIP",
+     "uses": 92690
+    },
+    {
+     "moveId": "RAZOR_LEAF",
+     "uses": 42110
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "POWER_WHIP",
+     "uses": 56723
+    },
+    {
+     "moveId": "SLUDGE_BOMB",
+     "uses": 45174
+    },
+    {
+     "moveId": "RETURN",
+     "uses": 21261
+    },
+    {
+     "moveId": "SOLAR_BEAM",
+     "uses": 11929
+    }
+   ]
+  }
  },
  {
   "speciesId": "jolteon",
@@ -267,7 +1215,41 @@
    "THUNDER_SHOCK",
    "DISCHARGE",
    "LAST_RESORT"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "VOLT_SWITCH",
+     "uses": 73902
+    },
+    {
+     "moveId": "THUNDER_SHOCK",
+     "uses": 60898
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "DISCHARGE",
+     "uses": 54123
+    },
+    {
+     "moveId": "LAST_RESORT",
+     "uses": 28573
+    },
+    {
+     "moveId": "THUNDERBOLT",
+     "uses": 19972
+    },
+    {
+     "moveId": "THUNDER",
+     "uses": 17541
+    },
+    {
+     "moveId": "ZAP_CANNON",
+     "uses": 14478
+    }
+   ]
+  }
  },
  {
   "speciesId": "darmanitan_standard",
@@ -277,7 +1259,41 @@
    "INCINERATE",
    "ROCK_SLIDE",
    "OVERHEAT"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "INCINERATE",
+     "uses": 71972
+    },
+    {
+     "moveId": "FIRE_FANG",
+     "uses": 38662
+    },
+    {
+     "moveId": "TACKLE",
+     "uses": 24137
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "ROCK_SLIDE",
+     "uses": 50694
+    },
+    {
+     "moveId": "OVERHEAT",
+     "uses": 39458
+    },
+    {
+     "moveId": "FOCUS_BLAST",
+     "uses": 24184
+    },
+    {
+     "moveId": "PSYCHIC",
+     "uses": 20282
+    }
+   ]
+  }
  },
  {
   "speciesId": "espeon",
@@ -287,7 +1303,45 @@
    "CONFUSION",
    "PSYCHIC_FANGS",
    "SHADOW_BALL"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "CONFUSION",
+     "uses": 118344
+    },
+    {
+     "moveId": "ZEN_HEADBUTT",
+     "uses": 16456
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "PSYCHIC_FANGS",
+     "uses": 47883
+    },
+    {
+     "moveId": "SHADOW_BALL",
+     "uses": 34376
+    },
+    {
+     "moveId": "FUTURE_SIGHT",
+     "uses": 19212
+    },
+    {
+     "moveId": "LAST_RESORT",
+     "uses": 18770
+    },
+    {
+     "moveId": "PSYCHIC",
+     "uses": 9021
+    },
+    {
+     "moveId": "PSYBEAM",
+     "uses": 5196
+    }
+   ]
+  }
  },
  {
   "speciesId": "darumaka_galarian",
@@ -297,7 +1351,29 @@
    "ICE_FANG",
    "ICE_PUNCH",
    "ICE_BEAM"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "ICE_FANG",
+     "uses": 86950
+    },
+    {
+     "moveId": "TACKLE",
+     "uses": 47850
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "ICE_PUNCH",
+     "uses": 102571
+    },
+    {
+     "moveId": "ICE_BEAM",
+     "uses": 32229
+    }
+   ]
+  }
  },
  {
   "speciesId": "ivysaur_shadow",
@@ -307,7 +1383,33 @@
    "VINE_WHIP",
    "POWER_WHIP",
    "SLUDGE_BOMB"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "VINE_WHIP",
+     "uses": 93722
+    },
+    {
+     "moveId": "RAZOR_LEAF",
+     "uses": 41078
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "POWER_WHIP",
+     "uses": 65773
+    },
+    {
+     "moveId": "SLUDGE_BOMB",
+     "uses": 55010
+    },
+    {
+     "moveId": "SOLAR_BEAM",
+     "uses": 14015
+    }
+   ]
+  }
  },
  {
   "speciesId": "darmanitan_galarian_standard",
@@ -317,7 +1419,37 @@
    "ICE_FANG",
    "AVALANCHE",
    "ICE_PUNCH"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "ICE_FANG",
+     "uses": 90276
+    },
+    {
+     "moveId": "TACKLE",
+     "uses": 44524
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "AVALANCHE",
+     "uses": 49591
+    },
+    {
+     "moveId": "ICE_PUNCH",
+     "uses": 35493
+    },
+    {
+     "moveId": "SUPER_POWER",
+     "uses": 33652
+    },
+    {
+     "moveId": "OVERHEAT",
+     "uses": 16088
+    }
+   ]
+  }
  },
  {
   "speciesId": "eevee",
@@ -327,7 +1459,37 @@
    "QUICK_ATTACK",
    "SWIFT",
    "DIG"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "QUICK_ATTACK",
+     "uses": 77239
+    },
+    {
+     "moveId": "TACKLE",
+     "uses": 57561
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "SWIFT",
+     "uses": 63094
+    },
+    {
+     "moveId": "DIG",
+     "uses": 32153
+    },
+    {
+     "moveId": "BODY_SLAM",
+     "uses": 25778
+    },
+    {
+     "moveId": "LAST_RESORT",
+     "uses": 13666
+    }
+   ]
+  }
  },
  {
   "speciesId": "bulbasaur_shadow",
@@ -337,7 +1499,33 @@
    "VINE_WHIP",
    "POWER_WHIP",
    "SEED_BOMB"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "VINE_WHIP",
+     "uses": 86607
+    },
+    {
+     "moveId": "TACKLE",
+     "uses": 48193
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "POWER_WHIP",
+     "uses": 47343
+    },
+    {
+     "moveId": "SLUDGE_BOMB",
+     "uses": 43655
+    },
+    {
+     "moveId": "SEED_BOMB",
+     "uses": 43625
+    }
+   ]
+  }
  },
  {
   "speciesId": "bulbasaur",
@@ -347,7 +1535,37 @@
    "VINE_WHIP",
    "POWER_WHIP",
    "SEED_BOMB"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "VINE_WHIP",
+     "uses": 86388
+    },
+    {
+     "moveId": "TACKLE",
+     "uses": 48412
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "POWER_WHIP",
+     "uses": 42059
+    },
+    {
+     "moveId": "SEED_BOMB",
+     "uses": 38828
+    },
+    {
+     "moveId": "SLUDGE_BOMB",
+     "uses": 36899
+    },
+    {
+     "moveId": "RETURN",
+     "uses": 17069
+    }
+   ]
+  }
  },
  {
   "speciesId": "glaceon",
@@ -357,7 +1575,41 @@
    "ICE_SHARD",
    "AVALANCHE",
    "WATER_PULSE"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "ICE_SHARD",
+     "uses": 82857
+    },
+    {
+     "moveId": "FROST_BREATH",
+     "uses": 51943
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "AVALANCHE",
+     "uses": 59797
+    },
+    {
+     "moveId": "WATER_PULSE",
+     "uses": 25018
+    },
+    {
+     "moveId": "ICY_WIND",
+     "uses": 20878
+    },
+    {
+     "moveId": "LAST_RESORT",
+     "uses": 15752
+    },
+    {
+     "moveId": "ICE_BEAM",
+     "uses": 13419
+    }
+   ]
+  }
  },
  {
   "speciesId": "unown",
@@ -367,6 +1619,80 @@
    "HIDDEN_POWER_PSYCHIC",
    "STRUGGLE",
    "none"
-  ]
+  ],
+  "moves": {
+   "fastMoves": [
+    {
+     "moveId": "HIDDEN_POWER_PSYCHIC",
+     "uses": 9599
+    },
+    {
+     "moveId": "HIDDEN_POWER_ICE",
+     "uses": 9477
+    },
+    {
+     "moveId": "HIDDEN_POWER_GROUND",
+     "uses": 9120
+    },
+    {
+     "moveId": "HIDDEN_POWER_ROCK",
+     "uses": 9116
+    },
+    {
+     "moveId": "HIDDEN_POWER_ELECTRIC",
+     "uses": 9111
+    },
+    {
+     "moveId": "HIDDEN_POWER_FIRE",
+     "uses": 8889
+    },
+    {
+     "moveId": "HIDDEN_POWER_FLYING",
+     "uses": 8416
+    },
+    {
+     "moveId": "HIDDEN_POWER_GHOST",
+     "uses": 8375
+    },
+    {
+     "moveId": "HIDDEN_POWER_FIGHTING",
+     "uses": 8360
+    },
+    {
+     "moveId": "HIDDEN_POWER_WATER",
+     "uses": 8343
+    },
+    {
+     "moveId": "HIDDEN_POWER_DARK",
+     "uses": 8115
+    },
+    {
+     "moveId": "HIDDEN_POWER_GRASS",
+     "uses": 7969
+    },
+    {
+     "moveId": "HIDDEN_POWER_DRAGON",
+     "uses": 7703
+    },
+    {
+     "moveId": "HIDDEN_POWER_STEEL",
+     "uses": 7549
+    },
+    {
+     "moveId": "HIDDEN_POWER_POISON",
+     "uses": 7179
+    },
+    {
+     "moveId": "HIDDEN_POWER_BUG",
+     "uses": 7079
+    }
+   ],
+   "chargedMoves": [
+    {
+     "moveId": "STRUGGLE",
+     "uses": 134800
+    }
+   ]
+  }
  }
 ]

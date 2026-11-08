@@ -155,4 +155,56 @@ public sealed class SourceDownloaderTests
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
     }
+
+    private static HttpResponseMessage Tree(string json) =>
+        new(HttpStatusCode.OK) { Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json") };
+
+    private static Dictionary<string, Func<HttpResponseMessage>> Trees(string files)
+    {
+        const string api = "https://api.github.com/repos/PokeMiners/pogo_assets/git/trees/";
+        return new()
+        {
+            [api + "master"] = () => Tree("""{"tree":[{"path":"Images","type":"tree","sha":"a1"},{"path":"README.md","type":"blob","sha":"r"}],"truncated":false}"""),
+            [api + "a1"] = () => Tree("""{"tree":[{"path":"Pokemon - 256x256","type":"tree","sha":"b2"}],"truncated":false}"""),
+            [api + "b2"] = () => Tree("""{"tree":[{"path":"Addressable Assets","type":"tree","sha":"c3"}],"truncated":false}"""),
+            [api + "c3"] = () => Tree(files),
+        };
+    }
+
+    [Fact]
+    public async Task ThePictureList_IsReadFolderByFolder()
+    {
+        var http = new FakeHttp(Trees("""{"tree":[{"path":"pm25.icon.png","type":"blob","sha":"x"},{"path":"pm25.cFALL_2018.icon.png","type":"blob","sha":"y"},{"path":"old","type":"tree","sha":"z"}],"truncated":false}"""));
+
+        var listing = await Downloader(http).ListSpriteFolderAsync(Ct);
+
+        Assert.Null(listing.Problem);
+        Assert.Equal(["pm25.icon.png", "pm25.cFALL_2018.icon.png"], listing.FileNames);
+        Assert.Equal(4, http.Requests.Count);
+    }
+
+    [Fact]
+    public async Task ThePictureList_CutShort_IsAProblem()
+    {
+        var listing = await Downloader(new FakeHttp(Trees("""{"tree":[],"truncated":true}"""))).ListSpriteFolderAsync(Ct);
+        Assert.Null(listing.FileNames);
+        Assert.Equal("GitHub cut the picture list short", listing.Problem);
+    }
+
+    [Fact]
+    public async Task ThePictureList_RefusedOrMissing_IsAProblem_NotAFailure()
+    {
+        var refused = new FakeHttp(new() { ["https://api.github.com/repos/PokeMiners/pogo_assets/git/trees/master"] = () => new HttpResponseMessage(HttpStatusCode.Forbidden) });
+        Assert.Equal("GitHub answered 403 Forbidden", (await Downloader(refused).ListSpriteFolderAsync(Ct)).Problem);
+
+        var responses = Trees("{}");
+        responses.Remove("https://api.github.com/repos/PokeMiners/pogo_assets/git/trees/b2");
+        responses["https://api.github.com/repos/PokeMiners/pogo_assets/git/trees/a1"] = () => Tree("""{"tree":[],"truncated":false}""");
+        Assert.Equal("the folder \"Pokemon - 256x256\" wasn't found in PokeMiners' pictures",
+            (await Downloader(new FakeHttp(responses)).ListSpriteFolderAsync(Ct)).Problem);
+
+        var garbled = Trees("{}");
+        garbled["https://api.github.com/repos/PokeMiners/pogo_assets/git/trees/master"] = () => Tree("not json");
+        Assert.Equal("GitHub's answer couldn't be read", (await Downloader(new FakeHttp(garbled)).ListSpriteFolderAsync(Ct)).Problem);
+    }
 }

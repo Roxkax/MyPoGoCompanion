@@ -50,6 +50,7 @@ public static class DevSeed
     {
         var data = LoadGameData();
         var clock = new SampleClock(now);
+        AddPokemonPageSamples(data);
         AddLiveData(data, clock);
         AddTrainer(data, clock);
         return data;
@@ -77,6 +78,43 @@ public static class DevSeed
             RaidRankings = file.RaidRankings,
             KeeperFilters = file.KeeperFilters,
         };
+    }
+
+    /// <summary>
+    /// Made-up samples for the Pokémon page (E03-F02) that the golden files don't hold: a few costumes (real
+    /// PokeMiners picture names) and PvPoke's move usage for every ranked form, in its movepool's order.
+    /// </summary>
+    private static void AddPokemonPageSamples(DevSeedData data)
+    {
+        data.Costumes =
+        [
+            new Costume { Sprite = "pm6.cJAN_2020_NOEVOLVE", Dex = 6, Code = "JAN_2020_NOEVOLVE", NameEn = "January 2020", HasShinySprite = true },
+            new Costume { Sprite = "pm6.cSPRING_2020_NOEVOLVE", Dex = 6, Code = "SPRING_2020_NOEVOLVE", NameEn = "Spring 2020", HasShinySprite = true },
+            new Costume { Sprite = "pm133.cHOLIDAY_2022", Dex = 133, Code = "HOLIDAY_2022", NameEn = "Holiday 2022", HasShinySprite = true },
+            new Costume { Sprite = "pm131.cSPRING_2023_MYSTIC", Dex = 131, Code = "SPRING_2023_MYSTIC", NameEn = "Spring 2023 Mystic", HasShinySprite = true },
+        ];
+
+        var kinds = data.Moves.ToDictionary(move => move.Id, move => move.Kind, StringComparer.Ordinal);
+        var movepools = data.FormMoves.ToLookup(formMove => formMove.FormId, StringComparer.Ordinal);
+        foreach (var ranking in data.PvpRankings)
+        {
+            var chosen = new[] { ranking.FastMoveId, ranking.ChargedMove1Id, ranking.ChargedMove2Id }.OfType<string>().ToList();
+            var others = movepools[ranking.FormId].Select(formMove => formMove.MoveId).Where(id => !chosen.Contains(id) && kinds.ContainsKey(id));
+            var share = new Dictionary<MoveKind, int>();
+            foreach (var move in chosen.Concat(others).Distinct(StringComparer.Ordinal))
+            {
+                var kind = kinds[move];
+                var place = share[kind] = share.GetValueOrDefault(kind) + 1;
+                data.PvpMoveUsage.Add(new PvpMoveUsage
+                {
+                    League = ranking.League,
+                    FormId = ranking.FormId,
+                    IsShadow = ranking.IsShadow,
+                    MoveId = move,
+                    Uses = 60000 / place,
+                });
+            }
+        }
     }
 
     private static void AddLiveData(DevSeedData data, SampleClock clock)

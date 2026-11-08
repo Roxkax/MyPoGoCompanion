@@ -119,3 +119,18 @@ internal sealed class CpMultiplierConfiguration : IEntityTypeConfiguration<CpMul
         builder.Property(multiplier => multiplier.Level).HasPrecision(3, 1);
     }
 }
+
+internal sealed class CostumeConfiguration : IEntityTypeConfiguration<Costume>
+{
+    public void Configure(EntityTypeBuilder<Costume> builder)
+    {
+        builder.ToTable("costumes");
+        builder.HasKey(costume => costume.Sprite);
+        builder.Property(costume => costume.Sprite).HasMaxLength(100);
+        builder.Property(costume => costume.Code).HasMaxLength(60);
+        builder.Property(costume => costume.FormCode).HasMaxLength(60);
+        builder.Property(costume => costume.NameEn).HasMaxLength(100);
+        builder.HasIndex(costume => costume.Dex);
+        builder.HasOne(costume => costume.Species).WithMany().HasForeignKey(costume => costume.Dex).OnDelete(DeleteBehavior.Cascade);
+    }
+}

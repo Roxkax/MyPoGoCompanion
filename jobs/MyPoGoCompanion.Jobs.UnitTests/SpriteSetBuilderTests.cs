@@ -51,8 +51,10 @@ public sealed class SpriteSetBuilderTests : IDisposable
     [InlineData("pm6.s.icon.png", true)]
     [InlineData("pm6.fMEGA_X.icon.png", true)]
     [InlineData("pm6.fCOSTUME_2020.icon.png", true)]
-    [InlineData("pm25.cFALL_2018.icon.png", false)]
+    [InlineData("pm25.cFALL_2018.icon.png", true)]
+    [InlineData("pm710.fSMALL.cFALL_2022.icon.png", true)]
     [InlineData("pm25.cFALL_2018.s.icon.png", false)]
+    [InlineData("pm12.cFASHION_2021_NOEVOLVE.g2.icon.png", false)]
     [InlineData("pm3.g2.icon.png", false)]
     [InlineData("pm3.g2.s.icon.png", false)]
     [InlineData("pm115.fMEGA.portrait.png", false)]
@@ -94,14 +96,15 @@ public sealed class SpriteSetBuilderTests : IDisposable
         Write("pm6.icon.png", Png(256, 256, new SKRectI(10, 10, 200, 240)));
         Write("pm6.s.icon.png", Png(256, 256, new SKRectI(10, 10, 200, 240)));
         Write("pm25.cFALL_2018.icon.png", Png(64, 64, new SKRectI(1, 1, 60, 60)));
+        Write("pm25.cFALL_2018.s.icon.png", Png(64, 64, new SKRectI(1, 1, 60, 60)));
         Write("pm9.icon.png", Png(64, 64, content: null));
         Write("readme.txt", "not a picture"u8.ToArray());
 
         var result = SpriteSetBuilder.Build(Source, Output, "db10df75", parallelism: 2);
 
-        Assert.Equal((2, 1, 1), (result.Pictures, result.LeftOut, result.Unreadable));
+        Assert.Equal((3, 1, 1), (result.Pictures, result.LeftOut, result.Unreadable));
         Assert.Equal(["pm9.icon.png"], result.Problems);
-        Assert.Equal(["pm6.s.webp", "pm6.webp", "set.json"], Directory.GetFiles(Output).Select(Path.GetFileName).Order(StringComparer.Ordinal));
+        Assert.Equal(["pm25.cFALL_2018.webp", "pm6.s.webp", "pm6.webp", "set.json"], Directory.GetFiles(Output).Select(Path.GetFileName).Order(StringComparer.Ordinal));
         using (var picture = Read("pm6.webp"))
         {
             Assert.Equal((230, 230), (picture.Width, picture.Height));
@@ -109,7 +112,7 @@ public sealed class SpriteSetBuilderTests : IDisposable
 
         using var set = JsonDocument.Parse(await File.ReadAllTextAsync(Path.Combine(Output, SpriteSetBuilder.SetFile), Ct));
         Assert.Equal("db10df75", set.RootElement.GetProperty("set").GetString());
-        Assert.Equal(2, set.RootElement.GetProperty("pictures").GetInt32());
+        Assert.Equal(3, set.RootElement.GetProperty("pictures").GetInt32());
     }
 
     [Fact]

@@ -83,6 +83,10 @@ public static class GameDataWriter
             keep: null, remove: multiplier => Delete(db, multiplier, true),
             describe: multiplier => new RemovedRow(Level(multiplier.Level), $"Level {Level(multiplier.Level)}"),
             cancellationToken);
+        await result.SyncAsync("costumes", 0, db, db.Costumes, data.Costumes, costume => costume.Sprite,
+            keep: null, remove: costume => Delete(db, costume, true),
+            describe: costume => new RemovedRow(costume.Sprite, $"#{Invariant(costume.Dex)} {costume.NameEn}"),
+            cancellationToken);
         await result.SyncAsync("pvpRankings", 0, db, db.PvpRankings, data.PvpRankings, ranking => (ranking.League, ranking.FormId, ranking.IsShadow),
             keep: null, remove: ranking => Delete(db, ranking, true),
             describe: ranking => new RemovedRow($"{ranking.League}/{ranking.FormId}/{Shadow(ranking.IsShadow)}", $"{ranking.League} League: {names.Form(ranking.FormId, ranking.IsShadow)}"),
@@ -106,6 +110,13 @@ public static class GameDataWriter
             describe: moveset => new RemovedRow(
                 $"{moveset.FormId}/{Shadow(moveset.IsShadow)}/{moveset.FastMoveId}/{moveset.ChargedMoveId}",
                 $"{names.Form(moveset.FormId, moveset.IsShadow)}: {names.Move(moveset.FastMoveId)} + {names.Move(moveset.ChargedMoveId)}"),
+            cancellationToken);
+        await result.SyncAsync("pvpMoveUsage", 0, db, db.PvpMoveUsage, data.PvpMoveUsage,
+            usage => (usage.League, usage.FormId, usage.IsShadow, usage.MoveId),
+            keep: null, remove: usage => Delete(db, usage, true),
+            describe: usage => new RemovedRow(
+                $"{usage.League}/{usage.FormId}/{Shadow(usage.IsShadow)}/{usage.MoveId}",
+                $"{usage.League} League: {names.Form(usage.FormId, usage.IsShadow)} uses {names.Move(usage.MoveId)}"),
             cancellationToken);
         return result;
     }

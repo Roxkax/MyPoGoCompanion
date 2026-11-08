@@ -11,7 +11,7 @@ public sealed class EngineResultsTests
     private static readonly ImportedGameData _data = Fixtures.Built;
 
     [Fact]
-    public void BestIvs_EveryNonMegaForm_InAllThreeLeagues()
+    public void BestIvs_EveryForm_MegasIncluded_InAllThreeLeagues()
     {
         var charizard = _data.PvpBestIvs.Where(best => best.FormId == "charizard").ToDictionary(best => best.League);
         Assert.Equal((0, 15, 13, 19.5m, 1500), (charizard[League.Great].AttackIv, charizard[League.Great].DefenseIv,
@@ -20,11 +20,24 @@ public sealed class EngineResultsTests
             charizard[League.Master].StaminaIv, charizard[League.Master].Level));
         Assert.True(charizard[League.Great].StatProduct > 0);
 
-        var forms = _data.Forms.Where(form => form.Kind is not (FormKind.Mega or FormKind.Primal)).Select(form => form.Id).Order().ToList();
+        // Megas and Primals too (decision 2026-11-08: they can be used in GO Battle League).
+        var forms = _data.Forms.Select(form => form.Id).Order().ToList();
+        Assert.Contains(_data.Forms, form => form.Kind is FormKind.Mega or FormKind.Primal);
         foreach (var league in new[] { League.Great, League.Ultra, League.Master })
         {
             Assert.Equal(forms, _data.PvpBestIvs.Where(best => best.League == league).Select(best => best.FormId).Order());
         }
+    }
+
+    [Fact]
+    public void BestIvs_OfAMega_AreItsOwn_UnderTheLeagueCap()
+    {
+        var mega = _data.Forms.First(form => form.Kind == FormKind.Mega);
+        var great = _data.PvpBestIvs.Single(best => best.FormId == mega.Id && best.League == League.Great);
+        var master = _data.PvpBestIvs.Single(best => best.FormId == mega.Id && best.League == League.Master);
+        Assert.InRange(great.Cp, 1, 1500);
+        Assert.Equal((15, 15, 15, 50m), (master.AttackIv, master.DefenseIv, master.StaminaIv, master.Level));
+        Assert.Equal(mega.MaxCp50, master.Cp);
     }
 
     [Fact]
