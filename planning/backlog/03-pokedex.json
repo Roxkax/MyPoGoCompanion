@@ -26,7 +26,7 @@
     "api",
     "web"
    ],
-   "description": "",
+   "description": "The API sends the whole Pok\u00e9dex in one cached answer and the app searches, filters and sorts it (decision 2026-11-08), so the paging in the first task is not needed.",
    "tasks": [
     [
      "Species list API with paging and version markers",
