@@ -37,9 +37,8 @@ Today: **2,861 pictures, 24 MB** (Static Web Apps' free plan allows 250 MB per a
 
 In the deploys (`deploy-qa.yml`, `deploy-prod.yml`, steps under "Pokémon pictures"), before the web build:
 
-- The output is kept in the **Actions cache** under `sprites-main-<PokeMiners commit>-<hash of the picture code>` (saved only by prod deploys of pushes to `main`) and `sprites-pr-…` (saved only by QA deploys of pull request runs, which GitHub keeps to that pull request), so most deploys only restore it. Prod restores only `sprites-main-` sets; QA reuses prod's or its own. A QA deploy started by hand (it builds a PR's code in `main`'s cache scope) and a prod rollback save nothing, so a set built from a pull request's code can never reach prod (CodeQL's "cache poisoning" rule).
-- Before the web build, anything in the folder other than `*.webp` and `set.json` is removed (with a warning), whatever a cache held.
-- If GitHub can't say PokeMiners' latest commit, or the build fails, the **last saved set** is used (a warning). With none at all, the web app goes out **without pictures** (placeholders) and a warning; the next deploy builds them.
+- The pictures are **built fresh at every deploy** (about 30 s; each download is tried 3 times). They are **not kept in the Actions cache**: these jobs can check out a commit chosen by hand (QA's pull request head, prod's rollback commit), and a cached set could then carry a pull request's output into prod (CodeQL's "cache poisoning" rule, found on this feature's PR; decision log 2026-11-08).
+- If the download or the build still fails, the web app goes out **without pictures** (placeholders) and a warning; the next deploy builds them.
 - The build passes the set's name as `VITE_SPRITE_SET` (the installed app's picture cache, below), and the run's Summary page says which set went out.
 - A rollback to a commit from before the pictures has no script: nothing is built (that version doesn't show pictures).
 

@@ -303,33 +303,10 @@ jobs:
           cache-dependency-path: web/package-lock.json
 
       # --- Pokémon pictures (docs/SPRITES.md) -------------------------------------------------------------------
-      # Built into the web app for the MVP (decision 2026-11-07), from PokeMiners' latest commit, and saved in the
-      # Actions cache by that commit and the picture code, so most deploys only restore them (about 24 MB). When
-      # GitHub can't say PokeMiners' latest commit, the last saved set is used; with none, the web app goes out
-      # without pictures (placeholders) and a warning. A commit from before the pictures existed has none to build.
-      - name: Picture set
-        id: sprites
-        if: hashFiles('.github/scripts/build_sprites.sh') != ''
-        run: |
-          commit=$(git ls-remote https://github.com/PokeMiners/pogo_assets.git HEAD | cut -f1 || true)
-          if [[ $commit =~ ^[0-9a-f]{40}$ ]]; then
-            echo "commit=$commit" >> "$GITHUB_OUTPUT"
-          else
-            echo "::warning::Couldn't read PokeMiners' latest commit: using the last saved picture set."
-            echo "commit=unknown" >> "$GITHUB_OUTPUT"
-          fi
-
-      # Only sets saved by prod deploys of pushes to main (never one a pull request's code built: CodeQL's cache
-      # poisoning rule). Saved after the build, below, on pushes only.
-      - name: Saved pictures
-        id: sprites-cache
-        if: steps.sprites.outputs.commit
-        uses: actions/cache/restore@v4
-        with:
-          path: web/public/sprites
-          key: sprites-main-${{ steps.sprites.outputs.commit }}-${{ hashFiles('jobs/MyPoGoCompanion.Jobs/Sprites/**', '.github/scripts/build_sprites.sh') }}
-          restore-keys: sprites-main-
-
+      # Built into the web app for the MVP (decision 2026-11-07) from PokeMiners' latest commit, fresh at every
+      # deploy (about 30 s): no Actions cache, because this job can check out a commit chosen by hand (CodeQL's cache
+      # poisoning rule). When the download fails after its retries, the web app goes out without pictures
+      # (placeholders) and a warning. A commit from before the pictures existed has none to build.
       - uses: actions/setup-dotnet@v6
         # The migration steps set .NET up, except on a rollback; the pictures need it either way.
         if: needs.changes.outputs.rollback == 'true' && hashFiles('.github/scripts/build_sprites.sh') != ''
@@ -338,39 +315,16 @@ jobs:
 
       - name: Build the pictures
         id: sprites-built
-        if: steps.sprites.outputs.commit
-        env:
-          POKEMINERS_COMMIT: ${{ steps.sprites.outputs.commit }}
-          CACHE_HIT: ${{ steps.sprites-cache.outputs.cache-hit }}
+        if: hashFiles('.github/scripts/build_sprites.sh') != ''
         run: |
-          if [[ $CACHE_HIT != true && $POKEMINERS_COMMIT != unknown ]]; then
-            if .github/scripts/build_sprites.sh web/public/sprites; then
-              echo "built=true" >> "$GITHUB_OUTPUT"
-            else
-              echo "::warning::Building the pictures failed (above): using the last saved set if there is one."
-            fi
-          fi
-          # Only pictures and set.json go out with the web app, whatever a cache held.
-          if [[ -d web/public/sprites ]]; then
-            find web/public/sprites -mindepth 1 \( -type d -o ! \( -name '*.webp' -o -name set.json \) \) -print -exec rm -rf {} + \
-              | sed 's/^/::warning::Removed from the pictures folder: /'
-          fi
+          .github/scripts/build_sprites.sh web/public/sprites \
+            || echo "::warning::Building the pictures failed (above): this deploy has no Pokémon pictures (placeholders)."
           set=$(jq -r '.set // empty' web/public/sprites/set.json 2>/dev/null || true)
-          if [[ -z $set ]]; then
-            echo "::warning::No Pokémon pictures for this deploy: the app shows placeholders until the next deploy builds them."
-          else
+          if [[ -n $set ]]; then
             count=$(find web/public/sprites -name '*.webp' | wc -l)
             echo "Pokémon pictures: PokeMiners \`${set:0:7}\`, $count files." >> "$GITHUB_STEP_SUMMARY"
             echo "set=${set:0:12}" >> "$GITHUB_OUTPUT"
           fi
-
-      - name: Save the pictures
-        # Only from a push to main; see "Saved pictures".
-        if: github.event_name == 'push' && steps.sprites-built.outputs.built == 'true'
-        uses: actions/cache/save@v4
-        with:
-          path: web/public/sprites
-          key: sprites-main-${{ steps.sprites.outputs.commit }}-${{ hashFiles('jobs/MyPoGoCompanion.Jobs/Sprites/**', '.github/scripts/build_sprites.sh') }}
 
       - name: Build the web app
         working-directory: web
