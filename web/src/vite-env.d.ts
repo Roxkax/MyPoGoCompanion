@@ -9,6 +9,8 @@ interface ImportMetaEnv {
   readonly VITE_PR_NUMBER?: string
   /** The commit the web app was built from (short SHA). */
   readonly VITE_APP_VERSION?: string
+  /** The Pokémon picture set built into this deploy (PokeMiners' commit, docs/SPRITES.md); unset locally. */
+  readonly VITE_SPRITE_SET?: string
 }
 
 interface ImportMeta {

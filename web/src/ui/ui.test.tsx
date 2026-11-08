@@ -145,6 +145,24 @@ describe('SpriteBox', () => {
     rerender(<SpriteBox alt="" />)
     expect(screen.queryByRole('img')).not.toBeInTheDocument()
   })
+
+  it('tries the next picture when one fails, then the placeholder, and starts again for a new list', () => {
+    const shinyFirst = ['/sprites/pm892.s.webp', '/sprites/pm892.webp']
+    const { rerender } = render(<SpriteBox src={shinyFirst} alt="Urshifu" />)
+    expect(screen.getByRole('img', { name: 'Urshifu' })).toHaveAttribute('src', shinyFirst[0])
+
+    fireEvent.error(screen.getByRole('img', { name: 'Urshifu' }))
+    expect(screen.getByRole('img', { name: 'Urshifu' })).toHaveAttribute('src', shinyFirst[1])
+
+    fireEvent.error(screen.getByRole('img', { name: 'Urshifu' }))
+    expect(screen.getByRole('img', { name: 'Urshifu' })).toHaveClass('ui-sprite-empty')
+
+    rerender(<SpriteBox src={['/sprites/pm6.webp']} alt="Urshifu" />)
+    expect(screen.getByRole('img', { name: 'Urshifu' })).toHaveAttribute('src', '/sprites/pm6.webp')
+
+    rerender(<SpriteBox src={[]} alt="Urshifu" />)
+    expect(screen.getByRole('img', { name: 'Urshifu' })).toHaveClass('ui-sprite-empty')
+  })
 })
 
 function Kinds({ onChange }: { onChange?: (value: string) => void }) {

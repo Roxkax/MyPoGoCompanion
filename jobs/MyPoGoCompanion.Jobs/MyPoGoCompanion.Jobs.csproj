@@ -12,6 +12,9 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" />
     <PackageReference Include="Microsoft.Extensions.Http" />
     <PackageReference Include="Npgsql.DependencyInjection" />
+    <!-- The pictures (sprites command, docs/SPRITES.md): MIT; the Linux native library without system dependencies. -->
+    <PackageReference Include="SkiaSharp" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" />
   </ItemGroup>
 
   <ItemGroup>

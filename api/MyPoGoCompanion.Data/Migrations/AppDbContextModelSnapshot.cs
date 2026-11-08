@@ -201,6 +201,21 @@ namespace MyPoGoCompanion.Data.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("shiny_released");
 
+                    b.Property<string>("Sprite")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("sprite");
+
+                    b.Property<string>("SpriteGigantamax")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("sprite_gigantamax");
+
+                    b.Property<string>("SpriteShiny")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("sprite_shiny");
+
                     b.Property<int>("Stamina")
                         .HasColumnType("integer")
                         .HasColumnName("stamina");

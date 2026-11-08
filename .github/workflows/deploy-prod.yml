@@ -302,6 +302,30 @@ jobs:
           cache: npm
           cache-dependency-path: web/package-lock.json
 
+      # --- Pokémon pictures (docs/SPRITES.md) -------------------------------------------------------------------
+      # Built into the web app for the MVP (decision 2026-11-07) from PokeMiners' latest commit, fresh at every
+      # deploy (about 30 s): no Actions cache, because this job can check out a commit chosen by hand (CodeQL's cache
+      # poisoning rule). When the download fails after its retries, the web app goes out without pictures
+      # (placeholders) and a warning. A commit from before the pictures existed has none to build.
+      - uses: actions/setup-dotnet@v6
+        # The migration steps set .NET up, except on a rollback; the pictures need it either way.
+        if: needs.changes.outputs.rollback == 'true' && hashFiles('.github/scripts/build_sprites.sh') != ''
+        with:
+          global-json-file: global.json
+
+      - name: Build the pictures
+        id: sprites-built
+        if: hashFiles('.github/scripts/build_sprites.sh') != ''
+        run: |
+          .github/scripts/build_sprites.sh web/public/sprites \
+            || echo "::warning::Building the pictures failed (above): this deploy has no Pokémon pictures (placeholders)."
+          set=$(jq -r '.set // empty' web/public/sprites/set.json 2>/dev/null || true)
+          if [[ -n $set ]]; then
+            count=$(find web/public/sprites -name '*.webp' | wc -l)
+            echo "Pokémon pictures: PokeMiners \`${set:0:7}\`, $count files." >> "$GITHUB_STEP_SUMMARY"
+            echo "set=${set:0:12}" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Build the web app
         working-directory: web
         env:
@@ -309,6 +333,8 @@ jobs:
           # No environment strip in production (web/src/environment.ts); a build without it would say "Local".
           VITE_APP_ENV: production
           VITE_APP_VERSION: ${{ steps.commit.outputs.version }}
+          # The saved pictures' name in the installed app (web/src/pwa/worker.ts); empty without pictures.
+          VITE_SPRITE_SET: ${{ steps.sprites-built.outputs.set }}
         run: |
           npm ci --no-audit --no-fund
           npm run build

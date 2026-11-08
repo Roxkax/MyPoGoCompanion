@@ -81,6 +81,38 @@ public sealed class DailyImportJobTests : IDisposable
         Assert.Equal(Fixtures.Built.PvpRankings.Count, await db.PvpRankings.CountAsync(Ct));
     }
 
+    private static string Sprite(string name) => _options.SpriteBaseUrl.AbsoluteUri + name + ".icon.png";
+
+    [Fact]
+    public async Task TheImport_StoresEachFormsPictures_AndTrustsThemNextTime()
+    {
+        foreach (var name in new[] { "pm6", "pm6.s", "pm6.fGIGANTAMAX", "pm6.fMEGA_Y" })
+        {
+            _http.Responses[Sprite(name)] = () => new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+        }
+
+        Assert.Equal(DailyImportOutcome.Succeeded, await RunAsync());
+
+        await using (var db = Db())
+        {
+            var charizard = await db.Forms.SingleAsync(form => form.Id == "charizard", Ct);
+            Assert.Equal(("pm6", "pm6.s", "pm6.fGIGANTAMAX"), (charizard.Sprite, charizard.SpriteShiny, charizard.SpriteGigantamax));
+            var megaY = await db.Forms.SingleAsync(form => form.Id == "charizard_mega_y", Ct);
+            Assert.Equal(("pm6.fMEGA_Y", null), (megaY.Sprite, megaY.SpriteShiny));
+            // PokeMiners has no Mega X picture in this test: it shows Charizard's.
+            var megaX = await db.Forms.SingleAsync(form => form.Id == "charizard_mega_x", Ct);
+            Assert.Equal(("pm6", "pm6.s"), (megaX.Sprite, megaX.SpriteShiny));
+        }
+
+        var warnings = Summary((await RunsAsync())[0]).Warnings;
+        Assert.Contains(warnings, warning => warning.Contains("show their main form's picture", StringComparison.Ordinal) && warning.Contains("charizard_mega_x", StringComparison.Ordinal));
+
+        _http.Requests.Clear();
+        Assert.Equal(DailyImportOutcome.Succeeded, await RunAsync("next"));
+        Assert.DoesNotContain(Sprite("pm6"), _http.Requests);
+        Assert.Contains(Sprite("pm6.fMEGA_X"), _http.Requests);
+    }
+
     [Fact]
     public async Task SameSourcesAndVersion_NothingToDo_StillASuccess()
     {

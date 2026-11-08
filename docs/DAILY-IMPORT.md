@@ -2,6 +2,8 @@
 
 The job that keeps the game data up to date (E02-F01, spec 16.1): every morning it downloads PvPoke's files, the datamined game master and the game's Portuguese text, and brings the database's species, forms, moves, movepools, evolutions, CP multipliers, PvP rankings and Portuguese names (E02-F02, spec 16.2) in line with them. From the same files the calculation engine then works out the PvP best IVs, keeper boxes and raid rankings (E02-F03, `docs/ENGINE.md`). The code is `jobs/MyPoGoCompanion.Jobs/DailyImport/`; the decisions behind it are in CLAUDE.md's decision log (2026-11-02).
 
+It also works out which **picture** each form shows (E02-F05, [`docs/SPRITES.md`](SPRITES.md)): it checks which of the form's possible picture names PokeMiners has and stores them on `forms`.
+
 Before publishing, every run checks the new data and holds anything that would go missing for the super admin (E02-F04, [below](#checking-and-publishing)); the admin can start a run from the API (**Run now**). Later features build on it: the search filters (E04-F01) and the admin's Data status screen (E10-F01).
 
 ## Where it runs
@@ -26,6 +28,8 @@ The deploys and the **Run daily import** workflow start a run with `.github/scri
 | `GAME_MASTER.json` (19 MB) | `alexelgt/game_masters` (datamined) | Raid (PvE) move numbers, evolution steps (candy, trade discount, item and how many, buddy km, day/night, lure, gender, special task), Dynamax and Gigantamax; each move's number (for its name) |
 | `Release/Brazilian Portuguese/pt-br_raw.json` (4 MB) | `sora10pls/holoholo-text` (datamined) | The game's Portuguese text from the latest release: Pokémon, Mega, form, move and type names. **Optional**, see below |
 | `Remote/Brazilian Portuguese/pt-br_raw.json` (70 KB) | `sora10pls/holoholo-text` (datamined) | The newer texts the game's server sends on top of the release (they win) |
+
+The pictures aren't downloaded: the import only asks whether PokeMiners' picture folder has a name (a HEAD request per name, `DailyImport__SpriteBaseUrl`; about 2,600 on a first import, about 200 later), see `docs/SPRITES.md`. When GitHub refuses or doesn't answer, the forms keep the pictures they had (a warning); the import never fails because of them.
 
 All are fetched over HTTPS from `raw.githubusercontent.com` (addresses in `DailyImportOptions`, overridable with `DailyImport__PvpokeBaseUrl` / `DailyImport__GameMasterUrl` / `DailyImport__GameTextUrl` / `DailyImport__GameTextRemoteUrl`). Each download is tried 3 times (5 s, then 10 s apart) when the answer may be temporary (no answer, timeout, 408, 429, 5xx); a 404 fails at once.
 
@@ -73,6 +77,8 @@ The run brings every table in line with the sources and counts each kind's rows 
 | forms | **Kept, marked not released** (counted as removed) |
 | movepools, evolutions | Deleted, for the forms the sources still list |
 | CP multipliers, PvP rankings, PvP best IVs, keeper boxes, raid rankings, raid movesets | Deleted |
+
+A form's pictures (`sprite`, `sprite_shiny`, `sprite_gigantamax`) are counted with the forms' changes; a form GitHub couldn't be asked about keeps its own.
 
 What the sources don't say this time is kept: shiny (the AI researcher fills it), the evolution tasks' Portuguese text, and a Portuguese name the game text no longer has or couldn't be downloaded.
 

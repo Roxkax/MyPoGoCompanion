@@ -119,6 +119,69 @@ public sealed partial class SourceDownloader(HttpClient http, IOptions<DailyImpo
         }
     }
 
+    /// <summary>
+    /// Whether PokeMiners' folder has the picture <paramref name="sprite"/> (<c>pm37.fALOLA</c>): a HEAD request, tried
+    /// twice. Once GitHub refuses (429, 403) or doesn't answer, every later check of this run is
+    /// <see cref="SpriteCheck.Unknown"/>, so a busy GitHub isn't asked thousands more times.
+    /// </summary>
+    public async Task<SpriteCheck> CheckSpriteAsync(string sprite, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(sprite);
+        var url = new Uri(_options.SpriteBaseUrl, Uri.EscapeDataString(sprite + SpriteNames.FileSuffix));
+        for (var attempt = 1; attempt <= 2 && !_spriteChecksStopped; attempt++)
+        {
+            try
+            {
+                using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+                timeout.CancelAfter(_options.SpriteCheckTimeout);
+                using var request = new HttpRequestMessage(HttpMethod.Head, url);
+                using var response = await http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, timeout.Token);
+                if (response.IsSuccessStatusCode)
+                {
+                    return SpriteCheck.Exists;
+                }
+
+                if (response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return SpriteCheck.Missing;
+                }
+
+                if (response.StatusCode is HttpStatusCode.TooManyRequests or HttpStatusCode.Forbidden)
+                {
+                    StopSpriteChecks($"GitHub answered {(int)response.StatusCode}");
+                    break;
+                }
+            }
+            catch (HttpRequestException exception)
+            {
+                if (attempt == 2)
+                {
+                    StopSpriteChecks($"no answer ({exception.HttpRequestError})");
+                }
+            }
+            catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
+            {
+                if (attempt == 2)
+                {
+                    StopSpriteChecks($"no answer within {_options.SpriteCheckTimeout.TotalSeconds:0} seconds");
+                }
+            }
+        }
+
+        return SpriteCheck.Unknown;
+    }
+
+    private volatile bool _spriteChecksStopped;
+
+    private void StopSpriteChecks(string problem)
+    {
+        if (!_spriteChecksStopped)
+        {
+            _spriteChecksStopped = true;
+            LogSpriteChecksStopped(problem);
+        }
+    }
+
     private static bool IsTemporary(HttpStatusCode status) =>
         status is HttpStatusCode.RequestTimeout or HttpStatusCode.TooManyRequests || (int)status >= 500;
 
@@ -127,4 +190,7 @@ public sealed partial class SourceDownloader(HttpClient http, IOptions<DailyImpo
 
     [LoggerMessage(Level = LogLevel.Warning, Message = "Downloading the {Name} failed ({Problem}); trying again in {Seconds} s.")]
     private partial void LogRetrying(string name, string problem, double seconds);
+
+    [LoggerMessage(Level = LogLevel.Warning, Message = "Stopped checking pictures ({Problem}); the forms not checked keep the pictures they had.")]
+    private partial void LogSpriteChecksStopped(string problem);
 }

@@ -41,6 +41,9 @@ public sealed class ImportedGameData
     /// </summary>
     public List<KeeperFilter> KeeperFilters { get; } = [];
 
+    /// <summary>Per form id, the picture names to try in PokeMiners' folder (<see cref="SpriteNames.Candidates"/>).</summary>
+    public Dictionary<string, IReadOnlyList<string>> SpriteCandidates { get; } = new(StringComparer.Ordinal);
+
     /// <summary>What the import couldn't use, in plain words (kept in the run log; the run still succeeds).</summary>
     public List<string> Warnings { get; } = [];
 }
@@ -216,7 +219,12 @@ public static partial class GameDataBuilder
 
             foreach (var entry in dexGroup)
             {
-                data.Forms.Add(BuildForm(entry, main.SpeciesId, matches, gameMaster, shadowReleased, cpm50));
+                var form = BuildForm(entry, main.SpeciesId, matches, gameMaster, shadowReleased, cpm50);
+                data.Forms.Add(form);
+                var template = matches.GetValueOrDefault(entry.SpeciesId);
+                data.SpriteCandidates[form.Id] = SpriteNames.Candidates(
+                    form.Id, form.Dex, entry.HasTag("mega"), form.IsDefault, template,
+                    gameMaster.PokemonByDex.GetValueOrDefault(form.Dex, []).Where(t => t != template && t.Form is not null && SameStatsAndTypes(entry, t)));
                 AddMovepool(data, entry, moveIds);
             }
         }

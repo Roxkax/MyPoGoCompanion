@@ -106,6 +106,11 @@ public sealed partial class DailyImportJob(
             }
 
             var data = GameDataBuilder.Build(files);
+            var storedSprites = await db.Forms.AsNoTracking()
+                .Select(form => new { form.Id, form.Sprite, form.SpriteShiny, form.SpriteGigantamax })
+                .ToDictionaryAsync(form => form.Id, form => new StoredSprites(form.Sprite, form.SpriteShiny, form.SpriteGigantamax),
+                    StringComparer.Ordinal, cancellationToken);
+            await SpriteResolver.ResolveAsync(data, storedSprites, downloader.CheckSpriteAsync, _options.SpriteCheckParallelism, cancellationToken);
             summary.Warnings = data.Warnings;
             foreach (var warning in data.Warnings)
             {

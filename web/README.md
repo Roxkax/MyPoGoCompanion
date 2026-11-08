@@ -16,7 +16,7 @@ The screens it implements are designed in `design/` (25 MVP screens, phone and d
 | `src/layout/`           | The shell: phone (screen header + bottom tab bar) or desktop (sidebar + top bar) from 900 px wide; `TabScreen` / `DetailScreen` frames; search and Ask panels, which open over the page without an address of their own (Back closes them). |
 | `src/styles/tokens.css` | Design tokens from `design/source/base.css`. Every colour is `light-dark(<light>, <dark>)`, so it always has a dark version (checked by `tokens.test.ts`); type colours are the same in both.                                               |
 | `src/theme/`            | Settings → Theme (Follow device · Light · Dark), saved per device in `localStorage` (`mpgc.theme`). `public/theme.js` applies it before the page draws.                                                                                     |
-| `src/ui/`               | Shared components: card, chip, pill, segmented switch and section links, type badge, version marker, sprite box.                                                                                                                            |
+| `src/ui/`               | Shared components: card, chip, pill, segmented switch and section links, type badge, version marker, sprite box (`sprites.ts`: picture addresses, docs/SPRITES.md).                                                                         |
 
 ## Languages (E01-F04)
 

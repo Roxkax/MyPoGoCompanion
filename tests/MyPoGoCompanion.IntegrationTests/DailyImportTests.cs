@@ -238,6 +238,8 @@ public sealed class DailyImportTests(PostgresFixture postgres)
             await DevSeed.SeedAsync(db, DateTimeOffset.UtcNow, Ct);
         }
 
+        var seeded = (await RunsAsync(database)).Select(r => r.Id).ToHashSet();
+
         // The seed holds more species than the fixtures; the first import into a database publishes their removal.
         Assert.Equal(0, await RunJobAsync(database));
 
@@ -246,7 +248,8 @@ public sealed class DailyImportTests(PostgresFixture postgres)
         Assert.False(kyogre.Released); // not in the fixtures: kept (raids and collections point at it), not released
         Assert.True(await check.RaidBosses.AnyAsync(boss => boss.FormId == "kyogre", Ct));
         Assert.True((await check.Forms.SingleAsync(f => f.Id == "charizard", Ct)).Released);
-        var run = (await RunsAsync(database))[^1];
+        // The import's own run, not the seed's sample run: that one is dated today at 06:00, so before 06:00 it sorts last.
+        var run = Assert.Single(await RunsAsync(database), r => !seeded.Contains(r.Id));
         Assert.Equal(JobStatus.Succeeded, run.Status);
         var summary = JsonSerializer.Deserialize<ImportSummary>(run.Summary!, _json)!;
         Assert.True(summary.Removals["forms"].Count > 0); // the seed's forms the fixtures lack, Kyogre among them
@@ -297,12 +300,42 @@ public sealed class DailyImportTests(PostgresFixture postgres)
         Assert.False((await check.Forms.SingleAsync(f => f.Id == "vulpix_alolan", Ct)).Released);
     }
 
-    /// <summary>Answers the source addresses with the fixture files; anything else is 404.</summary>
+    [Fact]
+    public async Task Import_StoresEachFormsPictures()
+    {
+        var database = await postgres.CreateDatabaseAsync(Ct);
+        var sources = Sources();
+        foreach (var picture in new[] { "pm6", "pm6.s", "pm6.fGIGANTAMAX", "pm6.fMEGA_X" })
+        {
+            sources[_defaults.SpriteBaseUrl.AbsoluteUri + picture + ".icon.png"] = "";
+        }
+
+        Assert.Equal(0, await RunJobAsync(database, sources));
+
+        await using var db = PostgresFixture.CreateContext(database);
+        var pictures = await db.Forms.Where(form => form.Dex == 6).OrderBy(form => form.Id)
+            .Select(form => new { form.Id, form.Sprite, form.SpriteShiny, form.SpriteGigantamax }).ToListAsync(Ct);
+        Assert.Equal(
+            [
+                new { Id = "charizard", Sprite = (string?)"pm6", SpriteShiny = (string?)"pm6.s", SpriteGigantamax = (string?)"pm6.fGIGANTAMAX" },
+                new { Id = "charizard_mega_x", Sprite = (string?)"pm6.fMEGA_X", SpriteShiny = (string?)null, SpriteGigantamax = (string?)null },
+                // No Mega Y picture here: it shows Charizard's.
+                new { Id = "charizard_mega_y", Sprite = (string?)"pm6", SpriteShiny = (string?)"pm6.s", SpriteGigantamax = (string?)null },
+            ],
+            pictures);
+        // Every other form has no picture in this test.
+        Assert.Equal(0, await db.Forms.CountAsync(form => form.Dex != 6 && form.Sprite != null, Ct));
+    }
+
+    /// <summary>Answers the source addresses with the fixture files (an empty name: an empty file); anything else is 404.</summary>
     private sealed class FixtureHttp(Dictionary<string, string> files) : HttpMessageHandler
     {
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) =>
             files.TryGetValue(request.RequestUri!.AbsoluteUri, out var name)
-                ? new HttpResponseMessage(HttpStatusCode.OK) { Content = new ByteArrayContent(await File.ReadAllBytesAsync(Fixture(name), cancellationToken)) }
+                ? new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    Content = new ByteArrayContent(name.Length == 0 ? [] : await File.ReadAllBytesAsync(Fixture(name), cancellationToken)),
+                }
                 : new HttpResponseMessage(HttpStatusCode.NotFound);
     }
 }

@@ -6,4 +6,6 @@ import { startServiceWorker, type PrecacheEntry, type WorkerScope } from './pwa/
 startServiceWorker(
   self as unknown as WorkerScope,
   (self as unknown as { __WB_MANIFEST: PrecacheEntry[] }).__WB_MANIFEST,
+  // The picture set the deploy built (PokeMiners' commit, docs/SPRITES.md); unset on local builds.
+  { spriteSet: import.meta.env.VITE_SPRITE_SET },
 )
