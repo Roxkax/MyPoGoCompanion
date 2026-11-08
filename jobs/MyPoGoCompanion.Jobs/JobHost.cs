@@ -100,7 +100,7 @@ public static class JobHost
         {
             var result = Sprites.SpriteSetBuilder.Build(source, output, options.GetValueOrDefault("--set", "local"));
             await Console.Out.WriteLineAsync(
-                $"Wrote {result.Pictures} pictures to {output} ({result.LeftOut} costumes and female variants left out, {result.Unreadable} unreadable).");
+                $"Wrote {result.Pictures} pictures to {output} ({result.LeftOut} female variants and shiny costume pictures left out, {result.Unreadable} unreadable).");
             foreach (var problem in result.Problems.Take(20))
             {
                 await Console.Out.WriteLineAsync($"  Not a picture with something on it: {problem}");
