@@ -230,10 +230,10 @@ public sealed partial class SourceDownloader(HttpClient http, IOptions<DailyImpo
         using var response = await http.SendAsync(request, timeout.Token);
         response.EnsureSuccessStatusCode();
         return await System.Net.Http.Json.HttpContentJsonExtensions.ReadFromJsonAsync<GitTree>(
-            response.Content, GitTreeJson, timeout.Token);
+            response.Content, _gitTreeJson, timeout.Token);
     }
 
-    private static readonly System.Text.Json.JsonSerializerOptions GitTreeJson = new(System.Text.Json.JsonSerializerDefaults.Web);
+    private static readonly System.Text.Json.JsonSerializerOptions _gitTreeJson = new(System.Text.Json.JsonSerializerDefaults.Web);
 
     private sealed record GitTree(IReadOnlyList<GitTreeEntry> Tree, bool Truncated);
 

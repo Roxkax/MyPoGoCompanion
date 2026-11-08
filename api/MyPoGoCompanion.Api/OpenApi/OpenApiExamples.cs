@@ -8,6 +8,8 @@ using MyPoGoCompanion.Api.Freshness;
 using MyPoGoCompanion.Api.Health;
 using MyPoGoCompanion.Api.Pokedex;
 using MyPoGoCompanion.Data.GameData;
+using MyPoGoCompanion.Data.LiveData;
+using MyPoGoCompanion.Data.Rankings;
 using MyPoGoCompanion.Data.Users;
 
 namespace MyPoGoCompanion.Api.OpenApi;
@@ -47,6 +49,34 @@ internal static class OpenApiExamples
 
     private static readonly PokedexMove _blastBurn = new("BLAST_BURN", "Blast Burn", "Queimadura Explosiva", "fire", MoveKind.Charged);
 
+    // Garchomp's page (B2), trimmed to a few of each list.
+    private static readonly LevelCpRow _garchompL40 = new(40m, 3962);
+    private static readonly PageFormMove _dragonTail = new("DRAGON_TAIL", MoveAvailability.Normal);
+    private static readonly TypeMultiplier _ice = new("ice", 2.56);
+    private static readonly MoveUses _dragonTailUses = new("DRAGON_TAIL", 71250);
+    private static readonly PagePvpRanking _garchompMaster = new(
+        League.Master, IsShadow: false, 31, 88.4, "DRAGON_TAIL", "EARTH_POWER", "OUTRAGE", [_dragonTailUses, new MoveUses("EARTH_POWER", 48211)]);
+    private static readonly PageBestIvs _garchompGreat = new(League.Great, 0, 15, 14, 14m, 1495);
+    private static readonly PageKeeperBox _gibleGreatBox = new(League.Great, 0, 1, 3, 4, 2, 4);
+    private static readonly PageRaidRank _groundRank = new("ground", IsShadow: false, 12);
+    private static readonly PageRaidMoveset _mudShotEarthPower = new(IsShadow: false, "MUD_SHOT", "EARTH_POWER", 1, 17.82, 612.5, 41.3);
+    private static readonly PageForm _garchomp = new(
+        "garchomp", FormKind.Base, IsDefault: true, "Garchomp", "Garchomp", null, null, ["dragon", "ground"], 261, 193, 239,
+        [_garchompL40, new LevelCpRow(50m, 4479), new LevelCpRow(51m, 4532)],
+        [new LevelCpRow(15m, 1698), new LevelCpRow(20m, 2264), new LevelCpRow(25m, 2830), new LevelCpRow(30m, 3396), new LevelCpRow(35m, 3679)],
+        Released: true, Shadow: true, Shiny: true, Dynamax: false, Gigantamax: false, "pm445", null, LooksOnly: false, 5, 75000,
+        [_dragonTail, new PageFormMove("EARTH_POWER", MoveAvailability.EliteTm)],
+        [_ice, new TypeMultiplier("electric", 0.244)],
+        [_garchompMaster], [_garchompGreat], [_groundRank], [_mudShotEarthPower]);
+    private static readonly PageMove _dragonTailMove = new(
+        "DRAGON_TAIL", "Dragon Tail", "Cauda do Dragão", "dragon", MoveKind.Fast, 14, 1000, 8, 9, 12, 3, null, 0, 0, 0, 0);
+    private static readonly FamilyMember _gible = new(443, "gible", FormKind.Base, IsDefault: true, "Gible", "Gible", "Gible", ["dragon", "ground"], 124, 84, 151, Released: true, "pm443");
+    private static readonly PageEvolution _gibleToGabite = new("gible", "gabite", 25, null, null, null, null, null, null, null, null);
+    private static readonly PageCostume _costume = new("pm445.cHOLIDAY_2025", "Holiday 2025", null);
+    private static readonly PageAppearance _communityDay = new(
+        AppearanceKind.Event, "garchomp", IsShadow: false, null, null, Gigantamax: false, null, null, null, "Community Day: Gible",
+        "Dia Comunitário: Gible", EventKind.CommunityDay, new DateTime(2026, 11, 7, 14, 0, 0), new DateTime(2026, 11, 7, 17, 0, 0), Shiny: true);
+
     private static readonly Dictionary<Type, object> _examples = new()
     {
         [typeof(HealthResponse)] = new HealthResponse(
@@ -71,6 +101,24 @@ internal static class OpenApiExamples
         [typeof(PokedexSpecies)] = _charizard,
         [typeof(PokedexForm)] = _megaCharizardY,
         [typeof(PokedexMove)] = _blastBurn,
+        [typeof(PokemonPageResponse)] = new PokemonPageResponse(
+            445, "Garchomp", "Garchomp", 4, SpeciesCategory.None, "FAMILY_GIBLE", [_garchomp], [_gibleGreatBox], [_dragonTailMove],
+            [_gible], [_gibleToGabite], [_costume], [_communityDay], [0.094, 0.1351374318, 0.16639787]),
+        [typeof(PageForm)] = _garchomp,
+        [typeof(LevelCpRow)] = _garchompL40,
+        [typeof(PageFormMove)] = _dragonTail,
+        [typeof(TypeMultiplier)] = _ice,
+        [typeof(PagePvpRanking)] = _garchompMaster,
+        [typeof(MoveUses)] = _dragonTailUses,
+        [typeof(PageBestIvs)] = _garchompGreat,
+        [typeof(PageKeeperBox)] = _gibleGreatBox,
+        [typeof(PageRaidRank)] = _groundRank,
+        [typeof(PageRaidMoveset)] = _mudShotEarthPower,
+        [typeof(PageMove)] = _dragonTailMove,
+        [typeof(FamilyMember)] = _gible,
+        [typeof(PageEvolution)] = _gibleToGabite,
+        [typeof(PageCostume)] = _costume,
+        [typeof(PageAppearance)] = _communityDay,
         [typeof(ClientErrorRequest)] = new ClientErrorRequest(
             "7f3a2c91", ClientErrorKind.Screen, "Cannot read properties of undefined (reading 'cp')",
             "TypeError: Cannot read properties of undefined (reading 'cp')\n    at RaidCounters (assets/index-3cd4b0c.js:1:23456)",

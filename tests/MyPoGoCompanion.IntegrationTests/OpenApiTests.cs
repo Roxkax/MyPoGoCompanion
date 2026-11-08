@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using MyPoGoCompanion.Api.Auth;
 using MyPoGoCompanion.Data.Operations;
+using MyPoGoCompanion.Data.Seed;
 
 namespace MyPoGoCompanion.IntegrationTests;
 
@@ -184,6 +185,24 @@ public sealed partial class OpenApiTests(PostgresFixture postgres)
             unchanged.Headers.IfNoneMatch.Add(pokedex.Headers.ETag!);
             seen.Add(await AssertMatchesDocumentAsync(document, HttpMethod.Get, "/pokedex", await client.SendAsync(unchanged, Ct)));
         }
+
+        // A Pokémon page: found (in a database with the development sample), unchanged with its ETag, and not found
+        var seeded = await postgres.CreateDatabaseAsync(Ct);
+        await using (var db = PostgresFixture.CreateContext(seeded))
+        {
+            await DevSeed.SeedAsync(db, DateTimeOffset.UtcNow, Ct);
+        }
+
+        await using var withSample = new ApiFactory(seeded);
+        using var sampleClient = withSample.CreateClient();
+        var garchomp = await Call(sampleClient, HttpMethod.Get, "/pokedex/445");
+        using (var unchanged = new HttpRequestMessage(HttpMethod.Get, new Uri("/pokedex/445", UriKind.Relative)))
+        {
+            unchanged.Headers.IfNoneMatch.Add(garchomp.Headers.ETag!);
+            seen.Add(await AssertMatchesDocumentAsync(document, HttpMethod.Get, "/pokedex/445", await sampleClient.SendAsync(unchanged, Ct)));
+        }
+
+        await Call(sampleClient, HttpMethod.Get, "/pokedex/9999");
 
         // Web app error reports
         await Call(client, HttpMethod.Post, "/client-errors",

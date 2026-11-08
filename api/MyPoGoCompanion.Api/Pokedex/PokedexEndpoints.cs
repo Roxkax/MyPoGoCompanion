@@ -77,7 +77,7 @@ internal static class PokedexEndpoints
         return Results.Bytes(entry.Json, "application/json");
     }
 
-    private static bool Accepts(string acceptEncoding, string coding) =>
+    internal static bool Accepts(string acceptEncoding, string coding) =>
         acceptEncoding.Split(',').Select(part => part.Split(';')).Any(part =>
             part[0].Trim().Equals(coding, StringComparison.OrdinalIgnoreCase)
             && !part.Skip(1).Any(parameter => parameter.Replace(" ", "", StringComparison.Ordinal) is "q=0" or "q=0.0" or "q=0.00" or "q=0.000"));
