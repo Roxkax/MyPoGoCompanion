@@ -7,6 +7,7 @@ using MyPoGoCompanion.Api.Diagnostics;
 using MyPoGoCompanion.Api.Freshness;
 using MyPoGoCompanion.Api.Health;
 using MyPoGoCompanion.Api.OpenApi;
+using MyPoGoCompanion.Api.Pokedex;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,7 @@ builder.Services.AddWebAppCors(builder.Configuration);
 builder.Services.AddApiHealthChecks(builder.Configuration);
 builder.Services.AddSignIn(builder.Configuration);
 builder.Services.AddFreshness(builder.Configuration);
+builder.Services.AddPokedex();
 builder.Services.AddClientErrors();
 builder.Services.AddRunNow(builder.Configuration);
 
@@ -46,6 +48,7 @@ app.MapAccountEndpoints();
 app.MapUserRoleEndpoints();
 app.MapRunNowEndpoints();
 app.MapFreshnessEndpoints();
+app.MapPokedexEndpoints();
 app.MapClientErrorEndpoints();
 
 if (app.Environment.IsDevelopment())

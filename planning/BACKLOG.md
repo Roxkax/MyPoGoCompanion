@@ -325,6 +325,8 @@ Screens B1–B5: the species list with version-aware filters, the Pokémon page,
 
 *MVP · Sprint 4 · 48 h · items 1.1, 1.2, 1.3, 1.4 · screens B1*
 
+The API sends the whole Pokédex in one cached answer and the app searches, filters and sorts it (decision 2026-11-08), so the paging in the first task is not needed. The search covers everything with the game's rules (decision 2026-11-08): about 12 h instead of 3 h.
+
 - Species list API with paging and version markers — 4 h
 - Version-aware filters (type, generation, stats, Mega / Shadow / Dynamax / G-Max, regional forms, legendary, released): match any version, show the best-matching one, hide non-matching badges — 8 h
 - Search by name, number or nickname (English and Portuguese names) — 3 h

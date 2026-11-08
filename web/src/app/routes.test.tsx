@@ -13,7 +13,6 @@ const screens: [string, string, string][] = [
   ['/calendar', 'Calendar', 'A2'],
   ['/calendar/community-day-gible-2026-11-07', 'Event details', 'A3'],
   ['/eggs', 'Eggs & research', 'A4'],
-  ['/pokedex?type=fire&atk=230', 'Pokédex', 'B1'],
   ['/pokedex/garchomp?version=mega', 'Pokémon', 'B2'],
   ['/pokedex/moves?kind=charged&type=ground', 'Moves', 'B3'],
   ['/pokedex/moves/earth-power', 'Move', 'B4'],
@@ -44,6 +43,13 @@ describe('routes', () => {
       expect(card).toHaveTextContent(`Screen ${code}`)
       expect(card).toHaveTextContent('Coming soon')
     })
+  })
+
+  it.each(['phone', 'desktop'] as const)('/pokedex opens the Pokédex list on a %s', (layout) => {
+    renderApp('/pokedex?q=fire', { layout })
+
+    expect(screen.getByRole('heading', { level: 1, name: 'Pokédex' })).toBeInTheDocument()
+    expect(screen.getByRole('searchbox', { name: 'Search the Pokédex' })).toHaveValue('fire')
   })
 
   it('shows what the address points at', () => {

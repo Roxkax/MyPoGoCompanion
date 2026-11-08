@@ -177,6 +177,14 @@ public sealed partial class OpenApiTests(PostgresFixture postgres)
         await Call(client, HttpMethod.Get, "/health");
         await Call(client, HttpMethod.Get, "/freshness");
 
+        // The Pokédex, and the same again with its ETag (304, no body)
+        var pokedex = await Call(client, HttpMethod.Get, "/pokedex");
+        using (var unchanged = new HttpRequestMessage(HttpMethod.Get, new Uri("/pokedex", UriKind.Relative)))
+        {
+            unchanged.Headers.IfNoneMatch.Add(pokedex.Headers.ETag!);
+            seen.Add(await AssertMatchesDocumentAsync(document, HttpMethod.Get, "/pokedex", await client.SendAsync(unchanged, Ct)));
+        }
+
         // Web app error reports
         await Call(client, HttpMethod.Post, "/client-errors",
             new { reference = "7f3a2c91", kind = "Screen", message = "Boom", stack = "at X", path = "/pokedex", appVersion = "test" });

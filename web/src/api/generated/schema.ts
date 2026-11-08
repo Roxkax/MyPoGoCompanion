@@ -89,6 +89,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/pokedex": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * The whole Pokédex: every species with its versions and moves, for the Pokédex list and its search.
+         * @description Public and cacheable. Send the ETag back in If-None-Match to get 304 Not Modified until a new daily import is published.
+         */
+        get: operations["GetPokedex"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/client-errors": {
         parameters: {
             query?: never;
@@ -328,6 +348,8 @@ export interface components {
          * @enum {string}
          */
         EffectiveRole: "User" | "Admin" | "SuperAdmin";
+        /** @enum {string} */
+        FormKind: "Base" | "Regional" | "Mega" | "Primal" | "Alternate" | "Costume";
         /**
          * @description How up to date the app's data is, per kind of data.
          * @example {
@@ -443,6 +465,365 @@ export interface components {
             /** @description Device (follow the device), Light or Dark. */
             theme: components["schemas"]["Theme"];
         };
+        /** @enum {string} */
+        MoveKind: "Fast" | "Charged";
+        /**
+         * @description A version of a species with its own stats, types or picture.
+         * @example {
+         *       "id": "charizard_mega_y",
+         *       "kind": "Mega",
+         *       "isDefault": false,
+         *       "nameEn": "Mega Charizard Y",
+         *       "namePt": "Mega Charizard Y",
+         *       "labelEn": "Mega Y",
+         *       "labelPt": "Mega Y",
+         *       "types": [
+         *         "fire",
+         *         "flying"
+         *       ],
+         *       "attack": 319,
+         *       "defense": 212,
+         *       "stamina": 186,
+         *       "maxCp": 5037,
+         *       "released": true,
+         *       "shadow": false,
+         *       "dynamax": false,
+         *       "gigantamax": false,
+         *       "sprite": "pm6.fMEGA_Y",
+         *       "spriteGigantamax": null,
+         *       "looksOnly": false,
+         *       "fastMoves": [
+         *         "AIR_SLASH",
+         *         "DRAGON_BREATH",
+         *         "EMBER",
+         *         "FIRE_SPIN",
+         *         "WING_ATTACK"
+         *       ],
+         *       "chargedMoves": [
+         *         "BLAST_BURN",
+         *         "DRAGON_CLAW",
+         *         "FIRE_BLAST",
+         *         "FLAMETHROWER",
+         *         "OVERHEAT"
+         *       ]
+         *     }
+         */
+        PokedexForm: {
+            /** @description PvPoke's id (`charizard_mega_y`); the Pokémon page's `?version=`. */
+            id: string;
+            /** @description Base, Regional, Mega, Primal, Alternate or Costume. */
+            kind: components["schemas"]["FormKind"];
+            /** @description The form the line shows when nothing else is asked for (exactly one per species). */
+            isDefault: boolean;
+            /** @description The name to show ("Mega Charizard Y", "Hisuian Arcanine", "Giratina (Origin)"). */
+            nameEn: string;
+            /** @description The game's Portuguese name ("Mega Charizard Y", "Arcanine de Hisui"); null when missing. */
+            namePt: null | string;
+            /** @description The short text of its marker ("Mega Y", "Hisuian", "Origin"); null for the main form. */
+            labelEn: null | string;
+            /** @description The marker's text in Portuguese ("Mega Y", "Hisui", "Forma Origem"); null when missing. */
+            labelPt: null | string;
+            /** @description One or two type ids (`fire`, `flying`). */
+            types: string[];
+            /**
+             * Format: int32
+             * @description Base Attack.
+             */
+            attack: number;
+            /**
+             * Format: int32
+             * @description Base Defense.
+             */
+            defense: number;
+            /**
+             * Format: int32
+             * @description Base Stamina.
+             */
+            stamina: number;
+            /**
+             * Format: int32
+             * @description Max CP at level 50 with 15/15/15.
+             */
+            maxCp: number;
+            /** @description Available in Pokémon GO. */
+            released: boolean;
+            /** @description Its Shadow version is released. */
+            shadow: boolean;
+            /** @description It can Dynamax. */
+            dynamax: boolean;
+            /** @description It can Gigantamax. */
+            gigantamax: boolean;
+            /** @description Its picture's name (`pm6.fMEGA_Y`, served as `/sprites/pm6.fMEGA_Y.webp`); null when none. */
+            sprite: null | string;
+            /** @description Its Gigantamax picture's name; null when it can't Gigantamax or has none. */
+            spriteGigantamax: null | string;
+            /**
+             * @description Same stats and types as the main form, only a different look (costumes, Burmy's cloaks, Genesect's drives): no
+             *     marker on the list (decision 2026-11-08).
+             */
+            looksOnly: boolean;
+            /** @description Ids of every fast move it can have (Elite TM and Legacy included). */
+            fastMoves: string[];
+            /** @description Ids of every charged move it can have (Elite TM and Legacy included). */
+            chargedMoves: string[];
+        };
+        /**
+         * @description A move, for the Pokédex search.
+         * @example {
+         *       "id": "BLAST_BURN",
+         *       "nameEn": "Blast Burn",
+         *       "namePt": "Queimadura Explosiva",
+         *       "type": "fire",
+         *       "kind": "Charged"
+         *     }
+         */
+        PokedexMove: {
+            /** @description The game's id (`EARTHQUAKE`). */
+            id: string;
+            /** @description English name. */
+            nameEn: string;
+            /** @description The game's Portuguese name; null when missing. */
+            namePt: null | string;
+            /** @description Its type id (`ground`). */
+            type: string;
+            /** @description Fast or Charged. */
+            kind: components["schemas"]["MoveKind"];
+        };
+        /**
+         * @description The whole Pokédex in one answer (decision 2026-11-08): every species with its versions and the moves they learn,
+         *     only the fields the Pokédex list (B1) and its search use. The app searches, filters and sorts it itself.
+         * @example {
+         *       "species": [
+         *         {
+         *           "dex": 6,
+         *           "nameEn": "Charizard",
+         *           "namePt": "Charizard",
+         *           "generation": 1,
+         *           "category": "None",
+         *           "familyId": "FAMILY_CHARMANDER",
+         *           "nicknames": [
+         *             "zard"
+         *           ],
+         *           "forms": [
+         *             {
+         *               "id": "charizard",
+         *               "kind": "Base",
+         *               "isDefault": true,
+         *               "nameEn": "Charizard",
+         *               "namePt": "Charizard",
+         *               "labelEn": null,
+         *               "labelPt": null,
+         *               "types": [
+         *                 "fire",
+         *                 "flying"
+         *               ],
+         *               "attack": 223,
+         *               "defense": 173,
+         *               "stamina": 186,
+         *               "maxCp": 3266,
+         *               "released": true,
+         *               "shadow": true,
+         *               "dynamax": true,
+         *               "gigantamax": true,
+         *               "sprite": "pm6",
+         *               "spriteGigantamax": "pm6.fGIGANTAMAX",
+         *               "looksOnly": false,
+         *               "fastMoves": [
+         *                 "AIR_SLASH",
+         *                 "DRAGON_BREATH",
+         *                 "EMBER",
+         *                 "FIRE_SPIN",
+         *                 "WING_ATTACK"
+         *               ],
+         *               "chargedMoves": [
+         *                 "BLAST_BURN",
+         *                 "DRAGON_CLAW",
+         *                 "FIRE_BLAST",
+         *                 "FLAMETHROWER",
+         *                 "OVERHEAT"
+         *               ]
+         *             },
+         *             {
+         *               "id": "charizard_mega_y",
+         *               "kind": "Mega",
+         *               "isDefault": false,
+         *               "nameEn": "Mega Charizard Y",
+         *               "namePt": "Mega Charizard Y",
+         *               "labelEn": "Mega Y",
+         *               "labelPt": "Mega Y",
+         *               "types": [
+         *                 "fire",
+         *                 "flying"
+         *               ],
+         *               "attack": 319,
+         *               "defense": 212,
+         *               "stamina": 186,
+         *               "maxCp": 5037,
+         *               "released": true,
+         *               "shadow": false,
+         *               "dynamax": false,
+         *               "gigantamax": false,
+         *               "sprite": "pm6.fMEGA_Y",
+         *               "spriteGigantamax": null,
+         *               "looksOnly": false,
+         *               "fastMoves": [
+         *                 "AIR_SLASH",
+         *                 "DRAGON_BREATH",
+         *                 "EMBER",
+         *                 "FIRE_SPIN",
+         *                 "WING_ATTACK"
+         *               ],
+         *               "chargedMoves": [
+         *                 "BLAST_BURN",
+         *                 "DRAGON_CLAW",
+         *                 "FIRE_BLAST",
+         *                 "FLAMETHROWER",
+         *                 "OVERHEAT"
+         *               ]
+         *             }
+         *           ]
+         *         }
+         *       ],
+         *       "moves": [
+         *         {
+         *           "id": "BLAST_BURN",
+         *           "nameEn": "Blast Burn",
+         *           "namePt": "Queimadura Explosiva",
+         *           "type": "fire",
+         *           "kind": "Charged"
+         *         },
+         *         {
+         *           "id": "FIRE_SPIN",
+         *           "nameEn": "Fire Spin",
+         *           "namePt": "Chama Furacão",
+         *           "type": "fire",
+         *           "kind": "Fast"
+         *         }
+         *       ]
+         *     }
+         */
+        PokedexResponse: {
+            /** @description Every species, in Pokédex order. */
+            species: components["schemas"]["PokedexSpecies"][];
+            /** @description Every move, for searching by move (`@earthquake`) and by move type (`@fire`). */
+            moves: components["schemas"]["PokedexMove"][];
+        };
+        /**
+         * @description One Pokédex entry: one line of the list.
+         * @example {
+         *       "dex": 6,
+         *       "nameEn": "Charizard",
+         *       "namePt": "Charizard",
+         *       "generation": 1,
+         *       "category": "None",
+         *       "familyId": "FAMILY_CHARMANDER",
+         *       "nicknames": [
+         *         "zard"
+         *       ],
+         *       "forms": [
+         *         {
+         *           "id": "charizard",
+         *           "kind": "Base",
+         *           "isDefault": true,
+         *           "nameEn": "Charizard",
+         *           "namePt": "Charizard",
+         *           "labelEn": null,
+         *           "labelPt": null,
+         *           "types": [
+         *             "fire",
+         *             "flying"
+         *           ],
+         *           "attack": 223,
+         *           "defense": 173,
+         *           "stamina": 186,
+         *           "maxCp": 3266,
+         *           "released": true,
+         *           "shadow": true,
+         *           "dynamax": true,
+         *           "gigantamax": true,
+         *           "sprite": "pm6",
+         *           "spriteGigantamax": "pm6.fGIGANTAMAX",
+         *           "looksOnly": false,
+         *           "fastMoves": [
+         *             "AIR_SLASH",
+         *             "DRAGON_BREATH",
+         *             "EMBER",
+         *             "FIRE_SPIN",
+         *             "WING_ATTACK"
+         *           ],
+         *           "chargedMoves": [
+         *             "BLAST_BURN",
+         *             "DRAGON_CLAW",
+         *             "FIRE_BLAST",
+         *             "FLAMETHROWER",
+         *             "OVERHEAT"
+         *           ]
+         *         },
+         *         {
+         *           "id": "charizard_mega_y",
+         *           "kind": "Mega",
+         *           "isDefault": false,
+         *           "nameEn": "Mega Charizard Y",
+         *           "namePt": "Mega Charizard Y",
+         *           "labelEn": "Mega Y",
+         *           "labelPt": "Mega Y",
+         *           "types": [
+         *             "fire",
+         *             "flying"
+         *           ],
+         *           "attack": 319,
+         *           "defense": 212,
+         *           "stamina": 186,
+         *           "maxCp": 5037,
+         *           "released": true,
+         *           "shadow": false,
+         *           "dynamax": false,
+         *           "gigantamax": false,
+         *           "sprite": "pm6.fMEGA_Y",
+         *           "spriteGigantamax": null,
+         *           "looksOnly": false,
+         *           "fastMoves": [
+         *             "AIR_SLASH",
+         *             "DRAGON_BREATH",
+         *             "EMBER",
+         *             "FIRE_SPIN",
+         *             "WING_ATTACK"
+         *           ],
+         *           "chargedMoves": [
+         *             "BLAST_BURN",
+         *             "DRAGON_CLAW",
+         *             "FIRE_BLAST",
+         *             "FLAMETHROWER",
+         *             "OVERHEAT"
+         *           ]
+         *         }
+         *       ]
+         *     }
+         */
+        PokedexSpecies: {
+            /**
+             * Format: int32
+             * @description National Pokédex number.
+             */
+            dex: number;
+            /** @description The species' English name. */
+            nameEn: string;
+            /** @description The game's Portuguese name; null when the game text lacks it (the app shows the English one). */
+            namePt: null | string;
+            /**
+             * Format: int32
+             * @description 1 (Kanto) to 9 (Paldea), by Pokédex number.
+             */
+            generation: number;
+            /** @description Legendary, Mythical, Ultra Beast, or None. */
+            category: components["schemas"]["SpeciesCategory"];
+            /** @description The evolution family (`+pikachu` finds the whole family). */
+            familyId: string;
+            /** @description Common nicknames the search understands (`chomp`, `zard`, `m2`). */
+            nicknames: string[];
+            /** @description Its versions, the main form first, then Megas and Primals, regional forms, other forms and looks-only forms. */
+            forms: components["schemas"]["PokedexForm"][];
+        };
         /**
          * @example {
          *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
@@ -540,6 +921,8 @@ export interface components {
         SetRoleRequest: {
             role: null | components["schemas"]["UserRole"];
         };
+        /** @enum {string} */
+        SpeciesCategory: "None" | "Legendary" | "Mythical" | "UltraBeast";
         /** @enum {string} */
         Theme: "Device" | "Light" | "Dark";
         /** @enum {string} */
@@ -797,6 +1180,33 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["FreshnessResponse"];
                 };
+            };
+        };
+    };
+    GetPokedex: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PokedexResponse"];
+                };
+            };
+            /** @description Not Modified */
+            304: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

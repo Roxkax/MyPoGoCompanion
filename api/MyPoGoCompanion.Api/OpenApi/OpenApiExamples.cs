@@ -6,6 +6,8 @@ using MyPoGoCompanion.Api.Auth;
 using MyPoGoCompanion.Api.Diagnostics;
 using MyPoGoCompanion.Api.Freshness;
 using MyPoGoCompanion.Api.Health;
+using MyPoGoCompanion.Api.Pokedex;
+using MyPoGoCompanion.Data.GameData;
 using MyPoGoCompanion.Data.Users;
 
 namespace MyPoGoCompanion.Api.OpenApi;
@@ -27,6 +29,24 @@ internal static class OpenApiExamples
     private static readonly DataFreshness _gameDataUpToDate = new(new DateTimeOffset(2026, 10, 27, 6, 4, 0, TimeSpan.Zero), 0, OutOfDate: false, 3);
     private static readonly DataFreshness _liveDataOutOfDate = new(new DateTimeOffset(2026, 10, 15, 18, 0, 0, TimeSpan.Zero), 12, OutOfDate: true, 9);
 
+    // Charizard with one of its versions, and two of its moves.
+    private static readonly PokedexForm _megaCharizardY = new(
+        "charizard_mega_y", FormKind.Mega, IsDefault: false, "Mega Charizard Y", "Mega Charizard Y", "Mega Y", "Mega Y", ["fire", "flying"],
+        319, 212, 186, 5037, Released: true, Shadow: false, Dynamax: false, Gigantamax: false, "pm6.fMEGA_Y", null, LooksOnly: false,
+        ["AIR_SLASH", "DRAGON_BREATH", "EMBER", "FIRE_SPIN", "WING_ATTACK"], ["BLAST_BURN", "DRAGON_CLAW", "FIRE_BLAST", "FLAMETHROWER", "OVERHEAT"]);
+
+    private static readonly PokedexSpecies _charizard = new(
+        6, "Charizard", "Charizard", 1, SpeciesCategory.None, "FAMILY_CHARMANDER", ["zard"],
+        [
+            new PokedexForm(
+                "charizard", FormKind.Base, IsDefault: true, "Charizard", "Charizard", null, null, ["fire", "flying"],
+                223, 173, 186, 3266, Released: true, Shadow: true, Dynamax: true, Gigantamax: true, "pm6", "pm6.fGIGANTAMAX", LooksOnly: false,
+                ["AIR_SLASH", "DRAGON_BREATH", "EMBER", "FIRE_SPIN", "WING_ATTACK"], ["BLAST_BURN", "DRAGON_CLAW", "FIRE_BLAST", "FLAMETHROWER", "OVERHEAT"]),
+            _megaCharizardY,
+        ]);
+
+    private static readonly PokedexMove _blastBurn = new("BLAST_BURN", "Blast Burn", "Queimadura Explosiva", "fire", MoveKind.Charged);
+
     private static readonly Dictionary<Type, object> _examples = new()
     {
         [typeof(HealthResponse)] = new HealthResponse(
@@ -47,6 +67,10 @@ internal static class OpenApiExamples
         [typeof(RunImportResponse)] = new RunImportResponse("job-import-prod-k3x9q2m", PublishMissing: false, _now),
         [typeof(FreshnessResponse)] = new FreshnessResponse(_gameDataUpToDate, _liveDataOutOfDate),
         [typeof(DataFreshness)] = _liveDataOutOfDate,
+        [typeof(PokedexResponse)] = new PokedexResponse([_charizard], [_blastBurn, new PokedexMove("FIRE_SPIN", "Fire Spin", "Chama Furacão", "fire", MoveKind.Fast)]),
+        [typeof(PokedexSpecies)] = _charizard,
+        [typeof(PokedexForm)] = _megaCharizardY,
+        [typeof(PokedexMove)] = _blastBurn,
         [typeof(ClientErrorRequest)] = new ClientErrorRequest(
             "7f3a2c91", ClientErrorKind.Screen, "Cannot read properties of undefined (reading 'cp')",
             "TypeError: Cannot read properties of undefined (reading 'cp')\n    at RaidCounters (assets/index-3cd4b0c.js:1:23456)",

@@ -11,6 +11,7 @@ import { CallbackRoute } from '../screens/CallbackRoute'
 import { ComingSoon } from '../screens/ComingSoon'
 import { DesignScreen } from '../screens/DesignScreen'
 import { NotFoundScreen } from '../screens/NotFoundScreen'
+import { PokedexScreen } from '../screens/pokedex/PokedexScreen'
 import { RouteError } from '../screens/RouteError'
 import { SettingsScreen } from '../screens/SettingsScreen'
 import { SignInRoute } from '../screens/SignInRoute'
@@ -88,14 +89,7 @@ export function appRoutes(environment: AppEnvironment): RouteObject[] {
     }),
 
     // B. Pokédex
-    screen(
-      'pokedex',
-      tab(
-        { title: 'pokedex', sections: pokedex, search: true },
-        soon('pokedex', 'B1', 'E03-F01 Pokédex list'),
-      ),
-      { title: 'pokedex', data: game },
-    ),
+    screen('pokedex', <PokedexScreen />, { title: 'pokedex', data: game }),
     screen(
       'pokedex/moves',
       tab(
