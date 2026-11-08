@@ -33,6 +33,11 @@ interface TabScreenProps {
   search?: boolean
   /** A screen's own search box in place of that search bar (the Pokédex's), phone only. */
   searchBox?: ReactNode
+  /**
+   * Phone only: a bar that stays at the top while the list scrolls (the Pokédex's search box and filter chips). With
+   * it, the title and section switcher scroll away and only this bar stays, so the list keeps most of the screen.
+   */
+  toolbar?: ReactNode
   children: ReactNode
 }
 
@@ -49,6 +54,7 @@ export function TabScreen({
   sections,
   search = false,
   searchBox,
+  toolbar,
   children,
 }: TabScreenProps) {
   const desktop = useIsDesktop()
@@ -82,7 +88,7 @@ export function TabScreen({
 
   return (
     <>
-      <header className="tab-head">
+      <header className="tab-head" data-scrolls={toolbar ? true : undefined}>
         <div className="tab-head-row">
           <h1 className="tab-title">{t(`titles.${title}`)}</h1>
           {actions}
@@ -93,6 +99,7 @@ export function TabScreen({
         {switcher}
         {searchBox ?? (search && <SearchButton />)}
       </header>
+      {toolbar && <div className="tab-toolbar">{toolbar}</div>}
       <main className="screen">
         <ScreenWarnings />
         {children}

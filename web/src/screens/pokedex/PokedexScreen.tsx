@@ -83,7 +83,19 @@ export function PokedexScreen() {
       title="pokedex"
       sections={{ label: 'pokedex', links: pokedexSections }}
       subtitle={desktop ? countText : undefined}
-      searchBox={searchBox}
+      toolbar={
+        desktop ? undefined : (
+          <>
+            {searchBox}
+            <PhoneChips
+              filters={filters}
+              onChange={change}
+              onOpenFilters={() => setOpen('filters')}
+              onOpenSort={() => setOpen('sort')}
+            />
+          </>
+        )
+      }
     >
       <div className="pokedex">
         {desktop ? (
@@ -93,14 +105,7 @@ export function PokedexScreen() {
             onChange={change}
             onOpenFilters={() => setOpen('filters')}
           />
-        ) : (
-          <PhoneChips
-            filters={filters}
-            onChange={change}
-            onOpenFilters={() => setOpen('filters')}
-            onOpenSort={() => setOpen('sort')}
-          />
-        )}
+        ) : null}
         {pokedex && <QueryChips query={q} pokedex={pokedex} />}
         {query.isPending ? (
           <p className="pokedex-loading" role="status">

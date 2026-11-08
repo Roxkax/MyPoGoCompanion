@@ -46,7 +46,8 @@ One line per species. A line appears when **one of its versions** matches every 
 
 ## Filter controls
 
-- **Phone**: one **Filters** sheet with everything (type, stats, generation, versions, categories) and "Show N
+- **Phone**: the search box and the chip row stay on top while the list scrolls (the title and section switcher
+  scroll away; owner, 2026-11-08); one **Filters** sheet with everything (type, stats, generation, versions, categories) and "Show N
   Pokémon"; a **Sort** sheet; quick chips Released, Has Mega, Has Shadow.
 - **Desktop** (owner, 2026-11-08): **Type ▾** opens a small panel under it with only the types, **Generation ▾** only
   the regions (both apply at once); **More filters** opens a window with the rest (stats, versions, categories) and

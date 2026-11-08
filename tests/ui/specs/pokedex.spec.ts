@@ -233,3 +233,17 @@ test("the Pokédex answer is cached and compressed", async ({ page }) => {
   });
   expect(again.status()).toBe(304);
 });
+
+test("on a phone the search box and filter chips stay on top while the list scrolls", async ({
+  page,
+}, testInfo) => {
+  test.skip(isDesktop(testInfo), "phone only");
+  await openPokedex(page);
+
+  await page.mouse.wheel(0, 4000);
+  await expect(line(page, 1)).not.toBeInViewport();
+  await expect(searchBox(page)).toBeInViewport();
+  await expect(page.getByRole("button", { name: /^Filters/ })).toBeInViewport();
+  await page.getByRole("button", { name: /^Filters/ }).click();
+  await expect(page.getByRole("dialog", { name: "Filters" })).toBeVisible();
+});
