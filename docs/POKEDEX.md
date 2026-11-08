@@ -29,8 +29,13 @@ One line per species. A line appears when **one of its versions** matches every 
 - **Versions in play**: with **Released** on (the default) only released versions count; a species with nothing
   released is hidden. Off, everything shows and an unreleased version says "Not in GO yet".
 - **The version shown**: with a stat filter or a stat in the search, the matching version with the highest value of
-  the first stat asked about (Attack, Defense, Stamina, Max CP, in that order); otherwise the main form when it
-  matches; otherwise the first match (Megas and Primals, regional forms, other forms). It says "Showing …".
+  the first stat asked about (Attack, Defense, Stamina, Max CP, in that order); otherwise a version the search names
+  by kind (`mega`, `primal`, `hisuian`…); otherwise the main form when it matches; otherwise the first match (Megas and
+  Primals, regional forms, other forms). It says "Showing …".
+- **Version filters are about the species** (owner, 2026-11-08): Has Mega, Has Shadow, Can Dynamax, Can Gigantamax,
+  Regional forms (and the search words `mega`, `shadow`, `hisuian`…) ask whether *any* of the species' versions is
+  one, so they combine: Has Mega + Has Shadow finds Charizard (a Mega, and a Shadow of its main form). The chips list
+  the Pokémon as they are; a search word shows that version.
 - **Markers** (only for matching versions): a marker each for Mega / Mega X / Mega Y / Primal and each regional form,
   and for other forms with their own stats or types (Origin, Therian, Armored…), all of which switch the line (hover
   on a computer, tap on a phone; tap again to go back). A species with **more than 4** other forms (Arceus, Silvally,
@@ -38,6 +43,14 @@ One line per species. A line appears when **one of its versions** matches every 
   shows a short note. Forms that only look different (costumes, Burmy's cloaks, Genesect's drives) get no marker.
 - **Sorting** uses the numbers shown; switching a line with a marker doesn't re-sort. Pokédex order first; a column
   sorts numbers and names from the start and stats from the best, and a second tap reverses.
+
+## Filter controls
+
+- **Phone**: one **Filters** sheet with everything (type, stats, generation, versions, categories) and "Show N
+  Pokémon"; a **Sort** sheet; quick chips Released, Has Mega, Has Shadow.
+- **Desktop** (owner, 2026-11-08): **Type ▾** opens a small panel under it with only the types, **Generation ▾** only
+  the regions (both apply at once); **More filters** opens a window with the rest (stats, versions, categories) and
+  shows how many of those are set; the quick chips Released, Has Mega, Has Shadow; other set filters as chips with ✕.
 
 ## Filters in the address
 

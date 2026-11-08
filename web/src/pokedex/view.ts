@@ -1,6 +1,6 @@
 import type { Entry, Pokedex, Region, Version } from './data'
 import { stats, type Filters, type VersionFilter } from './filters'
-import { queryMatches, queryStats, type Query, type Stat } from './search'
+import { queryMatches, queryStats, versionHas, type Query, type Stat } from './search'
 
 /*
  * What the Pokédex list shows (decisions 2026-11-08): one line per species; a line appears when one of its versions
@@ -43,7 +43,10 @@ function versionMatchesFilter(filter: VersionFilter, version: Version): boolean 
   }
 }
 
-/** Whether a version passes the filters (the search is checked separately). */
+/**
+ * Whether a version passes the filters (the search is checked separately). The version filters (Has Mega, Has Shadow,
+ * Can Dynamax, Can Gigantamax, Regional forms) are about the whole species: see {@link speciesHasVersions}.
+ */
 export function filtersMatch(filters: Filters, entry: Entry, version: Version): boolean {
   if (filters.generations.length && !filters.generations.includes(entry.generation)) return false
   if (
@@ -59,7 +62,30 @@ export function filtersMatch(filters: Filters, entry: Entry, version: Version): 
     if ((range.min !== null && value < range.min) || (range.max !== null && value > range.max))
       return false
   }
-  return filters.versions.every((filter) => versionMatchesFilter(filter, version))
+  return true
+}
+
+/**
+ * Whether the species has every version the filters ask for, each on any of its versions in play: Charizard has a
+ * Mega and a Shadow, so "Has Mega" + "Has Shadow" finds it even though no single version is both.
+ */
+export function speciesHasVersions(filters: Filters, versions: readonly Version[]): boolean {
+  return filters.versions.every((filter) =>
+    versions.some((version) => versionMatchesFilter(filter, version)),
+  )
+}
+
+/**
+ * The versions the search names by kind ("mega", "primal", "hisuian"): a line shows one of them when it matches, so
+ * "mega" shows Mega Charizard X rather than Charizard. The filter chips don't: "Has Mega" lists the Pokémon as they are.
+ */
+export function namedByQuery(query: Query): (version: Version) => boolean {
+  const tests = query.groups.flatMap((group) =>
+    group.alternatives.flatMap(({ term, negated }) =>
+      !negated && (term.kind === 'version' || term.kind === 'regional') ? [term] : [],
+    ),
+  )
+  return (version) => tests.some((term) => versionHas(term, version))
 }
 
 /** The versions a line can show: released ones only, unless "Released" is off. */
@@ -69,17 +95,19 @@ export function versionsInPlay(entry: Entry, releasedOnly: boolean): Version[] {
 
 /**
  * The version a line shows among those that match: the highest value of the first stat asked about (Attack, Defense,
- * Stamina, Max CP); else the main form when it matches; else the first match (Megas, regional, other forms).
+ * Stamina, Max CP); else a version the search names by kind ("mega"); else the main form when it matches; else the
+ * first match (Megas, regional, other forms).
  */
 export function pickVersion(
   matching: readonly [Version, ...Version[]],
   asked: readonly Stat[],
+  named: (version: Version) => boolean = () => false,
 ): Version {
   const stat = statOrder.find((candidate) => asked.includes(candidate))
   if (stat) {
     return matching.reduce((best, version) => (version[stat] > best[stat] ? version : best))
   }
-  return matching.find((version) => version.isDefault) ?? matching[0]
+  return matching.find(named) ?? matching.find((version) => version.isDefault) ?? matching[0]
 }
 
 /** The markers for these versions: switching markers first (Megas, regional, forms), then Shadow, Dynamax, G-Max. */
@@ -106,16 +134,22 @@ export function markersFor(versions: readonly Version[]): Marker[] {
 /** The lines for these filters and search, in no particular order (see {@link sortRows}). */
 export function buildRows(pokedex: Pokedex, filters: Filters, query: Query): Row[] {
   const asked = [...statOrder.filter((stat) => filters.ranges[stat]), ...queryStats(query)]
+  const named = namedByQuery(query)
   const rows: Row[] = []
   for (const entry of pokedex.entries) {
     const inPlay = versionsInPlay(entry, filters.releasedOnly)
+    if (!speciesHasVersions(filters, inPlay)) continue
     const matching = inPlay.filter(
       (version) =>
         filtersMatch(filters, entry, version) && queryMatches(query, entry, version, inPlay),
     )
     const [first, ...rest] = matching
     if (!first) continue
-    rows.push({ entry, shown: pickVersion([first, ...rest], asked), markers: markersFor(matching) })
+    rows.push({
+      entry,
+      shown: pickVersion([first, ...rest], asked, named),
+      markers: markersFor(matching),
+    })
   }
   return rows
 }

@@ -145,6 +145,12 @@ describe('the list', () => {
     expect(dexes({ versions: ['regional'] })).toEqual([26, 59, 157])
   })
 
+  it('combines version filters across the species’ versions (a Mega and a Shadow)', () => {
+    expect(dexes({ versions: ['mega', 'shadow'] })).toEqual([6, 445])
+    expect(dexes({ versions: ['regional', 'shadow'] })).toEqual([59])
+    expect(dexes({ versions: ['mega', 'gmax'] })).toEqual([6])
+  })
+
   it('shows the best version for the first stat asked about, else the main form, else the first match', () => {
     const list = rows({
       types: ['fire'],
@@ -152,9 +158,11 @@ describe('the list', () => {
     })
     expect(list.find((row) => row.entry.dex === 6)?.shown.id).toBe('charizard_mega_y')
     expect(rows({}, 'cp4000-').find((row) => row.entry.dex === 150)?.shown.id).toBe('mewtwo')
+    // The filter chips list the Pokémon as they are; a version word in the search shows that version.
     expect(rows({ versions: ['regional'] }).find((row) => row.entry.dex === 26)?.shown.id).toBe(
-      'raichu_alolan',
+      'raichu',
     )
+    expect(rows({}, 'alolan').find((row) => row.entry.dex === 26)?.shown.id).toBe('raichu_alolan')
     const [main, ...others] = entry(6).versions
     expect(pickVersion([main!, ...others], ['defense']).id).toBe('charizard_mega_x')
   })

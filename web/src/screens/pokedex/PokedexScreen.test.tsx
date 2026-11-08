@@ -335,48 +335,77 @@ describe('Pokédex list (desktop)', () => {
     expect(charizard.queryByText(/^Showing/)).not.toBeInTheDocument()
   })
 
-  it('shows set filters as chips that remove them, and opens the sheet from Type and Generation', async () => {
+  it('shows set filters as chips that remove them', async () => {
     const user = userEvent.setup()
     await openPokedex(
-      '/pokedex?type=fire,flying&gen=1,2&atk=200-&def=-200&sta=150-300&cp=4000&has=dynamax,mega&cat=legendary',
+      '/pokedex?atk=200-&def=-200&sta=150-300&cp=4000&has=dynamax,mega&cat=legendary',
       'desktop',
     )
 
-    for (const label of [
-      'Type: Fire + Flying',
-      'Kanto, Johto',
+    const labels = [
       'Attack ≥ 200',
       'Defense ≤ 200',
       'Stamina 150–300',
       'Max CP (L50) = 4,000',
       'Can Dynamax',
       'Legendary',
-    ]) {
+    ]
+    for (const label of labels) {
       expect(screen.getByRole('button', { name: `Remove ${label}` })).toBeInTheDocument()
     }
-    expect(screen.queryByRole('button', { name: /^Type: Any/ })).not.toBeInTheDocument()
-
-    for (const label of [
-      'Type: Fire + Flying',
-      'Kanto, Johto',
-      'Attack ≥ 200',
-      'Defense ≤ 200',
-      'Stamina 150–300',
-      'Max CP (L50) = 4,000',
-      'Can Dynamax',
-      'Legendary',
-    ]) {
+    expect(screen.getByRole('button', { name: 'More filters · 7' })).toBeInTheDocument()
+    for (const label of labels) {
       await user.click(screen.getByRole('button', { name: `Remove ${label}` }))
     }
     expect(currentAddress()).toBe('/pokedex?has=mega')
+  })
 
-    await user.click(screen.getByRole('button', { name: /^Type: Any/ }))
-    expect(screen.getByRole('dialog', { name: 'Filters' })).toBeInTheDocument()
+  it('Type and Generation change only themselves, right under their chip', async () => {
+    const user = userEvent.setup()
+    await openPokedex('/pokedex?type=fire', 'desktop')
+
+    const type = screen.getByRole('button', { name: /^Type: Fire/ })
+    expect(type).toHaveAttribute('aria-expanded', 'false')
+    await user.click(type)
+    const typePanel = screen.getByRole('dialog', { name: 'Type' })
+    await user.click(within(typePanel).getByRole('button', { name: 'Flying' }))
+    expect(currentAddress()).toBe('/pokedex?type=fire%2Cflying')
+    expect(screen.getByRole('button', { name: /^Type: Fire \+ Flying/ })).toBeInTheDocument()
+    expect(shownDexes()).toEqual([6, 146])
     await user.keyboard('{Escape}')
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /^Type: Fire \+ Flying/ })).toHaveFocus()
+
     await user.click(screen.getByRole('button', { name: /^Generation: All/ }))
-    await user.keyboard('{Escape}')
-    await user.click(screen.getByRole('button', { name: 'More filters' }))
-    expect(screen.getByRole('dialog', { name: 'Filters' })).toBeInTheDocument()
+    const generation = screen.getByRole('dialog', { name: 'Generation' })
+    await user.click(within(generation).getByRole('button', { name: 'Kanto' }))
+    await user.click(within(generation).getByRole('button', { name: 'Johto' }))
+    expect(currentAddress()).toBe('/pokedex?type=fire%2Cflying&gen=1%2C2')
+    expect(screen.getByRole('button', { name: /^Generation: Kanto, Johto/ })).toBeInTheDocument()
+    await user.click(within(generation).getByRole('button', { name: 'Johto', pressed: true }))
+    await user.click(within(generation).getByRole('button', { name: 'All' }))
+    expect(currentAddress()).toBe('/pokedex?type=fire%2Cflying')
+    // A click outside the panel closes it.
+    await user.click(screen.getByRole('heading', { level: 1 }))
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    // The chip again closes it too.
+    await user.click(screen.getByRole('button', { name: /^Generation: All/ }))
+    await user.click(screen.getByRole('button', { name: /^Generation: All/ }))
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  })
+
+  it('“More filters” holds the rest, without Type and Generation', async () => {
+    const user = userEvent.setup()
+    await openPokedex('/pokedex?type=fire&gen=1&has=dynamax', 'desktop')
+
+    await user.click(screen.getByRole('button', { name: 'More filters · 1' }))
+    const sheet = screen.getByRole('dialog', { name: 'More filters' })
+    expect(within(sheet).queryByRole('heading', { name: 'Type' })).not.toBeInTheDocument()
+    expect(within(sheet).queryByRole('heading', { name: 'Generation' })).not.toBeInTheDocument()
+    await user.click(within(sheet).getByRole('button', { name: 'Clear all' }))
+    await user.click(within(sheet).getByRole('button', { name: /^Show/ }))
+    // Clear all here keeps the type and generation chosen in the bar.
+    expect(currentAddress()).toBe('/pokedex?type=fire&gen=1')
   })
 })
 

@@ -378,21 +378,8 @@ export function termMatches(term: Term, entry: Entry, version: Version): boolean
     case 'hisui':
       return entry.dex >= hisuiDex.from && entry.dex <= hisuiDex.to
     case 'regional':
-      return version.region === term.region
     case 'version':
-      switch (term.version) {
-        case 'mega':
-          return version.kind === 'Mega'
-        case 'primal':
-          return version.kind === 'Primal'
-        case 'shadow':
-          return version.shadow
-        case 'dynamax':
-          return version.dynamax
-        case 'gmax':
-          return version.gigantamax
-      }
-      return false
+      return versionHas(term, version)
     case 'category':
       return entry.category === term.category
     case 'released':
@@ -412,7 +399,35 @@ export function termMatches(term: Term, entry: Entry, version: Version): boolean
   }
 }
 
-/** Whether this version, among the Pokémon's versions in play, matches every group of the query. */
+/** Whether this version is the kind a version word names ("mega", "shadow", "hisuian"). */
+export function versionHas(
+  term: Extract<Term, { kind: 'version' | 'regional' }>,
+  version: Version,
+): boolean {
+  if (term.kind === 'regional') return version.region === term.region
+  switch (term.version) {
+    case 'mega':
+      return version.kind === 'Mega'
+    case 'primal':
+      return version.kind === 'Primal'
+    case 'shadow':
+      return version.shadow
+    case 'dynamax':
+      return version.dynamax
+    case 'gmax':
+      return version.gigantamax
+  }
+}
+
+/** Terms about which versions a species has ("mega", "shadow", "hisuian"): any of its versions answers for it. */
+function aboutVersions(term: Term): boolean {
+  return term.kind === 'version' || term.kind === 'regional'
+}
+
+/**
+ * Whether this version, among the Pokémon's versions in play, matches every group of the query. Version words are
+ * about the species ("mega shadow" finds Charizard, which has both, on different versions).
+ */
 export function queryMatches(
   query: Query,
   entry: Entry,
@@ -421,7 +436,11 @@ export function queryMatches(
 ): boolean {
   return query.groups.every((group) =>
     group.alternatives.some(({ term, negated }) => {
-      if (!negated) return termMatches(term, entry, version)
+      if (!negated) {
+        return aboutVersions(term)
+          ? versions.some((other) => termMatches(term, entry, other))
+          : termMatches(term, entry, version)
+      }
       if (aboutSpecies(term)) return !versions.some((other) => termMatches(term, entry, other))
       return !termMatches(term, entry, version)
     }),

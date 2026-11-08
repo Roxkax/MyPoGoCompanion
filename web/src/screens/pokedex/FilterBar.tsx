@@ -5,6 +5,8 @@ import { useFormats } from '../../i18n/languageContext'
 import { regionsByGeneration } from '../../pokedex/data'
 import { countFilters, stats, type Filters, type VersionFilter } from '../../pokedex/filters'
 import { Chip } from '../../ui/Chip'
+import { Popover } from '../../ui/Popover'
+import { GenerationChoices, TypeChoices } from './FilterChoices'
 import { rangeLabel } from './labels'
 
 /** The quick toggles next to the filters (B1): Released, Has Mega, Has Shadow. */
@@ -81,22 +83,6 @@ function SetFilters({
   const { t } = useTranslation()
   const formats = useFormats()
   const chips: { key: string; label: string; clear: () => Filters }[] = []
-  if (filters.types.length) {
-    chips.push({
-      key: 'type',
-      label: `${t('pokedex.sheet.type')}: ${filters.types.map((type) => t(`types.${type}`)).join(' + ')}`,
-      clear: () => ({ ...filters, types: [] }),
-    })
-  }
-  if (filters.generations.length) {
-    chips.push({
-      key: 'gen',
-      label: filters.generations
-        .map((gen) => t(`pokedex.regions.${regionsByGeneration[gen - 1] ?? 'kanto'}`))
-        .join(', '),
-      clear: () => ({ ...filters, generations: [] }),
-    })
-  }
   for (const stat of stats) {
     const range = filters.ranges[stat]
     if (!range) continue
@@ -152,33 +138,64 @@ export function FilterBar({
   onOpenFilters: () => void
 }) {
   const { t } = useTranslation()
+  const caret = (
+    <span className="pokedex-caret">
+      <Icon name="chevron" size={14} />
+    </span>
+  )
+  const typeLabel = filters.types.length
+    ? t('pokedex.typeSet', { types: filters.types.map((type) => t(`types.${type}`)).join(' + ') })
+    : t('pokedex.typeAny')
+  const generationLabel = filters.generations.length
+    ? t('pokedex.generationSet', {
+        generations: filters.generations
+          .map((gen) => t(`pokedex.regions.${regionsByGeneration[gen - 1] ?? 'kanto'}`))
+          .join(', '),
+      })
+    : t('pokedex.generationAll')
   return (
     <div className="pokedex-bar">
       <div className="pokedex-bar-search">{searchBox}</div>
-      {!filters.types.length && (
-        <Chip onClick={onOpenFilters}>
-          {t('pokedex.typeAny')}{' '}
-          <span className="pokedex-caret">
-            <Icon name="chevron" size={14} />
-          </span>
-        </Chip>
-      )}
-      {!filters.generations.length && (
-        <Chip onClick={onOpenFilters}>
-          {t('pokedex.generationAll')}{' '}
-          <span className="pokedex-caret">
-            <Icon name="chevron" size={14} />
-          </span>
-        </Chip>
-      )}
-      <SetFilters filters={filters} onChange={onChange} />
-      <Chip onClick={onOpenFilters}>
+      <Popover
+        label={
+          <>
+            {typeLabel} {caret}
+          </>
+        }
+        title={t('pokedex.sheet.type')}
+        active={filters.types.length > 0}
+      >
+        <TypeChoices types={filters.types} onChange={(types) => onChange({ ...filters, types })} />
+      </Popover>
+      <Popover
+        label={
+          <>
+            {generationLabel} {caret}
+          </>
+        }
+        title={t('pokedex.sheet.generation')}
+        active={filters.generations.length > 0}
+      >
+        <GenerationChoices
+          generations={filters.generations}
+          onChange={(generations) => onChange({ ...filters, generations })}
+        />
+      </Popover>
+      <Chip selected={countMoreFilters(filters) > 0} onClick={onOpenFilters}>
         <Icon name="filters" size={16} />
-        {t('pokedex.moreFilters')}
+        {countMoreFilters(filters)
+          ? t('pokedex.moreFiltersCount', { count: countMoreFilters(filters) })
+          : t('pokedex.moreFilters')}
       </Chip>
+      <SetFilters filters={filters} onChange={onChange} />
       <span className="pokedex-bar-end">
         <QuickToggles filters={filters} onChange={onChange} />
       </span>
     </div>
   )
+}
+
+/** The filters "More filters" holds on the desktop (Type and Generation have their own chips). */
+function countMoreFilters(filters: Filters): number {
+  return countFilters({ ...filters, types: [], generations: [] })
 }

@@ -1,12 +1,11 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useFormats } from '../../i18n/languageContext'
-import { regionsByGeneration, type Pokedex } from '../../pokedex/data'
+import type { Pokedex } from '../../pokedex/data'
 import {
   categories,
   noFilters,
   stats,
-  toggleType,
   versionFilters,
   type Filters,
   type StatRange,
@@ -14,8 +13,8 @@ import {
 import { parseQuery, type Stat } from '../../pokedex/search'
 import { buildRows } from '../../pokedex/view'
 import { Chip } from '../../ui/Chip'
-import { pokemonTypes } from '../../ui/pokemonTypes'
 import { Sheet } from '../../ui/Sheet'
+import { GenerationChoices, TypeChoices } from './FilterChoices'
 import { statLabel } from './labels'
 
 /** The lowest and highest value of each stat over every version, the sliders' ends. */
@@ -109,11 +108,14 @@ function RangeSlider({
 export function FilterSheet({
   pokedex,
   filters,
+  part = 'all',
   onApply,
   onClose,
 }: {
   pokedex: Pokedex
   filters: Filters
+  /** `more`: the desktop's "More filters", without Type and Generation (they have their own chips in the bar). */
+  part?: 'all' | 'more'
   onApply: (filters: Filters) => void
   onClose: () => void
 }) {
@@ -123,12 +125,15 @@ export function FilterSheet({
   const bounds = useMemo(() => statBounds(pokedex), [pokedex])
   const query = useMemo(() => parseQuery(draft.q, pokedex), [draft.q, pokedex])
   const count = useMemo(() => buildRows(pokedex, draft, query).length, [pokedex, draft, query])
-  const cleared: Filters = { ...noFilters, q: draft.q, sort: draft.sort, order: draft.order }
+  const all = part === 'all'
+  const cleared: Filters = all
+    ? { ...noFilters, q: draft.q, sort: draft.sort, order: draft.order }
+    : { ...draft, ranges: {}, versions: [], categories: [], releasedOnly: true }
 
   return (
     <Sheet
       id="pokedex-filters"
-      title={t('pokedex.sheet.title')}
+      title={all ? t('pokedex.sheet.title') : t('pokedex.moreFilters')}
       onClose={onClose}
       wide
       headerEnd={
@@ -158,24 +163,12 @@ export function FilterSheet({
         </>
       }
     >
-      <section className="filter-group" aria-labelledby="filter-type">
-        <h3 id="filter-type">{t('pokedex.sheet.type')}</h3>
-        <p className="filter-hint">{t('pokedex.sheet.typeHint')}</p>
-        <div className="type-grid">
-          {pokemonTypes.map((type) => (
-            <button
-              key={type}
-              type="button"
-              className="type-choice"
-              data-type={type}
-              aria-pressed={draft.types.includes(type)}
-              onClick={() => setDraft({ ...draft, types: toggleType(draft.types, type) })}
-            >
-              {t(`types.${type}`)}
-            </button>
-          ))}
-        </div>
-      </section>
+      {all && (
+        <section className="filter-group" aria-labelledby="filter-type">
+          <h3 id="filter-type">{t('pokedex.sheet.type')}</h3>
+          <TypeChoices types={draft.types} onChange={(types) => setDraft({ ...draft, types })} />
+        </section>
+      )}
 
       <section className="filter-group" aria-labelledby="filter-stats">
         <h3 id="filter-stats">{t('pokedex.sheet.stats')}</h3>
@@ -196,31 +189,15 @@ export function FilterSheet({
         ))}
       </section>
 
-      <section className="filter-group" aria-labelledby="filter-generation">
-        <h3 id="filter-generation">{t('pokedex.sheet.generation')}</h3>
-        <div className="wrap-row">
-          <Chip
-            selected={!draft.generations.length}
-            onClick={() => setDraft({ ...draft, generations: [] })}
-          >
-            {t('pokedex.sheet.all')}
-          </Chip>
-          {regionsByGeneration.map((region, index) => (
-            <Chip
-              key={region}
-              selected={draft.generations.includes(index + 1)}
-              onClick={() =>
-                setDraft({
-                  ...draft,
-                  generations: toggle(draft.generations, index + 1).sort((a, b) => a - b),
-                })
-              }
-            >
-              {t(`pokedex.regions.${region}`)}
-            </Chip>
-          ))}
-        </div>
-      </section>
+      {all && (
+        <section className="filter-group" aria-labelledby="filter-generation">
+          <h3 id="filter-generation">{t('pokedex.sheet.generation')}</h3>
+          <GenerationChoices
+            generations={draft.generations}
+            onChange={(generations) => setDraft({ ...draft, generations })}
+          />
+        </section>
+      )}
 
       <section className="filter-group" aria-labelledby="filter-show">
         <h3 id="filter-show">{t('pokedex.sheet.show')}</h3>

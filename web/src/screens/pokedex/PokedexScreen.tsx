@@ -42,7 +42,7 @@ export function PokedexScreen() {
   const formats = useFormats()
   const language = useCurrentLanguage()
   const [params, setParams] = useSearchParams()
-  const filters = useMemo(() => readFilters(params), [params])
+  const [filters, setFilters] = useAddressFilters(params)
   const [open, setOpen] = useState<Open>(null)
   const query = $api.useQuery('get', '/pokedex', undefined, { staleTime: pokedexStaleMs })
   const pokedex = useMemo(() => (query.data ? preparePokedex(query.data) : null), [query.data])
@@ -62,7 +62,10 @@ export function PokedexScreen() {
   ]
   const strong: Stat | null = stats.find((stat) => asked.includes(stat)) ?? null
 
-  const change = (next: Filters) => void setParams(writeFilters(next), { replace: true })
+  const change = (next: Filters) => {
+    setFilters(next)
+    void setParams(writeFilters(next), { replace: true })
+  }
   const countText = rows
     ? t('pokedex.count', { count: rows.length, formatted: formats.number(rows.length) })
     : null
@@ -119,6 +122,7 @@ export function PokedexScreen() {
         <FilterSheet
           pokedex={pokedex}
           filters={filters}
+          part={desktop ? 'more' : 'all'}
           onApply={change}
           onClose={() => setOpen(null)}
         />
@@ -137,6 +141,39 @@ export function PokedexScreen() {
       )}
     </TabScreen>
   )
+}
+
+/**
+ * The filters, kept by the screen and written to the address. The router updates the screen from the address in a
+ * background render (slow with ~950 lines), so reading them only from there would lag: a sheet opened right after a
+ * change, or the next keystroke, would see the old filters. When the address changes from outside (Back, Forward, a
+ * link), the screen shows what it says.
+ */
+function useAddressFilters(params: URLSearchParams): [Filters, (filters: Filters) => void] {
+  const address = params.toString()
+  const [current, setCurrent] = useState(() => ({
+    address,
+    filters: readFilters(params),
+    /** Addresses this screen wrote that the router hasn't shown yet (typing writes one per keystroke). */
+    written: [] as string[],
+  }))
+  if (current.address !== address) {
+    const at = current.written.indexOf(address)
+    setCurrent(
+      at >= 0
+        ? { address, filters: current.filters, written: current.written.slice(at + 1) }
+        : { address, filters: readFilters(params), written: [] },
+    )
+  }
+  return [
+    current.filters,
+    (filters) =>
+      setCurrent((state) => ({
+        ...state,
+        filters,
+        written: [...state.written, writeFilters(filters).toString()],
+      })),
+  ]
 }
 
 function Results({

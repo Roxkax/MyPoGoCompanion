@@ -203,6 +203,9 @@ describe('searching the Pokédex', () => {
 
   it('finds versions, categories, regions and released', () => {
     expect(find('mega')).toEqual([6, 445])
+    expect(find('mega shadow')).toEqual([6, 445])
+    expect(find('mega&gmax')).toEqual([6])
+    expect(shown('mega')).toEqual({ 6: 'charizard_mega_x', 445: 'garchomp_mega' })
     expect(find('shadow')).toEqual([6, 59, 146, 150, 445])
     expect(find('dynamax')).toEqual([6, 25, 131])
     expect(find('gmax')).toEqual([6, 25, 131])
