@@ -144,7 +144,7 @@ jobs:
           ref: ${{ steps.pr.outputs.sha }}
 
       # --- API image ------------------------------------------------------------------------------------------
-      - uses: docker/setup-buildx-action@v3
+      - uses: docker/setup-buildx-action@v4
 
       - uses: docker/login-action@v4
         with:
