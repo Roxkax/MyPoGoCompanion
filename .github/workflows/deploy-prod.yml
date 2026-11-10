@@ -166,7 +166,7 @@ jobs:
 
       - name: Build and push the API image
         if: steps.image.outputs.exists != 'true'
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           file: api/MyPoGoCompanion.Api/Dockerfile
@@ -197,7 +197,7 @@ jobs:
 
       - name: Build and push the jobs image
         if: steps.jobs-image.outputs.deploy == 'true' && steps.jobs-image.outputs.exists != 'true'
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           file: jobs/MyPoGoCompanion.Jobs/Dockerfile
