@@ -1,7 +1,7 @@
 # Pokémon page (B2, E03-F02)
 
 One species with all its versions: how strong it is, what it learns, whether a copy is any good, how to get it and
-evolve it, and every version it has. Decisions: CLAUDE.md, decision log 2026-11-08.
+evolve it, and every version it has. Decisions: [project context](PROJECT-CONTEXT.md#decision-log), decision log 2026-11-08.
 
 ## Address
 
