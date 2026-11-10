@@ -1,6 +1,6 @@
 # Pokémon pictures (sprites)
 
-How the app gets its Pokémon pictures (E02-F05, spec items 1–2; decision 2026-11-07 in CLAUDE.md). Two halves:
+How the app gets its Pokémon pictures (E02-F05, spec items 1–2; decision 2026-11-07 in [the project decision log](PROJECT-CONTEXT.md#decision-log)). Two halves:
 
 1. **The pictures themselves** are built into the web app at every QA and prod deploy (option B, for the MVP).
 2. **Which picture each form shows** is worked out by the daily import and stored on `forms`; the API passes the names to the screens.

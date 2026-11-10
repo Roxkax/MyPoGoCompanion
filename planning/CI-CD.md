@@ -40,7 +40,7 @@ Switched on at **Sprint 0**, together with the pipelines (until then planning do
 - No direct pushes; changes only through pull requests; no force pushes or deletion.
 - All required checks must pass (`deploy-qa` and `ui-tests` pass as skipped on PRs without the `qa` label); the branch must be up to date with `main`; all PR conversations resolved.
 - **Merge commits only, and the branch rebased first** (owner, 2026-11-01): the fifth required check `rebased` fails when the branch is behind `main` or contains merge commits; squash and rebase merges are off. The owner writes the merge commit's message when merging.
-- **No approval required while the owner works alone** (GitHub doesn't allow approving your own PR, and Claude's commits are authored by the owner). When collaborators join: **1 approval required** + `CODEOWNERS` making the owner approve changes to `.github/`, infrastructure and pipeline files.
+- **No approval required while the owner works alone** (GitHub doesn't allow approving your own PR, and Codex's commits are authored by the owner). When collaborators join: **1 approval required** + `CODEOWNERS` making the owner approve changes to `.github/`, infrastructure and pipeline files.
 - As built (E00-F09): the ruleset **Protect main** is kept as code in `.github/rulesets/main.json` (required checks pinned to GitHub Actions; no bypass, the owner included) and switched on by importing it in Settings → Rules; the **Branch rules check** workflow compares what GitHub enforces with the file (when the file changes on `main`, weekly, or by hand). Setup and "why can't I merge?" in `docs/BRANCH-RULES.md`.
 - PR template (`.github/pull_request_template.md`): what it does, `Closes #n` for every issue of the feature, how to test, checklist.
 - **Dependabot** (`.github/dependabot.yml`): NuGet, npm and GitHub Actions weekly on Monday; minor and patch grouped per ecosystem, majors on their own; no major updates for the .NET 10 framework packages, Npgsql and `dotnet-ef` (moved with the SDK by hand). Its PRs run the required checks; Dependabot's own runs get no secrets, so no PR comments and no QA deploy from them.
@@ -49,7 +49,7 @@ Switched on at **Sprint 0**, together with the pipelines (until then planning do
 ## Secrets and access
 
 - GitHub → Azure sign-in with **OIDC** (federated credentials, no stored passwords).
-- GitHub **environments** `prod` and `qa` hold their own secrets: Neon connection string, Google OAuth client, Anthropic API key, search API key. The repository is public, so nothing secret is ever committed.
+- GitHub **environments** `prod` and `qa` hold their own secrets: Neon connection string, Google OAuth client, OpenAI API key, search API key. The repository is public, so nothing secret is ever committed.
 - Static Web Apps deployment token per environment.
 
 ## Addresses

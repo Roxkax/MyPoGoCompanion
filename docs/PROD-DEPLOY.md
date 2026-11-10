@@ -42,7 +42,7 @@ Puts an earlier commit of `main` back on prod: its API and jobs images (already 
 
 What a rollback does **not** do:
 
-- **Undo database migrations.** The older API runs on the newer tables. That's why every migration must keep the previous version working: add new columns or tables first, stop using old ones in one PR, remove them in a later PR. If a migration itself damaged data, restore the database from Neon instead: Neon → branch `main` → **Restore** to a time before the deploy. Neon only keeps a short restore window on the free plan, so do this soon. Ask Claude before you restore.
+- **Undo database migrations.** The older API runs on the newer tables. That's why every migration must keep the previous version working: add new columns or tables first, stop using old ones in one PR, remove them in a later PR. If a migration itself damaged data, restore the database from Neon instead: Neon → branch `main` → **Restore** to a time before the deploy. Neon only keeps a short restore window on the free plan, so do this soon. Ask Codex to assess the recovery steps before you restore.
 - **Reset the QA database.** QA keeps what it has.
 
 The rollback stays until the next merge that changes code, which deploys the latest `main` again. To undo the rollback sooner, run the workflow with the Commit field empty.

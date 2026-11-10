@@ -88,11 +88,11 @@ In the repository: **Settings** → **Environments** → **New environment**.
 
 **`prod`**: the same five secrets, but `DATABASE_URL` is the **main** branch URL. Then, under **Deployment branches and tags**, choose **Selected branches and tags** → **Add deployment branch or tag rule** → `main`. Only `main` can deploy to prod.
 
-Later features add more secrets here (Google sign-in, Anthropic API key); each comes with its own short instructions. The Neon API key for the QA reset is a repository secret (step 6).
+Later features add more secrets here (Google sign-in, OpenAI API key); each comes with its own short instructions. The Neon API key for the QA reset is a repository secret (step 6).
 
 ## 4. Check
 
-**Actions** → **Environment check** → **Run workflow**: run it once with `qa` and once with `prod`. Each run signs in to Azure without a password, finds the API and web app, connects to that environment's database and confirms the token is set. Both green means E00-F02 is done; tell Claude.
+**Actions** → **Environment check** → **Run workflow**: run it once with `qa` and once with `prod`. Each run signs in to Azure without a password, finds the API and web app, connects to that environment's database and confirms the token is set. Both green means E00-F02 is done; tell Codex.
 
 If a run fails, the step's error says which part: sign-in (IDs or the repository name in step 2), resources (step 2), database (`DATABASE_URL`) or token.
 
@@ -135,7 +135,7 @@ Each Neon branch keeps its own copy of the database user, so resetting a passwor
 
 ## Re-running the Azure template
 
-Running `infra/main.bicep` again (step 2) resets `api-prod` and `api-qa` to the placeholder image, port 80 and no settings. The next QA deploy (or prod deploy) puts everything back; until then that API shows the placeholder page. Only re-run it when Claude asks.
+Running `infra/main.bicep` again (step 2) resets `api-prod` and `api-qa` to the placeholder image, port 80 and no settings. The next QA deploy (or prod deploy) puts everything back; until then that API shows the placeholder page. Only re-run it when Codex asks.
 
 ## What lives where
 

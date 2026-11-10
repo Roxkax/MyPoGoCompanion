@@ -24,7 +24,7 @@
    "description": "",
    "tasks": [
     [
-     "Provider-agnostic AI interface in .NET with a Claude implementation",
+     "Provider-agnostic AI interface in .NET with an OpenAI API implementation",
      4
     ],
     [
@@ -32,7 +32,7 @@
      2
     ],
     [
-     "Cost tracking per call and per month; shared $5 cap that pauses AI and tells the admin",
+     "Cost tracking per call and per month; app-enforced shared $5 cap that pauses AI and tells the admin",
      4
     ]
    ],

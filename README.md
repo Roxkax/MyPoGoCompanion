@@ -19,6 +19,12 @@ A free companion for Pokémon GO players: a shared API, a web app and, later, na
 
 Later: `ios/` (SwiftUI) and `android/` (Kotlin, Jetpack Compose).
 
+## Develop with Codex
+
+[AGENTS.md](AGENTS.md) is the entry point for Codex: working agreements, Git/PR rules and development checks. Read [project context](docs/PROJECT-CONTEXT.md) for sprint progress, owner to-dos and the decision log. The [planning guide](docs/PLANNING-PROCESS.md) describes the workflow from an idea to a sprint.
+
+Codex develops the project; the planned in-app AI chat and weekly researcher use the OpenAI API through a provider-agnostic .NET interface. Those features and their credentials will be added in their planned sprints.
+
 ## Develop locally
 
 ### What you need

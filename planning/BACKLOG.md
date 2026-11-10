@@ -459,9 +459,9 @@ The provider-agnostic AI layer with the $5 cap, the search connector, the weekly
 
 *MVP · Sprint 7 · 19 h · items 11.4*
 
-- Provider-agnostic AI interface in .NET with a Claude implementation — 4 h
+- Provider-agnostic AI interface in .NET with an OpenAI API implementation — 4 h
 - Small-model routing for simple tasks — 2 h
-- Cost tracking per call and per month; shared $5 cap that pauses AI and tells the admin — 4 h
+- Cost tracking per call and per month; app-enforced shared $5 cap that pauses AI and tells the admin — 4 h
 - Unit tests (xUnit / Vitest) — 4 h
 - Integration tests (API + real PostgreSQL) — 2 h
 - Owner review & testing on QA — 3 h
