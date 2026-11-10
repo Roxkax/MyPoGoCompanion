@@ -168,7 +168,7 @@ Plus:
 - **Screenshot questions:** attach a screenshot (appraisal, catch screen, battle) and ask about it;
 - **"Ask about this" buttons:** suggested questions on pages (e.g. "Is this worth powering up?" on one of your Pokémon).
 
-**Backend:** Claude via Anthropic's API behind a provider-agnostic layer; tools that query our data and, with confirmation, create filters, teams and simulations; page context passed with each question; image input; web search; per-month spending cap ($5) with usage shown in the admin panel; a small model for simple questions.
+**Backend:** OpenAI API behind a provider-agnostic layer; tools that query our data and, with confirmation, create filters, teams and simulations; page context passed with each question; image input; web search; a $5/month cap shared with the AI researcher and enforced by the application, with usage shown in the admin panel; a small model for simple questions.
 **Notes:** screenshots cost more per question, so they count more against the $5 cap. Nothing is created or changed without your confirmation.
 **Review:** confirmed 2026-10-27, with all four additions.
 
@@ -298,7 +298,7 @@ Plus:
  PvPoke (git) ──────┼─► Import worker (.NET, daily) ─────►│              │
  Weekly AI research ┘   history · recalculation · verify  │  PostgreSQL  │
                                                           │   (Neon)     │
- Claude API ◄──► API (.NET, ASP.NET Core, OpenAPI) ◄─────►│ game data,   │
+ OpenAI API ◄──► API (.NET, ASP.NET Core, OpenAPI) ◄─────►│ game data,   │
                  engines: filters, raid/Max model,        │ curated layer│
                  counters, simulators, collection,        │ users, AI    │
                  AI tools, admin                          └──────────────┘
@@ -319,7 +319,7 @@ Plus:
 | Web | React + TypeScript, Vite single-page app, installable PWA with offline cache; TanStack Query for data, i18next for English/Portuguese |
 | API clients | Generated from the OpenAPI spec (TypeScript now; Swift and Kotlin later) |
 | Sign-in | Google ID token checked by the API, which issues its own short-lived access token + refresh token; roles User/Admin |
-| AI | Claude via Anthropic's API behind a provider-agnostic interface; small model for simple questions; $5/month hard cap |
+| AI | OpenAI API behind a provider-agnostic interface; small model for simple questions; shared $5/month cap enforced by the application |
 | AI web search | A separate search API behind a pluggable interface; provider chosen when building (free tiers rechecked then) |
 | Notifications | In-app (bell + browser notifications); push with the mobile apps; no email for now |
 | Hosting | Azure Container Apps (API, jobs), Azure Static Web Apps (web), Neon (PostgreSQL), GitHub Container Registry (images) |
@@ -340,7 +340,7 @@ Plus:
 | Azure Static Web Apps | $0 (free plan) |
 | Neon PostgreSQL | $0 (free tier, 0.5 GB) |
 | GitHub (repo, Actions, container registry) | $0 |
-| Claude API (chat + weekly research) | ≤ $5 (hard cap) |
+| OpenAI API (chat + weekly research) | ≤ $5 (shared cap enforced by the application) |
 | Domain name (optional) | ~$1 (≈ $10–15/year) |
 | Apple Developer Program (with the iOS app) | $99/year |
 | Google Play (with the Android app) | $25 once |

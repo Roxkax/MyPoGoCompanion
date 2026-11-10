@@ -38,7 +38,7 @@ Pipeline (all in `scripts/`, the intermediate output goes to `build/`):
 4. `raid_rank.py` → `raiders.json`: the raid ranking.
 5. `raid_page_data.py` → `data_raid.json`: raid and Max strings, per-type lists, the numbers table.
 6. `mega_page_data.py` → `data_mega.json`.
-7. `page_assemble.py`: `web/page_head.html` + `web/page_body.html`, with the JSON inlined into `<script type="application/json">` tags and the data dates filled in.
+7. `page_assemble.py`: `web/page_head.html` + `web/page_body.html`, with the JSON inlined into `<script type="application/json">` tags and the data dates filled in. The output is the complete standalone `dist/pvp-keeper-filters.html` page; serve it with a local HTTP server for browser checks in Codex. There is no chat-host-specific fragment or viewport metadata.
 
 The page's UI is plain HTML/CSS/JS in `web/page_body.html`, with no framework. `web/page_head.html` holds the `<title>`, the Google Fonts link and the base CSS tokens (light and dark themes).
 

@@ -1,7 +1,7 @@
 # Pokédex list (B1, E03-F01)
 
 How the Pokédex list gets its data, how a line chooses what to show, and what the search understands. Decisions in
-CLAUDE.md's decision log (2026-11-08).
+[the project decision log](PROJECT-CONTEXT.md#decision-log) (2026-11-08).
 
 ## Data: the whole Pokédex in one answer
 

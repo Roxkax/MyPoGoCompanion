@@ -1,6 +1,6 @@
 # Daily import
 
-The job that keeps the game data up to date (E02-F01, spec 16.1): every morning it downloads PvPoke's files, the datamined game master and the game's Portuguese text, and brings the database's species, forms, moves, movepools, evolutions, CP multipliers, PvP rankings and Portuguese names (E02-F02, spec 16.2) in line with them. From the same files the calculation engine then works out the PvP best IVs, keeper boxes and raid rankings (E02-F03, `docs/ENGINE.md`). The code is `jobs/MyPoGoCompanion.Jobs/DailyImport/`; the decisions behind it are in CLAUDE.md's decision log (2026-11-02).
+The job that keeps the game data up to date (E02-F01, spec 16.1): every morning it downloads PvPoke's files, the datamined game master and the game's Portuguese text, and brings the database's species, forms, moves, movepools, evolutions, CP multipliers, PvP rankings and Portuguese names (E02-F02, spec 16.2) in line with them. From the same files the calculation engine then works out the PvP best IVs, keeper boxes and raid rankings (E02-F03, `docs/ENGINE.md`). The code is `jobs/MyPoGoCompanion.Jobs/DailyImport/`; the decisions behind it are in [the project decision log](PROJECT-CONTEXT.md#decision-log) (2026-11-02).
 
 It also works out which **picture** each form shows (E02-F05, [`docs/SPRITES.md`](SPRITES.md)): it checks which of the form's possible picture names PokeMiners has and stores them on `forms`.
 

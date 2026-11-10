@@ -24,7 +24,7 @@ Closes #
 - [ ] UI tests for new screens and flows
 - [ ] Migrations keep the previous version working (add first, remove in a later pull request)
 - [ ] No secrets, keys or personal data in the code, tests or screenshots
-- [ ] Docs updated (`README.md`, `docs/`, `planning/`) and **Sprint progress** in `CLAUDE.md`
+- [ ] Docs updated (`README.md`, `docs/`, `planning/`) and **Sprint progress** in `docs/PROJECT-CONTEXT.md`
 - [ ] Choices made while building confirmed with the owner and added to the decision log
 - [ ] Owner: tested on QA (`qa` label), locally or as the steps above say
 
