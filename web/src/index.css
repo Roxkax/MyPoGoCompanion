@@ -2,6 +2,7 @@
 @import './styles/shell.css';
 @import './styles/ui.css';
 @import './styles/pokedex.css';
+@import './styles/pokemon.css';
 
 *,
 *::before,

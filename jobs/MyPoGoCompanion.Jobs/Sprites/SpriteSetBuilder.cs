@@ -7,7 +7,7 @@ namespace MyPoGoCompanion.Jobs.Sprites;
 
 /// <summary>What one <see cref="SpriteSetBuilder.Build"/> made.</summary>
 /// <param name="Pictures">WebP files written.</param>
-/// <param name="LeftOut">Event costumes and female variants, not used by the app.</param>
+/// <param name="LeftOut">Female variants and shiny costume pictures, not used by the app.</param>
 /// <param name="Unreadable">Files that aren't a picture with something on it (named in <paramref name="Problems"/>).</param>
 public sealed record SpriteSetResult(int Pictures, int LeftOut, int Unreadable, IReadOnlyList<string> Problems);
 
@@ -15,7 +15,7 @@ public sealed record SpriteSetResult(int Pictures, int LeftOut, int Unreadable, 
 /// Turns PokeMiners' Pokémon pictures (<c>Images/Pokemon - 256x256/Addressable Assets</c>, <c>pm37.fALOLA.icon.png</c>)
 /// into the web app's (docs/SPRITES.md, decision 2026-11-07): the empty border cropped, the picture centred on a
 /// square, at most <see cref="MaxSide"/> pixels, saved as WebP (<c>pm37.fALOLA.webp</c>), so every Pokémon fills its
-/// box equally (design conventions). Event costumes (<c>.cFALL_2018</c>) and female variants (<c>.g2</c>) are left
+/// box equally (design conventions). Shiny costume pictures (<c>.cFALL_2018.s</c>) and female variants (<c>.g2</c>) are left
 /// out: the app has no rows for them. Also writes <c>set.json</c> naming the set (PokeMiners' commit).
 /// For the MVP the web deploys run it and ship the folder with the web app; after the MVP the daily import will run
 /// it and write to Blob storage instead.
@@ -76,7 +76,10 @@ public static class SpriteSetBuilder
         return new SpriteSetResult(written, files.Count - wanted.Count, problems.Count, [.. problems.Order(StringComparer.Ordinal)]);
     }
 
-    /// <summary>A Pokémon picture the app uses: not an event costume (<c>.c…</c>) nor a female variant (<c>.g2</c>).</summary>
+    /// <summary>
+    /// A Pokémon picture the app uses: not a female variant (<c>.g2</c>) nor a costume's shiny picture
+    /// (<c>.c….s</c>; shiny costumes aren't shown, decision 2026-11-08).
+    /// </summary>
     public static bool IsWanted(string fileName)
     {
         ArgumentNullException.ThrowIfNull(fileName);
@@ -86,7 +89,8 @@ public static class SpriteSetBuilder
         }
 
         var parts = fileName[..^Suffix.Length].Split('.');
-        return !parts.Skip(1).Any(part => part == "g2" || (part.Length > 1 && part[0] == 'c' && char.IsAsciiLetterUpper(part[1])));
+        var costume = parts.Skip(1).Any(part => part.Length > 1 && part[0] == 'c' && char.IsAsciiLetterUpper(part[1]));
+        return !parts.Skip(1).Any(part => part == "g2") && !(costume && parts[^1] == "s");
     }
 
     /// <summary>

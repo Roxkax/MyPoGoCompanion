@@ -34,6 +34,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MyPoGoCompanion.Data\MyPoGoCompanion.Data.csproj" />
+    <ProjectReference Include="..\MyPoGoCompanion.Engine\MyPoGoCompanion.Engine.csproj" />
     <ProjectReference Include="..\MyPoGoCompanion.Observability\MyPoGoCompanion.Observability.csproj" />
   </ItemGroup>
 

@@ -36,7 +36,10 @@ def main(source: Path):
     for cap in (1500, 2500, 10000):
         rows = json.loads((source / f"rankings-{cap}.json").read_text(encoding="utf-8"))
         rankings[cap] = [{"speciesId": r["speciesId"], "speciesName": r["speciesName"], "score": r["score"],
-                          "moveset": r["moveset"]} for r in rows if r["speciesId"] in ids]
+                          "moveset": r["moveset"],
+                          "moves": {kind: [u for u in r.get("moves", {}).get(kind, []) if u["moveId"] in used]
+                                    for kind in ("fastMoves", "chargedMoves")}}
+                         for r in rows if r["speciesId"] in ids]
         used |= {m for r in rankings[cap] for m in r["moveset"]}
     moves = [m for m in pvpoke["moves"] if m["moveId"] in used]
     write("pvpoke-gamemaster.json", {"pokemon": pokemon, "moves": moves})

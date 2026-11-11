@@ -27,6 +27,7 @@ builder.Services.AddApiHealthChecks(builder.Configuration);
 builder.Services.AddSignIn(builder.Configuration);
 builder.Services.AddFreshness(builder.Configuration);
 builder.Services.AddPokedex();
+builder.Services.AddPokemonPage();
 builder.Services.AddClientErrors();
 builder.Services.AddRunNow(builder.Configuration);
 
@@ -49,6 +50,7 @@ app.MapUserRoleEndpoints();
 app.MapRunNowEndpoints();
 app.MapFreshnessEndpoints();
 app.MapPokedexEndpoints();
+app.MapPokemonPageEndpoints();
 app.MapClientErrorEndpoints();
 
 if (app.Environment.IsDevelopment())

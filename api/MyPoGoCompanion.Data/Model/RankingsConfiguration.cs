@@ -92,3 +92,14 @@ internal sealed class KeeperFilterConfiguration : IEntityTypeConfiguration<Keepe
         builder.HasKey(filter => new { filter.Kind, filter.Variant, filter.Part });
     }
 }
+
+internal sealed class PvpMoveUsageConfiguration : IEntityTypeConfiguration<PvpMoveUsage>
+{
+    public void Configure(EntityTypeBuilder<PvpMoveUsage> builder)
+    {
+        builder.ToTable("pvp_move_usage", table => table.HasCheckConstraint("ck_pvp_move_usage_uses", "uses >= 0"));
+        builder.HasKey(usage => new { usage.League, usage.FormId, usage.IsShadow, usage.MoveId });
+        builder.HasOne(usage => usage.Form).WithMany().OnDelete(DeleteBehavior.Cascade);
+        builder.HasOne(usage => usage.Move).WithMany().OnDelete(DeleteBehavior.Cascade);
+    }
+}

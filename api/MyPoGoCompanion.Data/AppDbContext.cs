@@ -32,6 +32,8 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbCon
 
     public DbSet<CpMultiplier> CpMultipliers => Set<CpMultiplier>();
 
+    public DbSet<Costume> Costumes => Set<Costume>();
+
     // Rankings and calculated data: rebuilt by the daily import.
     public DbSet<PvpRanking> PvpRankings => Set<PvpRanking>();
 
@@ -42,6 +44,8 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbCon
     public DbSet<RaidRanking> RaidRankings => Set<RaidRanking>();
 
     public DbSet<RaidMoveset> RaidMovesets => Set<RaidMoveset>();
+
+    public DbSet<PvpMoveUsage> PvpMoveUsage => Set<PvpMoveUsage>();
 
     public DbSet<KeeperFilter> KeeperFilters => Set<KeeperFilter>();
 

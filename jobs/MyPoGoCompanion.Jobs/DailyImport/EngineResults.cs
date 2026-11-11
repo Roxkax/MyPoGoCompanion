@@ -29,9 +29,20 @@ public static class EngineResults
         var dexes = data.Species.Select(species => species.Dex).Where(dex => dex <= KeeperCalculator.MaxDex).ToHashSet();
 
         var keepers = new KeeperCalculator(inputs.Entries, inputs.Multipliers);
+        // Megas and Primals can be used in GO Battle League (decision 2026-11-08): they get best IVs too, but not
+        // keeper boxes (those stay as the Python build made them).
+        var megas = inputs.Entries
+            .Where(entry => entry.IsMega && !entry.IsShadow && formIds.Contains(entry.FormId))
+            .DistinctBy(entry => entry.FormId, StringComparer.Ordinal)
+            .ToList();
         foreach (var (league, cap) in _pvpLeagues)
         {
-            foreach (var one in keepers.RankOnes(cap).Where(one => formIds.Contains(one.FormId)))
+            var megaRankOnes = megas.Select(mega =>
+            {
+                var top = LeagueStats.Calculate(mega.Stats, cap, inputs.Multipliers).Top;
+                return new RankOne(mega.FormId, top.Ivs, top.Level, top.Cp, top.StatProduct);
+            });
+            foreach (var one in keepers.RankOnes(cap).Where(one => formIds.Contains(one.FormId)).Concat(megaRankOnes))
             {
                 data.PvpBestIvs.Add(new PvpBestIvs
                 {

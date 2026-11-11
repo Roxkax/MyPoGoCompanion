@@ -35,6 +35,10 @@ public sealed class DevSeedData
 
     public List<KeeperFilter> KeeperFilters { get; set; } = [];
 
+    public List<Costume> Costumes { get; set; } = [];
+
+    public List<PvpMoveUsage> PvpMoveUsage { get; set; } = [];
+
     public List<GameEvent> Events { get; set; } = [];
 
     public List<RaidBoss> RaidBosses { get; set; } = [];
@@ -62,7 +66,7 @@ public sealed class DevSeedData
         new IEnumerable<object>[]
         {
             Types, Families, Species, Forms, Moves, FormMoves, Evolutions, CpMultipliers,
-            PvpRankings, PvpBestIvs, PvpKeeperBoxes, RaidRankings, KeeperFilters,
+            Costumes, PvpRankings, PvpBestIvs, PvpKeeperBoxes, RaidRankings, KeeperFilters, PvpMoveUsage,
             Events, RaidBosses, MaxBosses, EggPoolEntries, ResearchTasks,
             Users, CollectionImports, CollectionPokemon, SavedFilters, JobRuns, AiUsage,
         }.SelectMany(table => table);

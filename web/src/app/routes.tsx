@@ -12,6 +12,7 @@ import { ComingSoon } from '../screens/ComingSoon'
 import { DesignScreen } from '../screens/DesignScreen'
 import { NotFoundScreen } from '../screens/NotFoundScreen'
 import { PokedexScreen } from '../screens/pokedex/PokedexScreen'
+import { PokemonScreen } from '../screens/pokemon/PokemonScreen'
 import { RouteError } from '../screens/RouteError'
 import { SettingsScreen } from '../screens/SettingsScreen'
 import { SignInRoute } from '../screens/SignInRoute'
@@ -60,7 +61,6 @@ const both: readonly DataKind[] = ['live', 'game']
 
 const today: BackTarget = { to: '/', label: 'today' }
 const calendar: BackTarget = { to: '/calendar', label: 'calendar' }
-const pokedexBack: BackTarget = { to: '/pokedex', label: 'pokedex' }
 const moves: BackTarget = { to: '/pokedex/moves', label: 'moves' }
 const raids: BackTarget = { to: '/battle/raids', label: 'raids' }
 const collection: BackTarget = { to: '/collection', label: 'collection' }
@@ -111,11 +111,7 @@ export function appRoutes(environment: AppEnvironment): RouteObject[] {
       ),
       { title: 'typeChart', data: game },
     ),
-    screen(
-      'pokedex/:pokemon',
-      detail(pokedexBack, undefined, soon('pokemon', 'B2', 'E03-F02 Pokémon page')),
-      { title: 'pokemon', data: game },
-    ),
+    screen('pokedex/:pokemon', <PokemonScreen />, { title: 'pokemon', data: both }),
 
     // C. Battle
     { path: 'battle', element: <Navigate to="/battle/raids" replace /> },

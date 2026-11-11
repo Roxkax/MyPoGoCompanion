@@ -111,6 +111,18 @@ public sealed partial class DailyImportJob(
                 .ToDictionaryAsync(form => form.Id, form => new StoredSprites(form.Sprite, form.SpriteShiny, form.SpriteGigantamax),
                     StringComparer.Ordinal, cancellationToken);
             await SpriteResolver.ResolveAsync(data, storedSprites, downloader.CheckSpriteAsync, _options.SpriteCheckParallelism, cancellationToken);
+            var pictures = await downloader.ListSpriteFolderAsync(cancellationToken);
+            if (pictures.FileNames is { } fileNames)
+            {
+                Costumes.Add(data, fileNames);
+            }
+            else
+            {
+                var species = data.Species.Select(s => s.Dex).ToHashSet();
+                data.Costumes.AddRange((await db.Costumes.AsNoTracking().ToListAsync(cancellationToken)).Where(c => species.Contains(c.Dex)));
+                data.Warnings.Add($"Costumes not updated, the ones stored are kept: {pictures.Problem}.");
+            }
+
             summary.Warnings = data.Warnings;
             foreach (var warning in data.Warnings)
             {

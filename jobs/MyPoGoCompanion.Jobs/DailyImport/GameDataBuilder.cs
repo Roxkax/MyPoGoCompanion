@@ -35,6 +35,15 @@ public sealed class ImportedGameData
 
     public List<RaidMoveset> RaidMovesets { get; } = [];
 
+    /// <summary>How often PvPoke's simulations use each move, per ranked form and league (decision 2026-11-08).</summary>
+    public List<PvpMoveUsage> PvpMoveUsage { get; } = [];
+
+    /// <summary>
+    /// Event costumes from PokeMiners' costume pictures (decision 2026-11-08); filled by <see cref="Costumes"/> after
+    /// the picture list is read, or kept from the database when it can't be.
+    /// </summary>
+    public List<Costume> Costumes { get; } = [];
+
     /// <summary>
     /// The ready-made keeper strings, checked by the game-search simulator before they are published. None yet: they
     /// come with the keeper filters (E04-F01), which also saves them.
@@ -503,6 +512,21 @@ public static partial class GameDataBuilder
                         ChargedMove1Id = moveset[1],
                         ChargedMove2Id = moveset.Count > 2 ? moveset[2] : null,
                     });
+
+                    var uses = (row.Moves?.FastMoves ?? []).Concat(row.Moves?.ChargedMoves ?? [])
+                        .Where(use => moveIds.Contains(use.MoveId) && use.Uses >= 0)
+                        .GroupBy(use => use.MoveId, StringComparer.Ordinal);
+                    foreach (var use in uses)
+                    {
+                        data.PvpMoveUsage.Add(new PvpMoveUsage
+                        {
+                            League = league,
+                            FormId = formId,
+                            IsShadow = shadow,
+                            MoveId = use.Key,
+                            Uses = use.Max(u => u.Uses),
+                        });
+                    }
                 }
             }
 

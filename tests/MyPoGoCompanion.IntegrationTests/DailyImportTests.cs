@@ -106,7 +106,9 @@ public sealed class DailyImportTests(PostgresFixture postgres)
         Assert.Equal((0, 15, 13, 19.5m, 1500), (great.AttackIv, great.DefenseIv, great.StaminaIv, great.Level, great.Cp));
         var master = await db.PvpBestIvs.SingleAsync(best => best.League == League.Master && best.FormId == "charizard", Ct);
         Assert.Equal((15, 15, 15, 50m, 3266), (master.AttackIv, master.DefenseIv, master.StaminaIv, master.Level, master.Cp));
-        Assert.False(await db.PvpBestIvs.AnyAsync(best => best.FormId == "charizard_mega_y", Ct));
+        // Megas have best IVs too (decision 2026-11-08: they can be used in GO Battle League).
+        Assert.Equal(3, await db.PvpBestIvs.CountAsync(best => best.FormId == "charizard_mega_y", Ct));
+        Assert.True(await db.PvpMoveUsage.AnyAsync(Ct));
 
         var charmander = await db.PvpKeeperBoxes.SingleAsync(box => box.League == League.Ultra && box.Dex == 4, Ct);
         Assert.Equal((0, 1, 3, 4, 2, 4), (charmander.AttackBarMin, charmander.AttackBarMax, charmander.DefenseBarMin,

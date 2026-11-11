@@ -81,6 +81,43 @@ public sealed class DailyImportJobTests : IDisposable
         Assert.Equal(Fixtures.Built.PvpRankings.Count, await db.PvpRankings.CountAsync(Ct));
     }
 
+    private void PictureFolder(params string[] files)
+    {
+        const string api = "https://api.github.com/repos/PokeMiners/pogo_assets/git/trees/";
+        static HttpResponseMessage Tree(string json) => new(System.Net.HttpStatusCode.OK) { Content = new StringContent(json) };
+        var list = string.Join(',', files.Select(file => $$"""{"path":"{{file}}","type":"blob","sha":"x"}"""));
+        _http.Responses[api + "master"] = () => Tree("""{"tree":[{"path":"Images","type":"tree","sha":"a"}]}""");
+        _http.Responses[api + "a"] = () => Tree("""{"tree":[{"path":"Pokemon - 256x256","type":"tree","sha":"b"}]}""");
+        _http.Responses[api + "b"] = () => Tree("""{"tree":[{"path":"Addressable Assets","type":"tree","sha":"c"}]}""");
+        _http.Responses[api + "c"] = () => Tree($$"""{"tree":[{{list}}],"truncated":false}""");
+    }
+
+    [Fact]
+    public async Task Costumes_ComeFromThePictureList_AndAreKeptWhenItCantBeRead()
+    {
+        PictureFolder("pm25.icon.png", "pm6.cHOLIDAY_2022.icon.png", "pm6.cHOLIDAY_2022.s.icon.png", "pm4.cFALL_2018.icon.png");
+        Assert.Equal(DailyImportOutcome.Succeeded, await RunAsync());
+        await using (var db = Db())
+        {
+            Assert.Equal(["pm4.cFALL_2018", "pm6.cHOLIDAY_2022"], await db.Costumes.OrderBy(c => c.Sprite).Select(c => c.Sprite).ToListAsync(Ct));
+        }
+
+        // GitHub refuses the list: the stored costumes stay and the run log says why.
+        _http.Responses["https://api.github.com/repos/PokeMiners/pogo_assets/git/trees/master"] = () => new HttpResponseMessage(System.Net.HttpStatusCode.Forbidden);
+        Assert.Equal(DailyImportOutcome.Succeeded, await RunAsync(version: "def5678"));
+        await using (var db = Db())
+        {
+            Assert.Equal(2, await db.Costumes.CountAsync(Ct));
+        }
+
+        Assert.Contains(Summary((await RunsAsync())[1]).Warnings, w => w == "Costumes not updated, the ones stored are kept: GitHub answered 403 Forbidden.");
+
+        // A costume gone from the list holds the import, like any other missing row.
+        PictureFolder("pm6.cHOLIDAY_2022.icon.png");
+        Assert.Equal(DailyImportOutcome.Held, await RunAsync(version: "ghi9012"));
+        Assert.Equal("#4 Fall 2018", Assert.Single(Summary((await RunsAsync())[2]).Removals["costumes"].Items));
+    }
+
     private static string Sprite(string name) => _options.SpriteBaseUrl.AbsoluteUri + name + ".icon.png";
 
     [Fact]

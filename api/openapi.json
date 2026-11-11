@@ -298,6 +298,57 @@
         }
       }
     },
+    "/pokedex/{dex}": {
+      "get": {
+        "tags": [
+          "Pokédex"
+        ],
+        "summary": "One species with all its versions: everything the Pokémon page shows.",
+        "description": "Public and cacheable. Send the ETag back in If-None-Match to get 304 Not Modified until new game data or live data is published.",
+        "operationId": "GetPokemon",
+        "parameters": [
+          {
+            "name": "dex",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PokemonPageResponse"
+                }
+              }
+            }
+          },
+          "304": {
+            "description": "Not Modified"
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc9110#section-15.5.5",
+                  "title": "Not Found",
+                  "status": 404
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/client-errors": {
       "post": {
         "tags": [
@@ -876,6 +927,17 @@
         },
         "description": "A user as the super admin sees them in Users and roles."
       },
+      "AppearanceKind": {
+        "enum": [
+          "Raid",
+          "MaxBattle",
+          "Egg",
+          "Research",
+          "Event"
+        ],
+        "type": "string",
+        "description": "Where an appearance is."
+      },
       "ClientErrorKind": {
         "enum": [
           "Screen",
@@ -1006,6 +1068,124 @@
         ],
         "type": "string",
         "description": "What a user may do: the stored role, or super admin when their email is the configured one."
+      },
+      "EggKind": {
+        "enum": [
+          "TwoKm",
+          "FiveKm",
+          "SevenKm",
+          "TenKm",
+          "TwelveKm",
+          "AdventureSyncFiveKm",
+          "AdventureSyncTenKm",
+          "Route"
+        ],
+        "type": "string"
+      },
+      "EventKind": {
+        "enum": [
+          "CommunityDay",
+          "SpotlightHour",
+          "RaidHour",
+          "RaidDay",
+          "MaxBattle",
+          "Season",
+          "Special"
+        ],
+        "type": "string"
+      },
+      "FamilyMember": {
+        "examples": [
+          {
+            "dex": 443,
+            "formId": "gible",
+            "kind": "Base",
+            "isDefault": true,
+            "nameEn": "Gible",
+            "namePt": "Gible",
+            "speciesNameEn": "Gible",
+            "types": [
+              "dragon",
+              "ground"
+            ],
+            "attack": 124,
+            "defense": 84,
+            "stamina": 151,
+            "released": true,
+            "sprite": "pm443"
+          }
+        ],
+        "required": [
+          "dex",
+          "formId",
+          "kind",
+          "isDefault",
+          "nameEn",
+          "namePt",
+          "speciesNameEn",
+          "types",
+          "attack",
+          "defense",
+          "stamina",
+          "released",
+          "sprite"
+        ],
+        "type": "object",
+        "properties": {
+          "dex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "formId": {
+            "type": "string"
+          },
+          "kind": {
+            "$ref": "#/components/schemas/FormKind"
+          },
+          "isDefault": {
+            "type": "boolean"
+          },
+          "nameEn": {
+            "type": "string"
+          },
+          "namePt": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "speciesNameEn": {
+            "type": "string"
+          },
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "attack": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "defense": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "stamina": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "released": {
+            "type": "boolean"
+          },
+          "sprite": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "description": "A version of a species in the family, for the evolution chain and the IV checker."
       },
       "FormKind": {
         "enum": [
@@ -1181,6 +1361,38 @@
         },
         "description": "The interface language to save with the account."
       },
+      "League": {
+        "enum": [
+          "Great",
+          "Ultra",
+          "Master"
+        ],
+        "type": "string"
+      },
+      "LevelCpRow": {
+        "examples": [
+          {
+            "level": 40,
+            "cp": 3962
+          }
+        ],
+        "required": [
+          "level",
+          "cp"
+        ],
+        "type": "object",
+        "properties": {
+          "level": {
+            "type": "number",
+            "format": "double"
+          },
+          "cp": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "description": "A CP at a level."
+      },
       "MeResponse": {
         "examples": [
           {
@@ -1239,12 +1451,1088 @@
         },
         "description": "The signed-in user as the web app sees them."
       },
+      "MoveAvailability": {
+        "enum": [
+          "Normal",
+          "EliteTm",
+          "Legacy"
+        ],
+        "type": "string"
+      },
       "MoveKind": {
         "enum": [
           "Fast",
           "Charged"
         ],
         "type": "string"
+      },
+      "MoveUses": {
+        "examples": [
+          {
+            "moveId": "DRAGON_TAIL",
+            "uses": 71250
+          }
+        ],
+        "required": [
+          "moveId",
+          "uses"
+        ],
+        "type": "object",
+        "properties": {
+          "moveId": {
+            "type": "string"
+          },
+          "uses": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "description": "A move's number of uses in PvPoke's simulations."
+      },
+      "PageAppearance": {
+        "examples": [
+          {
+            "kind": "Event",
+            "formId": "garchomp",
+            "isShadow": false,
+            "raidTier": null,
+            "maxStars": null,
+            "gigantamax": false,
+            "egg": null,
+            "taskEn": null,
+            "taskPt": null,
+            "eventNameEn": "Community Day: Gible",
+            "eventNamePt": "Dia Comunitário: Gible",
+            "eventKind": "CommunityDay",
+            "startsAt": "2026-11-07T14:00:00",
+            "endsAt": "2026-11-07T17:00:00",
+            "shiny": true
+          }
+        ],
+        "required": [
+          "kind",
+          "formId",
+          "isShadow",
+          "raidTier",
+          "maxStars",
+          "gigantamax",
+          "egg",
+          "taskEn",
+          "taskPt",
+          "eventNameEn",
+          "eventNamePt",
+          "eventKind",
+          "startsAt",
+          "endsAt",
+          "shiny"
+        ],
+        "type": "object",
+        "properties": {
+          "kind": {
+            "description": "Raid, MaxBattle, Egg, Research or Event.",
+            "$ref": "#/components/schemas/AppearanceKind"
+          },
+          "formId": {
+            "type": "string",
+            "description": "The version that appears."
+          },
+          "isShadow": {
+            "type": "boolean",
+            "description": "A Shadow raid."
+          },
+          "raidTier": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "description": "The raid's tier (raids only).",
+                "$ref": "#/components/schemas/RaidTier"
+              }
+            ]
+          },
+          "maxStars": {
+            "type": [
+              "null",
+              "integer"
+            ],
+            "description": "The Max Battle's stars (Max Battles only).",
+            "format": "int32"
+          },
+          "gigantamax": {
+            "type": "boolean",
+            "description": "A Gigantamax Max Battle."
+          },
+          "egg": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "description": "The egg (eggs only).",
+                "$ref": "#/components/schemas/EggKind"
+              }
+            ]
+          },
+          "taskEn": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The research task (research only)."
+          },
+          "taskPt": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The research task in Portuguese; null when missing."
+          },
+          "eventNameEn": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The event it belongs to (or the event itself); null when none."
+          },
+          "eventNamePt": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The event's Portuguese name; null when missing."
+          },
+          "eventKind": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "description": "The event's kind; null when no event.",
+                "$ref": "#/components/schemas/EventKind"
+              }
+            ]
+          },
+          "startsAt": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "When it starts (local time); null when not known.",
+            "format": "date-time"
+          },
+          "endsAt": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "When it ends (local time); null when open-ended.",
+            "format": "date-time"
+          },
+          "shiny": {
+            "type": "boolean",
+            "description": "Its shiny can be found there."
+          }
+        },
+        "description": "One appearance of a version in the live data. Times are the game's local wall-clock times (null when the source\ngave none); the app compares them with its own clock."
+      },
+      "PageBestIvs": {
+        "examples": [
+          {
+            "league": "Great",
+            "attack": 0,
+            "defense": 15,
+            "stamina": 14,
+            "level": 14,
+            "cp": 1495
+          }
+        ],
+        "required": [
+          "league",
+          "attack",
+          "defense",
+          "stamina",
+          "level",
+          "cp"
+        ],
+        "type": "object",
+        "properties": {
+          "league": {
+            "$ref": "#/components/schemas/League"
+          },
+          "attack": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "defense": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "stamina": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "level": {
+            "type": "number",
+            "format": "double"
+          },
+          "cp": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "description": "The rank-1 IVs in a league."
+      },
+      "PageCostume": {
+        "examples": [
+          {
+            "sprite": "pm445.cHOLIDAY_2025",
+            "nameEn": "Holiday 2025",
+            "formCode": null
+          }
+        ],
+        "required": [
+          "sprite",
+          "nameEn",
+          "formCode"
+        ],
+        "type": "object",
+        "properties": {
+          "sprite": {
+            "type": "string"
+          },
+          "nameEn": {
+            "type": "string"
+          },
+          "formCode": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "description": "An event costume: its picture's name and a readable name (\"Holiday 2022\")."
+      },
+      "PageEvolution": {
+        "examples": [
+          {
+            "fromFormId": "gible",
+            "toFormId": "gabite",
+            "candy": 25,
+            "candyAfterTrade": null,
+            "itemId": null,
+            "buddyDistanceKm": null,
+            "timeOfDay": null,
+            "lureId": null,
+            "gender": null,
+            "taskEn": null,
+            "taskPt": null
+          }
+        ],
+        "required": [
+          "fromFormId",
+          "toFormId",
+          "candy",
+          "candyAfterTrade",
+          "itemId",
+          "buddyDistanceKm",
+          "timeOfDay",
+          "lureId",
+          "gender",
+          "taskEn",
+          "taskPt"
+        ],
+        "type": "object",
+        "properties": {
+          "fromFormId": {
+            "type": "string",
+            "description": "The form that evolves."
+          },
+          "toFormId": {
+            "type": "string",
+            "description": "What it becomes."
+          },
+          "candy": {
+            "type": "integer",
+            "description": "Candy needed.",
+            "format": "int32"
+          },
+          "candyAfterTrade": {
+            "type": [
+              "null",
+              "integer"
+            ],
+            "description": "Candy needed when traded first (free evolutions are 0); null when no discount.",
+            "format": "int32"
+          },
+          "itemId": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "An item needed (`ITEM_SUN_STONE`); null when none."
+          },
+          "buddyDistanceKm": {
+            "type": [
+              "null",
+              "integer"
+            ],
+            "description": "Kilometres walked as a buddy; null when not needed.",
+            "format": "int32"
+          },
+          "timeOfDay": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "`day` or `night`; null when any time."
+          },
+          "lureId": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "A lure module needed; null when none."
+          },
+          "gender": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "`male` or `female`; null when either."
+          },
+          "taskEn": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "A special task in English; null when none."
+          },
+          "taskPt": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The task in Portuguese; null when missing."
+          }
+        },
+        "description": "An evolution step and what it needs."
+      },
+      "PageForm": {
+        "examples": [
+          {
+            "id": "garchomp",
+            "kind": "Base",
+            "isDefault": true,
+            "nameEn": "Garchomp",
+            "namePt": "Garchomp",
+            "labelEn": null,
+            "labelPt": null,
+            "types": [
+              "dragon",
+              "ground"
+            ],
+            "attack": 261,
+            "defense": 193,
+            "stamina": 239,
+            "maxCp": [
+              {
+                "level": 40,
+                "cp": 3962
+              },
+              {
+                "level": 50,
+                "cp": 4479
+              },
+              {
+                "level": 51,
+                "cp": 4532
+              }
+            ],
+            "perfectCp": [
+              {
+                "level": 15,
+                "cp": 1698
+              },
+              {
+                "level": 20,
+                "cp": 2264
+              },
+              {
+                "level": 25,
+                "cp": 2830
+              },
+              {
+                "level": 30,
+                "cp": 3396
+              },
+              {
+                "level": 35,
+                "cp": 3679
+              }
+            ],
+            "released": true,
+            "shadow": true,
+            "shiny": true,
+            "dynamax": false,
+            "gigantamax": false,
+            "sprite": "pm445",
+            "spriteShiny": "pm445.s",
+            "spriteGigantamax": null,
+            "looksOnly": false,
+            "buddyDistanceKm": 5,
+            "secondMoveStardust": 75000,
+            "movepool": [
+              {
+                "moveId": "DRAGON_TAIL",
+                "availability": "Normal"
+              },
+              {
+                "moveId": "EARTH_POWER",
+                "availability": "EliteTm"
+              }
+            ],
+            "matchups": [
+              {
+                "type": "ice",
+                "multiplier": 2.56
+              },
+              {
+                "type": "electric",
+                "multiplier": 0.244
+              }
+            ],
+            "pvp": [
+              {
+                "league": "Master",
+                "isShadow": false,
+                "rank": 31,
+                "score": 88.4,
+                "fastMoveId": "DRAGON_TAIL",
+                "chargedMove1Id": "EARTH_POWER",
+                "chargedMove2Id": "OUTRAGE",
+                "usage": [
+                  {
+                    "moveId": "DRAGON_TAIL",
+                    "uses": 71250
+                  },
+                  {
+                    "moveId": "EARTH_POWER",
+                    "uses": 48211
+                  }
+                ]
+              }
+            ],
+            "bestIvs": [
+              {
+                "league": "Great",
+                "attack": 0,
+                "defense": 15,
+                "stamina": 14,
+                "level": 14,
+                "cp": 1495
+              }
+            ],
+            "raidRanks": [
+              {
+                "type": "ground",
+                "isShadow": false,
+                "rank": 12,
+                "fastMoveId": "MUD_SHOT",
+                "chargedMoveId": "EARTH_POWER"
+              }
+            ],
+            "raidMovesets": [
+              {
+                "isShadow": false,
+                "fastMoveId": "MUD_SHOT",
+                "chargedMoveId": "EARTH_POWER",
+                "rank": 1,
+                "dps": 17.82,
+                "tdo": 612.5,
+                "score": 41.3
+              }
+            ]
+          }
+        ],
+        "required": [
+          "id",
+          "kind",
+          "isDefault",
+          "nameEn",
+          "namePt",
+          "labelEn",
+          "labelPt",
+          "types",
+          "attack",
+          "defense",
+          "stamina",
+          "maxCp",
+          "perfectCp",
+          "released",
+          "shadow",
+          "shiny",
+          "dynamax",
+          "gigantamax",
+          "sprite",
+          "spriteShiny",
+          "spriteGigantamax",
+          "looksOnly",
+          "buddyDistanceKm",
+          "secondMoveStardust",
+          "movepool",
+          "matchups",
+          "pvp",
+          "bestIvs",
+          "raidRanks",
+          "raidMovesets"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "PvPoke's id (`garchomp_mega`); the page's `?version=`."
+          },
+          "kind": {
+            "description": "Base, Regional, Mega, Primal, Alternate or Costume.",
+            "$ref": "#/components/schemas/FormKind"
+          },
+          "isDefault": {
+            "type": "boolean",
+            "description": "The form the page shows first (exactly one per species)."
+          },
+          "nameEn": {
+            "type": "string",
+            "description": "The name to show (\"Mega Garchomp\")."
+          },
+          "namePt": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The game's Portuguese name; null when missing."
+          },
+          "labelEn": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Its short label on the version switcher (\"Mega\"); null for the main form."
+          },
+          "labelPt": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The label in Portuguese; null when missing."
+          },
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "One or two type ids."
+          },
+          "attack": {
+            "type": "integer",
+            "description": "Base Attack.",
+            "format": "int32"
+          },
+          "defense": {
+            "type": "integer",
+            "description": "Base Defense.",
+            "format": "int32"
+          },
+          "stamina": {
+            "type": "integer",
+            "description": "Base Stamina.",
+            "format": "int32"
+          },
+          "maxCp": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LevelCpRow"
+            },
+            "description": "Max CP with 15/15/15 at levels 40, 50 and 51."
+          },
+          "perfectCp": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LevelCpRow"
+            },
+            "description": "The 100% CP cheat sheet: 15/15/15 at levels 15, 20, 25, 30 and 35."
+          },
+          "released": {
+            "type": "boolean",
+            "description": "Available in Pokémon GO."
+          },
+          "shadow": {
+            "type": "boolean",
+            "description": "Its Shadow (and so Purified) version is released."
+          },
+          "shiny": {
+            "type": [
+              "null",
+              "boolean"
+            ],
+            "description": "Its shiny is released; null while unknown (the AI researcher fills it)."
+          },
+          "dynamax": {
+            "type": "boolean",
+            "description": "It can Dynamax."
+          },
+          "gigantamax": {
+            "type": "boolean",
+            "description": "It can Gigantamax."
+          },
+          "sprite": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Its picture's name; null when none."
+          },
+          "spriteShiny": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Its shiny picture's name; null when none."
+          },
+          "spriteGigantamax": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Its Gigantamax picture's name; null when none."
+          },
+          "looksOnly": {
+            "type": "boolean",
+            "description": "Same stats and types as the main form, only a different look."
+          },
+          "buddyDistanceKm": {
+            "type": "integer",
+            "description": "Walking distance per candy as a buddy.",
+            "format": "int32"
+          },
+          "secondMoveStardust": {
+            "type": "integer",
+            "description": "Stardust to unlock a second charged move.",
+            "format": "int32"
+          },
+          "movepool": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PageFormMove"
+            },
+            "description": "Every move it can have and how (Normal, EliteTm, Legacy)."
+          },
+          "matchups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TypeMultiplier"
+            },
+            "description": "The damage multiplier of each attacking type against it (GO's chart, no immunities)."
+          },
+          "pvp": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PagePvpRanking"
+            },
+            "description": "PvPoke's ranking per league (and its Shadow), with the recommended moveset and move usage."
+          },
+          "bestIvs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PageBestIvs"
+            },
+            "description": "The rank-1 IVs per league (a tie goes to the higher CP)."
+          },
+          "raidRanks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PageRaidRank"
+            },
+            "description": "Its rank in each attacking type's raid list (and its Shadow's)."
+          },
+          "raidMovesets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PageRaidMoveset"
+            },
+            "description": "Every fast + charged combination ranked for raids (and for its Shadow)."
+          }
+        },
+        "description": "A version of the species with everything the page shows about it."
+      },
+      "PageFormMove": {
+        "examples": [
+          {
+            "moveId": "DRAGON_TAIL",
+            "availability": "Normal"
+          }
+        ],
+        "required": [
+          "moveId",
+          "availability"
+        ],
+        "type": "object",
+        "properties": {
+          "moveId": {
+            "type": "string"
+          },
+          "availability": {
+            "$ref": "#/components/schemas/MoveAvailability"
+          }
+        },
+        "description": "A move in a form's movepool."
+      },
+      "PageKeeperBox": {
+        "examples": [
+          {
+            "league": "Great",
+            "attackMin": 0,
+            "attackMax": 1,
+            "defenseMin": 3,
+            "defenseMax": 4,
+            "staminaMin": 2,
+            "staminaMax": 4
+          }
+        ],
+        "required": [
+          "league",
+          "attackMin",
+          "attackMax",
+          "defenseMin",
+          "defenseMax",
+          "staminaMin",
+          "staminaMax"
+        ],
+        "type": "object",
+        "properties": {
+          "league": {
+            "$ref": "#/components/schemas/League"
+          },
+          "attackMin": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "attackMax": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "defenseMin": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "defenseMax": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "staminaMin": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "staminaMax": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "description": "The bars (0–4 each) the keeper filters keep in a league."
+      },
+      "PageMove": {
+        "examples": [
+          {
+            "id": "DRAGON_TAIL",
+            "nameEn": "Dragon Tail",
+            "namePt": "Cauda do Dragão",
+            "type": "dragon",
+            "kind": "Fast",
+            "raidPower": 14,
+            "raidDurationMs": 1000,
+            "raidEnergy": 8,
+            "pvpPower": 9,
+            "pvpEnergy": 12,
+            "pvpTurns": 3,
+            "pvpBuffChance": null,
+            "pvpSelfAttack": 0,
+            "pvpSelfDefense": 0,
+            "pvpOpponentAttack": 0,
+            "pvpOpponentDefense": 0
+          }
+        ],
+        "required": [
+          "id",
+          "nameEn",
+          "namePt",
+          "type",
+          "kind",
+          "raidPower",
+          "raidDurationMs",
+          "raidEnergy",
+          "pvpPower",
+          "pvpEnergy",
+          "pvpTurns",
+          "pvpBuffChance",
+          "pvpSelfAttack",
+          "pvpSelfDefense",
+          "pvpOpponentAttack",
+          "pvpOpponentDefense"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The game's id."
+          },
+          "nameEn": {
+            "type": "string",
+            "description": "English name."
+          },
+          "namePt": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The game's Portuguese name; null when missing."
+          },
+          "type": {
+            "type": "string",
+            "description": "Its type id."
+          },
+          "kind": {
+            "description": "Fast or Charged.",
+            "$ref": "#/components/schemas/MoveKind"
+          },
+          "raidPower": {
+            "type": "number",
+            "description": "Raid power.",
+            "format": "double"
+          },
+          "raidDurationMs": {
+            "type": "integer",
+            "description": "Raid duration in milliseconds; 0 when it has no raid version.",
+            "format": "int32"
+          },
+          "raidEnergy": {
+            "type": "integer",
+            "description": "Raid energy gained (fast) or spent (charged, negative).",
+            "format": "int32"
+          },
+          "pvpPower": {
+            "type": "number",
+            "description": "PvP power.",
+            "format": "double"
+          },
+          "pvpEnergy": {
+            "type": "integer",
+            "description": "PvP energy gained (fast) or spent (charged, negative).",
+            "format": "int32"
+          },
+          "pvpTurns": {
+            "type": [
+              "null",
+              "integer"
+            ],
+            "description": "PvP turns of a fast move; null for charged moves.",
+            "format": "int32"
+          },
+          "pvpBuffChance": {
+            "type": [
+              "null",
+              "number"
+            ],
+            "description": "Chance (0–1) of its stat changes; null when none.",
+            "format": "double"
+          },
+          "pvpSelfAttack": {
+            "type": "integer",
+            "description": "Stages added to the user's Attack.",
+            "format": "int32"
+          },
+          "pvpSelfDefense": {
+            "type": "integer",
+            "description": "Stages added to the user's Defense.",
+            "format": "int32"
+          },
+          "pvpOpponentAttack": {
+            "type": "integer",
+            "description": "Stages added to the opponent's Attack.",
+            "format": "int32"
+          },
+          "pvpOpponentDefense": {
+            "type": "integer",
+            "description": "Stages added to the opponent's Defense.",
+            "format": "int32"
+          }
+        },
+        "description": "A move with its raid and PvP numbers."
+      },
+      "PagePvpRanking": {
+        "examples": [
+          {
+            "league": "Master",
+            "isShadow": false,
+            "rank": 31,
+            "score": 88.4,
+            "fastMoveId": "DRAGON_TAIL",
+            "chargedMove1Id": "EARTH_POWER",
+            "chargedMove2Id": "OUTRAGE",
+            "usage": [
+              {
+                "moveId": "DRAGON_TAIL",
+                "uses": 71250
+              },
+              {
+                "moveId": "EARTH_POWER",
+                "uses": 48211
+              }
+            ]
+          }
+        ],
+        "required": [
+          "league",
+          "isShadow",
+          "rank",
+          "score",
+          "fastMoveId",
+          "chargedMove1Id",
+          "chargedMove2Id",
+          "usage"
+        ],
+        "type": "object",
+        "properties": {
+          "league": {
+            "description": "Great, Ultra or Master.",
+            "$ref": "#/components/schemas/League"
+          },
+          "isShadow": {
+            "type": "boolean",
+            "description": "The Shadow version's ranking."
+          },
+          "rank": {
+            "type": "integer",
+            "description": "Its place in PvPoke's overall ranking.",
+            "format": "int32"
+          },
+          "score": {
+            "type": "number",
+            "description": "PvPoke's score (0–100).",
+            "format": "double"
+          },
+          "fastMoveId": {
+            "type": "string",
+            "description": "The recommended fast move."
+          },
+          "chargedMove1Id": {
+            "type": "string",
+            "description": "The recommended first charged move."
+          },
+          "chargedMove2Id": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The recommended second charged move; null when it has only one."
+          },
+          "usage": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MoveUses"
+            },
+            "description": "How often PvPoke's simulations use each of its moves (fast and charged together; the app splits them)."
+          }
+        },
+        "description": "PvPoke's ranking of the form (or its Shadow) in a league."
+      },
+      "PageRaidMoveset": {
+        "examples": [
+          {
+            "isShadow": false,
+            "fastMoveId": "MUD_SHOT",
+            "chargedMoveId": "EARTH_POWER",
+            "rank": 1,
+            "dps": 17.82,
+            "tdo": 612.5,
+            "score": 41.3
+          }
+        ],
+        "required": [
+          "isShadow",
+          "fastMoveId",
+          "chargedMoveId",
+          "rank",
+          "dps",
+          "tdo",
+          "score"
+        ],
+        "type": "object",
+        "properties": {
+          "isShadow": {
+            "type": "boolean"
+          },
+          "fastMoveId": {
+            "type": "string"
+          },
+          "chargedMoveId": {
+            "type": "string"
+          },
+          "rank": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dps": {
+            "type": "number",
+            "format": "double"
+          },
+          "tdo": {
+            "type": "number",
+            "format": "double"
+          },
+          "score": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "description": "A fast + charged combination ranked for raids."
+      },
+      "PageRaidRank": {
+        "examples": [
+          {
+            "type": "ground",
+            "isShadow": false,
+            "rank": 12,
+            "fastMoveId": "MUD_SHOT",
+            "chargedMoveId": "EARTH_POWER"
+          }
+        ],
+        "required": [
+          "type",
+          "isShadow",
+          "rank",
+          "fastMoveId",
+          "chargedMoveId"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "isShadow": {
+            "type": "boolean"
+          },
+          "rank": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fastMoveId": {
+            "type": "string"
+          },
+          "chargedMoveId": {
+            "type": "string"
+          }
+        },
+        "description": "The form's place in an attacking type's raid list, with the moveset it is ranked with."
       },
       "PokedexForm": {
         "examples": [
@@ -1757,6 +3045,357 @@
         },
         "description": "One Pokédex entry: one line of the list."
       },
+      "PokemonPageResponse": {
+        "examples": [
+          {
+            "dex": 445,
+            "nameEn": "Garchomp",
+            "namePt": "Garchomp",
+            "generation": 4,
+            "category": "None",
+            "familyId": "FAMILY_GIBLE",
+            "forms": [
+              {
+                "id": "garchomp",
+                "kind": "Base",
+                "isDefault": true,
+                "nameEn": "Garchomp",
+                "namePt": "Garchomp",
+                "labelEn": null,
+                "labelPt": null,
+                "types": [
+                  "dragon",
+                  "ground"
+                ],
+                "attack": 261,
+                "defense": 193,
+                "stamina": 239,
+                "maxCp": [
+                  {
+                    "level": 40,
+                    "cp": 3962
+                  },
+                  {
+                    "level": 50,
+                    "cp": 4479
+                  },
+                  {
+                    "level": 51,
+                    "cp": 4532
+                  }
+                ],
+                "perfectCp": [
+                  {
+                    "level": 15,
+                    "cp": 1698
+                  },
+                  {
+                    "level": 20,
+                    "cp": 2264
+                  },
+                  {
+                    "level": 25,
+                    "cp": 2830
+                  },
+                  {
+                    "level": 30,
+                    "cp": 3396
+                  },
+                  {
+                    "level": 35,
+                    "cp": 3679
+                  }
+                ],
+                "released": true,
+                "shadow": true,
+                "shiny": true,
+                "dynamax": false,
+                "gigantamax": false,
+                "sprite": "pm445",
+                "spriteShiny": "pm445.s",
+                "spriteGigantamax": null,
+                "looksOnly": false,
+                "buddyDistanceKm": 5,
+                "secondMoveStardust": 75000,
+                "movepool": [
+                  {
+                    "moveId": "DRAGON_TAIL",
+                    "availability": "Normal"
+                  },
+                  {
+                    "moveId": "EARTH_POWER",
+                    "availability": "EliteTm"
+                  }
+                ],
+                "matchups": [
+                  {
+                    "type": "ice",
+                    "multiplier": 2.56
+                  },
+                  {
+                    "type": "electric",
+                    "multiplier": 0.244
+                  }
+                ],
+                "pvp": [
+                  {
+                    "league": "Master",
+                    "isShadow": false,
+                    "rank": 31,
+                    "score": 88.4,
+                    "fastMoveId": "DRAGON_TAIL",
+                    "chargedMove1Id": "EARTH_POWER",
+                    "chargedMove2Id": "OUTRAGE",
+                    "usage": [
+                      {
+                        "moveId": "DRAGON_TAIL",
+                        "uses": 71250
+                      },
+                      {
+                        "moveId": "EARTH_POWER",
+                        "uses": 48211
+                      }
+                    ]
+                  }
+                ],
+                "bestIvs": [
+                  {
+                    "league": "Great",
+                    "attack": 0,
+                    "defense": 15,
+                    "stamina": 14,
+                    "level": 14,
+                    "cp": 1495
+                  }
+                ],
+                "raidRanks": [
+                  {
+                    "type": "ground",
+                    "isShadow": false,
+                    "rank": 12,
+                    "fastMoveId": "MUD_SHOT",
+                    "chargedMoveId": "EARTH_POWER"
+                  }
+                ],
+                "raidMovesets": [
+                  {
+                    "isShadow": false,
+                    "fastMoveId": "MUD_SHOT",
+                    "chargedMoveId": "EARTH_POWER",
+                    "rank": 1,
+                    "dps": 17.82,
+                    "tdo": 612.5,
+                    "score": 41.3
+                  }
+                ]
+              }
+            ],
+            "keeperBoxes": [
+              {
+                "league": "Great",
+                "attackMin": 0,
+                "attackMax": 1,
+                "defenseMin": 3,
+                "defenseMax": 4,
+                "staminaMin": 2,
+                "staminaMax": 4
+              }
+            ],
+            "moves": [
+              {
+                "id": "DRAGON_TAIL",
+                "nameEn": "Dragon Tail",
+                "namePt": "Cauda do Dragão",
+                "type": "dragon",
+                "kind": "Fast",
+                "raidPower": 14,
+                "raidDurationMs": 1000,
+                "raidEnergy": 8,
+                "pvpPower": 9,
+                "pvpEnergy": 12,
+                "pvpTurns": 3,
+                "pvpBuffChance": null,
+                "pvpSelfAttack": 0,
+                "pvpSelfDefense": 0,
+                "pvpOpponentAttack": 0,
+                "pvpOpponentDefense": 0
+              }
+            ],
+            "family": [
+              {
+                "dex": 443,
+                "formId": "gible",
+                "kind": "Base",
+                "isDefault": true,
+                "nameEn": "Gible",
+                "namePt": "Gible",
+                "speciesNameEn": "Gible",
+                "types": [
+                  "dragon",
+                  "ground"
+                ],
+                "attack": 124,
+                "defense": 84,
+                "stamina": 151,
+                "released": true,
+                "sprite": "pm443"
+              }
+            ],
+            "evolutions": [
+              {
+                "fromFormId": "gible",
+                "toFormId": "gabite",
+                "candy": 25,
+                "candyAfterTrade": null,
+                "itemId": null,
+                "buddyDistanceKm": null,
+                "timeOfDay": null,
+                "lureId": null,
+                "gender": null,
+                "taskEn": null,
+                "taskPt": null
+              }
+            ],
+            "costumes": [
+              {
+                "sprite": "pm445.cHOLIDAY_2025",
+                "nameEn": "Holiday 2025",
+                "formCode": null
+              }
+            ],
+            "appearances": [
+              {
+                "kind": "Event",
+                "formId": "garchomp",
+                "isShadow": false,
+                "raidTier": null,
+                "maxStars": null,
+                "gigantamax": false,
+                "egg": null,
+                "taskEn": null,
+                "taskPt": null,
+                "eventNameEn": "Community Day: Gible",
+                "eventNamePt": "Dia Comunitário: Gible",
+                "eventKind": "CommunityDay",
+                "startsAt": "2026-11-07T14:00:00",
+                "endsAt": "2026-11-07T17:00:00",
+                "shiny": true
+              }
+            ],
+            "cpMultipliers": [
+              0.094,
+              0.1351374318,
+              0.16639787
+            ]
+          }
+        ],
+        "required": [
+          "dex",
+          "nameEn",
+          "namePt",
+          "generation",
+          "category",
+          "familyId",
+          "forms",
+          "keeperBoxes",
+          "moves",
+          "family",
+          "evolutions",
+          "costumes",
+          "appearances",
+          "cpMultipliers"
+        ],
+        "type": "object",
+        "properties": {
+          "dex": {
+            "type": "integer",
+            "description": "National Pokédex number.",
+            "format": "int32"
+          },
+          "nameEn": {
+            "type": "string",
+            "description": "The species' English name."
+          },
+          "namePt": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The game's Portuguese name; null when missing (the app shows the English one)."
+          },
+          "generation": {
+            "type": "integer",
+            "description": "1 (Kanto) to 9 (Paldea).",
+            "format": "int32"
+          },
+          "category": {
+            "description": "Legendary, Mythical, Ultra Beast, or None.",
+            "$ref": "#/components/schemas/SpeciesCategory"
+          },
+          "familyId": {
+            "type": "string",
+            "description": "Its evolution family."
+          },
+          "forms": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PageForm"
+            },
+            "description": "Its versions: the main form first, then Megas and Primals, regional forms, other forms and looks."
+          },
+          "keeperBoxes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PageKeeperBox"
+            },
+            "description": "The appraisal bars the keeper filters keep for this Pokédex number (Great and Ultra League)."
+          },
+          "moves": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PageMove"
+            },
+            "description": "Every move its versions can learn or use, with raid and PvP numbers."
+          },
+          "family": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FamilyMember"
+            },
+            "description": "Every version of every species in its family (Megas left out), for the evolution chain and the IV checker."
+          },
+          "evolutions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PageEvolution"
+            },
+            "description": "The family's evolution steps with what each needs."
+          },
+          "costumes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PageCostume"
+            },
+            "description": "Its event costumes (from PokeMiners' pictures; no dates)."
+          },
+          "appearances": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PageAppearance"
+            },
+            "description": "Where its versions appear or appeared (raids, Max Battles, eggs, research, events), from the live data; the app\ntells \"right now\" from history with its own clock."
+          },
+          "cpMultipliers": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            },
+            "description": "The game's CP multiplier per half level from level 1."
+          }
+        },
+        "description": "Everything the Pokémon page (B2) shows for one species, all its versions included, in one answer (decision\n2026-11-08): switching versions or tabs needs no new request. The IV rank checker works in the app from the base\nstats and IReadOnlyList&lt;double&gt; PokemonPageResponse.CpMultipliers."
+      },
       "ProblemDetails": {
         "examples": [
           {
@@ -1800,6 +3439,17 @@
             ]
           }
         }
+      },
+      "RaidTier": {
+        "enum": [
+          "OneStar",
+          "ThreeStar",
+          "FiveStar",
+          "Mega",
+          "LegendaryMega",
+          "Elite"
+        ],
+        "type": "string"
       },
       "RefreshRequest": {
         "examples": [
@@ -1960,6 +3610,29 @@
           "Dark"
         ],
         "type": "string"
+      },
+      "TypeMultiplier": {
+        "examples": [
+          {
+            "type": "ice",
+            "multiplier": 2.56
+          }
+        ],
+        "required": [
+          "type",
+          "multiplier"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "multiplier": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "description": "How much damage an attacking type does to the form (×1.6, ×2.56, ×0.625, ×0.39…)."
       },
       "UserRole": {
         "enum": [

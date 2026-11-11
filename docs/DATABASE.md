@@ -29,6 +29,7 @@ Written only by the daily import (`docs/DAILY-IMPORT.md`), which keeps these tab
 | `form_moves` | move in a form's movepool | `Normal`, `EliteTm` or `Legacy` |
 | `evolutions` | evolution step | candy (and after a trade), item, buddy distance, day/night, lure, gender, special task |
 | `cp_multipliers` | level (1–51) | the game's CP multiplier |
+| `costumes` | event costume picture | species, costume code (`FALL_2022`), form code (`SMALL`), readable name, whether a shiny picture exists; from PokeMiners' picture list, no dates (decision 2026-11-08, migration `CostumesAndMoveUsage`) |
 
 ### Rankings and calculated data (daily import)
 
@@ -37,10 +38,11 @@ PvPoke's rankings come from its files; the rest is calculated by the engine (`do
 | Table | One row per | Notes |
 |---|---|---|
 | `pvp_rankings` | league × form × Shadow | PvPoke's rank, score and recommended moveset (tier lists, Pokémon page) |
-| `pvp_best_ivs` | league × form | the rank-1 IVs, level, CP and stat product (a tie goes to the higher CP: Master League's is 15/15/15). Megas have none. **Only rank 1 is stored**; the IV rank checker and "your copies" rank all 4,096 spreads on demand (about a millisecond) |
+| `pvp_best_ivs` | league × form | the rank-1 IVs, level, CP and stat product (a tie goes to the higher CP: Master League's is 15/15/15). Megas and Primals too (they can be used in GO Battle League, decision 2026-11-08), but they don't widen the keeper boxes. **Only rank 1 is stored**; the IV rank checker and "your copies" rank all 4,096 spreads on demand (about a millisecond) |
 | `pvp_keeper_boxes` | league × Pokédex number | the appraisal bars the keeper filters keep, and the forms that chose them |
 | `raid_rankings` | attacking type × form × Shadow | best same-type moveset, DPS, TDO, score and rank (raid tier lists, best teams); Megas included, the lists keep one Mega slot |
 | `raid_movesets` | form × Shadow × fast + charged move | every combination ranked for raids (Pokémon page) |
+| `pvp_move_usage` | league × form × Shadow × move | how often PvPoke's simulations use each move of a ranked form (Pokémon page, migration `CostumesAndMoveUsage`) |
 | `keeper_filters` | filter × option × part | the ready-made search strings (Great League 2 parts, Ultra League 3, raid, Max, Mega), checked by the search simulator before they are published |
 
 Boss counters are calculated on request from these tables and the boss's moves, so they are not stored.

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Builds the web app's Pokémon pictures (docs/SPRITES.md, decision 2026-11-07): downloads PokeMiners' picture folder
-# (only the files the app uses: no event costumes, no female variants) at one commit and turns it into cropped,
+# (only the files the app uses: event costumes without their shiny pictures, no female variants) at one commit and turns it into cropped,
 # square WebP files with the jobs' "sprites" command. Used by the QA and prod deploys before the web build, and by
 # hand for a local copy:
 #
@@ -39,7 +39,7 @@ fi
 retry git -C "$work" fetch --quiet --depth 1 --filter=blob:none origin "$commit"
 git -C "$work" sparse-checkout set --no-cone \
   "/$folder/pm*.icon.png" \
-  "!/$folder/*.c[A-Z]*" \
+  "!/$folder/*.c[A-Z]*.s.icon.png" \
   "!/$folder/*.g2.*"
 retry git -C "$work" -c advice.detachedHead=false checkout --quiet --detach "$commit"
 

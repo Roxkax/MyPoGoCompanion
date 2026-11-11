@@ -27,6 +27,17 @@ public sealed class DailyImportOptions
     public Uri SpriteBaseUrl { get; set; } = new("https://raw.githubusercontent.com/PokeMiners/pogo_assets/master/Images/Pokemon%20-%20256x256/Addressable%20Assets/");
 
     /// <summary>Pictures checked at the same time (a first import checks about 2,500).</summary>
+    /// <summary>
+    /// GitHub's API for the repository holding the pictures, and the picture folder's path in it: the costume list is
+    /// read from the folder's file list (decision 2026-11-08).
+    /// </summary>
+    public Uri SpriteRepositoryApiUrl { get; set; } = new("https://api.github.com/repos/PokeMiners/pogo_assets/");
+
+    public string SpriteFolderPath { get; set; } = "Images/Pokemon - 256x256/Addressable Assets";
+
+    /// <summary>The branch the pictures are read from.</summary>
+    public string SpriteBranch { get; set; } = "master";
+
     public int SpriteCheckParallelism { get; set; } = 8;
 
     /// <summary>Per picture check.</summary>
