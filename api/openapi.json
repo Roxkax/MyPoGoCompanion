@@ -349,6 +349,31 @@
         }
       }
     },
+    "/moves": {
+      "get": {
+        "tags": [
+          "Moves"
+        ],
+        "summary": "Every fast and charged move, with raid and PvP numbers and PvP stat effects.",
+        "description": "Public and cacheable. Send the ETag back in If-None-Match to get 304 Not Modified until new game data is published.",
+        "operationId": "GetMoves",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MovesResponse"
+                }
+              }
+            }
+          },
+          "304": {
+            "description": "Not Modified"
+          }
+        }
+      }
+    },
     "/client-errors": {
       "post": {
         "tags": [
@@ -1488,6 +1513,46 @@
           }
         },
         "description": "A move's number of uses in PvPoke's simulations."
+      },
+      "MovesResponse": {
+        "examples": [
+          {
+            "moves": [
+              {
+                "id": "DRAGON_TAIL",
+                "nameEn": "Dragon Tail",
+                "namePt": "Cauda do Dragão",
+                "type": "dragon",
+                "kind": "Fast",
+                "raidPower": 14,
+                "raidDurationMs": 1000,
+                "raidEnergy": 8,
+                "pvpPower": 9,
+                "pvpEnergy": 12,
+                "pvpTurns": 3,
+                "pvpBuffChance": null,
+                "pvpSelfAttack": 0,
+                "pvpSelfDefense": 0,
+                "pvpOpponentAttack": 0,
+                "pvpOpponentDefense": 0
+              }
+            ]
+          }
+        ],
+        "required": [
+          "moves"
+        ],
+        "type": "object",
+        "properties": {
+          "moves": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PageMove"
+            },
+            "description": "Every fast and charged move, including its raid numbers, PvP numbers and stat effects."
+          }
+        },
+        "description": "The complete move list, searched and filtered in the app."
       },
       "PageAppearance": {
         "examples": [
@@ -3666,6 +3731,9 @@
     },
     {
       "name": "Pokédex"
+    },
+    {
+      "name": "Moves"
     },
     {
       "name": "Diagnostics"

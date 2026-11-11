@@ -6,6 +6,7 @@ using MyPoGoCompanion.Api.Auth;
 using MyPoGoCompanion.Api.Diagnostics;
 using MyPoGoCompanion.Api.Freshness;
 using MyPoGoCompanion.Api.Health;
+using MyPoGoCompanion.Api.Moves;
 using MyPoGoCompanion.Api.Pokedex;
 using MyPoGoCompanion.Data.GameData;
 using MyPoGoCompanion.Data.LiveData;
@@ -115,6 +116,7 @@ internal static class OpenApiExamples
         [typeof(PageRaidRank)] = _groundRank,
         [typeof(PageRaidMoveset)] = _mudShotEarthPower,
         [typeof(PageMove)] = _dragonTailMove,
+        [typeof(MovesResponse)] = new MovesResponse([_dragonTailMove]),
         [typeof(FamilyMember)] = _gible,
         [typeof(PageEvolution)] = _gibleToGabite,
         [typeof(PageCostume)] = _costume,
