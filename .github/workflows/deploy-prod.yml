@@ -128,7 +128,6 @@ jobs:
       issues: write # the daily import's alert (import_alert.py)
     outputs:
       version: ${{ steps.commit.outputs.version }}
-      qa-commit: ${{ steps.qa.outputs.commit }}
     steps:
       - name: Commit to deploy
         id: commit
@@ -404,18 +403,9 @@ jobs:
             echo "- To roll back: docs/PROD-DEPLOY.md"
           } >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Which PR QA shows
-        # For the QA reset below: the commit api-qa runs (its image tag), so that PR can go back on QA afterwards.
-        id: qa
-        run: |
-          image=$(az containerapp show -g "$RESOURCE_GROUP" -n "$QA_API_APP" --query "properties.template.containers[0].image" -o tsv)
-          commit=${image##*:}
-          [[ $commit =~ ^[0-9a-f]{40}$ ]] || commit=""
-          echo "commit=$commit" >> "$GITHUB_OUTPUT"
-          echo "QA runs ${commit:-something other than a PR build (${image})}"
-
   reset-qa-database:
     name: Reset the QA database
+    environment: qa
     needs: [changes, deploy-prod]
     # Not after a rollback: QA keeps the migrations it has, which the newer PRs on it expect.
     if: needs.changes.outputs.rollback != 'true'
@@ -428,11 +418,30 @@ jobs:
     permissions:
       contents: read
       actions: write # start the QA deploy again
+      id-token: write # read the current QA image after acquiring the QA queue
       pull-requests: read
     steps:
       - uses: actions/checkout@v7
         with:
           sparse-checkout: .github/scripts
+
+      - name: Sign in to Azure (OIDC)
+        uses: azure/login@v3
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Which PR QA shows
+        # Read only after this job acquires qa-environment: a queued reset may follow a newer QA deploy.
+        # Capturing this in deploy-prod can restore a stale PR or leave the newer API without its tables.
+        id: qa
+        run: |
+          image=$(az containerapp show -g "$RESOURCE_GROUP" -n "$QA_API_APP" --query "properties.template.containers[0].image" -o tsv)
+          commit=${image##*:}
+          [[ $commit =~ ^[0-9a-f]{40}$ ]] || commit=""
+          echo "commit=$commit" >> "$GITHUB_OUTPUT"
+          echo "QA runs ${commit:-something other than a PR build (${image})}"
 
       - name: Reset the Neon "qa" branch to a copy of prod
         env:
@@ -445,7 +454,7 @@ jobs:
         # Nothing to do when QA showed the PR that was just merged: prod has its migrations now.
         env:
           GH_TOKEN: ${{ github.token }}
-          QA_COMMIT: ${{ needs.deploy-prod.outputs.qa-commit }}
+          QA_COMMIT: ${{ steps.qa.outputs.commit }}
         run: |
           if [[ -z $QA_COMMIT ]]; then
             echo "QA doesn't show a PR build; nothing to put back." | tee -a "$GITHUB_STEP_SUMMARY"
