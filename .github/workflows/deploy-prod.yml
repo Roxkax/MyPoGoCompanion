@@ -451,6 +451,7 @@ jobs:
 
       - name: Put the PR QA showed back on QA
         # The reset removed that PR's own migrations (if any) from the QA database, so it's deployed again.
+        # Restore the latest head of its open PR, even if another push is waiting for the QA queue.
         # Nothing to do when QA showed the PR that was just merged: prod has its migrations now.
         env:
           GH_TOKEN: ${{ github.token }}
@@ -461,9 +462,9 @@ jobs:
             exit 0
           fi
           branch=$(gh api "repos/$GITHUB_REPOSITORY/commits/$QA_COMMIT/pulls" \
-            --jq "[.[] | select(.state == \"open\" and .head.sha == \"$QA_COMMIT\" and .head.repo.full_name == \"$GITHUB_REPOSITORY\")][0].head.ref // empty")
+            --jq "[.[] | select(.state == \"open\" and .head.repo.full_name == \"$GITHUB_REPOSITORY\")][0].head.ref // empty")
           if [[ -z $branch ]]; then
-            echo "QA showed ${QA_COMMIT:0:7}, which no open PR has as its latest commit; nothing to put back." | tee -a "$GITHUB_STEP_SUMMARY"
+            echo "QA showed ${QA_COMMIT:0:7}, which has no associated open PR; nothing to put back." | tee -a "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
           gh workflow run deploy-qa.yml -R "$GITHUB_REPOSITORY" --ref "$branch"
