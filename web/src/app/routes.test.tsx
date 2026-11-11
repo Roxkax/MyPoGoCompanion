@@ -59,10 +59,12 @@ describe('routes', () => {
         screen.getByRole('heading', { level: 1, name: layout === 'phone' ? 'Pokédex' : 'Moves' }),
       ).toBeInTheDocument()
       expect(screen.getByRole('searchbox', { name: 'Search moves' })).toBeInTheDocument()
-      expect(screen.getByRole('button', { name: 'Type: Ground ▾' })).toHaveAttribute(
-        'aria-expanded',
-        'false',
-      )
+      expect(
+        screen.getByRole('button', { name: layout === 'phone' ? 'Type ▾' : 'Type: Ground ▾' }),
+      ).toHaveAttribute('aria-expanded', 'false')
+      if (layout === 'phone') {
+        expect(screen.getByRole('button', { name: 'Remove Ground' })).toBeInTheDocument()
+      }
       expect(screen.getByRole('radio', { name: 'Charged' })).toBeChecked()
     },
   )
