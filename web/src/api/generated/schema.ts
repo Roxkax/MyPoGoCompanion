@@ -129,6 +129,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/moves": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Every fast and charged move, with raid and PvP numbers and PvP stat effects.
+         * @description Public and cacheable. Send the ETag back in If-None-Match to get 304 Not Modified until new game data is published.
+         */
+        get: operations["GetMoves"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/client-errors": {
         parameters: {
             query?: never;
@@ -564,6 +584,35 @@ export interface components {
             moveId: string;
             /** Format: int32 */
             uses: number;
+        };
+        /**
+         * @description The complete move list, searched and filtered in the app.
+         * @example {
+         *       "moves": [
+         *         {
+         *           "id": "DRAGON_TAIL",
+         *           "nameEn": "Dragon Tail",
+         *           "namePt": "Cauda do Dragão",
+         *           "type": "dragon",
+         *           "kind": "Fast",
+         *           "raidPower": 14,
+         *           "raidDurationMs": 1000,
+         *           "raidEnergy": 8,
+         *           "pvpPower": 9,
+         *           "pvpEnergy": 12,
+         *           "pvpTurns": 3,
+         *           "pvpBuffChance": null,
+         *           "pvpSelfAttack": 0,
+         *           "pvpSelfDefense": 0,
+         *           "pvpOpponentAttack": 0,
+         *           "pvpOpponentDefense": 0
+         *         }
+         *       ]
+         *     }
+         */
+        MovesResponse: {
+            /** @description Every fast and charged move, including its raid numbers, PvP numbers and stat effects. */
+            moves: components["schemas"]["PageMove"][];
         };
         /**
          * @description One appearance of a version in the live data. Times are the game's local wall-clock times (null when the source
@@ -2223,6 +2272,33 @@ export interface operations {
                      */
                     "application/problem+json": components["schemas"]["ProblemDetails"];
                 };
+            };
+        };
+    };
+    GetMoves: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MovesResponse"];
+                };
+            };
+            /** @description Not Modified */
+            304: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

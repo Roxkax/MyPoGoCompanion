@@ -195,6 +195,13 @@ public sealed partial class OpenApiTests(PostgresFixture postgres)
 
         await using var withSample = new ApiFactory(seeded);
         using var sampleClient = withSample.CreateClient();
+        var moves = await Call(sampleClient, HttpMethod.Get, "/moves");
+        using (var unchanged = new HttpRequestMessage(HttpMethod.Get, new Uri("/moves", UriKind.Relative)))
+        {
+            unchanged.Headers.IfNoneMatch.Add(moves.Headers.ETag!);
+            seen.Add(await AssertMatchesDocumentAsync(document, HttpMethod.Get, "/moves", await sampleClient.SendAsync(unchanged, Ct)));
+        }
+
         var garchomp = await Call(sampleClient, HttpMethod.Get, "/pokedex/445");
         using (var unchanged = new HttpRequestMessage(HttpMethod.Get, new Uri("/pokedex/445", UriKind.Relative)))
         {

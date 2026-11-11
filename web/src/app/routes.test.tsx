@@ -13,7 +13,6 @@ const screens: [string, string, string][] = [
   ['/calendar', 'Calendar', 'A2'],
   ['/calendar/community-day-gible-2026-11-07', 'Event details', 'A3'],
   ['/eggs', 'Eggs & research', 'A4'],
-  ['/pokedex/moves?kind=charged&type=ground', 'Moves', 'B3'],
   ['/pokedex/moves/earth-power', 'Move', 'B4'],
   ['/pokedex/types', 'Type chart', 'B5'],
   ['/battle/raids', 'Raid bosses', 'C1'],
@@ -50,6 +49,23 @@ describe('routes', () => {
     expect(screen.getByRole('heading', { level: 1, name: 'Pokédex' })).toBeInTheDocument()
     expect(screen.getByRole('searchbox', { name: 'Search the Pokédex' })).toHaveValue('fire')
   })
+
+  it.each(['phone', 'desktop'] as const)(
+    '/pokedex/moves opens the Moves list on a %s',
+    (layout) => {
+      renderApp('/pokedex/moves?kind=charged&type=ground', { layout })
+
+      expect(
+        screen.getByRole('heading', { level: 1, name: layout === 'phone' ? 'Pokédex' : 'Moves' }),
+      ).toBeInTheDocument()
+      expect(screen.getByRole('searchbox', { name: 'Search moves' })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Type: Ground ▾' })).toHaveAttribute(
+        'aria-expanded',
+        'false',
+      )
+      expect(screen.getByRole('radio', { name: 'Charged' })).toBeChecked()
+    },
+  )
 
   it('shows what the address points at', () => {
     renderApp('/pokedex/moves/earth-power')

@@ -1,0 +1,199 @@
+/* B3 Moves list: one compact table on phone, both battle modes side by side on desktop. */
+.moves,
+.moves-tools {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.moves-filters,
+.moves-mode {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.moves-mode {
+  justify-content: space-between;
+}
+.moves-mode .ui-seg {
+  width: 150px;
+}
+.moves-count {
+  margin: 0;
+  color: var(--text-2);
+  font-size: 13px;
+  font-weight: 700;
+}
+.moves-filters .ui-popover-panel {
+  width: min(360px, calc(100vw - 40px));
+  max-height: min(65dvh, 520px);
+  overflow-y: auto;
+}
+.moves-sort {
+  margin-left: auto;
+}
+.moves-sort .ui-popover-panel {
+  right: 0;
+  left: auto;
+  width: min(280px, calc(100vw - 40px));
+}
+.moves-table-wrap {
+  overflow: hidden;
+}
+.moves-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-variant-numeric: tabular-nums;
+}
+.moves-table th,
+.moves-table td {
+  padding: 11px 5px;
+  border-bottom: 1px solid var(--line);
+  text-align: right;
+  font-size: 13px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+.moves-table th:first-child {
+  width: auto;
+  padding-left: 12px;
+  text-align: left;
+}
+.moves-table th:not(:first-child),
+.moves-table td {
+  width: 52px;
+}
+.moves-table :is(th, td):last-child {
+  padding-right: 12px;
+}
+.moves-table thead th {
+  color: var(--text-3);
+  font-size: 11px;
+}
+.moves-table thead button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  min-height: 28px;
+}
+.moves-table [aria-sort] {
+  color: var(--accent);
+}
+.moves-table tr:last-child :is(td, th[scope='row']) {
+  border-bottom: 0;
+}
+.moves-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 800;
+  line-height: 1.35;
+}
+.moves-name:hover {
+  color: var(--accent);
+}
+.moves-name:focus-visible,
+.moves-table button:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+.moves-dot {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+/* The dot's type is also available to assistive technology. */
+.moves-type-name {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.moves-table[data-mode='pvp']:not([data-fast]) th:last-child {
+  width: 76px;
+}
+.moves-effects {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  line-height: 1.25;
+  font-size: 11px;
+}
+.moves-effects [data-target='self'] {
+  color: var(--warn);
+}
+.moves-effects [data-target='foe'] {
+  color: var(--accent);
+}
+.moves-effects small,
+.moves-no-effect {
+  color: var(--text-3);
+}
+.moves-effects small {
+  font-size: 10px;
+  font-weight: 600;
+}
+
+@media (min-width: 900px) {
+  .moves-tools {
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .moves-search {
+    width: 280px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+  }
+  .moves-kind {
+    width: 240px;
+  }
+  .moves-tools > .moves-count {
+    margin-left: auto;
+  }
+  .moves-table {
+    table-layout: auto;
+  }
+  .moves-table th,
+  .moves-table td {
+    padding: 10px 12px;
+    font-size: 14px;
+    width: auto;
+    overflow-wrap: normal;
+  }
+  .moves-table th:not(:first-child),
+  .moves-table td,
+  .moves-table[data-mode='pvp']:not([data-fast]) th:last-child {
+    width: auto;
+  }
+  .moves-table thead th {
+    font-size: 12px;
+  }
+  .moves-table .moves-type,
+  .moves-table .moves-effect {
+    text-align: left;
+  }
+  .moves-table .moves-separator {
+    border-left: 1px solid var(--line);
+  }
+  .moves-table .moves-groups th {
+    text-align: center;
+    color: var(--text-2);
+    border-bottom: 0;
+    padding-bottom: 2px;
+  }
+  .moves-effects {
+    font-size: 12px;
+    min-width: 74px;
+  }
+}

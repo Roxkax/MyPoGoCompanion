@@ -91,6 +91,10 @@ cd web && npm run lint:fix && npm run format             # fix web code
 
 The .NET build turns every analyzer warning into an error when `CI=true` (as in GitHub Actions); locally they stay warnings. Run `CI=true dotnet build` to see what CI will reject.
 
+### Moves
+
+The Moves screen provides Fast/Charged moves, search, type filtering and sorting, with raid and PvP numbers and effects. See [docs/MOVES.md](docs/MOVES.md) for the screen and its public API.
+
 ### API
 
 ```bash
