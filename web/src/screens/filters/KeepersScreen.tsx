@@ -18,6 +18,17 @@ const cards = [
   { kind: 'Mega', tag: 'Mega', icon: 'Me' },
 ] as const satisfies readonly { kind: Kind; tag: string; icon: string }[]
 
+const transferSearch = [
+  ...cards.map(({ tag }) => `!#${tag}`),
+  '!shiny',
+  '!lucky',
+  '!legendary',
+  '!mythical',
+  '!favorite',
+  '!4*',
+  '!costume',
+].join('&')
+
 export function KeepersScreen() {
   const { t } = useTranslation()
   const desktop = useIsDesktop()
@@ -50,6 +61,7 @@ export function KeepersScreen() {
             parts={parts.filter((part) => part.kind === card.kind)}
           />
         ))}
+        <SafeToTransferCard />
       </div>
       {desktop && (
         <aside className="ui-card ui-card-padded">
@@ -58,6 +70,25 @@ export function KeepersScreen() {
         </aside>
       )}
     </div>
+  )
+}
+
+function SafeToTransferCard() {
+  const { t } = useTranslation()
+  const title = t('keepers.safeToTransfer.title')
+
+  return (
+    <section className="keeper-card keeper-transfer ui-card ui-card-padded" aria-label={title}>
+      <header>
+        <span className="keeper-icon" aria-hidden="true">
+          ✓
+        </span>
+        <h2>{title}</h2>
+      </header>
+      <p>{t('keepers.safeToTransfer.description')}</p>
+      <p className="keeper-transfer-note">{t('keepers.safeToTransfer.note')}</p>
+      <KeeperPart part={{ searchString: transferSearch }} />
+    </section>
   )
 }
 
@@ -143,15 +174,21 @@ function KeeperCard({
   )
 }
 
-function KeeperPart({ part }: { part: Part }) {
+function KeeperPart({
+  part,
+}: {
+  part: Pick<Part, 'searchString'> & Partial<Pick<Part, 'part' | 'fromDex' | 'toDex'>>
+}) {
   const { t } = useTranslation()
   const formats = useFormats()
   const [status, setStatus] = useState<'idle' | 'copied' | 'manual'>('idle')
   const range =
-    part.fromDex != null && part.toDex != null
-      ? `#${formats.number(part.fromDex)}–${formats.number(part.toDex)}`
+    part.part != null && part.fromDex != null && part.toDex != null
+      ? {
+          number: t('keepers.part', { number: formats.number(part.part) }),
+          dex: `#${formats.number(part.fromDex)}–${formats.number(part.toDex)}`,
+        }
       : null
-  const number = t('keepers.part', { number: formats.number(part.part) })
   const action = t(status === 'copied' ? 'keepers.copied' : 'keepers.copy')
 
   async function copy() {
@@ -167,7 +204,7 @@ function KeeperPart({ part }: { part: Part }) {
     <div className="keeper-part">
       {range && (
         <span className="keeper-range">
-          {number} <span>{range}</span>
+          {range.number} <span>{range.dex}</span>
         </span>
       )}
       <code className="keeper-preview">{part.searchString}</code>
@@ -175,13 +212,15 @@ function KeeperPart({ part }: { part: Part }) {
         type="button"
         className="button keeper-copy"
         data-copied={status === 'copied' || undefined}
-        aria-label={range ? t('keepers.copyPart', { action, part: number, range }) : action}
+        aria-label={
+          range ? t('keepers.copyPart', { action, part: range.number, range: range.dex }) : action
+        }
         onClick={() => void copy()}
       >
         <span aria-live="polite">{action}</span>
         {range && (
           <span className="keeper-copy-range">
-            {number} · {range}
+            {range.number} · {range.dex}
           </span>
         )}
       </button>

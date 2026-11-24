@@ -551,6 +551,12 @@ export const en = {
     copied: 'Copied',
     copyPart: '{{action}} {{part}} · {{range}}',
     manualCopy: 'Copy this search string manually',
+    safeToTransfer: {
+      title: 'Safe to transfer',
+      description:
+        'Find Pokémon without the five keeper tags. The search excludes shinies, lucky Pokémon, legendaries, mythicals, favourites, perfect IVs and costumes.',
+      note: 'Tag the results of all five keeper filters first. Check the search results before transferring any Pokémon.',
+    },
     cards: {
       GreatLeague: {
         title: 'Great League',

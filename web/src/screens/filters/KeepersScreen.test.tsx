@@ -113,6 +113,20 @@ describe('Keepers screen', () => {
     expect(max.queryByRole('radiogroup')).not.toBeInTheDocument()
   })
 
+  it('copies the English transfer search with every keeper tag and exclusion in Portuguese too', async () => {
+    const user = userEvent.setup()
+    const languages = new LanguageStore(new MemoryStorage(), ['pt-PT'])
+    renderApp('/filters', { languages })
+    const transfer = within(await screen.findByRole('region', { name: 'Seguro para transferir' }))
+
+    expect(transfer.getByText(/Verifica os resultados da pesquisa/)).toBeVisible()
+    await user.click(transfer.getByRole('button', { name: 'Copiar' }))
+    expect(await navigator.clipboard.readText()).toBe(
+      '!#GL&!#UL&!#Raid&!#Max&!#Mega&!shiny&!lucky&!legendary&!mythical&!favorite&!4*&!costume',
+    )
+    expect(transfer.getByRole('button', { name: 'Copiado' })).toBeVisible()
+  })
+
   it('retries failed loading and has an empty state before publication', async () => {
     const user = userEvent.setup()
     answer = () => Response.json({ title: 'Try again later' }, { status: 503 })
@@ -124,5 +138,6 @@ describe('Keepers screen', () => {
     expect(
       await screen.findByRole('heading', { name: 'Keeper filters are being prepared' }),
     ).toBeVisible()
+    expect(screen.queryByRole('region', { name: 'Safe to transfer' })).not.toBeInTheDocument()
   })
 })

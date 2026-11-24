@@ -83,6 +83,18 @@
   background: var(--t-psychic);
 }
 
+.keeper-transfer .keeper-icon {
+  color: var(--warn-ink);
+  background: var(--warn);
+}
+
+.keepers .keeper-transfer-note {
+  padding: var(--space-2);
+  border-radius: var(--radius-s);
+  color: var(--warn);
+  background: var(--warn-soft);
+}
+
 .keeper-tag {
   margin-inline-start: auto;
   padding: 0.2em 0.55em;

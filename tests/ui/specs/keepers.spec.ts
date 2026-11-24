@@ -53,3 +53,20 @@ test('Max Battle and Mega variants copy different searches', async ({ page, cont
   expect(excluding).toMatch(/^mega0-,/)
   expect(including).toContain(`${excluding},`)
 })
+
+test('Safe to transfer explains when to use the filter and copies its search', async ({ page, context }, info) => {
+  await context.grantPermissions(['clipboard-read', 'clipboard-write'])
+  await page.goto('/filters')
+
+  const transfer = page.getByRole('region', { name: 'Safe to transfer' })
+  await expect(transfer.getByText(/Tag the results of all five keeper filters first/)).toBeVisible()
+  await expect(transfer.getByText(/Check the search results before transferring/)).toBeVisible()
+  await expect(transfer.locator('.keeper-preview')).toBeVisible({
+    visible: info.project.name.startsWith('desktop'),
+  })
+  await transfer.getByRole('button', { name: 'Copy', exact: true }).click()
+  await expect(transfer.getByRole('button', { name: 'Copied', exact: true })).toBeVisible()
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
+    '!#GL&!#UL&!#Raid&!#Max&!#Mega&!shiny&!lucky&!legendary&!mythical&!favorite&!4*&!costume',
+  )
+})

@@ -10,6 +10,8 @@ Open **Filters → Keepers** and copy one search string at a time. Paste it into
 | Max Battle attackers | `Max` | Max Battle-eligible Pokémon using `maxmove1-`. Choose Attack 11–15 or 15 only. |
 | Megas | `Mega` | Mega-capable Pokémon using `mega0-`, plus explicit Pokédex numbers for Primal Reversions and announced species. Pre-evolutions are optional. |
 
+Use **Safe to transfer** after tagging the results of all five filters. It copies one search that excludes all five keeper tags as well as shinies, lucky Pokémon, legendaries, mythicals, favourites, Pokémon with perfect IVs, and costumes. Review the results in Pokémon GO before transferring any Pokémon.
+
 The interface is available in English and Portuguese (Portugal). The strings use English in-game search keywords. The game matches Pokédex numbers shared by different forms, so check matches before acting on them.
 
 ## Data and verification
