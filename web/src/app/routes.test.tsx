@@ -13,7 +13,6 @@ const screens: [string, string, string][] = [
   ['/calendar', 'Calendar', 'A2'],
   ['/calendar/community-day-gible-2026-11-07', 'Event details', 'A3'],
   ['/eggs', 'Eggs & research', 'A4'],
-  ['/pokedex/types', 'Type chart', 'B5'],
   ['/battle/raids', 'Raid bosses', 'C1'],
   ['/battle/raids/mega-gengar', 'Raid boss', 'C2'],
   ['/battle/tiers/great-league', 'Tier lists', 'C3'],

@@ -4,7 +4,7 @@ import type { AppEnvironment } from '../environment'
 import type { DataKind } from '../freshness/freshness'
 import type { SoonKey, TitleKey } from '../i18n/keys'
 import { AppShell, type ScreenHandle } from '../layout/AppShell'
-import { battleSections, filterSections, pokedexSections } from '../layout/nav'
+import { battleSections, filterSections } from '../layout/nav'
 import { DetailScreen, TabScreen, type BackTarget, type Sections } from '../layout/Screen'
 import { AllChangesScreen } from '../screens/AllChangesScreen'
 import { CallbackRoute } from '../screens/CallbackRoute'
@@ -19,6 +19,7 @@ import { RouteError } from '../screens/RouteError'
 import { SettingsScreen } from '../screens/SettingsScreen'
 import { SignInRoute } from '../screens/SignInRoute'
 import { TodayScreen } from '../screens/TodayScreen'
+import { TypeChartScreen } from '../screens/type-chart/TypeChartScreen'
 import { AdminOnly, SignedInOnly } from './guards'
 import { ScreenSlot } from './ScreenSlot'
 
@@ -28,7 +29,6 @@ import { ScreenSlot } from './ScreenSlot'
  * Titles and labels here are keys of the texts (titles.<key>), shown in the app's language.
  */
 
-const pokedex: Sections = { label: 'pokedex', links: pokedexSections }
 const battle: Sections = { label: 'battle', links: battleSections, onDesktop: true }
 const filters: Sections = { label: 'filters', links: filterSections, onDesktop: true }
 
@@ -93,14 +93,7 @@ export function appRoutes(environment: AppEnvironment): RouteObject[] {
     screen('pokedex', <PokedexScreen />, { title: 'pokedex', data: game }),
     screen('pokedex/moves', <MovesScreen />, { title: 'moves', data: game }),
     screen('pokedex/moves/:move', <MoveScreen />, { title: 'move', data: both }),
-    screen(
-      'pokedex/types',
-      tab(
-        { title: 'pokedex', desktopTitle: 'typeChart', sections: pokedex },
-        soon('typeChart', 'B5', 'E03-F05 Type chart'),
-      ),
-      { title: 'typeChart', data: game },
-    ),
+    screen('pokedex/types', <TypeChartScreen />, { title: 'typeChart', data: game }),
     screen('pokedex/:pokemon', <PokemonScreen />, { title: 'pokemon', data: both }),
 
     // C. Battle
