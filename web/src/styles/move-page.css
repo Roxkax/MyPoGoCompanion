@@ -1,0 +1,110 @@
+.move-page,
+.move-stat-card,
+.move-events {
+  display: grid;
+  gap: 12px;
+}
+
+.move-page h1,
+.move-page h2,
+.move-page h3,
+.move-page p,
+.move-stat-card dl,
+.move-stat-card dd {
+  margin: 0;
+}
+
+.move-stat-cards {
+  display: grid;
+  gap: 12px;
+}
+
+.move-stat-card h2,
+.move-learners h3 {
+  font-size: 1rem;
+}
+
+.move-stat-card dl {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.move-stat-card dl > div,
+.move-event {
+  background: var(--surface-2);
+  border-radius: 12px;
+  padding: 8px 10px;
+}
+
+.move-stat-card dd {
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.move-bars,
+.move-learners header,
+.move-learner-types {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.move-bars-graphic {
+  width: 80px;
+  display: grid;
+  gap: 2px;
+}
+
+.move-bars-graphic i {
+  height: 7px;
+  background: currentColor;
+  border-radius: 8px;
+}
+
+.move-learners header {
+  padding: 10px 14px;
+}
+
+.move-learners ul {
+  display: grid;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.move-learner {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 14px;
+  border-top: 1px solid var(--line);
+  color: inherit;
+  text-decoration: none;
+}
+
+.move-learner:hover strong {
+  text-decoration: underline;
+}
+
+.move-attack {
+  display: grid;
+  text-align: end;
+}
+
+.move-expand {
+  width: 100%;
+  min-height: 44px;
+  color: var(--accent);
+  border-top: 1px solid var(--line);
+  font-weight: 800;
+}
+
+@media (min-width: 900px) {
+  .move-stat-cards,
+  .move-learners ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

@@ -374,6 +374,56 @@
         }
       }
     },
+    "/moves/{id}": {
+      "get": {
+        "tags": [
+          "Moves"
+        ],
+        "summary": "A move with its stats, learners and dated event instructions.",
+        "description": "Public and cacheable. Send the ETag back in If-None-Match to get 304 Not Modified until new game data or live data is published.",
+        "operationId": "GetMove",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MovePageResponse"
+                }
+              }
+            }
+          },
+          "304": {
+            "description": "Not Modified"
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc9110#section-15.5.5",
+                  "title": "Not Found",
+                  "status": 404
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/client-errors": {
       "post": {
         "tags": [
@@ -1484,12 +1534,226 @@
         ],
         "type": "string"
       },
+      "MoveEvent": {
+        "examples": [
+          {
+            "eventId": "4e04dbf4-d498-42af-bc61-57ed3b864567",
+            "formId": "garchomp",
+            "nameEn": "Community Day: Gible",
+            "namePt": null,
+            "pokemonNameEn": "Garchomp",
+            "pokemonNamePt": null,
+            "howEn": "Evolve Gabite before 22:00",
+            "howPt": null,
+            "startsAt": "2026-11-07T14:00:00",
+            "endsAt": "2026-11-07T17:00:00",
+            "timeZone": null
+          }
+        ],
+        "required": [
+          "eventId",
+          "formId",
+          "nameEn",
+          "namePt",
+          "pokemonNameEn",
+          "pokemonNamePt",
+          "howEn",
+          "howPt",
+          "startsAt",
+          "endsAt",
+          "timeZone"
+        ],
+        "type": "object",
+        "properties": {
+          "eventId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "formId": {
+            "type": "string"
+          },
+          "nameEn": {
+            "type": "string"
+          },
+          "namePt": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "pokemonNameEn": {
+            "type": "string"
+          },
+          "pokemonNamePt": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "howEn": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "howPt": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "startsAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endsAt": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "date-time"
+          },
+          "timeZone": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "description": "An event's wall-clock dates and move instructions. The event end may differ from the acquisition deadline."
+      },
       "MoveKind": {
         "enum": [
           "Fast",
           "Charged"
         ],
         "type": "string"
+      },
+      "MoveLearner": {
+        "examples": [
+          {
+            "dex": 445,
+            "formId": "garchomp",
+            "nameEn": "Garchomp",
+            "namePt": null,
+            "types": [
+              "dragon",
+              "ground"
+            ],
+            "attack": 261,
+            "sprite": "pm445",
+            "availability": "Normal",
+            "megaToo": true,
+            "primalToo": false
+          }
+        ],
+        "required": [
+          "dex",
+          "formId",
+          "nameEn",
+          "namePt",
+          "types",
+          "attack",
+          "sprite",
+          "availability",
+          "megaToo",
+          "primalToo"
+        ],
+        "type": "object",
+        "properties": {
+          "dex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "formId": {
+            "type": "string"
+          },
+          "nameEn": {
+            "type": "string"
+          },
+          "namePt": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "attack": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sprite": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "availability": {
+            "$ref": "#/components/schemas/MoveAvailability"
+          },
+          "megaToo": {
+            "type": "boolean"
+          },
+          "primalToo": {
+            "type": "boolean"
+          }
+        },
+        "description": "A form that learns the move, with its base Attack and any Mega or Primal that shares its availability."
+      },
+      "MovePageResponse": {
+        "examples": [
+          {
+            "move": {
+              "id": "DRAGON_TAIL",
+              "nameEn": "Dragon Tail",
+              "namePt": "Cauda do Dragão",
+              "type": "dragon",
+              "kind": "Fast",
+              "raidPower": 14,
+              "raidDurationMs": 1000,
+              "raidEnergy": 8,
+              "pvpPower": 9,
+              "pvpEnergy": 12,
+              "pvpTurns": 3,
+              "pvpBuffChance": null,
+              "pvpSelfAttack": 0,
+              "pvpSelfDefense": 0,
+              "pvpOpponentAttack": 0,
+              "pvpOpponentDefense": 0
+            },
+            "learners": [ ],
+            "events": [ ]
+          }
+        ],
+        "required": [
+          "move",
+          "learners",
+          "events"
+        ],
+        "type": "object",
+        "properties": {
+          "move": {
+            "$ref": "#/components/schemas/PageMove"
+          },
+          "learners": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MoveLearner"
+            }
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MoveEvent"
+            }
+          }
+        },
+        "description": "Move stats, learners ordered by availability and Attack, and dated event instructions."
       },
       "MoveUses": {
         "examples": [

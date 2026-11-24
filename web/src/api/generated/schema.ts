@@ -149,6 +149,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/moves/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * A move with its stats, learners and dated event instructions.
+         * @description Public and cacheable. Send the ETag back in If-None-Match to get 304 Not Modified until new game data or live data is published.
+         */
+        get: operations["GetMove"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/client-errors": {
         parameters: {
             query?: never;
@@ -571,8 +591,102 @@ export interface components {
         };
         /** @enum {string} */
         MoveAvailability: "Normal" | "EliteTm" | "Legacy";
+        /**
+         * @description An event's wall-clock dates and move instructions. The event end may differ from the acquisition deadline.
+         * @example {
+         *       "eventId": "4e04dbf4-d498-42af-bc61-57ed3b864567",
+         *       "formId": "garchomp",
+         *       "nameEn": "Community Day: Gible",
+         *       "namePt": null,
+         *       "pokemonNameEn": "Garchomp",
+         *       "pokemonNamePt": null,
+         *       "howEn": "Evolve Gabite before 22:00",
+         *       "howPt": null,
+         *       "startsAt": "2026-11-07T14:00:00",
+         *       "endsAt": "2026-11-07T17:00:00",
+         *       "timeZone": null
+         *     }
+         */
+        MoveEvent: {
+            /** Format: uuid */
+            eventId: string;
+            formId: string;
+            nameEn: string;
+            namePt: null | string;
+            pokemonNameEn: string;
+            pokemonNamePt: null | string;
+            howEn: null | string;
+            howPt: null | string;
+            /** Format: date-time */
+            startsAt: string;
+            /** Format: date-time */
+            endsAt: null | string;
+            timeZone: null | string;
+        };
         /** @enum {string} */
         MoveKind: "Fast" | "Charged";
+        /**
+         * @description A form that learns the move, with its base Attack and any Mega or Primal that shares its availability.
+         * @example {
+         *       "dex": 445,
+         *       "formId": "garchomp",
+         *       "nameEn": "Garchomp",
+         *       "namePt": null,
+         *       "types": [
+         *         "dragon",
+         *         "ground"
+         *       ],
+         *       "attack": 261,
+         *       "sprite": "pm445",
+         *       "availability": "Normal",
+         *       "megaToo": true,
+         *       "primalToo": false
+         *     }
+         */
+        MoveLearner: {
+            /** Format: int32 */
+            dex: number;
+            formId: string;
+            nameEn: string;
+            namePt: null | string;
+            types: string[];
+            /** Format: int32 */
+            attack: number;
+            sprite: null | string;
+            availability: components["schemas"]["MoveAvailability"];
+            megaToo: boolean;
+            primalToo: boolean;
+        };
+        /**
+         * @description Move stats, learners ordered by availability and Attack, and dated event instructions.
+         * @example {
+         *       "move": {
+         *         "id": "DRAGON_TAIL",
+         *         "nameEn": "Dragon Tail",
+         *         "namePt": "Cauda do Dragão",
+         *         "type": "dragon",
+         *         "kind": "Fast",
+         *         "raidPower": 14,
+         *         "raidDurationMs": 1000,
+         *         "raidEnergy": 8,
+         *         "pvpPower": 9,
+         *         "pvpEnergy": 12,
+         *         "pvpTurns": 3,
+         *         "pvpBuffChance": null,
+         *         "pvpSelfAttack": 0,
+         *         "pvpSelfDefense": 0,
+         *         "pvpOpponentAttack": 0,
+         *         "pvpOpponentDefense": 0
+         *       },
+         *       "learners": [],
+         *       "events": []
+         *     }
+         */
+        MovePageResponse: {
+            move: components["schemas"]["PageMove"];
+            learners: components["schemas"]["MoveLearner"][];
+            events: components["schemas"]["MoveEvent"][];
+        };
         /**
          * @description A move's number of uses in PvPoke's simulations.
          * @example {
@@ -2299,6 +2413,51 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    GetMove: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MovePageResponse"];
+                };
+            };
+            /** @description Not Modified */
+            304: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.5",
+                     *       "title": "Not Found",
+                     *       "status": 404
+                     *     }
+                     */
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
             };
         };
     };

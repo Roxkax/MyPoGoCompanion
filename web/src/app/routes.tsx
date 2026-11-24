@@ -11,6 +11,7 @@ import { CallbackRoute } from '../screens/CallbackRoute'
 import { ComingSoon } from '../screens/ComingSoon'
 import { DesignScreen } from '../screens/DesignScreen'
 import { NotFoundScreen } from '../screens/NotFoundScreen'
+import { MoveScreen } from '../screens/moves/MoveScreen'
 import { MovesScreen } from '../screens/moves/MovesScreen'
 import { PokedexScreen } from '../screens/pokedex/PokedexScreen'
 import { PokemonScreen } from '../screens/pokemon/PokemonScreen'
@@ -62,7 +63,6 @@ const both: readonly DataKind[] = ['live', 'game']
 
 const today: BackTarget = { to: '/', label: 'today' }
 const calendar: BackTarget = { to: '/calendar', label: 'calendar' }
-const moves: BackTarget = { to: '/pokedex/moves', label: 'moves' }
 const raids: BackTarget = { to: '/battle/raids', label: 'raids' }
 const collection: BackTarget = { to: '/collection', label: 'collection' }
 
@@ -92,11 +92,7 @@ export function appRoutes(environment: AppEnvironment): RouteObject[] {
     // B. Pokédex
     screen('pokedex', <PokedexScreen />, { title: 'pokedex', data: game }),
     screen('pokedex/moves', <MovesScreen />, { title: 'moves', data: game }),
-    screen(
-      'pokedex/moves/:move',
-      detail(moves, undefined, soon('move', 'B4', 'E03-F04 Move page')),
-      { title: 'move', data: game },
-    ),
+    screen('pokedex/moves/:move', <MoveScreen />, { title: 'move', data: both }),
     screen(
       'pokedex/types',
       tab(
