@@ -120,6 +120,39 @@ public sealed class SearchTests
         Assert.Equal(KeeperStringCheck.LastDexChecked * 125 * 2, result.Cases);
     }
 
+    [Theory]
+    [InlineData("GL", Leagues.Great)]
+    [InlineData("UL", Leagues.Ultra)]
+    public void KeeperStringEncoder_MatchesThePythonBuild(string league, int cap)
+    {
+        var (boxes, _) = Load(league);
+        var parts = KeeperStringEncoder.Encode(boxes, cap);
+        var actual = new JsonArray([.. parts.Select(part => new JsonObject
+        {
+            ["from"] = part.FromDex,
+            ["to"] = part.ToDex,
+            ["text"] = part.Text,
+            ["length"] = part.Text.Length,
+        })]);
+        Assert.True(JsonNode.DeepEquals(_golden.ReadOutput("pvp_strings")[league]!["strings"], actual));
+    }
+
+    [Fact]
+    public void KeeperStringEncoder_LeavesOutMissingNumbers()
+    {
+        var boxes = new Dictionary<int, KeeperBox>
+        {
+            [1] = new(new(0, 1), BarRange.Any, BarRange.Any),
+            [3] = new(BarRange.Any, BarRange.Any, BarRange.Any),
+            [6] = new(BarRange.Any, BarRange.Any, new(3, 4)),
+        };
+
+        var part = Assert.Single(KeeperStringEncoder.Encode(boxes, Leagues.Great));
+        Assert.Equal((1, 6), (part.FromDex, part.ToDex));
+        var result = KeeperStringCheck.Check(boxes, [part.Text], Leagues.Great);
+        Assert.True(result.Passed, string.Join(Environment.NewLine, result.Problems));
+    }
+
     [Fact]
     public void KeeperStrings_ABoxTheStringsDontMatch_IsDescribed()
     {

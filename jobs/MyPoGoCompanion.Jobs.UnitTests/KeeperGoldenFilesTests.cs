@@ -1,9 +1,11 @@
 using System.Globalization;
 using System.Numerics;
 using System.Text.Json.Nodes;
+using MyPoGoCompanion.Data.Rankings;
 using MyPoGoCompanion.Engine;
 using MyPoGoCompanion.Engine.Pvp;
 using MyPoGoCompanion.Engine.Raids;
+using MyPoGoCompanion.Engine.Search;
 using MyPoGoCompanion.GoldenFiles;
 using MyPoGoCompanion.Jobs.DailyImport;
 
@@ -66,6 +68,32 @@ public sealed class KeeperGoldenFilesTests
             ["leagues"] = leagues,
         };
         GoldenAssert.Matches(_golden, "pvp_boxes", actual);
+    }
+
+    [Fact]
+    public void DailyImport_PvpKeeperStringsCoverTheFullPokedex_WithMegasAndPrimals()
+    {
+        var pvpoke = PvpokeSource.ReadGameMaster(File("pvpoke/src/data/gamemaster.json"));
+        var gameMaster = GameMasterSource.Read(File("gm/GAME_MASTER.json"));
+        var multipliers = PvpokeSource.ReadCpMultipliers(File("pvpoke/src/js/pokemon/Pokemon.js"), GameDataBuilder.MaxLevel);
+        var data = GameDataBuilder.Build(pvpoke, gameMaster, multipliers,
+            [
+                (League.Great, PvpokeSource.ReadRankings(File("pvpoke/src/data/rankings/all/overall/rankings-1500.json"))),
+                (League.Ultra, PvpokeSource.ReadRankings(File("pvpoke/src/data/rankings/all/overall/rankings-2500.json"))),
+            ]);
+
+        foreach (var league in new[] { League.Great, League.Ultra })
+        {
+            var boxes = data.PvpKeeperBoxes.Where(box => box.League == league).ToList();
+            Assert.Equal(KeeperCalculator.MaxDex, boxes.Count);
+            Assert.Contains("kyogre_primal", boxes.Single(box => box.Dex == 382).JudgedBy);
+            Assert.Contains("charizard_mega_y", boxes.Single(box => box.Dex == 4).JudgedBy);
+        }
+
+        var check = ImportChecks.Run(data, 0, new DailyImportOptions()).Single(check => check.Name == "Keeper strings");
+        Assert.True(check.Passed, string.Join(Environment.NewLine, check.Problems));
+        Assert.Equal("Great League: 2 parts, 275,000 cases; Ultra League: 3 parts, 275,000 cases", check.Detail);
+        Assert.All(data.KeeperFilters, part => Assert.InRange(part.SearchString.Length, 1, KeeperStringCheck.MaxLength));
     }
 
     [Fact]
@@ -157,7 +185,6 @@ public sealed class KeeperGoldenFilesTests
 
     private static (EngineInputs, List<PvpokeRanking>, List<PvpokeRanking>) Load()
     {
-        SourceFile File(string path) => new(path, new Uri("https://example.test/" + path), System.IO.File.ReadAllBytes(_golden.Input(path)));
         var pvpoke = PvpokeSource.ReadGameMaster(File("pvpoke/src/data/gamemaster.json"));
         var gameMaster = GameMasterSource.Read(File("gm/GAME_MASTER.json"));
         var multipliers = PvpokeSource.ReadCpMultipliers(File("pvpoke/src/js/pokemon/Pokemon.js"), GameDataBuilder.MaxLevel);
@@ -165,6 +192,9 @@ public sealed class KeeperGoldenFilesTests
             PvpokeSource.ReadRankings(File("pvpoke/src/data/rankings/all/overall/rankings-1500.json")),
             PvpokeSource.ReadRankings(File("pvpoke/src/data/rankings/all/overall/rankings-2500.json")));
     }
+
+    private static SourceFile File(string path) =>
+        new(path, new Uri("https://example.test/" + path), System.IO.File.ReadAllBytes(_golden.Input(path)));
 
     private static JsonArray Range(BarRange range) => new(range.Min, range.Max);
 

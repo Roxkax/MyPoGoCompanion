@@ -2,6 +2,7 @@ using MyPoGoCompanion.Data.Rankings;
 using MyPoGoCompanion.Engine;
 using MyPoGoCompanion.Engine.Pvp;
 using MyPoGoCompanion.Engine.Raids;
+using MyPoGoCompanion.Engine.Search;
 
 namespace MyPoGoCompanion.Jobs.DailyImport;
 
@@ -29,18 +30,22 @@ public static class EngineResults
         var dexes = data.Species.Select(species => species.Dex).Where(dex => dex <= KeeperCalculator.MaxDex).ToHashSet();
 
         var keepers = new KeeperCalculator(inputs.Entries, inputs.Multipliers);
-        // Megas and Primals can be used in GO Battle League (decision 2026-11-08): they get best IVs too, but not
-        // keeper boxes (those stay as the Python build made them).
+        var raids = new RaidRanker(inputs.Entries, inputs.Moves, inputs.Multipliers);
         var megas = inputs.Entries
             .Where(entry => entry.IsMega && !entry.IsShadow && formIds.Contains(entry.FormId))
             .DistinctBy(entry => entry.FormId, StringComparer.Ordinal)
             .ToList();
+        var releasedMegaFamilies = megas.Where(mega => mega.Released)
+            .SelectMany(mega => raids.PreEvolutions(mega).Prepend(mega.Dex).Distinct().Select(dex => (Dex: dex, Mega: mega)))
+            .ToLookup(pair => pair.Dex, pair => pair.Mega);
         foreach (var (league, cap) in _pvpLeagues)
         {
-            var megaRankOnes = megas.Select(mega =>
+            var megaLeagues = megas.ToDictionary(mega => mega.FormId,
+                mega => LeagueStats.Calculate(mega.Stats, cap, inputs.Multipliers), StringComparer.Ordinal);
+            var megaRankOnes = megaLeagues.Select(pair =>
             {
-                var top = LeagueStats.Calculate(mega.Stats, cap, inputs.Multipliers).Top;
-                return new RankOne(mega.FormId, top.Ivs, top.Level, top.Cp, top.StatProduct);
+                var top = pair.Value.Top;
+                return new RankOne(pair.Key, top.Ivs, top.Level, top.Cp, top.StatProduct);
             });
             foreach (var one in keepers.RankOnes(cap).Where(one => formIds.Contains(one.FormId)).Concat(megaRankOnes))
             {
@@ -73,24 +78,56 @@ public static class EngineResults
                 throw new ImportException($"The {league} League keeper boxes can't be calculated: {exception.Message}", exception);
             }
 
-            foreach (var box in boxes)
+            var finalBoxes = new Dictionary<int, KeeperBox>(boxes.Count);
+            var megaBoxes = new Dictionary<string, KeeperBox>(StringComparer.Ordinal);
+            foreach (var entry in boxes)
             {
+                var box = entry.Fit.Box;
+                var judges = new List<string>(entry.JudgedBy);
+                foreach (var mega in releasedMegaFamilies[entry.Dex])
+                {
+                    if (!megaBoxes.TryGetValue(mega.FormId, out var megaBox))
+                    {
+                        var stats = megaLeagues[mega.FormId];
+                        // Include the rank-1 tie-break the Pokémon page displays, too.
+                        megaBox = KeeperBoxes.BestBox(stats.Keepers(KeeperBoxes.KeepShare),
+                            [KeeperBoxes.CellOf(stats.BestIndex), Appraisal.Cell(stats.Top.Ivs)]).Box;
+                        megaBoxes.Add(mega.FormId, megaBox);
+                    }
+
+                    box = new KeeperBox(Cover(box.Attack, megaBox.Attack), Cover(box.Defense, megaBox.Defense), Cover(box.Stamina, megaBox.Stamina));
+                    judges.Add(mega.FormId);
+                }
+
+                finalBoxes.Add(entry.Dex, box);
                 data.PvpKeeperBoxes.Add(new PvpKeeperBox
                 {
                     League = league,
-                    Dex = box.Dex,
-                    AttackBarMin = box.Fit.Box.Attack.Min,
-                    AttackBarMax = box.Fit.Box.Attack.Max,
-                    DefenseBarMin = box.Fit.Box.Defense.Min,
-                    DefenseBarMax = box.Fit.Box.Defense.Max,
-                    StaminaBarMin = box.Fit.Box.Stamina.Min,
-                    StaminaBarMax = box.Fit.Box.Stamina.Max,
-                    JudgedBy = [.. box.JudgedBy],
+                    Dex = entry.Dex,
+                    AttackBarMin = box.Attack.Min,
+                    AttackBarMax = box.Attack.Max,
+                    DefenseBarMin = box.Defense.Min,
+                    DefenseBarMax = box.Defense.Max,
+                    StaminaBarMin = box.Stamina.Min,
+                    StaminaBarMax = box.Stamina.Max,
+                    JudgedBy = [.. judges.Order(StringComparer.Ordinal)],
+                });
+            }
+
+            var partNumber = 0;
+            foreach (var part in KeeperStringEncoder.Encode(finalBoxes, cap))
+            {
+                data.KeeperFilters.Add(new KeeperFilter
+                {
+                    Kind = league == League.Great ? KeeperFilterKind.GreatLeague : KeeperFilterKind.UltraLeague,
+                    Part = ++partNumber,
+                    FromDex = part.FromDex,
+                    ToDex = part.ToDex,
+                    SearchString = part.Text,
                 });
             }
         }
 
-        var raids = new RaidRanker(inputs.Entries, inputs.Moves, inputs.Multipliers);
         bool Keeps(PokemonEntry pokemon, RaidScore score) =>
             formIds.Contains(pokemon.FormId) && moveIds.Contains(score.FastMoveId) && moveIds.Contains(score.ChargedMoveId);
 
@@ -151,4 +188,7 @@ public static class EngineResults
             }
         }
     }
+
+    private static BarRange Cover(BarRange first, BarRange second) =>
+        new(Math.Min(first.Min, second.Min), Math.Max(first.Max, second.Max));
 }
