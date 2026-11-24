@@ -13,7 +13,6 @@ const screens: [string, string, string][] = [
   ['/calendar', 'Calendar', 'A2'],
   ['/calendar/community-day-gible-2026-11-07', 'Event details', 'A3'],
   ['/eggs', 'Eggs & research', 'A4'],
-  ['/pokedex/moves/earth-power', 'Move', 'B4'],
   ['/pokedex/types', 'Type chart', 'B5'],
   ['/battle/raids', 'Raid bosses', 'C1'],
   ['/battle/raids/mega-gengar', 'Raid boss', 'C2'],
@@ -69,10 +68,10 @@ describe('routes', () => {
     },
   )
 
-  it('shows what the address points at', () => {
+  it('loads the requested move detail', () => {
     renderApp('/pokedex/moves/earth-power')
 
-    expect(screen.getByRole('region', { name: 'Move' })).toHaveTextContent('earth-power')
+    expect(screen.getByRole('status')).toHaveTextContent('Loading move')
   })
 
   it.each([

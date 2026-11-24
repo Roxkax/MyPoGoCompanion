@@ -93,7 +93,7 @@ The .NET build turns every analyzer warning into an error when `CI=true` (as in 
 
 ### Moves
 
-The Moves screen provides Fast/Charged moves, search, type filtering and sorting, with raid and PvP numbers and effects. See [docs/MOVES.md](docs/MOVES.md) for the screen and its public API.
+The Moves screen provides Fast/Charged moves, search, type filtering and sorting, with raid and PvP numbers and effects. Each move opens its detailed stats, learners grouped by TM availability, and dated event instructions. See [docs/MOVES.md](docs/MOVES.md) for the screen and its public API.
 
 ### API
 

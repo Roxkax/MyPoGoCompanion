@@ -30,6 +30,7 @@ builder.Services.AddFreshness(builder.Configuration);
 builder.Services.AddPokedex();
 builder.Services.AddPokemonPage();
 builder.Services.AddMoves();
+builder.Services.AddMovePage();
 builder.Services.AddClientErrors();
 builder.Services.AddRunNow(builder.Configuration);
 
@@ -54,6 +55,7 @@ app.MapFreshnessEndpoints();
 app.MapPokedexEndpoints();
 app.MapPokemonPageEndpoints();
 app.MapMovesEndpoints();
+app.MapMovePageEndpoints();
 app.MapClientErrorEndpoints();
 
 if (app.Environment.IsDevelopment())

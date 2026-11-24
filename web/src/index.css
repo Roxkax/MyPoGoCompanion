@@ -4,6 +4,7 @@
 @import './styles/pokedex.css';
 @import './styles/pokemon.css';
 @import './styles/moves.css';
+@import './styles/move-page.css';
 
 *,
 *::before,
