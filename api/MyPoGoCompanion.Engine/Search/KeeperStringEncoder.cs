@@ -88,6 +88,19 @@ public static class KeeperStringEncoder
         return string.Join('&', clauses);
     }
 
+    /// <summary>Joins distinct Pokédex numbers and consecutive ranges as Pokémon GO search terms.</summary>
+    public static string DexRanges(IEnumerable<int> dexes)
+    {
+        ArgumentNullException.ThrowIfNull(dexes);
+        var ranges = new RangeList();
+        foreach (var dex in dexes.Distinct().Order())
+        {
+            ranges.Add(dex, allowGap: false);
+        }
+
+        return ranges.Finish();
+    }
+
     private static List<string> Clauses(ReadOnlySpan<KeyValuePair<int, KeeperBox>> entries, Func<KeeperBox, BarRange> select, string stat)
     {
         var bars = new (int Dex, BarRange Range)[entries.Length];

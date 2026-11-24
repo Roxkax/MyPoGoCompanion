@@ -10,6 +10,7 @@ import { AllChangesScreen } from '../screens/AllChangesScreen'
 import { CallbackRoute } from '../screens/CallbackRoute'
 import { ComingSoon } from '../screens/ComingSoon'
 import { DesignScreen } from '../screens/DesignScreen'
+import { KeepersScreen } from '../screens/filters/KeepersScreen'
 import { NotFoundScreen } from '../screens/NotFoundScreen'
 import { MoveScreen } from '../screens/moves/MoveScreen'
 import { MovesScreen } from '../screens/moves/MovesScreen'
@@ -123,11 +124,10 @@ export function appRoutes(environment: AppEnvironment): RouteObject[] {
     ),
 
     // D. Filters
-    screen(
-      'filters',
-      tab({ title: 'filters', sections: filters }, soon('keepers', 'D1', 'E04-F01 Keeper filters')),
-      { title: 'filters', data: game },
-    ),
+    screen('filters', tab({ title: 'filters', sections: filters }, <KeepersScreen />), {
+      title: 'filters',
+      data: game,
+    }),
     screen(
       'filters/builder',
       tab({ title: 'filters', sections: filters }, soon('builder', 'D2', 'E04-F04 Filter builder')),

@@ -210,6 +210,7 @@ public sealed partial class OpenApiTests(PostgresFixture postgres)
         }
 
         await Call(sampleClient, HttpMethod.Get, "/moves/does-not-exist");
+        await Call(sampleClient, HttpMethod.Get, "/keeper-filters");
 
         var garchomp = await Call(sampleClient, HttpMethod.Get, "/pokedex/445");
         using (var unchanged = new HttpRequestMessage(HttpMethod.Get, new Uri("/pokedex/445", UriKind.Relative)))

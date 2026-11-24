@@ -4,6 +4,7 @@ using MyPoGoCompanion.Api.Account;
 using MyPoGoCompanion.Api.Admin;
 using MyPoGoCompanion.Api.Auth;
 using MyPoGoCompanion.Api.Diagnostics;
+using MyPoGoCompanion.Api.Filters;
 using MyPoGoCompanion.Api.Freshness;
 using MyPoGoCompanion.Api.Health;
 using MyPoGoCompanion.Api.Moves;
@@ -74,6 +75,7 @@ internal static class OpenApiExamples
     private static readonly FamilyMember _gible = new(443, "gible", FormKind.Base, IsDefault: true, "Gible", "Gible", "Gible", ["dragon", "ground"], 124, 84, 151, Released: true, "pm443");
     private static readonly PageEvolution _gibleToGabite = new("gible", "gabite", 25, null, null, null, null, null, null, null, null);
     private static readonly PageCostume _costume = new("pm445.cHOLIDAY_2025", "Holiday 2025", null);
+    private static readonly KeeperFilterPart _maxKeepers = new(KeeperFilterKind.MaxBattle, "", 1, null, null, "maxmove1-&3-4attack");
     private static readonly PageAppearance _communityDay = new(
         AppearanceKind.Event, "garchomp", IsShadow: false, null, null, Gigantamax: false, null, null, null, "Community Day: Gible",
         "Dia Comunitário: Gible", EventKind.CommunityDay, new DateTime(2026, 11, 7, 14, 0, 0), new DateTime(2026, 11, 7, 17, 0, 0), Shiny: true);
@@ -121,6 +123,8 @@ internal static class OpenApiExamples
             "Community Day: Gible", null, "Garchomp", null, "Evolve Gabite before 22:00", null, new DateTime(2026, 11, 7, 14, 0, 0), new DateTime(2026, 11, 7, 17, 0, 0), null),
         [typeof(MovePageResponse)] = new MovePageResponse(_dragonTailMove, [], []),
         [typeof(MovesResponse)] = new MovesResponse([_dragonTailMove]),
+        [typeof(KeeperFiltersResponse)] = new KeeperFiltersResponse([_maxKeepers]),
+        [typeof(KeeperFilterPart)] = _maxKeepers,
         [typeof(FamilyMember)] = _gible,
         [typeof(PageEvolution)] = _gibleToGabite,
         [typeof(PageCostume)] = _costume,

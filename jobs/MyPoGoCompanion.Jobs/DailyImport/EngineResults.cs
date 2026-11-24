@@ -131,7 +131,9 @@ public static class EngineResults
         bool Keeps(PokemonEntry pokemon, RaidScore score) =>
             formIds.Contains(pokemon.FormId) && moveIds.Contains(score.FastMoveId) && moveIds.Contains(score.ChargedMoveId);
 
-        foreach (var type in raids.RankAll())
+        var raidRankings = raids.RankAll();
+        OtherKeeperFilters.Add(data, inputs.Entries, raids, raidRankings);
+        foreach (var type in raidRankings)
         {
             var seen = new HashSet<(string, bool)>();
             var rank = 0;

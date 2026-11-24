@@ -94,6 +94,20 @@ public sealed class KeeperGoldenFilesTests
         Assert.True(check.Passed, string.Join(Environment.NewLine, check.Problems));
         Assert.Equal("Great League: 2 parts, 275,000 cases; Ultra League: 3 parts, 275,000 cases", check.Detail);
         Assert.All(data.KeeperFilters, part => Assert.InRange(part.SearchString.Length, 1, KeeperStringCheck.MaxLength));
+
+        string Search(KeeperFilterKind kind, string variant) =>
+            Assert.Single(data.KeeperFilters, filter => filter.Kind == kind && filter.Variant == variant).SearchString;
+
+        var raid = _golden.ReadOutput("data_raid");
+        Assert.Equal((string)raid["raid"]!["11-15"]!, Search(KeeperFilterKind.Raid, ""));
+        Assert.Equal((string)raid["raid"]!["15"]!, Search(KeeperFilterKind.Raid, "attack-15"));
+        Assert.Equal((string)raid["max"]!["11-15"]!, Search(KeeperFilterKind.MaxBattle, ""));
+        Assert.Equal((string)raid["max"]!["15"]!, Search(KeeperFilterKind.MaxBattle, "attack-15"));
+        var mega = _golden.ReadOutput("data_mega");
+        // The frozen source already lists Chandelure as released. The legacy list still carried its number.
+        Assert.Equal(((string)mega["string"]!).Replace(",609,", ",", StringComparison.Ordinal), Search(KeeperFilterKind.Mega, ""));
+        Assert.Equal(((string)mega["stringWithPre"]!).Replace(",609,", ",", StringComparison.Ordinal),
+            Search(KeeperFilterKind.Mega, "with-pre-evolutions"));
     }
 
     [Fact]

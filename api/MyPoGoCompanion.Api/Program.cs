@@ -4,6 +4,7 @@ using MyPoGoCompanion.Api.Admin;
 using MyPoGoCompanion.Api.Auth;
 using MyPoGoCompanion.Api.Configuration;
 using MyPoGoCompanion.Api.Diagnostics;
+using MyPoGoCompanion.Api.Filters;
 using MyPoGoCompanion.Api.Freshness;
 using MyPoGoCompanion.Api.Health;
 using MyPoGoCompanion.Api.Moves;
@@ -56,6 +57,7 @@ app.MapPokedexEndpoints();
 app.MapPokemonPageEndpoints();
 app.MapMovesEndpoints();
 app.MapMovePageEndpoints();
+app.MapKeeperFilterEndpoints();
 app.MapClientErrorEndpoints();
 
 if (app.Environment.IsDevelopment())

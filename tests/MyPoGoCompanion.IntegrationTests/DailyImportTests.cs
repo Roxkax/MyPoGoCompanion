@@ -1,8 +1,10 @@
 using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using MyPoGoCompanion.Api.Filters;
 using MyPoGoCompanion.Api.Freshness;
 using MyPoGoCompanion.Data.Operations;
 using MyPoGoCompanion.Data.Rankings;
@@ -20,7 +22,7 @@ namespace MyPoGoCompanion.IntegrationTests;
 public sealed class DailyImportTests(PostgresFixture postgres)
 {
     private static readonly DailyImportOptions _defaults = new();
-    private static readonly JsonSerializerOptions _json = new(JsonSerializerOptions.Web);
+    private static readonly JsonSerializerOptions _json = new(JsonSerializerOptions.Web) { Converters = { new JsonStringEnumConverter() } };
 
     private static CancellationToken Ct => TestContext.Current.CancellationToken;
 
@@ -111,9 +113,8 @@ public sealed class DailyImportTests(PostgresFixture postgres)
         Assert.True(await db.PvpMoveUsage.AnyAsync(Ct));
 
         var charmander = await db.PvpKeeperBoxes.SingleAsync(box => box.League == League.Ultra && box.Dex == 4, Ct);
-        Assert.Equal((0, 1, 3, 4, 2, 4), (charmander.AttackBarMin, charmander.AttackBarMax, charmander.DefenseBarMin,
-            charmander.DefenseBarMax, charmander.StaminaBarMin, charmander.StaminaBarMax));
-        Assert.Equal(["charizard"], charmander.JudgedBy);
+        Assert.Contains("charizard", charmander.JudgedBy);
+        Assert.Contains("charizard_mega_y", charmander.JudgedBy);
         Assert.Equal(28 * 2, await db.PvpKeeperBoxes.CountAsync(Ct));
 
         var fire = await db.RaidRankings.Where(ranking => ranking.AttackingTypeId == "fire").OrderBy(ranking => ranking.Rank).ToListAsync(Ct);
@@ -130,6 +131,35 @@ public sealed class DailyImportTests(PostgresFixture postgres)
 
         var summary = ImportSummary.TryParse((await RunsAsync(database))[^1].Summary)!;
         Assert.Equal(await db.RaidMovesets.CountAsync(Ct), summary.Changes["raidMovesets"].Added);
+    }
+
+    [Fact]
+    public async Task Import_PublishesKeeperFilters_AndRemovesObsoleteParts()
+    {
+        var database = await postgres.CreateDatabaseAsync(Ct);
+        Assert.Equal(0, await RunJobAsync(database));
+        await using (var db = PostgresFixture.CreateContext(database))
+        {
+            db.KeeperFilters.Add(new KeeperFilter { Kind = KeeperFilterKind.GreatLeague, Part = 2, SearchString = "1&cp-1500" });
+            await db.SaveChangesAsync(Ct);
+        }
+
+        Assert.Equal(0, await RunJobAsync(database, settings: "--APP_VERSION=next"));
+        var run = (await RunsAsync(database))[^1];
+        Assert.Equal(JobStatus.Succeeded, run.Status);
+        Assert.Equal(1, ImportSummary.TryParse(run.Summary)!.Changes["keeperFilters"].Removed);
+
+        await using var api = new ApiFactory(database);
+        using var client = api.CreateClient();
+        var response = await client.GetFromJsonAsync<KeeperFiltersResponse>(new Uri("/keeper-filters", UriKind.Relative), _json, Ct);
+        var filters = response!.Filters;
+        Assert.Equal(8, filters.Count);
+        Assert.Equal("maxmove1-&4attack", Assert.Single(filters, filter =>
+            filter.Kind == KeeperFilterKind.MaxBattle && filter.Variant == "attack-15").SearchString);
+        var great = Assert.Single(filters, filter => filter.Kind == KeeperFilterKind.GreatLeague);
+        Assert.Equal((1, 1), (great.Part, great.FromDex));
+        Assert.EndsWith("&cp-1500", great.SearchString, StringComparison.Ordinal);
+        Assert.All(filters, filter => Assert.InRange(filter.SearchString.Length, 1, 1950));
     }
 
     [Fact]

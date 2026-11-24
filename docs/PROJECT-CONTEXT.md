@@ -88,7 +88,7 @@ Board: https://github.com/users/Roxkax/projects/2 (kept in sync by the `Project 
 
 | Feature | Status | PRs | Notes |
 |---|---|---|---|
-| E04-F01 Keeper filters | **In progress** | — | Issues #221–#229 (GitHub milestone Sprint 6). The daily import generates and validates Great and Ultra League strings in parts of at most 1,950 characters. Released Megas and Primals widen the existing appraisal ranges of their species and pre-evolutions. The encoder reproduces the frozen Python strings with the original boxes. With expanded boxes, the full frozen Pokédex produces two Great League parts and three Ultra League parts that pass 550,000 simulator cases. Engine (72) and jobs (244) unit tests passed. Remaining work includes the Raid, Max Battle and Mega filters, publishing to PostgreSQL, the public API, screen D1 and browser tests. |
+| E04-F01 Keeper filters | **In review** | Feature PR | Issues #221–#229 (GitHub milestone Sprint 6). The daily import verifies and publishes Great and Ultra League, Raid, Max Battle, and Mega filters. Released Megas and Primals widen the existing PvP ranges for their species and pre-evolutions. The expanded frozen Pokédex uses two Great League and three Ultra League parts, all within 1,950 characters and checked across 550,000 simulator cases. Public `GET /keeper-filters` serves the published parts. Screen D1 adds cards, variants, suggested tags, clipboard feedback and instructions in English and Portuguese (Portugal). Guide: `docs/KEEPERS.md`. Shared QA requested by the owner. |
 
 ### Other work done
 
