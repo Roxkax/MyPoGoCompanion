@@ -88,7 +88,7 @@ Board: https://github.com/users/Roxkax/projects/2 (kept in sync by the `Project 
 
 | Feature | Status | PRs | Notes |
 |---|---|---|---|
-| E04-F01 Keeper filters | **In review** | Feature PR | Issues #221–#229 (GitHub milestone Sprint 6). The daily import verifies and publishes Great and Ultra League, Raid, Max Battle, and Mega filters. Released Megas and Primals widen the existing PvP ranges for their species and pre-evolutions. The expanded frozen Pokédex uses two Great League and three Ultra League parts, all within 1,950 characters and checked across 550,000 simulator cases. Public `GET /keeper-filters` serves the published parts. Screen D1 adds cards, variants, suggested tags, clipboard feedback and instructions in English and Portuguese (Portugal). Guide: `docs/KEEPERS.md`. Shared QA requested by the owner. |
+| E04-F01 Keeper filters | **In review** | #967 | Issues #221–#229 (GitHub milestone Sprint 6). The daily import verifies and publishes Great and Ultra League, Raid, Max Battle, and Mega filters. Released Megas and Primals widen the existing PvP ranges for their species and pre-evolutions. The expanded frozen Pokédex uses two Great League and three Ultra League parts, all within 1,950 characters and checked across 550,000 simulator cases. Public `GET /keeper-filters` serves the published parts. Screen D1 adds cards, variants, suggested tags, clipboard feedback and instructions in English and Portuguese (Portugal). Guide: `docs/KEEPERS.md`. Shared QA (run 45376862223, commit `b99ffca`): the import published 11 parts, the smoke test passed, and Playwright reported 306 passed, 10 skipped and zero failures or retries. Build, unit, integration and CodeQL checks passed. Owner review pending. |
 
 ### Other work done
 
