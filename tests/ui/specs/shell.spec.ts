@@ -70,7 +70,6 @@ test('the layout for the screen size: tab bar on a phone, sidebar and top bar on
 test('every address opens its screen directly, also after a reload', async ({ page }) => {
   for (const [path, screen] of [
     ['/calendar/community-day-gible-2026-11-07', 'Event details'],
-    ['/pokedex/moves/earth-power', 'Move'],
     ['/battle/teams?boss=kyogre', 'Best team'],
     ['/filters/builder', 'Filter builder'],
   ] as const) {

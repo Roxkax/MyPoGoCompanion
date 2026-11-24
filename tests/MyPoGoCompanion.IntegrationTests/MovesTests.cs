@@ -24,6 +24,27 @@ public sealed class MovesTests(PostgresFixture postgres)
     }
 
     [Fact]
+    public async Task MovePage_ReturnsLearnersAndDatedEventInstructions()
+    {
+        var database = await SeededDatabaseAsync();
+        await using var api = new ApiFactory(database);
+        using var client = api.CreateClient();
+        using var response = await client.GetAsync("/moves/earth-power", Ct);
+        response.EnsureSuccessStatusCode();
+        var page = (await JsonSerializer.DeserializeAsync<MovePageResponse>(await response.Content.ReadAsStreamAsync(Ct), _json, Ct))!;
+
+        Assert.Equal("EARTH_POWER", page.Move.Id);
+        var garchomp = Assert.Single(page.Learners, row => row.FormId == "garchomp");
+        Assert.Equal(445, garchomp.Dex);
+        Assert.Equal(261, garchomp.Attack);
+        Assert.Equal(["dragon", "ground"], garchomp.Types);
+        var note = Assert.Single(page.Events, row => row.FormId == "garchomp");
+        Assert.Equal("Garchomp", note.PokemonNameEn);
+        Assert.Contains("22:00", note.HowEn);
+        Assert.Equal(17, note.EndsAt?.Hour);
+    }
+
+    [Fact]
     public async Task Moves_PublicResponseMatchesTheDatabase_IncludingSignedEnergyAndEffects()
     {
         var database = await SeededDatabaseAsync();

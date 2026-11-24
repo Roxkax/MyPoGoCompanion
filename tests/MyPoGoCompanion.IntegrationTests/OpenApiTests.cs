@@ -202,6 +202,15 @@ public sealed partial class OpenApiTests(PostgresFixture postgres)
             seen.Add(await AssertMatchesDocumentAsync(document, HttpMethod.Get, "/moves", await sampleClient.SendAsync(unchanged, Ct)));
         }
 
+        var earthPower = await Call(sampleClient, HttpMethod.Get, "/moves/earth-power");
+        using (var unchanged = new HttpRequestMessage(HttpMethod.Get, new Uri("/moves/earth-power", UriKind.Relative)))
+        {
+            unchanged.Headers.IfNoneMatch.Add(earthPower.Headers.ETag!);
+            seen.Add(await AssertMatchesDocumentAsync(document, HttpMethod.Get, "/moves/earth-power", await sampleClient.SendAsync(unchanged, Ct)));
+        }
+
+        await Call(sampleClient, HttpMethod.Get, "/moves/does-not-exist");
+
         var garchomp = await Call(sampleClient, HttpMethod.Get, "/pokedex/445");
         using (var unchanged = new HttpRequestMessage(HttpMethod.Get, new Uri("/pokedex/445", UriKind.Relative)))
         {
