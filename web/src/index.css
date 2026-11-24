@@ -5,6 +5,7 @@
 @import './styles/pokemon.css';
 @import './styles/moves.css';
 @import './styles/move-page.css';
+@import './styles/type-chart.css';
 
 *,
 *::before,
