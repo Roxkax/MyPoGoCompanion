@@ -169,6 +169,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/keeper-filters": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Ready-made keeper filters from the daily game data import. */
+        get: operations["GetKeeperFilters"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/client-errors": {
         parameters: {
             query?: never;
@@ -533,6 +550,60 @@ export interface components {
         };
         /** @enum {string} */
         HealthStatus: "Unhealthy" | "Degraded" | "Healthy";
+        /** @enum {string} */
+        KeeperFilterKind: "GreatLeague" | "UltraLeague" | "Raid" | "MaxBattle" | "Mega";
+        /**
+         * @description A copyable Pokémon GO storage search string in English.
+         * @example {
+         *       "kind": "MaxBattle",
+         *       "variant": "",
+         *       "part": 1,
+         *       "fromDex": null,
+         *       "toDex": null,
+         *       "searchString": "maxmove1-&3-4attack"
+         *     }
+         */
+        KeeperFilterPart: {
+            /** @description Which keeper filter this part belongs to. */
+            kind: components["schemas"]["KeeperFilterKind"];
+            /** @description Empty for the default, or the variant the player selected. */
+            variant: string;
+            /**
+             * Format: int32
+             * @description The one-based part number within the selected filter.
+             */
+            part: number;
+            /**
+             * Format: int32
+             * @description First Pokédex number in a PvP part.
+             */
+            fromDex: null | number;
+            /**
+             * Format: int32
+             * @description Last Pokédex number in a PvP part.
+             */
+            toDex: null | number;
+            /** @description The text to paste into Pokémon GO storage search, at most 1,950 characters. */
+            searchString: string;
+        };
+        /**
+         * @description The keeper filter parts published by the latest daily import.
+         * @example {
+         *       "filters": [
+         *         {
+         *           "kind": "MaxBattle",
+         *           "variant": "",
+         *           "part": 1,
+         *           "fromDex": null,
+         *           "toDex": null,
+         *           "searchString": "maxmove1-&3-4attack"
+         *         }
+         *       ]
+         *     }
+         */
+        KeeperFiltersResponse: {
+            filters: components["schemas"]["KeeperFilterPart"][];
+        };
         /**
          * @description The interface language to save with the account.
          * @example {
@@ -2457,6 +2528,26 @@ export interface operations {
                      *     }
                      */
                     "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    GetKeeperFilters: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KeeperFiltersResponse"];
                 };
             };
         };

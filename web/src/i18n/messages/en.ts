@@ -528,6 +528,56 @@ export const en = {
     fastTm: 'with a Fast TM',
     chargedTm: 'with a Charged TM',
   },
+  keepers: {
+    loading: 'Loading keeper filters…',
+    emptyTitle: 'Keeper filters are being prepared',
+    emptyText: 'Check here after the next game data import.',
+    help: 'How to use these in the game',
+    howCopy: 'Copy a search string.',
+    howPaste: 'Open your Pokémon storage in Pokémon GO and paste the string into the search bar.',
+    howTag: 'Select all the results and apply the suggested tag, such as GL.',
+    howRepeat: 'If a filter has several parts, repeat for each part using the same tag.',
+    howFind: 'Later, search for the tag, such as #GL, to find all those Pokémon.',
+    english:
+      'These strings use English Pokémon GO search terms. Pokémon that share a Pokédex number can match the same filter.',
+    attack: 'Attack IV',
+    attackRange: '11–15',
+    attackPerfect: '15 only',
+    preEvolutions: 'Include pre-evolutions',
+    yes: 'Yes',
+    no: 'No',
+    part: 'Part {{number}}',
+    copy: 'Copy',
+    copied: 'Copied',
+    copyPart: '{{action}} {{part}} · {{range}}',
+    manualCopy: 'Copy this search string manually',
+    cards: {
+      GreatLeague: {
+        title: 'Great League',
+        description:
+          'Find high-ranking IVs for Great League (1,500 CP). Pre-evolutions can qualify through their evolutions.',
+      },
+      UltraLeague: {
+        title: 'Ultra League',
+        description:
+          'Find high-ranking IVs for Ultra League (2,500 CP). Pre-evolutions can qualify through their evolutions.',
+      },
+      Raid: {
+        title: 'Raid attackers',
+        description:
+          'Find the top 10 attackers of each type, qualifying Megas and their pre-evolutions.',
+      },
+      MaxBattle: {
+        title: 'Max Battle attackers',
+        description: 'Find Pokémon that can enter Max Battles and have a high Attack IV.',
+      },
+      Mega: {
+        title: 'Megas',
+        description:
+          'Find Pokémon with released or announced Mega Evolutions, plus Primal Reversions.',
+      },
+    },
+  },
   moves: {
     search: 'Search moves',
     clearSearch: 'Clear search',

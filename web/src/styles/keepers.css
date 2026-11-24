@@ -1,0 +1,203 @@
+.keepers,
+.keepers-cards {
+  display: grid;
+  gap: var(--space-3);
+  min-width: 0;
+  align-items: start;
+}
+
+.keeper-range,
+.keeper-preview {
+  display: none;
+}
+
+.keepers-help summary {
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.keepers :is(h2, p) {
+  margin: 0;
+}
+
+.keepers h2 {
+  font-size: 1.05rem;
+  line-height: 1.25;
+}
+
+.keepers :is(p, ol, .keeper-options) {
+  color: var(--text-2);
+  font-size: 0.9rem;
+}
+
+.keepers ol {
+  padding-inline-start: 1.4em;
+}
+
+.keepers li + li {
+  margin-top: var(--space-1);
+}
+
+.keeper-card {
+  min-width: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.keeper-card header {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.keeper-icon,
+.keeper-tag {
+  display: inline-grid;
+  place-items: center;
+  border-radius: var(--radius-s);
+  font-size: 0.83rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.keeper-icon {
+  width: 2.15rem;
+  height: 2.15rem;
+  color: var(--t-ink);
+  background: #0b7a72;
+}
+
+.keeper-card[data-kind='GreatLeague'] .keeper-icon {
+  background: var(--t-water);
+}
+
+.keeper-card[data-kind='UltraLeague'] .keeper-icon {
+  background: var(--t-ghost);
+}
+
+.keeper-card[data-kind='Raid'] .keeper-icon {
+  background: var(--t-fire);
+}
+
+.keeper-card[data-kind='MaxBattle'] .keeper-icon {
+  background: var(--t-psychic);
+}
+
+.keeper-tag {
+  margin-inline-start: auto;
+  padding: 0.2em 0.55em;
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.keeper-options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.keeper-parts {
+  display: flex;
+  gap: var(--space-2);
+  align-items: start;
+}
+
+.keeper-part {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+  gap: var(--space-1);
+}
+
+.keeper-part .keeper-copy {
+  flex-direction: column;
+  min-height: 44px;
+  margin-top: 0;
+  padding: var(--space-1);
+}
+
+.keeper-copy[data-copied] {
+  color: var(--ok);
+  background: var(--ok-soft);
+}
+
+.keeper-copy-range,
+.keeper-manual {
+  font-size: 0.75rem;
+}
+
+.keeper-manual textarea {
+  display: block;
+  width: 100%;
+  margin-top: var(--space-1);
+  color: var(--text);
+  background: var(--surface);
+  font: 0.75rem var(--mono);
+}
+
+@media (min-width: 900px) {
+  .keepers {
+    grid-template-columns: minmax(0, 1fr) minmax(14rem, 25%);
+  }
+
+  .keeper-copy-range {
+    display: none;
+  }
+
+  .keepers-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .keeper-parts {
+    display: grid;
+  }
+
+  .keeper-part {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: var(--space-2);
+  }
+
+  .keeper-range,
+  .keeper-preview {
+    display: block;
+    grid-column: 1;
+  }
+
+  .keeper-range {
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .keeper-range span,
+  .keeper-preview {
+    color: var(--text-2);
+  }
+
+  .keeper-preview {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-radius: var(--radius-s);
+    background: var(--surface-2);
+    padding: var(--space-2);
+    font-size: 0.8rem;
+  }
+
+  .keeper-part .keeper-copy {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    padding-inline: var(--space-3);
+  }
+
+  .keeper-manual {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1159px) {
+  .keepers-cards {
+    grid-template-columns: 1fr;
+  }
+}

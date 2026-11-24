@@ -99,6 +99,9 @@ public static class GameDataWriter
             keep: null, remove: box => Delete(db, box, true),
             describe: box => new RemovedRow($"{box.League}/{Invariant(box.Dex)}", $"{box.League} League: #{Invariant(box.Dex)}"),
             cancellationToken);
+        // Generated chunks may change boundaries or count while still covering all the same boxes.
+        await result.SyncAsync("keeperFilters", 0, db, db.KeeperFilters, data.KeeperFilters, filter => (filter.Kind, filter.Variant, filter.Part),
+            keep: null, remove: filter => Delete(db, filter, true), describe: null, cancellationToken, holdRemovals: false);
         await result.SyncAsync("raidRankings", 0, db, db.RaidRankings, data.RaidRankings,
             ranking => (ranking.AttackingTypeId, ranking.FormId, ranking.IsShadow),
             keep: null, remove: ranking => Delete(db, ranking, true),
@@ -194,7 +197,8 @@ public sealed class WriteResult
         Action<T, T>? keep,
         Func<T, bool>? remove,
         Func<T, RemovedRow>? describe,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        bool holdRemovals = true)
         where T : class
         where TKey : notnull
     {
@@ -229,7 +233,7 @@ public sealed class WriteResult
         }
 
         Changes[kind] = new KindChanges(added, changed, removed.Count);
-        if (removed.Count > 0)
+        if (holdRemovals && removed.Count > 0)
         {
             Removals[kind] = removed;
         }

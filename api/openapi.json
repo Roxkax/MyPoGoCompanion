@@ -424,6 +424,27 @@
         }
       }
     },
+    "/keeper-filters": {
+      "get": {
+        "tags": [
+          "Filters"
+        ],
+        "summary": "Ready-made keeper filters from the daily game data import.",
+        "operationId": "GetKeeperFilters",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KeeperFiltersResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/client-errors": {
       "post": {
         "tags": [
@@ -1414,6 +1435,102 @@
           "Healthy"
         ],
         "type": "string"
+      },
+      "KeeperFilterKind": {
+        "enum": [
+          "GreatLeague",
+          "UltraLeague",
+          "Raid",
+          "MaxBattle",
+          "Mega"
+        ],
+        "type": "string"
+      },
+      "KeeperFilterPart": {
+        "examples": [
+          {
+            "kind": "MaxBattle",
+            "variant": "",
+            "part": 1,
+            "fromDex": null,
+            "toDex": null,
+            "searchString": "maxmove1-&3-4attack"
+          }
+        ],
+        "required": [
+          "kind",
+          "variant",
+          "part",
+          "fromDex",
+          "toDex",
+          "searchString"
+        ],
+        "type": "object",
+        "properties": {
+          "kind": {
+            "description": "Which keeper filter this part belongs to.",
+            "$ref": "#/components/schemas/KeeperFilterKind"
+          },
+          "variant": {
+            "type": "string",
+            "description": "Empty for the default, or the variant the player selected."
+          },
+          "part": {
+            "type": "integer",
+            "description": "The one-based part number within the selected filter.",
+            "format": "int32"
+          },
+          "fromDex": {
+            "type": [
+              "null",
+              "integer"
+            ],
+            "description": "First Pokédex number in a PvP part.",
+            "format": "int32"
+          },
+          "toDex": {
+            "type": [
+              "null",
+              "integer"
+            ],
+            "description": "Last Pokédex number in a PvP part.",
+            "format": "int32"
+          },
+          "searchString": {
+            "type": "string",
+            "description": "The text to paste into Pokémon GO storage search, at most 1,950 characters."
+          }
+        },
+        "description": "A copyable Pokémon GO storage search string in English."
+      },
+      "KeeperFiltersResponse": {
+        "examples": [
+          {
+            "filters": [
+              {
+                "kind": "MaxBattle",
+                "variant": "",
+                "part": 1,
+                "fromDex": null,
+                "toDex": null,
+                "searchString": "maxmove1-&3-4attack"
+              }
+            ]
+          }
+        ],
+        "required": [
+          "filters"
+        ],
+        "type": "object",
+        "properties": {
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/KeeperFilterPart"
+            }
+          }
+        },
+        "description": "The keeper filter parts published by the latest daily import."
       },
       "LanguageRequest": {
         "examples": [
@@ -3998,6 +4115,9 @@
     },
     {
       "name": "Moves"
+    },
+    {
+      "name": "Filters"
     },
     {
       "name": "Diagnostics"

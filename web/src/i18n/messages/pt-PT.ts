@@ -553,6 +553,59 @@ export const ptPT: Messages<typeof en> = {
     fastTm: 'com uma MT de ataque rápido',
     chargedTm: 'com uma MT de ataque carregado',
   },
+  keepers: {
+    loading: 'A carregar os filtros para guardar…',
+    emptyTitle: 'Os filtros para guardar estão a ser preparados',
+    emptyText: 'Volta depois da próxima importação dos dados do jogo.',
+    help: 'Como usar estes filtros no jogo',
+    howCopy: 'Copia uma expressão de pesquisa.',
+    howPaste:
+      'Abre o teu armazenamento de Pokémon no Pokémon GO e cola a expressão na barra de pesquisa.',
+    howTag: 'Seleciona todos os resultados e aplica a etiqueta sugerida, como GL.',
+    howRepeat:
+      'Se o filtro tiver várias partes, repete os passos com a mesma etiqueta para cada parte.',
+    howFind: 'Mais tarde, pesquisa pela etiqueta, como #GL, para encontrares todos esses Pokémon.',
+    english:
+      'Estas expressões usam os termos de pesquisa em inglês do Pokémon GO. Pokémon com o mesmo número da Pokédex podem aparecer no mesmo filtro.',
+    attack: 'IV de Ataque',
+    attackRange: '11–15',
+    attackPerfect: 'Só 15',
+    preEvolutions: 'Incluir pré-evoluções',
+    yes: 'Sim',
+    no: 'Não',
+    part: 'Parte {{number}}',
+    copy: 'Copiar',
+    copied: 'Copiado',
+    copyPart: '{{action}} {{part}} · {{range}}',
+    manualCopy: 'Copia esta expressão de pesquisa manualmente',
+    cards: {
+      GreatLeague: {
+        title: 'Liga Grande',
+        description:
+          'Encontra bons IVs para a Liga Grande (1 500 PC). As pré-evoluções podem qualificar-se através das suas evoluções.',
+      },
+      UltraLeague: {
+        title: 'Liga Ultra',
+        description:
+          'Encontra bons IVs para a Liga Ultra (2 500 PC). As pré-evoluções podem qualificar-se através das suas evoluções.',
+      },
+      Raid: {
+        title: 'Atacantes de reides',
+        description:
+          'Encontra os 10 melhores atacantes de cada tipo, as Megaevoluções que se qualificam e as suas pré-evoluções.',
+      },
+      MaxBattle: {
+        title: 'Atacantes de Batalhas Max',
+        description:
+          'Encontra Pokémon que podem participar em Batalhas Max e têm um IV de Ataque elevado.',
+      },
+      Mega: {
+        title: 'Megaevoluções',
+        description:
+          'Encontra Pokémon com Megaevoluções lançadas ou anunciadas, incluindo Reversões Primais.',
+      },
+    },
+  },
   moves: {
     search: 'Pesquisar ataques',
     clearSearch: 'Limpar pesquisa',

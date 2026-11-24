@@ -261,22 +261,27 @@ public static class ImportChecks
                      (KeeperFilterKind.UltraLeague, League.Ultra, Leagues.Ultra, "Ultra League"),
                  })
         {
+            var boxes = data.PvpKeeperBoxes.Where(box => box.League == league).ToDictionary(
+                box => box.Dex,
+                box => new KeeperBox(new(box.AttackBarMin, box.AttackBarMax), new(box.DefenseBarMin, box.DefenseBarMax), new(box.StaminaBarMin, box.StaminaBarMax)));
             var strings = data.KeeperFilters.Where(filter => filter.Kind == kind && filter.Variant.Length == 0)
                 .OrderBy(filter => filter.Part).Select(filter => filter.SearchString).ToList();
             if (strings.Count == 0)
             {
+                if (boxes.Count != 0)
+                {
+                    problems.Add($"{name}: no keeper strings were generated.");
+                }
+
                 continue;
             }
 
-            var boxes = data.PvpKeeperBoxes.Where(box => box.League == league).ToDictionary(
-                box => box.Dex,
-                box => new KeeperBox(new(box.AttackBarMin, box.AttackBarMax), new(box.DefenseBarMin, box.DefenseBarMax), new(box.StaminaBarMin, box.StaminaBarMax)));
             var result = KeeperStringCheck.Check(boxes, strings, cap);
             result.Problems.ToList().ForEach(problem => problems.Add($"{name}: {problem}"));
             details.Add(F($"{name}: {strings.Count} part{Plural(strings.Count)}, {result.Cases:N0} cases"));
         }
 
-        return problems.Check("Keeper strings", details.Count == 0 ? "no strings to check yet (they come with the keeper filters, E04-F01)" : string.Join("; ", details));
+        return problems.Check("Keeper strings", string.Join("; ", details));
     }
 
     private static void Contiguous(Problems problems, string name, List<int> ranks)

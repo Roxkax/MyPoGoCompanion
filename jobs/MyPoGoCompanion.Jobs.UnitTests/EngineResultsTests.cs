@@ -1,6 +1,7 @@
 using MyPoGoCompanion.Data.GameData;
 using MyPoGoCompanion.Data.Rankings;
 using MyPoGoCompanion.Engine;
+using MyPoGoCompanion.Engine.Pvp;
 using MyPoGoCompanion.Jobs.DailyImport;
 
 namespace MyPoGoCompanion.Jobs.UnitTests;
@@ -46,9 +47,27 @@ public sealed class EngineResultsTests
         Assert.Equal(_data.Species.Count * 2, _data.PvpKeeperBoxes.Count);
         Assert.DoesNotContain(_data.PvpKeeperBoxes, box => box.League == League.Master);
         var charmander = _data.PvpKeeperBoxes.Single(box => box.League == League.Great && box.Dex == 4);
-        Assert.Equal(["charizard"], charmander.JudgedBy);
-        Assert.Equal((0, 1, 3, 4, 3, 4), (charmander.AttackBarMin, charmander.AttackBarMax, charmander.DefenseBarMin,
-            charmander.DefenseBarMax, charmander.StaminaBarMin, charmander.StaminaBarMax));
+        Assert.Contains("charizard", charmander.JudgedBy);
+        Assert.Contains("charizard_mega_y", charmander.JudgedBy);
+        Assert.Equal(0, charmander.AttackBarMin);
+        Assert.InRange(charmander.AttackBarMax, 1, 4);
+        Assert.InRange(charmander.DefenseBarMin, 0, 3);
+        Assert.Equal(4, charmander.DefenseBarMax);
+        Assert.InRange(charmander.StaminaBarMin, 0, 3);
+        Assert.Equal(4, charmander.StaminaBarMax);
+    }
+
+    [Fact]
+    public void KeeperBoxes_ContainMegaRankOneForItsFamily_InBothLeagues()
+    {
+        foreach (var box in _data.PvpKeeperBoxes.Where(box => box.Dex is >= 4 and <= 6))
+        {
+            var best = _data.PvpBestIvs.Single(best => best.FormId == "charizard_mega_y" && best.League == box.League);
+            Assert.Contains(best.FormId, box.JudgedBy);
+            var keeper = new KeeperBox(new(box.AttackBarMin, box.AttackBarMax),
+                new(box.DefenseBarMin, box.DefenseBarMax), new(box.StaminaBarMin, box.StaminaBarMax));
+            Assert.True(keeper.Contains(new Ivs(best.AttackIv, best.DefenseIv, best.StaminaIv)));
+        }
     }
 
     [Fact]

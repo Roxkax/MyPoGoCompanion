@@ -26,7 +26,7 @@ public sealed class ImportChecksTests
 
         Assert.Equal(["Pokédex", "Numbers", "PvP rankings", "Best IVs", "Keeper boxes", "Raid rankings", "Raid movesets", "Keeper strings"], checks.Select(c => c.Name));
         Assert.All(checks, check => Assert.True(check.Passed, string.Join(" ", check.Problems)));
-        Assert.Equal("no strings to check yet (they come with the keeper filters, E04-F01)", checks[^1].Detail);
+        Assert.Equal("Great League: 1 part, 275,000 cases; Ultra League: 1 part, 275,000 cases", checks[^1].Detail);
         Assert.StartsWith("28 Pokédex numbers up to #", checks[0].Detail, StringComparison.Ordinal);
     }
 
@@ -195,6 +195,16 @@ public sealed class ImportChecksTests
         var failed = Check(data, "Keeper strings");
         Assert.False(failed.Passed);
         Assert.StartsWith("Great League: Pokédex #149 with appraisal bars ", failed.Problems[0], StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void KeeperStrings_MissingGeneratedParts_FailTheImport()
+    {
+        var data = Data();
+        data.KeeperFilters.RemoveAll(filter => filter.Kind == KeeperFilterKind.UltraLeague);
+        var result = Check(data, "Keeper strings");
+        Assert.False(result.Passed);
+        Assert.Equal(["Ultra League: no keeper strings were generated."], result.Problems);
     }
 
     [Fact]
