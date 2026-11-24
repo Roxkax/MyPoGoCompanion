@@ -31,7 +31,8 @@ it('keeps separate attacking and defending choices as the mode changes', async (
 
   await user.click(screen.getByRole('radio', { name: 'Attacking' }))
   await user.click(screen.getByRole('button', { name: 'Ground' }))
-  expect(screen.getByRole('heading', { name: 'Barely works against ×0.39' })).toBeInTheDocument()
+  expect(screen.getByRole('heading', { name: 'Barely works against' })).toBeInTheDocument()
+  expect(screen.getByText('×0.39', { exact: true })).toBeInTheDocument()
   expect(screen.getByRole('link', { name: 'See moves of this type' })).toHaveAttribute(
     'href',
     '/pokedex/moves?type=ground',

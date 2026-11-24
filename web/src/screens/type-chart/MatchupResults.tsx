@@ -42,10 +42,10 @@ export function MatchupResults({ attacker, defenders }: Selection) {
     <Card className="type-chart-results" padded={false}>
       {groups.map(({ label, power, rows }) => (
         <section className="type-chart-result" key={label}>
-          <h2>
-            {t(`chart.${label}`)}
-            {power !== null && <span>{` ${format(power)}`}</span>}
-          </h2>
+          <div className="type-chart-result-head">
+            <h2>{t(`chart.${label}`)}</h2>
+            {power !== null && <span>{format(power)}</span>}
+          </div>
           {rows.length > 0 ? (
             <div className="type-chart-chips">
               {rows.map((row) => (
