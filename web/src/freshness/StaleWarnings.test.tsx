@@ -77,7 +77,7 @@ describe('the out-of-date warning', () => {
     ['/pokedex', 'game'],
     ['/pokedex/garchomp', 'both'],
     ['/pokedex/moves', 'game'],
-    ['/pokedex/moves/earthquake', 'game'],
+    ['/pokedex/moves/earthquake', 'both'],
     ['/pokedex/types', 'game'],
     ['/battle/raids/kyogre', 'both'],
     ['/battle/tiers/great-league', 'game'],
