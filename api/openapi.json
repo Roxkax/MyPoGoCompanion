@@ -4091,9 +4091,6 @@
         }
       },
       "SearchCheckStatus": {
-        "examples": [
-          "Valid"
-        ],
         "enum": [
           "Valid",
           "Unverified",

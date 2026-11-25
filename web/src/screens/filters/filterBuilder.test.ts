@@ -49,3 +49,27 @@ describe('filter builder conditions', () => {
     expect(customTerm('Raid,GL', '#')).toBeNull()
   })
 })
+
+it.each([
+  ['+gible', 'pokemon'],
+  ['443-445', 'pokemon'],
+  ['-5', 'pokemon'],
+  ['0-4*', 'appraisal'],
+  ['2hp', 'appraisal'],
+  ['cp-1500', 'power'],
+  ['hp120-', 'power'],
+  ['distance 100-', 'caught'],
+  ['buddy0-2', 'actions'],
+  ['@3fire', 'moves'],
+  ['999999999999999999', 'custom'],
+  ['cp1500hp', 'custom'],
+] as const)('classifies %s as %s', (term, group) => {
+  expect(readConditions(term, names)).toEqual([{ group, terms: [term] }])
+})
+
+it('rejects nonnumeric bounds, overflowing values and blank tag names', () => {
+  expect(rangeTerm('cp', 'Infinity', '1500')).toBeNull()
+  expect(rangeTerm('dex', '', '2147483648')).toBeNull()
+  expect(customTerm(' # ', '#')).toBeNull()
+  expect(customTerm('custom keyword')).toBe('custom keyword')
+})

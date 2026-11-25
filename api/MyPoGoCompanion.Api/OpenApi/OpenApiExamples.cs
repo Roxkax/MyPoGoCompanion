@@ -131,7 +131,6 @@ internal static class OpenApiExamples
         [typeof(KeeperFilterPart)] = _maxKeepers,
         [typeof(FilterBuilderRequest)] = new FilterBuilderRequest("443&age0&3-4attack&!shiny"),
         [typeof(BuilderSearch.SearchCheckResult)] = new BuilderSearch.SearchCheckResult(BuilderSearch.SearchCheckStatus.Valid, ["443&age0&3-4attack&!shiny"]),
-        [typeof(BuilderSearch.SearchCheckStatus)] = BuilderSearch.SearchCheckStatus.Valid,
         [typeof(FamilyMember)] = _gible,
         [typeof(PageEvolution)] = _gibleToGabite,
         [typeof(PageCostume)] = _costume,

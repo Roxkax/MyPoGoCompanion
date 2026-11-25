@@ -2134,10 +2134,7 @@ export interface components {
             parts: string[];
             term?: null | string;
         };
-        /**
-         * @example Valid
-         * @enum {string}
-         */
+        /** @enum {string} */
         SearchCheckStatus: "Valid" | "Unverified" | "Invalid" | "CannotSplit" | "TooLong";
         /**
          * @description What a sign-in or refresh returns: a 15-minute access token, the next refresh token and the user.
