@@ -58,6 +58,7 @@ app.MapPokemonPageEndpoints();
 app.MapMovesEndpoints();
 app.MapMovePageEndpoints();
 app.MapKeeperFilterEndpoints();
+app.MapFilterBuilderEndpoints();
 app.MapClientErrorEndpoints();
 
 if (app.Environment.IsDevelopment())

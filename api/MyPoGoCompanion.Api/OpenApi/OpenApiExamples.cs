@@ -13,6 +13,7 @@ using MyPoGoCompanion.Data.GameData;
 using MyPoGoCompanion.Data.LiveData;
 using MyPoGoCompanion.Data.Rankings;
 using MyPoGoCompanion.Data.Users;
+using MyPoGoCompanion.Engine.Search;
 
 namespace MyPoGoCompanion.Api.OpenApi;
 
@@ -128,6 +129,8 @@ internal static class OpenApiExamples
         [typeof(MovesResponse)] = new MovesResponse([_dragonTailMove]),
         [typeof(KeeperFiltersResponse)] = new KeeperFiltersResponse([_maxKeepers]),
         [typeof(KeeperFilterPart)] = _maxKeepers,
+        [typeof(FilterBuilderRequest)] = new FilterBuilderRequest("443&age0&3-4attack&!shiny"),
+        [typeof(BuilderSearch.SearchCheckResult)] = new BuilderSearch.SearchCheckResult(BuilderSearch.SearchCheckStatus.Valid, ["443&age0&3-4attack&!shiny"]),
         [typeof(FamilyMember)] = _gible,
         [typeof(PageEvolution)] = _gibleToGabite,
         [typeof(PageCostume)] = _costume,

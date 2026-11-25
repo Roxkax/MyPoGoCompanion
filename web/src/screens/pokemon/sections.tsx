@@ -1,3 +1,4 @@
+import type { TFunction } from 'i18next'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
@@ -212,7 +213,7 @@ export function MatchupsSection({ version }: SectionProps) {
 
 // ---------- Moves ----------
 
-function leagueNames(list: League[], t: ReturnType<typeof useTranslation>['t']): string {
+function leagueNames(list: League[], t: TFunction): string {
   const names = list.map((league) => t(`pokemon.leagues.${league}`))
   if (names.length === 1) return names[0] ?? ''
   const last = names.pop() ?? ''
@@ -661,7 +662,7 @@ export function CheatSheetSection({ version }: SectionProps) {
 
 function stepText(
   step: PageEvolution,
-  t: ReturnType<typeof useTranslation>['t'],
+  t: TFunction,
   formats: ReturnType<typeof useFormats>,
 ): string[] {
   const parts: string[] = []
@@ -763,7 +764,7 @@ export function EvolutionSection({ page, version }: SectionProps) {
 
 function whereText(
   a: PageAppearance,
-  t: ReturnType<typeof useTranslation>['t'],
+  t: TFunction,
   language: ReturnType<typeof useCurrentLanguage>,
 ): string {
   switch (a.kind) {

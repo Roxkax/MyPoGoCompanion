@@ -4,9 +4,11 @@ import { useTranslation } from 'react-i18next'
 export function CopyableSearch({
   searchString,
   range,
+  preview = true,
 }: {
   searchString: string
-  range?: { number: string; dex: string }
+  range?: { number: string; dex?: string }
+  preview?: boolean
 }) {
   const { t } = useTranslation()
   const [status, setStatus] = useState<'idle' | 'copied' | 'manual'>('idle')
@@ -25,23 +27,28 @@ export function CopyableSearch({
     <div className="keeper-part">
       {range && (
         <span className="keeper-range">
-          {range.number} <span>{range.dex}</span>
+          {range.number} {range.dex && <span>{range.dex}</span>}
         </span>
       )}
-      <code className="keeper-preview">{searchString}</code>
+      {preview && <code className="keeper-preview">{searchString}</code>}
       <button
         type="button"
         className="button keeper-copy"
         data-copied={status === 'copied' || undefined}
         aria-label={
-          range ? t('keepers.copyPart', { action, part: range.number, range: range.dex }) : action
+          range?.dex
+            ? t('keepers.copyPart', { action, part: range.number, range: range.dex })
+            : range
+              ? `${action} · ${range.number}`
+              : action
         }
         onClick={() => void copy()}
       >
         <span aria-live="polite">{action}</span>
         {range && (
           <span className="keeper-copy-range">
-            {range.number} · {range.dex}
+            {range.number}
+            {range.dex && ` · ${range.dex}`}
           </span>
         )}
       </button>
