@@ -8,4 +8,12 @@ You can also edit the search string in place. Supported terms return to their gr
 
 Each copyable part fits within 1,950 characters. If needed, the builder splits a list of alternatives and keeps the other conditions in each part. Paste every part separately to find all matching Pokémon. Expressions such as one very long AND-only search need to be shortened by hand.
 
-The builder calls the public `POST /filter-search/check` endpoint. The result contains a status, the copyable parts and the first unverified or invalid term when applicable. Saved filters are tracked in [E04-F05](../planning/BACKLOG.md#e04-f05--saved-filters).
+The builder calls the public `POST /filter-search/check` endpoint. The result contains a status, the copyable parts and the first unverified or invalid term when applicable.
+
+## Saved filters
+
+When Builder shows a copyable search, choose **Save filter**, enter a name and select **Save**. Saving requires Google sign-in. If you sign in from Builder, the draft stays in the same tab for your return.
+
+Under **Filters → Saved**, select a filter's name to reopen its search and edit its conditions in Builder. Saving again creates a new entry. Use **Copy** to copy a short search or open the copyable parts of a long one. Use **⋯** to rename, duplicate or delete a filter. Saved filters belong to your account and appear on any device where you sign in.
+
+The signed-in API exposes these operations under `/saved-filters`. It stores the original search string, and Builder reconstructs the conditions from that string when it reopens. The database uses the existing saved-filter table.

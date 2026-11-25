@@ -59,6 +59,7 @@ app.MapMovesEndpoints();
 app.MapMovePageEndpoints();
 app.MapKeeperFilterEndpoints();
 app.MapFilterBuilderEndpoints();
+app.MapSavedFilterEndpoints();
 app.MapClientErrorEndpoints();
 
 if (app.Environment.IsDevelopment())

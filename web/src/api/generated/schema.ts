@@ -345,6 +345,76 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/saved-filters": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Lists the signed-in account's saved searches. */
+        get: operations["ListSavedFilters"];
+        put?: never;
+        /** Saves a search to the signed-in account. */
+        post: operations["SaveFilter"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/saved-filters/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Reads one of the signed-in account's saved searches. */
+        get: operations["GetSavedFilter"];
+        put?: never;
+        post?: never;
+        /** Deletes one of the signed-in account's saved searches. */
+        delete: operations["DeleteSavedFilter"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/saved-filters/{id}/name": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Renames one of the signed-in account's saved searches. */
+        put: operations["RenameSavedFilter"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/saved-filters/{id}/duplicate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Creates a named copy of a saved search in the same account. */
+        post: operations["DuplicateSavedFilter"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -824,6 +894,14 @@ export interface components {
         MovesResponse: {
             /** @description Every fast and charged move, including its raid numbers, PvP numbers and stat effects. */
             moves: components["schemas"]["PageMove"][];
+        };
+        /**
+         * @example {
+         *       "name": "Gible for Community Day"
+         *     }
+         */
+        NameFilterRequest: {
+            name: null | string;
         };
         /**
          * @description One appearance of a version in the live data. Times are the game's local wall-clock times (null when the source
@@ -2122,6 +2200,35 @@ export interface components {
         };
         /**
          * @example {
+         *       "name": "Gible family",
+         *       "searchString": "+gible&!shiny"
+         *     }
+         */
+        SaveFilterRequest: {
+            name: null | string;
+            searchString: null | string;
+        };
+        /**
+         * @example {
+         *       "id": "956739dc-3460-4abe-9639-366c53cf141e",
+         *       "name": "Gible family",
+         *       "searchString": "+gible&!shiny",
+         *       "createdAt": "2026-10-27T18:30:00+00:00",
+         *       "updatedAt": "2026-10-27T18:30:00+00:00"
+         *     }
+         */
+        SavedFilterResponse: {
+            /** Format: uuid */
+            id: string;
+            name: string;
+            searchString: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        /**
+         * @example {
          *       "status": "Valid",
          *       "parts": [
          *         "443&age0&3-4attack&!shiny"
@@ -3088,6 +3195,353 @@ export interface operations {
                      *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.4",
                      *       "title": "Forbidden",
                      *       "status": 403
+                     *     }
+                     */
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.5",
+                     *       "title": "Not Found",
+                     *       "status": 404
+                     *     }
+                     */
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    ListSavedFilters: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SavedFilterResponse"][];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.2",
+                     *       "title": "Unauthorized",
+                     *       "status": 401
+                     *     }
+                     */
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    SaveFilter: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveFilterRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SavedFilterResponse"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+                     *       "title": "Bad Request",
+                     *       "status": 400,
+                     *       "detail": "What was wrong with the request, written for people."
+                     *     }
+                     */
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.2",
+                     *       "title": "Unauthorized",
+                     *       "status": 401
+                     *     }
+                     */
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    GetSavedFilter: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SavedFilterResponse"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.2",
+                     *       "title": "Unauthorized",
+                     *       "status": 401
+                     *     }
+                     */
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.5",
+                     *       "title": "Not Found",
+                     *       "status": 404
+                     *     }
+                     */
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    DeleteSavedFilter: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.2",
+                     *       "title": "Unauthorized",
+                     *       "status": 401
+                     *     }
+                     */
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.5",
+                     *       "title": "Not Found",
+                     *       "status": 404
+                     *     }
+                     */
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    RenameSavedFilter: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NameFilterRequest"];
+            };
+        };
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+                     *       "title": "Bad Request",
+                     *       "status": 400,
+                     *       "detail": "What was wrong with the request, written for people."
+                     *     }
+                     */
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.2",
+                     *       "title": "Unauthorized",
+                     *       "status": 401
+                     *     }
+                     */
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.5",
+                     *       "title": "Not Found",
+                     *       "status": 404
+                     *     }
+                     */
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    DuplicateSavedFilter: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NameFilterRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SavedFilterResponse"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+                     *       "title": "Bad Request",
+                     *       "status": 400,
+                     *       "detail": "What was wrong with the request, written for people."
+                     *     }
+                     */
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.2",
+                     *       "title": "Unauthorized",
+                     *       "status": 401
                      *     }
                      */
                     "application/problem+json": components["schemas"]["ProblemDetails"];

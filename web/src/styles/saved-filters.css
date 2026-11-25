@@ -1,0 +1,113 @@
+.saved-filters,
+.saved-filter-form,
+.saved-filter-menu {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.saved-filter-heading,
+.saved-filter-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.saved-filter-heading {
+  justify-content: space-between;
+}
+
+.saved-filter-heading h2,
+.saved-filter-form p {
+  margin: 0;
+}
+
+.saved-filter-list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.saved-filter-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-areas:
+    'name copy more'
+    'search copy more'
+    'date copy more';
+  align-items: center;
+  column-gap: var(--space-2);
+  row-gap: var(--space-1);
+  padding: var(--space-3);
+}
+
+.saved-filter-row + .saved-filter-row {
+  border-top: 1px solid var(--line);
+}
+
+.saved-filter-row > a {
+  grid-area: name;
+  width: fit-content;
+  font-weight: 750;
+  overflow-wrap: anywhere;
+}
+
+.saved-filter-row > code {
+  grid-area: search;
+  overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.saved-filter-row > time {
+  grid-area: date;
+  color: var(--text-3);
+  font-size: 0.85rem;
+}
+
+.saved-filter-row > .keeper-part,
+.saved-filter-row > .button {
+  grid-area: copy;
+}
+
+.saved-filter-row > .keeper-part:has(.keeper-manual) {
+  grid-area: auto;
+  grid-column: 1 / -1;
+  grid-row: 4;
+}
+
+.saved-filter-row > .icon-button {
+  grid-area: more;
+  font-size: 1.4rem;
+}
+
+.saved-filter-form input {
+  min-width: 0;
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface-2);
+  color: var(--text);
+  padding: var(--space-2);
+  font: inherit;
+}
+
+.saved-filter-form code {
+  max-height: 8rem;
+  overflow: auto;
+  overflow-wrap: anywhere;
+  padding: var(--space-2);
+  background: var(--surface-2);
+  border-radius: 10px;
+}
+
+@media (min-width: 900px) {
+  .saved-filter-row {
+    grid-template-columns: minmax(8rem, 1fr) minmax(0, 2fr) auto auto auto;
+    grid-template-areas: 'name search date copy more';
+    column-gap: var(--space-4);
+    padding-inline: var(--space-4);
+  }
+}
