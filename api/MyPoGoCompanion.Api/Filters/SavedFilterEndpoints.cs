@@ -147,6 +147,8 @@ internal static class SavedFilterEndpoints
         CancellationToken cancellationToken)
     {
         var now = time.GetUtcNow();
+        // PostgreSQL stores microseconds. Return the same timestamp subsequent reads will return.
+        now = now.AddTicks(-(now.Ticks % TimeSpan.TicksPerMicrosecond));
         var filter = new SavedFilter
         {
             UserId = userId,
