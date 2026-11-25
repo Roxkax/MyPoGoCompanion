@@ -1,12 +1,25 @@
+import { useQueryClient } from '@tanstack/react-query'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Link, useSearchParams } from 'react-router'
 import { $api, api, dataOrThrow, type Schemas } from '../../api/client'
+import { useAuth } from '../../auth/authContext'
+import { LoadError } from '../../components/LoadError'
+import { SignedOutPrompt } from '../../components/SignedOutPrompt'
 import { useCurrentLanguage, useFormats } from '../../i18n/languageContext'
 import { useIsDesktop } from '../../layout/useMediaQuery'
 import { CopyableSearch } from '../../ui/CopyableSearch'
 import { isPokemonType } from '../../ui/pokemonTypes'
 import { Sheet } from '../../ui/Sheet'
 import { ConditionEditor, ConditionPicker } from './ConditionPicker'
+import { FilterNameSheet } from './FilterNameSheet'
+import {
+  clearFilterDraft,
+  readFilterDraft,
+  rememberFilterDraft,
+  savedFiltersKey,
+  useSavedFilter,
+} from './savedFilters'
 import {
   characterLimit,
   formatConditions,
@@ -53,11 +66,60 @@ function useSearchCheck(expression: string) {
 }
 
 export function FilterBuilderScreen() {
+  const [params] = useSearchParams()
+  const { state } = useAuth()
+  const id = params.get('saved')
+  if (!id) return <Builder resume={params.has('resume')} />
+  if (state.status === 'loading') return null
+  if (state.status === 'signedOut') return <SignedOutPrompt feature="savedFilters" />
+  return <SavedBuilder key={`${state.user.id}:${id}`} userId={state.user.id} id={id} />
+}
+
+function SavedBuilder({ userId, id }: { userId: string; id: string }) {
+  const { t } = useTranslation()
+  const query = useSavedFilter(userId, id)
+  if (query.isPending) return <p role="status">{t('savedFilters.loading')}</p>
+  if (query.isError) return <LoadError error={query.error} onRetry={() => void query.refetch()} />
+  return <Builder initialSearch={query.data.searchString} />
+}
+
+function Builder({
+  initialSearch = '',
+  resume = false,
+}: {
+  initialSearch?: string
+  resume?: boolean
+}) {
   const { t } = useTranslation()
   const language = useCurrentLanguage()
   const formats = useFormats()
   const desktop = useIsDesktop()
-  const [expression, setExpression] = useState('')
+  const { state, openSignIn } = useAuth()
+  const client = useQueryClient()
+  const [expression, setExpression] = useState(() => (resume ? readFilterDraft() : initialSearch))
+  const [saveOpen, setSaveOpen] = useState(false)
+  const [lastSaved, setLastSaved] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (resume) clearFilterDraft()
+  }, [resume])
+
+  async function save(name: string) {
+    if (state.status !== 'signedIn') return
+    dataOrThrow(await api.POST('/saved-filters', { body: { name, searchString: expression } }))
+    void client.invalidateQueries({ queryKey: savedFiltersKey(state.user.id) })
+    setLastSaved(expression)
+    setSaveOpen(false)
+  }
+
+  function startSave() {
+    if (state.status === 'signedIn') {
+      setSaveOpen(true)
+    } else if (state.status === 'signedOut') {
+      rememberFilterDraft(expression)
+      openSignIn('/filters/builder?resume=1')
+    }
+  }
   const [pickerOpen, setPickerOpen] = useState(false)
   const [editing, setEditing] = useState<Editing | null>(null)
   const { result, retry } = useSearchCheck(expression)
@@ -293,10 +355,35 @@ export function FilterBuilderScreen() {
                 }
               />
             ))}
+            <div className="saved-filter-actions">
+              <button
+                type="button"
+                className="button button-secondary"
+                onClick={startSave}
+                disabled={state.status === 'loading'}
+              >
+                {t('savedFilters.saveFilter')}
+              </button>
+              {lastSaved === expression && (
+                <span role="status">
+                  {t('savedFilters.saved')}{' '}
+                  <Link to="/filters/saved">{t('savedFilters.viewSaved')}</Link>
+                </span>
+              )}
+            </div>
           </div>
         )}
       </section>
 
+      {saveOpen && state.status === 'signedIn' && (
+        <FilterNameSheet
+          title={t('savedFilters.saveTitle')}
+          search={expression}
+          action={t('savedFilters.save')}
+          onClose={() => setSaveOpen(false)}
+          onSubmit={save}
+        />
+      )}
       {!desktop && (pickerOpen || editing) && (
         <Sheet id="condition-picker" title={pickerTitle} onClose={closePicker}>
           {picker}

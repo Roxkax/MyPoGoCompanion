@@ -8,6 +8,7 @@
 @import './styles/type-chart.css';
 @import './styles/keepers.css';
 @import './styles/filter-builder.css';
+@import './styles/saved-filters.css';
 
 *,
 *::before,

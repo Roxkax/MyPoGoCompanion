@@ -11,6 +11,7 @@ import { CallbackRoute } from '../screens/CallbackRoute'
 import { ComingSoon } from '../screens/ComingSoon'
 import { DesignScreen } from '../screens/DesignScreen'
 import { FilterBuilderScreen } from '../screens/filters/FilterBuilderScreen'
+import { SavedFiltersScreen } from '../screens/filters/SavedFiltersScreen'
 import { KeepersScreen } from '../screens/filters/KeepersScreen'
 import { NotFoundScreen } from '../screens/NotFoundScreen'
 import { MoveScreen } from '../screens/moves/MoveScreen'
@@ -139,7 +140,7 @@ export function appRoutes(environment: AppEnvironment): RouteObject[] {
       tab(
         { title: 'filters', sections: filters },
         <SignedInOnly feature="savedFilters">
-          {soon('saved', 'D3', 'E04-F05 Saved filters')}
+          <SavedFiltersScreen />
         </SignedInOnly>,
       ),
       { title: 'savedFilters' },

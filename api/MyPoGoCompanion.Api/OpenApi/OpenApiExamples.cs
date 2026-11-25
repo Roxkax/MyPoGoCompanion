@@ -129,6 +129,10 @@ internal static class OpenApiExamples
         [typeof(MovesResponse)] = new MovesResponse([_dragonTailMove]),
         [typeof(KeeperFiltersResponse)] = new KeeperFiltersResponse([_maxKeepers]),
         [typeof(KeeperFilterPart)] = _maxKeepers,
+        [typeof(SaveFilterRequest)] = new SaveFilterRequest("Gible family", "+gible&!shiny"),
+        [typeof(NameFilterRequest)] = new NameFilterRequest("Gible for Community Day"),
+        [typeof(SavedFilterResponse)] = new SavedFilterResponse(
+            Guid.Parse("956739dc-3460-4abe-9639-366c53cf141e"), "Gible family", "+gible&!shiny", _now, _now),
         [typeof(FilterBuilderRequest)] = new FilterBuilderRequest("443&age0&3-4attack&!shiny"),
         [typeof(BuilderSearch.SearchCheckResult)] = new BuilderSearch.SearchCheckResult(BuilderSearch.SearchCheckStatus.Valid, ["443&age0&3-4attack&!shiny"]),
         [typeof(FamilyMember)] = _gible,

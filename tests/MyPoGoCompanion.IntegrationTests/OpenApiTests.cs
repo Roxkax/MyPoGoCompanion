@@ -7,6 +7,7 @@ using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using MyPoGoCompanion.Api.Auth;
+using MyPoGoCompanion.Api.Filters;
 using MyPoGoCompanion.Data.Operations;
 using MyPoGoCompanion.Data.Seed;
 
@@ -149,6 +150,22 @@ public sealed partial class OpenApiTests(PostgresFixture postgres)
         await Call(client, HttpMethod.Put, "/me/language", new { language = "pt-PT" });
         await Call(client, HttpMethod.Put, "/me/language", new { language = "fr" }, misty.AccessToken);
         await Call(client, HttpMethod.Put, "/me/language", new { language = "pt-PT" }, misty.AccessToken);
+
+        // Saved filters
+        const string savedFilters = "/saved-filters";
+        var saveRequest = new SaveFilterRequest("My Gible search", "+gible&!shiny");
+        await Call(client, HttpMethod.Get, savedFilters);
+        await Call(client, HttpMethod.Post, savedFilters, saveRequest);
+        await Call(client, HttpMethod.Post, savedFilters, saveRequest with { Name = " " }, misty.AccessToken);
+        using var created = await Call(client, HttpMethod.Post, savedFilters, saveRequest, misty.AccessToken);
+        var saved = (await created.Content.ReadFromJsonAsync<SavedFilterResponse>(_json, Ct))!;
+        var savedPath = $"{savedFilters}/{saved.Id}";
+        await Call(client, HttpMethod.Get, savedFilters, token: misty.AccessToken);
+        await Call(client, HttpMethod.Get, savedPath, token: misty.AccessToken);
+        await Call(client, HttpMethod.Get, savedPath, token: owner.AccessToken);
+        await Call(client, HttpMethod.Put, $"{savedPath}/name", new NameFilterRequest("Renamed"), misty.AccessToken);
+        await Call(client, HttpMethod.Post, $"{savedPath}/duplicate", new NameFilterRequest("Copied"), misty.AccessToken);
+        await Call(client, HttpMethod.Delete, savedPath, token: misty.AccessToken);
 
         // Admin
         await Call(client, HttpMethod.Get, "/admin/users");
