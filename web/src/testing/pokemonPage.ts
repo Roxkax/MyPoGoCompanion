@@ -740,6 +740,10 @@ export const garchompPage: PokemonPage = {
       staminaMax: 4,
     },
   ],
+  familySearches: [
+    { league: 'Great', searchString: '443-445&0-1attack&3-4defense&2-4hp&cp-1500' },
+    { league: 'Ultra', searchString: '443-445&0-1attack&3-4defense&2-4hp&cp-2500' },
+  ],
   moves: [
     {
       id: 'BREAKING_SWIPE',

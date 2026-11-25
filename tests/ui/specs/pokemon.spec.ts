@@ -106,6 +106,39 @@ test("phone: the tabs switch the content and Back returns to the last tab", asyn
   await expect(section(page, "Moves")).toBeVisible();
 });
 
+test("copies the Great and Ultra League searches for the evolution family", async ({
+  page,
+  context,
+}, testInfo) => {
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  await openGarchomp(
+    page,
+    isDesktop(testInfo) ? "/pokedex/garchomp" : "/pokedex/garchomp#ivs",
+  );
+  const best = section(page, "Best IVs");
+  for (const [league, cap] of [
+    ["Great League", 1500],
+    ["Ultra League", 2500],
+  ] as const) {
+    const row = best.getByRole("listitem").filter({ hasText: league });
+    const search = row.locator("code");
+    await expect(search).toHaveText(new RegExp(`^443-445&(?:.*&)?cp-${cap}$`));
+    await row.getByRole("button", { name: "Copy", exact: true }).click();
+    await expect(
+      row.getByRole("button", { name: "Copied", exact: true }),
+    ).toBeVisible();
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
+      await search.textContent(),
+    );
+  }
+  await expect(
+    best.getByRole("listitem").filter({ hasText: "Master League" }).getByRole("button"),
+  ).toHaveCount(0);
+  expect(
+    await page.evaluate(() => document.documentElement.scrollWidth),
+  ).toBeLessThanOrEqual(page.viewportSize()!.width);
+});
+
 test("desktop: everything on one page in two columns", async ({
   page,
 }, testInfo) => {

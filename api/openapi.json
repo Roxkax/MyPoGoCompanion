@@ -2264,6 +2264,22 @@
         },
         "description": "An evolution step and what it needs."
       },
+      "PageFamilySearch": {
+        "required": [
+          "league",
+          "searchString"
+        ],
+        "type": "object",
+        "properties": {
+          "league": {
+            "$ref": "#/components/schemas/League"
+          },
+          "searchString": {
+            "type": "string"
+          }
+        },
+        "description": "An English Pokémon GO keeper search for one league."
+      },
       "PageForm": {
         "examples": [
           {
@@ -3647,6 +3663,12 @@
                 "staminaMax": 4
               }
             ],
+            "familySearches": [
+              {
+                "league": "Great",
+                "searchString": "443-445&0-1attack&3-4defense&2-4hp&cp-1500"
+              }
+            ],
             "moves": [
               {
                 "id": "DRAGON_TAIL",
@@ -3744,6 +3766,7 @@
           "familyId",
           "forms",
           "keeperBoxes",
+          "familySearches",
           "moves",
           "family",
           "evolutions",
@@ -3795,6 +3818,13 @@
               "$ref": "#/components/schemas/PageKeeperBox"
             },
             "description": "The appraisal bars the keeper filters keep for this Pokédex number (Great and Ultra League)."
+          },
+          "familySearches": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PageFamilySearch"
+            },
+            "description": "Copyable Pokémon GO keeper searches for the evolution family, in league and part order."
           },
           "moves": {
             "type": "array",

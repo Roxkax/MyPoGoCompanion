@@ -171,6 +171,26 @@ describe('Pokémon page (phone)', () => {
     expect(evolution.getByText('5 km')).toBeInTheDocument()
   })
 
+  it('copies the family search with localized feedback even without a rank-1 spread', async () => {
+    const user = userEvent.setup()
+    pageAnswer = () =>
+      Promise.resolve(
+        json({
+          ...garchompPage,
+          forms: garchompPage.forms.map((form) => ({ ...form, bestIvs: [] })),
+          keeperBoxes: [],
+        }),
+      )
+    await open('/pokedex/garchomp#ivs', 'phone', 'pt-PT')
+
+    const great = screen.getByText('443-445&0-1attack&3-4defense&2-4hp&cp-1500')
+    const row = within(great.closest('li')!)
+    await user.click(row.getByRole('button', { name: 'Copiar' }))
+    expect(row.getByRole('button', { name: 'Copiado' })).toBeInTheDocument()
+    expect(await navigator.clipboard.readText()).toBe(great.textContent)
+    expect(screen.getAllByRole('button', { name: 'Copiar' })).toHaveLength(1)
+  })
+
   it('shows every version and the costumes', async () => {
     await open('/pokedex/garchomp#versions')
 

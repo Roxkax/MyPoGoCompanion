@@ -5,6 +5,7 @@ import type { components } from '../../api/generated/schema'
 import { LoadError } from '../../components/LoadError'
 import { useFormats } from '../../i18n/languageContext'
 import { useIsDesktop } from '../../layout/useMediaQuery'
+import { CopyableSearch } from '../../ui/CopyableSearch'
 import { SegmentedSwitch } from '../../ui/SegmentedSwitch'
 
 type Part = components['schemas']['KeeperFilterPart']
@@ -181,7 +182,6 @@ function KeeperPart({
 }) {
   const { t } = useTranslation()
   const formats = useFormats()
-  const [status, setStatus] = useState<'idle' | 'copied' | 'manual'>('idle')
   const range =
     part.part != null && part.fromDex != null && part.toDex != null
       ? {
@@ -189,53 +189,5 @@ function KeeperPart({
           dex: `#${formats.number(part.fromDex)}–${formats.number(part.toDex)}`,
         }
       : null
-  const action = t(status === 'copied' ? 'keepers.copied' : 'keepers.copy')
-
-  async function copy() {
-    try {
-      await navigator.clipboard.writeText(part.searchString)
-      setStatus('copied')
-    } catch {
-      setStatus('manual')
-    }
-  }
-
-  return (
-    <div className="keeper-part">
-      {range && (
-        <span className="keeper-range">
-          {range.number} <span>{range.dex}</span>
-        </span>
-      )}
-      <code className="keeper-preview">{part.searchString}</code>
-      <button
-        type="button"
-        className="button keeper-copy"
-        data-copied={status === 'copied' || undefined}
-        aria-label={
-          range ? t('keepers.copyPart', { action, part: range.number, range: range.dex }) : action
-        }
-        onClick={() => void copy()}
-      >
-        <span aria-live="polite">{action}</span>
-        {range && (
-          <span className="keeper-copy-range">
-            {range.number} · {range.dex}
-          </span>
-        )}
-      </button>
-      {status === 'manual' && (
-        <label className="keeper-manual" role="status">
-          {t('keepers.manualCopy')}
-          <textarea
-            readOnly
-            rows={3}
-            spellCheck={false}
-            value={part.searchString}
-            onFocus={(event) => event.currentTarget.select()}
-          />
-        </label>
-      )}
-    </div>
-  )
+  return <CopyableSearch searchString={part.searchString} range={range ?? undefined} />
 }

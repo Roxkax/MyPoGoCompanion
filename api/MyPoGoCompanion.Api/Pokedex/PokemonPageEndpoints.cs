@@ -9,7 +9,10 @@ using MyPoGoCompanion.Data;
 using MyPoGoCompanion.Data.GameData;
 using MyPoGoCompanion.Data.LiveData;
 using MyPoGoCompanion.Data.Operations;
+using MyPoGoCompanion.Data.Rankings;
 using MyPoGoCompanion.Engine;
+using MyPoGoCompanion.Engine.Pvp;
+using MyPoGoCompanion.Engine.Search;
 using MyPoGoCompanion.Engine.Types;
 
 namespace MyPoGoCompanion.Api.Pokedex;
@@ -116,7 +119,7 @@ internal static class PokemonPageEndpoints
         var bestIvs = await db.PvpBestIvs.AsNoTracking().Where(b => ownIds.Contains(b.FormId)).ToListAsync(cancellationToken);
         var raidRanks = await db.RaidRankings.AsNoTracking().Where(r => ownIds.Contains(r.FormId)).ToListAsync(cancellationToken);
         var raidMovesets = await db.RaidMovesets.AsNoTracking().Where(r => ownIds.Contains(r.FormId)).ToListAsync(cancellationToken);
-        var boxes = await db.PvpKeeperBoxes.AsNoTracking().Where(b => b.Dex == dex).OrderBy(b => b.League).ToListAsync(cancellationToken);
+        var boxes = await db.PvpKeeperBoxes.AsNoTracking().Where(b => familyDexes.Contains(b.Dex)).OrderBy(b => b.League).ToListAsync(cancellationToken);
         var familyIds = familyForms.Select(form => form.Id).ToList();
         var evolutions = await db.Evolutions.AsNoTracking()
             .Where(e => familyIds.Contains(e.FromFormId) && familyIds.Contains(e.ToFormId))
@@ -195,7 +198,8 @@ internal static class PokemonPageEndpoints
             species.Category,
             species.FamilyId,
             [.. own.OrderByDescending(f => f.IsDefault).ThenBy(f => PokedexEndpoints.KindOrder(f.Kind)).ThenBy(f => f.Id, StringComparer.Ordinal).Select(ToForm)],
-            [.. boxes.Select(b => new PageKeeperBox(b.League, b.AttackBarMin, b.AttackBarMax, b.DefenseBarMin, b.DefenseBarMax, b.StaminaBarMin, b.StaminaBarMax))],
+            [.. boxes.Where(b => b.Dex == dex).Select(b => new PageKeeperBox(b.League, b.AttackBarMin, b.AttackBarMax, b.DefenseBarMin, b.DefenseBarMax, b.StaminaBarMin, b.StaminaBarMax))],
+            FamilySearches(boxes),
             [.. moves.Select(m => new PageMove(m.Id, m.NameEn, m.NamePt, m.TypeId, m.Kind, m.RaidPower, m.RaidDurationMs, m.RaidEnergyDelta,
                 m.PvpPower, m.PvpEnergyDelta, m.PvpTurns, m.PvpBuffChance, m.PvpSelfAttackStages, m.PvpSelfDefenseStages,
                 m.PvpOpponentAttackStages, m.PvpOpponentDefenseStages))],
@@ -209,6 +213,19 @@ internal static class PokemonPageEndpoints
             [.. costumes.Select(c => new PageCostume(c.Sprite, c.NameEn, c.FormCode))],
             appearances,
             multipliers);
+    }
+
+    private static PageFamilySearch[] FamilySearches(List<PvpKeeperBox> boxes)
+    {
+        return [.. boxes.Where(box => box.League is League.Great or League.Ultra).GroupBy(box => box.League).SelectMany(league =>
+        {
+            var byDex = league.ToDictionary(box => box.Dex, box => new KeeperBox(
+                new(box.AttackBarMin, box.AttackBarMax),
+                new(box.DefenseBarMin, box.DefenseBarMax),
+                new(box.StaminaBarMin, box.StaminaBarMax)));
+            var cap = league.Key == League.Great ? Leagues.Great : Leagues.Ultra;
+            return KeeperStringEncoder.Encode(byDex, cap).Select(part => new PageFamilySearch(league.Key, part.Text));
+        })];
     }
 
     private static string[] Types(Form form) => form.Type2Id is null ? [form.Type1Id] : [form.Type1Id, form.Type2Id];

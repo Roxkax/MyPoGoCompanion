@@ -25,6 +25,7 @@ with everything the page shows, so switching versions or tabs asks the API nothi
 | Movepool with Elite TM / Legacy, every move's raid and PvP numbers | `form_moves`, `moves` |
 | PvP rank, score, recommended moveset and **move usage** per league (and Shadow) | `pvp_rankings`, `pvp_move_usage` (PvPoke) |
 | Best IVs per league (Megas too) and the keeper bars of the Pokédex number | `pvp_best_ivs`, `pvp_keeper_boxes` |
+| Great and Ultra League family searches | `pvp_keeper_boxes` for the family, encoded with `KeeperStringEncoder` |
 | Raid rank per attacking type (with its moveset) and every raid moveset ranked | `raid_rankings`, `raid_movesets` |
 | The family (every non-Mega form of every species in it) and its evolution steps | `species`, `forms`, `evolutions` |
 | Costumes | `costumes` (PokeMiners' picture list) |
@@ -51,7 +52,10 @@ and its own PvP and raid rankings and raid movesets.
 | Get it | right | **How to get it**: right now (and coming up) from the live data, then the history, newest first · **Evolution** chain with each step's needs, and the buddy distance |
 | Versions | left | Every version's picture (shiny only once known, Shadow, Purified, Mega, G-Max/Dynamax), the shown version's numbers, and the costumes |
 
-The search string with Copy on the Best IVs cards comes with **E04-F03 Family strings** (decision 2026-11-08).
+The Great and Ultra League **Best IVs** cards show a copyable family search wherever the family has keeper boxes
+for that league. The same search appears on each family member's page and across versions. It uses each member's
+own appraisal ranges and the league's CP cap. Choose **Copy** and paste it into Pokémon GO's storage search.
+The search uses English game keywords in both app languages.
 
 ## IV rank checker
 

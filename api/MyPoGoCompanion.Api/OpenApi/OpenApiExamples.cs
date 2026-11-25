@@ -105,7 +105,8 @@ internal static class OpenApiExamples
         [typeof(PokedexForm)] = _megaCharizardY,
         [typeof(PokedexMove)] = _blastBurn,
         [typeof(PokemonPageResponse)] = new PokemonPageResponse(
-            445, "Garchomp", "Garchomp", 4, SpeciesCategory.None, "FAMILY_GIBLE", [_garchomp], [_gibleGreatBox], [_dragonTailMove],
+            445, "Garchomp", "Garchomp", 4, SpeciesCategory.None, "FAMILY_GIBLE", [_garchomp], [_gibleGreatBox],
+            [new PageFamilySearch(League.Great, "443-445&0-1attack&3-4defense&2-4hp&cp-1500")], [_dragonTailMove],
             [_gible], [_gibleToGabite], [_costume], [_communityDay], [0.094, 0.1351374318, 0.16639787]),
         [typeof(PageForm)] = _garchomp,
         [typeof(LevelCpRow)] = _garchompL40,

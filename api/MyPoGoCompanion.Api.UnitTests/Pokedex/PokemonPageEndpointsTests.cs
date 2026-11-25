@@ -11,6 +11,7 @@ using MyPoGoCompanion.Data.GameData;
 using MyPoGoCompanion.Data.LiveData;
 using MyPoGoCompanion.Data.Operations;
 using MyPoGoCompanion.Data.Rankings;
+using MyPoGoCompanion.Engine.Search;
 using HttpJsonOptions = Microsoft.AspNetCore.Http.Json.JsonOptions;
 
 namespace MyPoGoCompanion.Api.UnitTests.Pokedex;
@@ -175,6 +176,37 @@ public sealed class PokemonPageEndpointsTests : IDisposable
     }
 
     [Fact]
+    public async Task FamilySearch_UsesEachMembersOwnBox_AndOmitsMembersWithoutOne()
+    {
+        await using var db = await SeedAsync();
+        db.PvpKeeperBoxes.Add(new PvpKeeperBox
+        {
+            League = League.Great,
+            Dex = 4,
+            AttackBarMin = 4,
+            AttackBarMax = 4,
+            DefenseBarMax = 4,
+            StaminaBarMax = 4,
+        });
+        await db.SaveChangesAsync(Ct);
+
+        var charmander = Read((await GetAsync(db, 4)).Body);
+        var charmeleon = Read((await GetAsync(db, 5)).Body);
+        Assert.Empty(charmeleon.KeeperBoxes);
+        var family = Assert.Single(charmeleon.FamilySearches);
+        Assert.Equal(family, Assert.Single(charmander.FamilySearches));
+        Assert.Equal(League.Great, family.League);
+
+        var search = GameSearch.Parse(family.SearchString);
+        Assert.True(search.Matches(new SearchSubject(4, 4, 0, 0, 1500)));
+        Assert.True(search.Matches(new SearchSubject(6, 1, 3, 2, 1500)));
+        Assert.False(search.Matches(new SearchSubject(4, 1, 3, 2, 1500)));
+        Assert.False(search.Matches(new SearchSubject(5, 4, 4, 4, 1500)));
+        Assert.False(search.Matches(new SearchSubject(6, 4, 3, 2, 1500)));
+        Assert.False(search.Matches(new SearchSubject(6, 1, 3, 2, 1501)));
+    }
+
+    [Fact]
     public async Task ThePage_HasTheFamily_TheEvolutions_AndTheCostumes()
     {
         await using var db = await SeedAsync();
@@ -246,7 +278,7 @@ public sealed class PokemonPageEndpointsTests : IDisposable
     public async Task TheCache_KeepsAtMostItsLimit_DroppingTheOldest()
     {
         var options = Json().Value.SerializerOptions;
-        static PokemonPageResponse Page(int dex) => new(dex, "X", null, 1, SpeciesCategory.None, "F", [], [], [], [], [], [], [], []);
+        static PokemonPageResponse Page(int dex) => new(dex, "X", null, 1, SpeciesCategory.None, "F", [], [], [], [], [], [], [], [], []);
         for (var dex = 1; dex <= PokemonPageCache.MaxEntries + 5; dex++)
         {
             var current = dex;

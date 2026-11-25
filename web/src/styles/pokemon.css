@@ -396,6 +396,32 @@
 .pk-ivs-spread {
   font-weight: 900;
 }
+.pk-family-search {
+  margin-top: var(--space-1);
+}
+.pk-family-search .keeper-part {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: var(--space-2);
+}
+.pk-family-search .keeper-preview {
+  display: block;
+  padding: var(--space-2);
+  border-radius: var(--radius-s);
+  color: var(--text-2);
+  background: var(--surface-2);
+  font-size: 0.8rem;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.pk-family-search .keeper-part .keeper-copy {
+  grid-column: 2;
+  grid-row: 1;
+  padding-inline: var(--space-2);
+}
+.pk-family-search .keeper-manual {
+  grid-column: 1 / -1;
+}
 .pk-iv-fields {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
