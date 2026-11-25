@@ -2265,6 +2265,12 @@
         "description": "An evolution step and what it needs."
       },
       "PageFamilySearch": {
+        "examples": [
+          {
+            "league": "Great",
+            "searchString": "443-445&0-1attack&3-4defense&2-4hp&cp-1500"
+          }
+        ],
         "required": [
           "league",
           "searchString"

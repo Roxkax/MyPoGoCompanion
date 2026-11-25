@@ -60,6 +60,7 @@ internal static class OpenApiExamples
         League.Master, IsShadow: false, 31, 88.4, "DRAGON_TAIL", "EARTH_POWER", "OUTRAGE", [_dragonTailUses, new MoveUses("EARTH_POWER", 48211)]);
     private static readonly PageBestIvs _garchompGreat = new(League.Great, 0, 15, 14, 14m, 1495);
     private static readonly PageKeeperBox _gibleGreatBox = new(League.Great, 0, 1, 3, 4, 2, 4);
+    private static readonly PageFamilySearch _gibleGreatSearch = new(League.Great, "443-445&0-1attack&3-4defense&2-4hp&cp-1500");
     private static readonly PageRaidRank _groundRank = new("ground", IsShadow: false, 12, "MUD_SHOT", "EARTH_POWER");
     private static readonly PageRaidMoveset _mudShotEarthPower = new(IsShadow: false, "MUD_SHOT", "EARTH_POWER", 1, 17.82, 612.5, 41.3);
     private static readonly PageForm _garchomp = new(
@@ -106,7 +107,7 @@ internal static class OpenApiExamples
         [typeof(PokedexMove)] = _blastBurn,
         [typeof(PokemonPageResponse)] = new PokemonPageResponse(
             445, "Garchomp", "Garchomp", 4, SpeciesCategory.None, "FAMILY_GIBLE", [_garchomp], [_gibleGreatBox],
-            [new PageFamilySearch(League.Great, "443-445&0-1attack&3-4defense&2-4hp&cp-1500")], [_dragonTailMove],
+            [_gibleGreatSearch], [_dragonTailMove],
             [_gible], [_gibleToGabite], [_costume], [_communityDay], [0.094, 0.1351374318, 0.16639787]),
         [typeof(PageForm)] = _garchomp,
         [typeof(LevelCpRow)] = _garchompL40,
@@ -116,6 +117,7 @@ internal static class OpenApiExamples
         [typeof(MoveUses)] = _dragonTailUses,
         [typeof(PageBestIvs)] = _garchompGreat,
         [typeof(PageKeeperBox)] = _gibleGreatBox,
+        [typeof(PageFamilySearch)] = _gibleGreatSearch,
         [typeof(PageRaidRank)] = _groundRank,
         [typeof(PageRaidMoveset)] = _mudShotEarthPower,
         [typeof(PageMove)] = _dragonTailMove,

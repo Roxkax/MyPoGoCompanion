@@ -944,7 +944,13 @@ export interface components {
             /** @description The task in Portuguese; null when missing. */
             taskPt: null | string;
         };
-        /** @description An English Pokémon GO keeper search for one league. */
+        /**
+         * @description An English Pokémon GO keeper search for one league.
+         * @example {
+         *       "league": "Great",
+         *       "searchString": "443-445&0-1attack&3-4defense&2-4hp&cp-1500"
+         *     }
+         */
         PageFamilySearch: {
             league: components["schemas"]["League"];
             searchString: string;
