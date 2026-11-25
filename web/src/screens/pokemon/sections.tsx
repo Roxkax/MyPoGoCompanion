@@ -31,6 +31,7 @@ import {
   type Spread,
 } from '../../pokemon/page'
 import { Card } from '../../ui/Card'
+import { CopyableSearch } from '../../ui/CopyableSearch'
 import type { PokemonType } from '../../ui/pokemonTypes'
 import { SegmentedSwitch } from '../../ui/SegmentedSwitch'
 import { pictureSources, spriteUrl } from '../../ui/sprites'
@@ -463,32 +464,43 @@ export function BestIvsSection({ page, version }: SectionProps) {
   const formats = useFormats()
   const form = version.form
   const mega = form.kind === 'Mega' || form.kind === 'Primal'
+  const searches = page.familySearches ?? []
+  const shownLeagues = leagues.filter(
+    (league) =>
+      form.bestIvs.some((best) => best.league === league) ||
+      searches.some((search) => search.league === league),
+  )
   return (
     <Section id="best-ivs" title={t('pokemon.ivs.title')}>
       <Card padded={false}>
-        {form.bestIvs.length === 0 ? (
+        {shownLeagues.length === 0 ? (
           <p className="pk-muted pk-pad">{t('pokemon.ivs.none')}</p>
         ) : (
           <ul className="card-rows pk-ivs">
-            {form.bestIvs.map((best) => {
-              const box = mega ? undefined : page.keeperBoxes.find((b) => b.league === best.league)
+            {shownLeagues.map((league) => {
+              const best = form.bestIvs.find((row) => row.league === league)
+              const box = mega ? undefined : page.keeperBoxes.find((b) => b.league === league)
               const ranges = box ? keeperRanges(box) : null
               const range = ([low, high]: [number, number]) =>
                 low === high ? `${low}` : `${low}–${high}`
               return (
-                <li key={best.league}>
+                <li key={league}>
                   <span className="pk-ivs-head">
-                    <span>{t(`pokemon.leagues.${best.league}`)}</span>
-                    <span className="pk-ivs-spread">
-                      {best.attack}/{best.defense}/{best.stamina}
-                    </span>
+                    <span>{t(`pokemon.leagues.${league}`)}</span>
+                    {best && (
+                      <span className="pk-ivs-spread">
+                        {best.attack}/{best.defense}/{best.stamina}
+                      </span>
+                    )}
                   </span>
-                  <small>
-                    {t('pokemon.ivs.levelCp', {
-                      level: formats.number(best.level),
-                      cp: formats.number(best.cp),
-                    })}
-                  </small>
+                  {best && (
+                    <small>
+                      {t('pokemon.ivs.levelCp', {
+                        level: formats.number(best.level),
+                        cp: formats.number(best.cp),
+                      })}
+                    </small>
+                  )}
                   {ranges && (
                     <small>
                       {t('pokemon.ivs.keep', {
@@ -498,6 +510,13 @@ export function BestIvsSection({ page, version }: SectionProps) {
                       })}
                     </small>
                   )}
+                  {searches
+                    .filter((search) => search.league === league)
+                    .map(({ searchString }) => (
+                      <div className="pk-family-search" key={searchString}>
+                        <CopyableSearch searchString={searchString} />
+                      </div>
+                    ))}
                 </li>
               )
             })}

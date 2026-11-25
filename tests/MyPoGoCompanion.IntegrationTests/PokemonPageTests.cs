@@ -69,6 +69,9 @@ public sealed class PokemonPageTests(PostgresFixture postgres)
         Assert.All(garchomp.Pvp, ranking => Assert.NotEmpty(ranking.Usage));
         Assert.Equal(await db.RaidRankings.CountAsync(r => r.FormId == "garchomp", Ct), garchomp.RaidRanks.Count);
         Assert.Equal(2, page.KeeperBoxes.Count);
+        Assert.Equal(
+            [new(League.Great, "443-445&0-1attack&3-4defense&2-4hp&cp-1500"), new(League.Ultra, "443-445&0-1attack&3-4defense&2-4hp&cp-2500")],
+            page.FamilySearches);
 
         // Every move the page names is in its move list.
         var named = garchomp.Movepool.Select(m => m.MoveId)

@@ -17,6 +17,7 @@ namespace MyPoGoCompanion.Api.Pokedex;
 /// <param name="FamilyId">Its evolution family.</param>
 /// <param name="Forms">Its versions: the main form first, then Megas and Primals, regional forms, other forms and looks.</param>
 /// <param name="KeeperBoxes">The appraisal bars the keeper filters keep for this Pokédex number (Great and Ultra League).</param>
+/// <param name="FamilySearches">Copyable Pokémon GO keeper searches for the evolution family, in league and part order.</param>
 /// <param name="Moves">Every move its versions can learn or use, with raid and PvP numbers.</param>
 /// <param name="Family">Every version of every species in its family (Megas left out), for the evolution chain and the IV checker.</param>
 /// <param name="Evolutions">The family's evolution steps with what each needs.</param>
@@ -35,6 +36,7 @@ public sealed record PokemonPageResponse(
     string FamilyId,
     IReadOnlyList<PageForm> Forms,
     IReadOnlyList<PageKeeperBox> KeeperBoxes,
+    IReadOnlyList<PageFamilySearch> FamilySearches,
     IReadOnlyList<PageMove> Moves,
     IReadOnlyList<FamilyMember> Family,
     IReadOnlyList<PageEvolution> Evolutions,
@@ -141,6 +143,9 @@ public sealed record PageBestIvs(League League, int Attack, int Defense, int Sta
 
 /// <summary>The bars (0–4 each) the keeper filters keep in a league.</summary>
 public sealed record PageKeeperBox(League League, int AttackMin, int AttackMax, int DefenseMin, int DefenseMax, int StaminaMin, int StaminaMax);
+
+/// <summary>An English Pokémon GO keeper search for one league.</summary>
+public sealed record PageFamilySearch(League League, string SearchString);
 
 /// <summary>The form's place in an attacking type's raid list, with the moveset it is ranked with.</summary>
 public sealed record PageRaidRank(string Type, bool IsShadow, int Rank, string FastMoveId, string ChargedMoveId);

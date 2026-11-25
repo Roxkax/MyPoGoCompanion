@@ -945,6 +945,17 @@ export interface components {
             taskPt: null | string;
         };
         /**
+         * @description An English Pokémon GO keeper search for one league.
+         * @example {
+         *       "league": "Great",
+         *       "searchString": "443-445&0-1attack&3-4defense&2-4hp&cp-1500"
+         *     }
+         */
+        PageFamilySearch: {
+            league: components["schemas"]["League"];
+            searchString: string;
+        };
+        /**
          * @description A version of the species with everything the page shows about it.
          * @example {
          *       "id": "garchomp",
@@ -1888,6 +1899,12 @@ export interface components {
          *           "staminaMax": 4
          *         }
          *       ],
+         *       "familySearches": [
+         *         {
+         *           "league": "Great",
+         *           "searchString": "443-445&0-1attack&3-4defense&2-4hp&cp-1500"
+         *         }
+         *       ],
          *       "moves": [
          *         {
          *           "id": "DRAGON_TAIL",
@@ -1999,6 +2016,8 @@ export interface components {
             forms: components["schemas"]["PageForm"][];
             /** @description The appraisal bars the keeper filters keep for this Pokédex number (Great and Ultra League). */
             keeperBoxes: components["schemas"]["PageKeeperBox"][];
+            /** @description Copyable Pokémon GO keeper searches for the evolution family, in league and part order. */
+            familySearches: components["schemas"]["PageFamilySearch"][];
             /** @description Every move its versions can learn or use, with raid and PvP numbers. */
             moves: components["schemas"]["PageMove"][];
             /** @description Every version of every species in its family (Megas left out), for the evolution chain and the IV checker. */
