@@ -160,7 +160,7 @@ export function FilterBuilderScreen() {
   const checkedSearch = result && result !== 'error' ? result : null
 
   return (
-    <div className="filter-builder">
+    <section className="filter-builder" aria-label={t('titles.filterBuilder')}>
       {desktop && (
         <section
           className="ui-card ui-card-padded builder-card"
@@ -302,6 +302,6 @@ export function FilterBuilderScreen() {
           {picker}
         </Sheet>
       )}
-    </div>
+    </section>
   )
 }
