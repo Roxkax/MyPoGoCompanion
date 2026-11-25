@@ -578,6 +578,12 @@ export const ptPT: Messages<typeof en> = {
     copied: 'Copiado',
     copyPart: '{{action}} {{part}} · {{range}}',
     manualCopy: 'Copia esta expressão de pesquisa manualmente',
+    safeToTransfer: {
+      title: 'Seguro para transferir',
+      description:
+        'Encontra Pokémon sem as cinco etiquetas dos filtros para guardar. A pesquisa exclui Pokémon brilhantes, sortudos, lendários, míticos, favoritos, com IVs perfeitos e com disfarces.',
+      note: 'Aplica primeiro as etiquetas aos resultados dos cinco filtros para guardar. Verifica os resultados da pesquisa antes de transferires qualquer Pokémon.',
+    },
     cards: {
       GreatLeague: {
         title: 'Liga Grande',
