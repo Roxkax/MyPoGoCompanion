@@ -19,7 +19,6 @@ const screens: [string, string, string][] = [
   ['/battle/tiers/raids/ground', 'Tier lists', 'C3'],
   ['/battle/tiers/raids', 'Tier lists', 'C3'],
   ['/battle/teams?boss=kyogre', 'Best team', 'C4'],
-  ['/filters/builder?saved=7', 'Filter builder', 'D2'],
   ['/filters/saved', 'Saved filters', 'D3'],
   ['/collection', 'My collection', 'E1'],
   ['/collection/upload', 'Upload', 'E2'],

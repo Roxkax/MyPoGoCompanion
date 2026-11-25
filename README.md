@@ -95,9 +95,11 @@ The .NET build turns every analyzer warning into an error when `CI=true` (as in 
 
 The Moves screen provides Fast/Charged moves, search, type filtering and sorting, with raid and PvP numbers and effects. Each move opens its detailed stats, learners grouped by TM availability, and dated event instructions. See [docs/MOVES.md](docs/MOVES.md) for the screen and its public API.
 
-### Keeper filters
+### Filters
 
 **Filters → Keepers** provides copyable searches for Great League, Ultra League, Raid attackers, Max Battle attackers and Megas. See [docs/KEEPERS.md](docs/KEEPERS.md) for usage and daily publishing.
+
+**Filters → Builder** creates Pokémon GO searches from conditions or hand-edited text and splits long searches into copyable parts. See [docs/FILTER-BUILDER.md](docs/FILTER-BUILDER.md).
 
 ### API
 

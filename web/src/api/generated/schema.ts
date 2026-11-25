@@ -186,6 +186,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/filter-search/check": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Checks a Pokémon GO storage search and splits it into pasteable parts when possible. */
+        post: operations["CheckFilterSearch"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/client-errors": {
         parameters: {
             query?: never;
@@ -473,6 +490,15 @@ export interface components {
             stamina: number;
             released: boolean;
             sprite: null | string;
+        };
+        /**
+         * @description A hand-edited or generated Pokémon GO storage search in English.
+         * @example {
+         *       "expression": "443&age0&3-4attack&!shiny"
+         *     }
+         */
+        FilterBuilderRequest: {
+            expression: null | string;
         };
         /** @enum {string} */
         FormKind: "Base" | "Regional" | "Mega" | "Primal" | "Alternate" | "Costume";
@@ -2095,6 +2121,25 @@ export interface components {
             startedAt: string;
         };
         /**
+         * @example {
+         *       "status": "Valid",
+         *       "parts": [
+         *         "443&age0&3-4attack&!shiny"
+         *       ],
+         *       "term": null
+         *     }
+         */
+        SearchCheckResult: {
+            status: components["schemas"]["SearchCheckStatus"];
+            parts: string[];
+            term?: null | string;
+        };
+        /**
+         * @example Valid
+         * @enum {string}
+         */
+        SearchCheckStatus: "Valid" | "Unverified" | "Invalid" | "CannotSplit" | "TooLong";
+        /**
          * @description What a sign-in or refresh returns: a 15-minute access token, the next refresh token and the user.
          * @example {
          *       "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwZjhjMmQxZSJ9.c2lnbmF0dXJl",
@@ -2567,6 +2612,30 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["KeeperFiltersResponse"];
+                };
+            };
+        };
+    };
+    CheckFilterSearch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["FilterBuilderRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SearchCheckResult"];
                 };
             };
         };

@@ -445,6 +445,37 @@
         }
       }
     },
+    "/filter-search/check": {
+      "post": {
+        "tags": [
+          "Filters"
+        ],
+        "summary": "Checks a Pokémon GO storage search and splits it into pasteable parts when possible.",
+        "operationId": "CheckFilterSearch",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FilterBuilderRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchCheckResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/client-errors": {
       "post": {
         "tags": [
@@ -1282,6 +1313,26 @@
           }
         },
         "description": "A version of a species in the family, for the evolution chain and the IV checker."
+      },
+      "FilterBuilderRequest": {
+        "examples": [
+          {
+            "expression": "443&age0&3-4attack&!shiny"
+          }
+        ],
+        "required": [
+          "expression"
+        ],
+        "type": "object",
+        "properties": {
+          "expression": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "description": "A hand-edited or generated Pokémon GO storage search in English."
       },
       "FormKind": {
         "enum": [
@@ -4005,6 +4056,52 @@
           }
         },
         "description": "The run Azure started. The job writes its own run log (job_runs) as soon as it starts."
+      },
+      "SearchCheckResult": {
+        "examples": [
+          {
+            "status": "Valid",
+            "parts": [
+              "443&age0&3-4attack&!shiny"
+            ],
+            "term": null
+          }
+        ],
+        "required": [
+          "status",
+          "parts"
+        ],
+        "type": "object",
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/SearchCheckStatus"
+          },
+          "parts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "term": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        }
+      },
+      "SearchCheckStatus": {
+        "examples": [
+          "Valid"
+        ],
+        "enum": [
+          "Valid",
+          "Unverified",
+          "Invalid",
+          "CannotSplit",
+          "TooLong"
+        ],
+        "type": "string"
       },
       "SessionResponse": {
         "examples": [
