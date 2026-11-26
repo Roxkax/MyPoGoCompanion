@@ -23,7 +23,11 @@ public sealed class ResearchPublicationTests
         var publication = new ResearchPublication(db);
         var fact = new ResearchFact
         {
-            FormId = "kyogre", Kind = kind, Name = "Monday", Stars = 5, Start = new DateTime(2026, 11, 30),
+            FormId = "kyogre",
+            Kind = kind,
+            Name = "Monday",
+            Stars = 5,
+            Start = new DateTime(2026, 11, 30),
             Encounters = [new("kyogre", false)],
         };
         var item = new Observation(topic, "replay", fact, _source, DateTimeOffset.UnixEpoch);

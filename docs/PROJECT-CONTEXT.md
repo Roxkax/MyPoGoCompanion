@@ -100,7 +100,7 @@ Board: https://github.com/users/Roxkax/projects/2 (kept in sync by the `Project 
 |---|---|---|---|
 | E05-F01 AI provider layer and cost cap | **Done** 2026-11-26 | #972 | Issues #258–#264 (GitHub milestone Sprint 7). OpenAI Responses behind a shared .NET client, with per-call accounting and a configurable $5 cap. Admins can see UTC monthly spend, active reservations, and pause status. Local checks passed 292 API unit tests, 103 PostgreSQL integration tests, .NET formatting, and the web build. The owner selected shared QA on 2026-11-26. Guide: `docs/AI-PROVIDER.md`. Merged on 2026-11-26, closing issues #258–#264. |
 | E05-F02 Search and fetch connector | **Done** 2026-11-26 | #973 | Issues #265–#270 (GitHub milestone Sprint 7). Leek Duck discovery and fetch for events, raids, Max Battles, eggs, and field research, with in-process caching and request pacing. The owner selected shared QA on 2026-11-26. Guide: `docs/RESEARCH-SOURCES.md`. |
-| E05-F03 Weekly AI researcher | **In progress** | | Issues #271–#281. Weekly production research, atomic publication and source-change tracking. Shared QA requested. |
+| E05-F03 Weekly AI researcher | **In review** | #974 | Issues #271–#281. Weekly production research, atomic publication and source-change tracking. 278 local jobs unit tests passed. Shared QA requested. |
 
 ### Other work done
 
