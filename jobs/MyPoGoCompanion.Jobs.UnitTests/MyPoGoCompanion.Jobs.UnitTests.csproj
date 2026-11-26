@@ -24,4 +24,8 @@
     <None Include="Fixtures/**/*.json;Fixtures/**/*.js" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Fixtures/Research/*.html" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>

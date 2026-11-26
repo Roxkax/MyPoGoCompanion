@@ -5,7 +5,7 @@ The .NET `IAiClient` gives the app's chat and weekly researcher a shared text ge
 ## Configure an environment
 
 - In an API development checkout, add `Ai:OpenAiApiKey` in .NET user secrets. On GitHub, set the `OPENAI_API_KEY` secret in the intended `qa` or `prod` environment. Use a dedicated OpenAI project key for each deployment you enable. Leaving the key unset disables AI calls.
-- The API defaults to a **$5 USD monthly cap** per deployment database. Optionally set the GitHub environment variable `AI_MONTHLY_CAP_USD` (for example `5.00`) or the host setting `Ai__MonthlyCapUsd`. Set it to `0` to pause all requests. When the researcher is deployed, register the same AI services in its host and give it the same database and cap as that environment's API.
+- The API defaults to a **$5 USD monthly cap** per deployment database. Optionally set the GitHub environment variable `AI_MONTHLY_CAP_USD` (for example `5.00`) or the host setting `Ai__MonthlyCapUsd`. Set it to `0` to pause all requests. The researcher uses the same services, database and cap as its environment’s API.
 - Set quotas in the OpenAI project for any other applications using the same account. The app cap applies to calls through `IAiClient` using the configured database and prices.
 
 ## Check spend and pauses

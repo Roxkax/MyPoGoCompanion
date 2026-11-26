@@ -329,6 +329,15 @@ jobs:
           TRIGGER: manual
         run: .github/scripts/deploy_job.sh
 
+      - name: Deploy the weekly researcher
+        env:
+          JOB_NAME: job-research-qa
+          IMAGE_TAG: ${{ env.JOBS_IMAGE }}:${{ steps.pr.outputs.sha }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          AI_MONTHLY_CAP_USD: ${{ vars.AI_MONTHLY_CAP_USD }}
+        run: .github/scripts/deploy_job.sh
+
       - name: Run the daily import on QA
         # Every QA deploy imports once, so QA tests the PR's import on real data (a minute; seconds when nothing changed).
         env:

@@ -364,6 +364,16 @@ jobs:
           TRIGGER: manual
         run: workflow-scripts/.github/scripts/deploy_job.sh
 
+      - name: Deploy the weekly researcher
+        if: steps.jobs-image.outputs.deploy == 'true' && hashFiles('jobs/MyPoGoCompanion.Jobs/Research/WeeklyResearcher.cs') != ''
+        env:
+          JOB_NAME: job-research-prod
+          IMAGE_TAG: ${{ env.JOBS_IMAGE }}:${{ needs.changes.outputs.sha }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          AI_MONTHLY_CAP_USD: ${{ vars.AI_MONTHLY_CAP_USD }}
+        run: workflow-scripts/.github/scripts/deploy_job.sh
+
       - name: Run the daily import now
         id: import
         # When the import's code or the schema changed, or the job is new: prod gets the new data straight away

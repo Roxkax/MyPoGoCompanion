@@ -9,6 +9,7 @@ WORKDIR /src
 # Restore first, so the package layer is reused while only code changes.
 COPY global.json Directory.Build.props Directory.Packages.props .editorconfig ./
 COPY jobs/MyPoGoCompanion.Jobs/MyPoGoCompanion.Jobs.csproj jobs/MyPoGoCompanion.Jobs/
+COPY api/MyPoGoCompanion.Ai/MyPoGoCompanion.Ai.csproj api/MyPoGoCompanion.Ai/
 COPY api/MyPoGoCompanion.Data/MyPoGoCompanion.Data.csproj api/MyPoGoCompanion.Data/
 COPY api/MyPoGoCompanion.Engine/MyPoGoCompanion.Engine.csproj api/MyPoGoCompanion.Engine/
 COPY api/MyPoGoCompanion.Observability/MyPoGoCompanion.Observability.csproj api/MyPoGoCompanion.Observability/
@@ -17,6 +18,7 @@ COPY api/MyPoGoCompanion.Observability/MyPoGoCompanion.Observability.csproj api/
 RUN dotnet restore jobs/MyPoGoCompanion.Jobs/MyPoGoCompanion.Jobs.csproj -r linux-x64
 
 COPY jobs/MyPoGoCompanion.Jobs/ jobs/MyPoGoCompanion.Jobs/
+COPY api/MyPoGoCompanion.Ai/ api/MyPoGoCompanion.Ai/
 COPY api/MyPoGoCompanion.Data/ api/MyPoGoCompanion.Data/
 COPY api/MyPoGoCompanion.Engine/ api/MyPoGoCompanion.Engine/
 COPY api/MyPoGoCompanion.Observability/ api/MyPoGoCompanion.Observability/
