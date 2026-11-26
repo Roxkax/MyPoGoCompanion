@@ -98,7 +98,8 @@ Board: https://github.com/users/Roxkax/projects/2 (kept in sync by the `Project 
 
 | Feature | Status | PRs | Notes |
 |---|---|---|---|
-| E05-F01 AI provider layer and cost cap | **In review** | #972 | Issues #258–#264 (GitHub milestone Sprint 7). OpenAI Responses behind a shared .NET client, with per-call accounting and a configurable $5 cap. Admins can see UTC monthly spend, active reservations, and pause status. Local checks passed 292 API unit tests, 103 PostgreSQL integration tests, .NET formatting, and the web build. The owner selected shared QA on 2026-11-26. Guide: `docs/AI-PROVIDER.md`. |
+| E05-F01 AI provider layer and cost cap | **Done** 2026-11-26 | #972 | Issues #258–#264 (GitHub milestone Sprint 7). OpenAI Responses behind a shared .NET client, with per-call accounting and a configurable $5 cap. Admins can see UTC monthly spend, active reservations, and pause status. Local checks passed 292 API unit tests, 103 PostgreSQL integration tests, .NET formatting, and the web build. The owner selected shared QA on 2026-11-26. Guide: `docs/AI-PROVIDER.md`. Merged on 2026-11-26, closing issues #258–#264. |
+| E05-F02 Search and fetch connector | **In progress** | — | Issues #265–#270 (GitHub milestone Sprint 7). Leek Duck discovery and fetch for events, raids, Max Battles, eggs, and field research, with in-process caching and request pacing. The owner selected shared QA on 2026-11-26. Guide: `docs/RESEARCH-SOURCES.md`. |
 
 ### Other work done
 
@@ -345,6 +346,7 @@ Board: https://github.com/users/Roxkax/projects/2 (kept in sync by the `Project 
 | 2026-11-08 | **The Pokémon page shows both out-of-date warnings** (Claude, E03-F02; follows from "How to get it = Right now + History"): the page now shows live data (raids, eggs, research, events), so it gets the raids-and-events warning as well as the game-data one (replaces "game data on … Pokémon page" in the 2026-11-02 out-of-date entry). |
 | 2026-11-24 | **Great and Ultra League keeper ranges include released Megas and Primals** (owner, E04-F01). Their appraisal boxes widen the existing ranges for their species and pre-evolutions. The legacy Python golden files still define the encoder baseline with the original boxes. |
 | 2026-11-26 | **Start Sprint 5, Live data and the AI researcher** (owner): begin with E05-F01 and deploy its PR to shared QA. The GitHub milestone is Sprint 7. |
+| 2026-11-26 | **Shared QA for E05-F02 Search and fetch connector** (owner). |
 
 ## Open decisions
 
