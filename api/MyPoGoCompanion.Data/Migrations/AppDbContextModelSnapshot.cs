@@ -1164,6 +1164,12 @@ namespace MyPoGoCompanion.Data.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("input_tokens");
 
+                    b.Property<bool>("IsReserved")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_reserved");
+
                     b.Property<Guid?>("JobRunId")
                         .HasColumnType("uuid")
                         .HasColumnName("job_run_id");

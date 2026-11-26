@@ -26,6 +26,7 @@ internal sealed class AiUsageConfiguration : IEntityTypeConfiguration<AiUsage>
         builder.ToTable("ai_usage", table => table.HasCheckConstraint("ck_ai_usage_amounts",
             "input_tokens >= 0 and output_tokens >= 0 and cost_usd >= 0"));
         builder.Property(usage => usage.CostUsd).HasPrecision(12, 6);
+        builder.Property(usage => usage.IsReserved).HasDefaultValue(false);
         builder.HasIndex(usage => usage.At);
         builder.HasIndex(usage => new { usage.UserId, usage.At });
         builder.HasOne(usage => usage.User).WithMany().OnDelete(DeleteBehavior.SetNull);

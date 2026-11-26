@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using MyPoGoCompanion.Ai;
 using MyPoGoCompanion.Api.Account;
 using MyPoGoCompanion.Api.Admin;
 using MyPoGoCompanion.Api.Auth;
@@ -100,6 +101,8 @@ internal static class OpenApiExamples
         [typeof(SetRoleRequest)] = new SetRoleRequest(UserRole.Admin),
         [typeof(RunImportRequest)] = new RunImportRequest(PublishMissing: false),
         [typeof(RunImportResponse)] = new RunImportResponse("job-import-prod-k3x9q2m", PublishMissing: false, _now),
+        [typeof(AiBudgetStatus)] = new AiBudgetStatus(5m, 0.46m, 0.10m, new DateTimeOffset(2026, 11, 1, 0, 0, 0, TimeSpan.Zero),
+            SimpleRequestsPaused: false, StandardRequestsPaused: false, ProviderConfigured: true),
         [typeof(FreshnessResponse)] = new FreshnessResponse(_gameDataUpToDate, _liveDataOutOfDate),
         [typeof(DataFreshness)] = _liveDataOutOfDate,
         [typeof(PokedexResponse)] = new PokedexResponse([_charizard], [_blastBurn, new PokedexMove("FIRE_SPIN", "Fire Spin", "Chama Furacão", "fire", MoveKind.Fast)]),

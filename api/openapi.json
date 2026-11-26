@@ -252,6 +252,62 @@
         ]
       }
     },
+    "/admin/ai/budget": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Shows shared AI spend, reservations, and the next UTC monthly reset (admins).",
+        "operationId": "GetAiBudget",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiBudgetStatus"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc9110#section-15.5.2",
+                  "title": "Unauthorized",
+                  "status": 401
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc9110#section-15.5.4",
+                  "title": "Forbidden",
+                  "status": 403
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
     "/freshness": {
       "get": {
         "tags": [
@@ -1466,6 +1522,56 @@
           }
         },
         "description": "A user as the super admin sees them in Users and roles."
+      },
+      "AiBudgetStatus": {
+        "examples": [
+          {
+            "capUsd": 5,
+            "spentUsd": 0.46,
+            "reservedUsd": 0.10,
+            "resetsAt": "2026-11-01T00:00:00+00:00",
+            "simpleRequestsPaused": false,
+            "standardRequestsPaused": false,
+            "providerConfigured": true
+          }
+        ],
+        "required": [
+          "capUsd",
+          "spentUsd",
+          "reservedUsd",
+          "resetsAt",
+          "simpleRequestsPaused",
+          "standardRequestsPaused",
+          "providerConfigured"
+        ],
+        "type": "object",
+        "properties": {
+          "capUsd": {
+            "type": "number",
+            "format": "double"
+          },
+          "spentUsd": {
+            "type": "number",
+            "format": "double"
+          },
+          "reservedUsd": {
+            "type": "number",
+            "format": "double"
+          },
+          "resetsAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "simpleRequestsPaused": {
+            "type": "boolean"
+          },
+          "standardRequestsPaused": {
+            "type": "boolean"
+          },
+          "providerConfigured": {
+            "type": "boolean"
+          }
+        }
       },
       "AppearanceKind": {
         "enum": [

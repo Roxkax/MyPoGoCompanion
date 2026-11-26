@@ -87,7 +87,7 @@ The **super admin** is not stored: it is the account whose Google-confirmed emai
 | Table | One row per | Notes |
 |---|---|---|
 | `job_runs` | run of the daily import, AI researcher or backup | status (Running, Succeeded, Failed, or Held: the daily import found rows the sources no longer list and published nothing), start/end, scheduled or "Run now" (by whom), what the run did (`summary` JSON; the daily import's is in `docs/DAILY-IMPORT.md`: trigger, version, source fingerprints, changes per kind, warnings), error in plain words. The out-of-date warning reads the last successful run of each job |
-| `ai_usage` | AI call | chat or researcher, model, tokens, cost; this month's sum is checked against the cap. Chat messages are not stored |
+| `ai_usage` | AI call | Chat or researcher, model, tokens, and cost in USD. An in-flight or uncertain call has `is_reserved` set and counts at its maximum estimated cost. The cap applies to the UTC month of the reservation. Prompts and replies are never written to this table. |
 | `admin_fixes` | admin fix or removal | who, when, which entry, before and after |
 
 ## What deleting does
