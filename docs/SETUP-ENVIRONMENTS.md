@@ -88,7 +88,7 @@ In the repository: **Settings** → **Environments** → **New environment**.
 
 **`prod`**: the same five secrets, but `DATABASE_URL` is the **main** branch URL. Then, under **Deployment branches and tags**, choose **Selected branches and tags** → **Add deployment branch or tag rule** → `main`. Only `main` can deploy to prod.
 
-Later features add more secrets here (Google sign-in, OpenAI API key); each comes with its own short instructions. The Neon API key for the QA reset is a repository secret (step 6).
+See [Google sign-in](SIGN-IN.md) and the [AI provider and spending cap](AI-PROVIDER.md) for their environment settings. The Neon API key for the QA reset is a repository secret (step 6).
 
 ## 4. Check
 
