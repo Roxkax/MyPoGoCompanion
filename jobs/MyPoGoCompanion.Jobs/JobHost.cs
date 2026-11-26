@@ -63,6 +63,7 @@ public static class JobHost
         {
             builder.Services.AddResearchSource();
             builder.Services.AddBudgetedAi(builder.Configuration);
+            builder.Services.AddScoped<IRunLock>(provider => new PostgresRunLock(provider.GetRequiredService<AppDbContext>(), PostgresRunLock.ResearcherKey));
             builder.Services.AddScoped<WeeklyResearcher>();
         }
         else

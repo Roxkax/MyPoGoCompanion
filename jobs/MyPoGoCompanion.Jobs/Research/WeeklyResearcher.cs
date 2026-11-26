@@ -9,12 +9,11 @@ using MyPoGoCompanion.Jobs.DailyImport;
 
 namespace MyPoGoCompanion.Jobs.Research;
 
-internal sealed partial class WeeklyResearcher(AppDbContext db, IAiClient ai, IResearchSource source, TimeProvider clock,
+internal sealed partial class WeeklyResearcher(AppDbContext db, IAiClient ai, IResearchSource source, TimeProvider clock, IRunLock runLock,
     ILogger<WeeklyResearcher> logger)
 {
     public async Task<int> RunAsync(CancellationToken token)
     {
-        var runLock = new PostgresRunLock(db, PostgresRunLock.ResearcherKey);
         await using var lease = await runLock.TryAcquireAsync(token);
         if (lease is null)
         {
