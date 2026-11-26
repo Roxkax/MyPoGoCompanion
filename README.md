@@ -23,7 +23,7 @@ Later: `ios/` (SwiftUI) and `android/` (Kotlin, Jetpack Compose).
 
 [AGENTS.md](AGENTS.md) is the entry point for Codex: working agreements, Git/PR rules and development checks. Read [project context](docs/PROJECT-CONTEXT.md) for sprint progress, owner to-dos and the decision log. The [planning guide](docs/PLANNING-PROCESS.md) describes the workflow from an idea to a sprint.
 
-Codex develops the project; the planned in-app AI chat and weekly researcher use the OpenAI API through a provider-agnostic .NET interface. The [AI provider and spending cap guide](docs/AI-PROVIDER.md) covers setup, model routing, and admin budget status.
+Codex develops the project; the planned in-app AI chat and weekly researcher use the OpenAI API through a provider-agnostic .NET interface. The [AI provider and spending cap guide](docs/AI-PROVIDER.md) covers setup, model routing, and admin budget status. The [research sources guide](docs/RESEARCH-SOURCES.md) covers discovery and fetches from Leek Duck.
 
 ## Develop locally
 
