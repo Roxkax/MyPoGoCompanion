@@ -26,7 +26,7 @@ The 2026-11-10 decisions move development to Codex and the planned in-app AI pro
 | 9 Backlog (Epic → Feature → Task, 100-hour sprints) | Moved after the design (built in stage 11) |
 | 10 Design: app map, then realistic screens one by one | Done 2026-10-28 (25 MVP screens + dark mode; `design/`) |
 | 11 Rebuild the backlog from the design | Done 2026-10-28 (`planning/BACKLOG.md`, GitHub issues) |
-| 12 Start sprints | **In progress** — Sprint 0 done 2026-11-01; Sprint 1 (Foundations) done 2026-11-02; Sprint 2 (Game data pipeline) done 2026-11-08; Sprint 3 (Pokédex, moves and type chart) done 2026-11-24; **Sprint 4** (Search filters) current |
+| 12 Start sprints | **In progress** — Sprint 0 done 2026-11-01; Sprint 1 (Foundations) done 2026-11-02; Sprint 2 (Game data pipeline) done 2026-11-08; Sprint 3 (Pokédex, moves and type chart) done 2026-11-24; Sprint 4 (Search filters) done 2026-11-25; **Sprint 5** (Live data and the AI researcher) current |
 
 Earlier product work (feature list F01–F25 with priorities, UI choices, first wireframes) is archived in `docs/archive/` for reference only. It is **not** decided: the product is being redone with this process.
 
@@ -92,7 +92,13 @@ Board: https://github.com/users/Roxkax/projects/2 (kept in sync by the `Project 
 | E04-F02 Safe to transfer | **Done** 2026-11-25 | #968 | Issues #230–#234 (GitHub milestone Sprint 6). The Keepers screen copies an English search that excludes all five suggested tags and the seven protected categories in the approved D1 design. The card explains when to run the search in English and Portuguese (Portugal). Local checks passed: 709 web unit tests (98.51% line coverage), 12 Keepers Playwright checks across phone and desktop in both themes, and the local smoke test. The owner chose to open the PR without the opt-in QA label. Merged by the owner on 2026-11-25. Issues #230–#234 closed. |
 | E04-F03 Family strings | **Done** 2026-11-25 | #969 | Issues #235–#239 (GitHub milestone Sprint 6). The Pokémon page shows copyable Great and Ultra League family searches under Best IVs. The existing Pokémon page API encodes each family member’s published keeper ranges with the league CP cap. The owner selected shared QA on 2026-11-25. Local checks passed: 272 API unit tests, 12 Pokémon page and OpenAPI integration checks, 710 web tests (98.52% line coverage), 36 browser tests and the smoke test. GitHub build, unit, integration and CodeQL checks passed. Shared QA (run 45585667112, commit `0eb7a3e`): daily import and smoke test passed, and 314 browser tests passed. Merged 2026-11-25; issues #235–#239 closed. |
 | E04-F04 Filter builder | **Done** 2026-11-25 | #970 | Issues #240–#249 (GitHub milestone Sprint 6). The builder at `/filters/builder` supports ten condition groups, hand-edited searches, syntax validation, and copyable parts of up to 1,950 characters. Shared QA passed 322 browser tests. Merged 2026-11-25. |
-| E04-F05 Saved filters | **In review** | #971 | Issues #250–#256. Per-account API and Filters → Saved, with saving and reopening from Builder. The owner selected shared QA on 2026-11-25. |
+| E04-F05 Saved filters | **Done** 2026-11-25 | #971 | Issues #250–#256. Per-account API and Filters → Saved, with saving and reopening from Builder. Shared QA passed the daily import, smoke test, and 330 browser tests. Merged by the owner on 2026-11-25. |
+
+### Sprint 5 — Live data and the AI researcher (started 2026-11-26)
+
+| Feature | Status | PRs | Notes |
+|---|---|---|---|
+| E05-F01 AI provider layer and cost cap | **In review** | #972 | Issues #258–#264 (GitHub milestone Sprint 7). OpenAI Responses behind a shared .NET client, with per-call accounting and a configurable $5 cap. Admins can see UTC monthly spend, active reservations, and pause status. Local checks passed 292 API unit tests, 103 PostgreSQL integration tests, .NET formatting, and the web build. The owner selected shared QA on 2026-11-26. Guide: `docs/AI-PROVIDER.md`. |
 
 ### Other work done
 
@@ -110,7 +116,7 @@ Board: https://github.com/users/Roxkax/projects/2 (kept in sync by the `Project 
 ### Owner to-dos
 
 - **E02-F04 (merged 2026-11-07)**: Ditto's held row was published on prod by Claude on 2026-11-08 (owner's go-ahead). Still to do once, in Azure Cloud Shell: `bash infra/grant-run-now.sh prod` (until then Run now on prod answers that the API isn't allowed to; the 06:00 run and the workflow don't need it). Scheduled workflows only run from `main`, so the first 06:00 run from GitHub is the morning after the merge; GitHub switches a public repository's schedules off after 60 days without any commit (it emails first).
-- **Sprint 4 is current** (E04 uses the GitHub milestone **Sprint 6**): on the board, change the **Current sprint** view's filter to `milestone:"Sprint 6" -label:"type: epic"` and **Save**.
+- **Sprint 5 is current** (E05 uses the GitHub milestone **Sprint 7**): on the board, change the **Current sprint** view's filter to `milestone:"Sprint 7" -label:"type: epic"` and **Save**.
 - **E01-F08 (merged)**: register Application Insights once for the subscription, in Azure Cloud Shell: `az provider register --namespace Microsoft.Insights`, wait until `az provider show --namespace Microsoft.Insights --query registrationState -o tsv` says `Registered`, then run **Prod deploy** by hand (and a QA deploy) so both copies get their Application Insights (`docs/OBSERVABILITY.md`). Until then prod and QA run without telemetry (the deploys only warn).
 - **Before the MVP release (E13-F07, reminder on issue #470)**: replace the sign-in secrets shared in chat on 2026-11-01: new Google client secret (delete the old one) and new `AUTH_SIGNING_KEY` for `qa` and `prod`, then redeploy.
 - Replace the `PROJECT_TOKEN` secret with a new classic token that has **only** `project` + `public_repo`, then delete the old token (the current one carries admin and delete-repo scopes).
@@ -338,6 +344,7 @@ Board: https://github.com/users/Roxkax/projects/2 (kept in sync by the `Project 
 | 2026-11-08 | **Megas get best PvP IVs too** (owner, E03-F02: "megas are now also available to scale down in GBL"; replaces "Megas have none" in `pvp_best_ivs`): the daily import calculates and stores the rank-1 IVs, level and CP per league for every released Mega/Primal like any other form, the IVs tab shows them on the Mega version, and the IV rank checker works for Megas. Mega PvP rankings and move usage appear only where PvPoke ranks Megas. **Keeper boxes stay as they are** (built from the non-Mega forms, matching the Python golden files); whether Megas should widen the keeper boxes is left for E04-F01 Keeper filters. |
 | 2026-11-08 | **The Pokémon page shows both out-of-date warnings** (Claude, E03-F02; follows from "How to get it = Right now + History"): the page now shows live data (raids, eggs, research, events), so it gets the raids-and-events warning as well as the game-data one (replaces "game data on … Pokémon page" in the 2026-11-02 out-of-date entry). |
 | 2026-11-24 | **Great and Ultra League keeper ranges include released Megas and Primals** (owner, E04-F01). Their appraisal boxes widen the existing ranges for their species and pre-evolutions. The legacy Python golden files still define the encoder baseline with the original boxes. |
+| 2026-11-26 | **Start Sprint 5, Live data and the AI researcher** (owner): begin with E05-F01 and deploy its PR to shared QA. The GitHub milestone is Sprint 7. |
 
 ## Open decisions
 

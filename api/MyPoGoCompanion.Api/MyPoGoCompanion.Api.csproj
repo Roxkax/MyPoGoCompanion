@@ -33,6 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MyPoGoCompanion.Ai\MyPoGoCompanion.Ai.csproj" />
     <ProjectReference Include="..\MyPoGoCompanion.Data\MyPoGoCompanion.Data.csproj" />
     <ProjectReference Include="..\MyPoGoCompanion.Engine\MyPoGoCompanion.Engine.csproj" />
     <ProjectReference Include="..\MyPoGoCompanion.Observability\MyPoGoCompanion.Observability.csproj" />

@@ -37,4 +37,7 @@ public class AiUsage
     public int OutputTokens { get; set; }
 
     public decimal CostUsd { get; set; }
+
+    /// <summary>CostUsd is a conservative reservation until the provider reports actual usage.</summary>
+    public bool IsReserved { get; set; }
 }

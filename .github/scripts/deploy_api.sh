@@ -5,6 +5,7 @@
 # Sign-in (E01-F02), from the GitHub environment; until they are all set the API answers "sign-in isn't set up" (503)
 # and everything else works: GOOGLE_CLIENT_ID (variable), GOOGLE_CLIENT_SECRET and AUTH_SIGNING_KEY (secrets),
 # SUPER_ADMIN_EMAIL (variable). Setup: docs/SIGN-IN.md.
+# Optional AI settings: OPENAI_API_KEY (secret) and AI_MONTHLY_CAP_USD (variable). Setup: docs/AI-PROVIDER.md.
 # API_DOCS=true serves the interactive API docs page at /docs (QA only; always set, so prod stays off: docs/API.md).
 # Telemetry (E01-F08): the copy's Application Insights (appi-mypogocompanion-<qa|prod>) is created here if it's
 # missing (appinsights.sh, from infra/monitoring.bicep next to this script's repository), and its connection string
@@ -35,6 +36,15 @@ if [[ -n "${SUPER_ADMIN_EMAIL:-}" ]]; then
   settings+=("Auth__SuperAdminEmail=$SUPER_ADMIN_EMAIL")
 else
   echo "::warning::No SUPER_ADMIN_EMAIL variable: nobody is super admin in this environment. See docs/SIGN-IN.md."
+fi
+
+# Leaving the environment secret empty disables AI even if a previous deploy configured it.
+settings+=("Ai__MonthlyCapUsd=${AI_MONTHLY_CAP_USD:-5}")
+if [[ -n "${OPENAI_API_KEY:-}" ]]; then
+  secrets+=("openai-api-key=$OPENAI_API_KEY")
+  settings+=("Ai__OpenAiApiKey=secretref:openai-api-key")
+else
+  settings+=("Ai__OpenAiApiKey=")
 fi
 
 # Application Insights for this copy (.github/scripts/appinsights.sh).

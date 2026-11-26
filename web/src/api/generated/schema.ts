@@ -72,6 +72,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/admin/ai/budget": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Shows shared AI spend, reservations, and the next UTC monthly reset (admins). */
+        get: operations["GetAiBudget"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/freshness": {
         parameters: {
             query?: never;
@@ -449,6 +466,30 @@ export interface components {
              * @description When they last signed in.
              */
             lastSignInAt: string;
+        };
+        /**
+         * @example {
+         *       "capUsd": 5,
+         *       "spentUsd": 0.46,
+         *       "reservedUsd": 0.1,
+         *       "resetsAt": "2026-11-01T00:00:00+00:00",
+         *       "simpleRequestsPaused": false,
+         *       "standardRequestsPaused": false,
+         *       "providerConfigured": true
+         *     }
+         */
+        AiBudgetStatus: {
+            /** Format: double */
+            capUsd: number;
+            /** Format: double */
+            spentUsd: number;
+            /** Format: double */
+            reservedUsd: number;
+            /** Format: date-time */
+            resetsAt: string;
+            simpleRequestsPaused: boolean;
+            standardRequestsPaused: boolean;
+            providerConfigured: boolean;
         };
         /**
          * @description Where an appearance is.
@@ -2529,6 +2570,58 @@ export interface operations {
                      *       "title": "Service Unavailable",
                      *       "status": 503,
                      *       "detail": "Sign-in isn't set up on this server yet."
+                     *     }
+                     */
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    GetAiBudget: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AiBudgetStatus"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.2",
+                     *       "title": "Unauthorized",
+                     *       "status": 401
+                     *     }
+                     */
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.4",
+                     *       "title": "Forbidden",
+                     *       "status": 403
                      *     }
                      */
                     "application/problem+json": components["schemas"]["ProblemDetails"];

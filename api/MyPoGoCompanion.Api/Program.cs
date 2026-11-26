@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using MyPoGoCompanion.Ai;
 using MyPoGoCompanion.Api.Account;
 using MyPoGoCompanion.Api.Admin;
 using MyPoGoCompanion.Api.Auth;
@@ -34,6 +35,7 @@ builder.Services.AddMoves();
 builder.Services.AddMovePage();
 builder.Services.AddClientErrors();
 builder.Services.AddRunNow(builder.Configuration);
+builder.Services.AddBudgetedAi(builder.Configuration);
 
 var app = builder.Build();
 
@@ -52,6 +54,7 @@ app.MapAuthEndpoints();
 app.MapAccountEndpoints();
 app.MapUserRoleEndpoints();
 app.MapRunNowEndpoints();
+app.MapAiBudgetEndpoints();
 app.MapFreshnessEndpoints();
 app.MapPokedexEndpoints();
 app.MapPokemonPageEndpoints();

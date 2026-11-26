@@ -168,6 +168,10 @@ public sealed partial class OpenApiTests(PostgresFixture postgres)
         await Call(client, HttpMethod.Delete, savedPath, token: misty.AccessToken);
 
         // Admin
+        const string budget = "/admin/ai/budget";
+        await Call(client, HttpMethod.Get, budget);
+        await Call(client, HttpMethod.Get, budget, token: misty.AccessToken);
+        await Call(client, HttpMethod.Get, budget, token: owner.AccessToken);
         await Call(client, HttpMethod.Get, "/admin/users");
         await Call(client, HttpMethod.Get, "/admin/users", token: misty.AccessToken);
         await Call(client, HttpMethod.Get, "/admin/users?search=mis&limit=5", token: owner.AccessToken);

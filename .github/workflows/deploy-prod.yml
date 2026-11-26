@@ -292,6 +292,8 @@ jobs:
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           AUTH_SIGNING_KEY: ${{ secrets.AUTH_SIGNING_KEY }}
           SUPER_ADMIN_EMAIL: ${{ vars.SUPER_ADMIN_EMAIL }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          AI_MONTHLY_CAP_USD: ${{ vars.AI_MONTHLY_CAP_USD }}
         run: WEB_ORIGIN="$WEB_URL" workflow-scripts/.github/scripts/deploy_api.sh
 
       # --- Web app --------------------------------------------------------------------------------------------

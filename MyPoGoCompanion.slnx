@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/api/">
+    <Project Path="api/MyPoGoCompanion.Ai/MyPoGoCompanion.Ai.csproj" />
     <Project Path="api/MyPoGoCompanion.Api.UnitTests/MyPoGoCompanion.Api.UnitTests.csproj" />
     <Project Path="api/MyPoGoCompanion.Api/MyPoGoCompanion.Api.csproj" />
     <Project Path="api/MyPoGoCompanion.Data.UnitTests/MyPoGoCompanion.Data.UnitTests.csproj" />
