@@ -113,7 +113,11 @@ internal static class ResearchExtraction
                 || fact.Encounters.DistinctBy(e => e.FormId).Count() != fact.Encounters.Length
                 || (fact.FormId is not null && !forms.Contains(fact.FormId)))
             {
-                throw new InvalidDataException("Unknown or duplicate Pokemon in research output.");
+                var unknown = fact?.Encounters.OfType<Encounter>().Select(e => e.FormId)
+                    .Append(fact.FormId).OfType<string>()
+                    .Where(id => !forms.Contains(id) && id.Length <= 40 && id.All(c => char.IsAsciiLetterLower(c) || char.IsAsciiDigit(c) || c == '_'))
+                    .Distinct(StringComparer.Ordinal).Take(8).ToArray() ?? [];
+                throw new InvalidDataException($"Unknown or duplicate Pokemon in research output. Unknown IDs: {string.Join(", ", unknown)}.");
             }
 
             if (topic is ResearchTopic.Events or ResearchTopic.Raids or ResearchTopic.MaxBattles

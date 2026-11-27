@@ -33,12 +33,14 @@ internal sealed partial class WeeklyResearcher(AppDbContext db, IAiClient ai, IR
 
         db.JobRuns.Add(run);
         await db.SaveChangesAsync(token);
+        string? stage = null;
         try
         {
             var forms = await db.Forms.Select(f => f.Id).ToHashSetAsync(token);
             var observations = new Dictionary<(ResearchTopic, string), Observation>();
             foreach (var topic in Enum.GetValues<ResearchTopic>())
             {
+                stage = $"discovering {topic}";
                 var results = await source.SearchAsync(topic, cancellationToken: token);
                 foreach (var result in results)
                 {
@@ -48,10 +50,13 @@ internal sealed partial class WeeklyResearcher(AppDbContext db, IAiClient ai, IR
                         continue;
                     }
 
+                    stage = $"fetching {topic} {result.Url.AbsolutePath}";
                     var page = await source.FetchAsync(result.Url, token);
+                    stage = $"reading {topic} {page.Url.AbsolutePath}";
                     var input = await ResearchExtraction.PageTextAsync(page, token);
                     var reply = await ai.GenerateAsync(new(AiPurpose.Researcher, AiComplexity.Standard,
                         ResearchExtraction.Instructions(topic), input, MaxOutputTokens: 12000, JobRunId: run.Id), token);
+                    stage = $"validating {topic} {page.Url.AbsolutePath}";
                     if (reply.Incomplete)
                     {
                         throw new InvalidDataException("Incomplete research response.");
@@ -67,6 +72,7 @@ internal sealed partial class WeeklyResearcher(AppDbContext db, IAiClient ai, IR
                 }
             }
 
+            stage = "publishing";
             // A concurrent admin edit causes a serialization failure instead of losing the correction.
             await using var transaction = await db.Database.BeginTransactionAsync(IsolationLevel.Serializable, token);
             var publication = new ResearchPublication(db);
@@ -99,7 +105,9 @@ internal sealed partial class WeeklyResearcher(AppDbContext db, IAiClient ai, IR
                 AiUnavailableException => "AI provider is not configured.",
                 AiBudgetExceededException => "Monthly AI budget reached.",
                 OperationCanceledException => "Run interrupted.",
-                _ => $"Research failed ({error.GetType().Name}).",
+                InvalidDataException => $"Research failed while {stage}. {error.Message}",
+                AiProviderException => $"Research failed while {stage}. {error.Message}",
+                _ => $"Research failed while {stage} ({error.GetType().Name}).",
             };
             failed.Summary = await SummaryAsync(run.Id, new(db), CancellationToken.None);
             await db.SaveChangesAsync(CancellationToken.None);
