@@ -1054,6 +1054,266 @@
         ]
       }
     },
+    "/raids": {
+      "get": {
+        "tags": [
+          "Live data"
+        ],
+        "summary": "Current and upcoming raid bosses and their 100% catch CP.",
+        "description": "Pass the player's timeZone (such as Europe/Lisbon). Defaults to UTC.",
+        "operationId": "GetRaids",
+        "parameters": [
+          {
+            "name": "timeZone",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RaidRotations"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+                  "title": "Bad Request",
+                  "status": 400,
+                  "detail": "What was wrong with the request, written for people."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/max-battles": {
+      "get": {
+        "tags": [
+          "Live data"
+        ],
+        "summary": "Current and upcoming Dynamax and Gigantamax bosses.",
+        "description": "Pass the player's timeZone (such as Europe/Lisbon). Defaults to UTC.",
+        "operationId": "GetMaxBattles",
+        "parameters": [
+          {
+            "name": "timeZone",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaxBattleRotations"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+                  "title": "Bad Request",
+                  "status": 400,
+                  "detail": "What was wrong with the request, written for people."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/events": {
+      "get": {
+        "tags": [
+          "Live data"
+        ],
+        "summary": "Events overlapping the requested player's calendar days.",
+        "description": "Use date (YYYY-MM-DD) for the first day, and days (1–31) for the number of days. Defaults to today and one day. Pass the player's timeZone (such as Europe/Lisbon). Defaults to UTC.",
+        "operationId": "GetCalendarEvents",
+        "parameters": [
+          {
+            "name": "date",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "days",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "timeZone",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LiveCalendarEvent"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+                  "title": "Bad Request",
+                  "status": 400,
+                  "detail": "What was wrong with the request, written for people."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/eggs": {
+      "get": {
+        "tags": [
+          "Live data"
+        ],
+        "summary": "Current egg pool entries and their 100% hatch CP.",
+        "description": "Pass the player's timeZone (such as Europe/Lisbon). Defaults to UTC.",
+        "operationId": "GetEggPools",
+        "parameters": [
+          {
+            "name": "timeZone",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LiveEgg"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+                  "title": "Bad Request",
+                  "status": 400,
+                  "detail": "What was wrong with the request, written for people."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/research": {
+      "get": {
+        "tags": [
+          "Live data"
+        ],
+        "summary": "Current Field Research tasks and their 100% encounter CP.",
+        "description": "Pass the player's timeZone (such as Europe/Lisbon). Defaults to UTC.",
+        "operationId": "GetFieldResearch",
+        "parameters": [
+          {
+            "name": "timeZone",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LiveResearchTask"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+                  "title": "Bad Request",
+                  "status": 400,
+                  "detail": "What was wrong with the request, written for people."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/saved-filters": {
       "get": {
         "tags": [
@@ -2154,6 +2414,812 @@
           }
         },
         "description": "A CP at a level."
+      },
+      "LiveCalendarEvent": {
+        "examples": [
+          {
+            "id": "33a31054-321a-4bd8-a15a-eb7d7ad3e18c",
+            "kind": "CommunityDay",
+            "nameEn": "Community Day: Gible",
+            "namePt": "Dia Comunitário: Gible",
+            "summaryEn": "Evolve Gabite for Garchomp with Earth Power",
+            "summaryPt": "Evolui Gabite para ter Garchomp com Poder da Terra",
+            "schedule": {
+              "startsAt": "2026-11-07T14:00:00+00:00",
+              "endsAt": "2026-11-07T17:00:00+00:00"
+            },
+            "pokemon": [
+              {
+                "pokemon": {
+                  "dex": 443,
+                  "formId": "gible",
+                  "nameEn": "Gible",
+                  "namePt": "Gible",
+                  "types": [
+                    "dragon",
+                    "ground"
+                  ],
+                  "sprite": "pm443",
+                  "spriteShiny": "pm443.s",
+                  "spriteGigantamax": null
+                },
+                "shiny": true
+              }
+            ],
+            "moves": [
+              {
+                "pokemon": {
+                  "dex": 445,
+                  "formId": "garchomp",
+                  "nameEn": "Garchomp",
+                  "namePt": "Garchomp",
+                  "types": [
+                    "dragon",
+                    "ground"
+                  ],
+                  "sprite": "pm445",
+                  "spriteShiny": "pm445.s",
+                  "spriteGigantamax": null
+                },
+                "moveId": "EARTH_POWER",
+                "nameEn": "Earth Power",
+                "namePt": "Poder da Terra",
+                "howEn": "Evolve Gabite",
+                "howPt": "Evolui Gabite"
+              }
+            ],
+            "bonuses": [
+              {
+                "textEn": "3× catch Stardust",
+                "textPt": "3× Poeira Estelar por captura"
+              }
+            ]
+          }
+        ],
+        "required": [
+          "id",
+          "kind",
+          "nameEn",
+          "namePt",
+          "summaryEn",
+          "summaryPt",
+          "schedule",
+          "pokemon",
+          "moves",
+          "bonuses"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "kind": {
+            "$ref": "#/components/schemas/EventKind"
+          },
+          "nameEn": {
+            "type": "string"
+          },
+          "namePt": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "summaryEn": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "summaryPt": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "schedule": {
+            "$ref": "#/components/schemas/LiveSchedule"
+          },
+          "pokemon": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LiveEventPokemon"
+            }
+          },
+          "moves": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LiveEventMove"
+            }
+          },
+          "bonuses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LiveEventBonus"
+            }
+          }
+        },
+        "description": "An event overlapping the requested calendar days, or starting in the window if its end is unknown."
+      },
+      "LiveEgg": {
+        "examples": [
+          {
+            "egg": "TenKm",
+            "pokemon": {
+              "dex": 443,
+              "formId": "gible",
+              "nameEn": "Gible",
+              "namePt": "Gible",
+              "types": [
+                "dragon",
+                "ground"
+              ],
+              "sprite": "pm443",
+              "spriteShiny": "pm443.s",
+              "spriteGigantamax": null
+            },
+            "shinyAvailable": true,
+            "rarity": 2,
+            "event": null,
+            "perfectCp": 635
+          }
+        ],
+        "required": [
+          "egg",
+          "pokemon",
+          "shinyAvailable",
+          "rarity",
+          "event",
+          "perfectCp"
+        ],
+        "type": "object",
+        "properties": {
+          "egg": {
+            "description": "Egg pool kind, including special pools.",
+            "$ref": "#/components/schemas/EggKind"
+          },
+          "pokemon": {
+            "description": "The form that hatches from the egg.",
+            "$ref": "#/components/schemas/LivePokemon"
+          },
+          "shinyAvailable": {
+            "type": "boolean",
+            "description": "Whether it can hatch shiny."
+          },
+          "rarity": {
+            "type": [
+              "null",
+              "integer"
+            ],
+            "description": "Rarity tier from 1 to 5, when known.",
+            "format": "int32"
+          },
+          "event": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "description": "The related event for a limited-time entry.",
+                "$ref": "#/components/schemas/LiveEventReference"
+              }
+            ]
+          },
+          "perfectCp": {
+            "type": [
+              "null",
+              "integer"
+            ],
+            "description": "100% IV hatch CP at level 20, or null when unavailable.",
+            "format": "int32"
+          }
+        },
+        "description": "A Pokémon currently available from an egg pool."
+      },
+      "LiveEventBonus": {
+        "examples": [
+          {
+            "textEn": "3× catch Stardust",
+            "textPt": "3× Poeira Estelar por captura"
+          }
+        ],
+        "required": [
+          "textEn",
+          "textPt"
+        ],
+        "type": "object",
+        "properties": {
+          "textEn": {
+            "type": "string"
+          },
+          "textPt": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "description": "A bonus listed for the event."
+      },
+      "LiveEventMove": {
+        "examples": [
+          {
+            "pokemon": {
+              "dex": 445,
+              "formId": "garchomp",
+              "nameEn": "Garchomp",
+              "namePt": "Garchomp",
+              "types": [
+                "dragon",
+                "ground"
+              ],
+              "sprite": "pm445",
+              "spriteShiny": "pm445.s",
+              "spriteGigantamax": null
+            },
+            "moveId": "EARTH_POWER",
+            "nameEn": "Earth Power",
+            "namePt": "Poder da Terra",
+            "howEn": "Evolve Gabite",
+            "howPt": "Evolui Gabite"
+          }
+        ],
+        "required": [
+          "pokemon",
+          "moveId",
+          "nameEn",
+          "namePt",
+          "howEn",
+          "howPt"
+        ],
+        "type": "object",
+        "properties": {
+          "pokemon": {
+            "$ref": "#/components/schemas/LivePokemon"
+          },
+          "moveId": {
+            "type": "string"
+          },
+          "nameEn": {
+            "type": "string"
+          },
+          "namePt": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "howEn": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "howPt": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "description": "An event-exclusive move and the instructions for obtaining it, when available."
+      },
+      "LiveEventPokemon": {
+        "examples": [
+          {
+            "pokemon": {
+              "dex": 443,
+              "formId": "gible",
+              "nameEn": "Gible",
+              "namePt": "Gible",
+              "types": [
+                "dragon",
+                "ground"
+              ],
+              "sprite": "pm443",
+              "spriteShiny": "pm443.s",
+              "spriteGigantamax": null
+            },
+            "shiny": true
+          }
+        ],
+        "required": [
+          "pokemon",
+          "shiny"
+        ],
+        "type": "object",
+        "properties": {
+          "pokemon": {
+            "$ref": "#/components/schemas/LivePokemon"
+          },
+          "shiny": {
+            "type": "boolean"
+          }
+        },
+        "description": "A form featured in an event and whether its shiny is available or boosted."
+      },
+      "LiveEventReference": {
+        "examples": [
+          {
+            "id": "33a31054-321a-4bd8-a15a-eb7d7ad3e18c",
+            "nameEn": "Community Day: Gible",
+            "namePt": "Dia Comunitário: Gible"
+          }
+        ],
+        "required": [
+          "id",
+          "nameEn",
+          "namePt"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nameEn": {
+            "type": "string"
+          },
+          "namePt": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "description": "A reference to a related event."
+      },
+      "LiveMaxBoss": {
+        "examples": [
+          {
+            "id": "f714508c-cc07-43ee-a827-5677e30f7e2f",
+            "pokemon": {
+              "dex": 4,
+              "formId": "charmander",
+              "nameEn": "Charmander",
+              "namePt": "Charmander",
+              "types": [
+                "fire"
+              ],
+              "sprite": "pm4",
+              "spriteShiny": "pm4.s",
+              "spriteGigantamax": null
+            },
+            "stars": 1,
+            "isGigantamax": false,
+            "shinyAvailable": true,
+            "schedule": {
+              "startsAt": "2026-10-27T10:30:00+00:00",
+              "endsAt": "2026-11-03T10:30:00+00:00"
+            },
+            "event": null
+          }
+        ],
+        "required": [
+          "id",
+          "pokemon",
+          "stars",
+          "isGigantamax",
+          "shinyAvailable",
+          "schedule",
+          "event"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pokemon": {
+            "$ref": "#/components/schemas/LivePokemon"
+          },
+          "stars": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isGigantamax": {
+            "type": "boolean"
+          },
+          "shinyAvailable": {
+            "type": "boolean"
+          },
+          "schedule": {
+            "$ref": "#/components/schemas/LiveSchedule"
+          },
+          "event": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/LiveEventReference"
+              }
+            ]
+          }
+        },
+        "description": "A scheduled Dynamax or Gigantamax boss."
+      },
+      "LivePokemon": {
+        "examples": [
+          {
+            "dex": 443,
+            "formId": "gible",
+            "nameEn": "Gible",
+            "namePt": "Gible",
+            "types": [
+              "dragon",
+              "ground"
+            ],
+            "sprite": "pm443",
+            "spriteShiny": "pm443.s",
+            "spriteGigantamax": null
+          }
+        ],
+        "required": [
+          "dex",
+          "formId",
+          "nameEn",
+          "namePt",
+          "types",
+          "sprite",
+          "spriteShiny",
+          "spriteGigantamax"
+        ],
+        "type": "object",
+        "properties": {
+          "dex": {
+            "type": "integer",
+            "description": "National Pokédex number.",
+            "format": "int32"
+          },
+          "formId": {
+            "type": "string",
+            "description": "Form identifier used on the Pokémon page."
+          },
+          "nameEn": {
+            "type": "string",
+            "description": "English form name."
+          },
+          "namePt": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Portuguese form name when available."
+          },
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "One or two Pokémon type identifiers."
+          },
+          "sprite": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Normal sprite identifier, when available."
+          },
+          "spriteShiny": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Shiny sprite identifier, when available."
+          },
+          "spriteGigantamax": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Gigantamax sprite identifier, when available."
+          }
+        },
+        "description": "A Pokédex form featured in a live activity."
+      },
+      "LiveRaidBoss": {
+        "examples": [
+          {
+            "id": "d0158b99-68e9-49aa-96d0-af09b2cba788",
+            "pokemon": {
+              "dex": 443,
+              "formId": "gible",
+              "nameEn": "Gible",
+              "namePt": "Gible",
+              "types": [
+                "dragon",
+                "ground"
+              ],
+              "sprite": "pm443",
+              "spriteShiny": "pm443.s",
+              "spriteGigantamax": null
+            },
+            "tier": "OneStar",
+            "isShadow": false,
+            "shinyAvailable": true,
+            "schedule": {
+              "startsAt": "2026-10-27T10:30:00+00:00",
+              "endsAt": "2026-11-03T10:30:00+00:00"
+            },
+            "event": null,
+            "catchFormId": "gible",
+            "perfectCp": 635,
+            "weatherBoostedPerfectCp": 794
+          }
+        ],
+        "required": [
+          "id",
+          "pokemon",
+          "tier",
+          "isShadow",
+          "shinyAvailable",
+          "schedule",
+          "event",
+          "catchFormId",
+          "perfectCp",
+          "weatherBoostedPerfectCp"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The rotation entry's identifier.",
+            "format": "uuid"
+          },
+          "pokemon": {
+            "description": "The form fought in the raid.",
+            "$ref": "#/components/schemas/LivePokemon"
+          },
+          "tier": {
+            "description": "The raid tier.",
+            "$ref": "#/components/schemas/RaidTier"
+          },
+          "isShadow": {
+            "type": "boolean",
+            "description": "Whether this is a Shadow raid."
+          },
+          "shinyAvailable": {
+            "type": "boolean",
+            "description": "Whether the reward encounter can be shiny."
+          },
+          "schedule": {
+            "description": "The boss's rotation window.",
+            "$ref": "#/components/schemas/LiveSchedule"
+          },
+          "event": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "description": "The related event, if available.",
+                "$ref": "#/components/schemas/LiveEventReference"
+              }
+            ]
+          },
+          "catchFormId": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Pokédex form caught after the raid, or null when unavailable."
+          },
+          "perfectCp": {
+            "type": [
+              "null",
+              "integer"
+            ],
+            "description": "100% IV catch CP at level 20, or null when unavailable.",
+            "format": "int32"
+          },
+          "weatherBoostedPerfectCp": {
+            "type": [
+              "null",
+              "integer"
+            ],
+            "description": "100% IV weather-boosted catch CP at level 25, or null when unavailable.",
+            "format": "int32"
+          }
+        },
+        "description": "A scheduled raid boss and the perfect CP of its catch encounter, when calculable."
+      },
+      "LiveResearchReward": {
+        "examples": [
+          {
+            "pokemon": {
+              "dex": 443,
+              "formId": "gible",
+              "nameEn": "Gible",
+              "namePt": "Gible",
+              "types": [
+                "dragon",
+                "ground"
+              ],
+              "sprite": "pm443",
+              "spriteShiny": "pm443.s",
+              "spriteGigantamax": null
+            },
+            "shinyAvailable": true,
+            "perfectCp": 477
+          }
+        ],
+        "required": [
+          "pokemon",
+          "shinyAvailable",
+          "perfectCp"
+        ],
+        "type": "object",
+        "properties": {
+          "pokemon": {
+            "description": "The form encountered.",
+            "$ref": "#/components/schemas/LivePokemon"
+          },
+          "shinyAvailable": {
+            "type": "boolean",
+            "description": "Whether it can be shiny."
+          },
+          "perfectCp": {
+            "type": [
+              "null",
+              "integer"
+            ],
+            "description": "100% IV encounter CP at level 15, or null when unavailable.",
+            "format": "int32"
+          }
+        },
+        "description": "A possible Pokémon encounter for a Field Research task."
+      },
+      "LiveResearchTask": {
+        "examples": [
+          {
+            "id": "7cb920d3-822c-4a88-8de9-408a1108db03",
+            "taskEn": "Win 3 raids",
+            "taskPt": "Vence 3 reides",
+            "event": null,
+            "rewards": [
+              {
+                "pokemon": {
+                  "dex": 443,
+                  "formId": "gible",
+                  "nameEn": "Gible",
+                  "namePt": "Gible",
+                  "types": [
+                    "dragon",
+                    "ground"
+                  ],
+                  "sprite": "pm443",
+                  "spriteShiny": "pm443.s",
+                  "spriteGigantamax": null
+                },
+                "shinyAvailable": true,
+                "perfectCp": 477
+              }
+            ]
+          }
+        ],
+        "required": [
+          "id",
+          "taskEn",
+          "taskPt",
+          "event",
+          "rewards"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "taskEn": {
+            "type": "string"
+          },
+          "taskPt": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "event": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/LiveEventReference"
+              }
+            ]
+          },
+          "rewards": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LiveResearchReward"
+            }
+          }
+        },
+        "description": "A current Field Research task and its Pokémon encounters."
+      },
+      "LiveSchedule": {
+        "examples": [
+          {
+            "startsAt": "2026-10-27T10:30:00+00:00",
+            "endsAt": "2026-11-03T10:30:00+00:00"
+          }
+        ],
+        "required": [
+          "startsAt",
+          "endsAt"
+        ],
+        "type": "object",
+        "properties": {
+          "startsAt": {
+            "type": "string",
+            "description": "The inclusive start, with its UTC offset.",
+            "format": "date-time"
+          },
+          "endsAt": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The exclusive end, with its UTC offset, or null when the end is unknown.",
+            "format": "date-time"
+          }
+        },
+        "description": "A schedule expressed in the requested time zone."
+      },
+      "MaxBattleRotations": {
+        "examples": [
+          {
+            "now": [
+              {
+                "id": "f714508c-cc07-43ee-a827-5677e30f7e2f",
+                "pokemon": {
+                  "dex": 4,
+                  "formId": "charmander",
+                  "nameEn": "Charmander",
+                  "namePt": "Charmander",
+                  "types": [
+                    "fire"
+                  ],
+                  "sprite": "pm4",
+                  "spriteShiny": "pm4.s",
+                  "spriteGigantamax": null
+                },
+                "stars": 1,
+                "isGigantamax": false,
+                "shinyAvailable": true,
+                "schedule": {
+                  "startsAt": "2026-10-27T10:30:00+00:00",
+                  "endsAt": "2026-11-03T10:30:00+00:00"
+                },
+                "event": null
+              }
+            ],
+            "next": [ ]
+          }
+        ],
+        "required": [
+          "now",
+          "next"
+        ],
+        "type": "object",
+        "properties": {
+          "now": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LiveMaxBoss"
+            }
+          },
+          "next": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LiveMaxBoss"
+            }
+          }
+        },
+        "description": "Current Max Battle bosses and all announced future bosses, in chronological order within each list."
       },
       "MeResponse": {
         "examples": [
@@ -4511,6 +5577,62 @@
           }
         }
       },
+      "RaidRotations": {
+        "examples": [
+          {
+            "now": [
+              {
+                "id": "d0158b99-68e9-49aa-96d0-af09b2cba788",
+                "pokemon": {
+                  "dex": 443,
+                  "formId": "gible",
+                  "nameEn": "Gible",
+                  "namePt": "Gible",
+                  "types": [
+                    "dragon",
+                    "ground"
+                  ],
+                  "sprite": "pm443",
+                  "spriteShiny": "pm443.s",
+                  "spriteGigantamax": null
+                },
+                "tier": "OneStar",
+                "isShadow": false,
+                "shinyAvailable": true,
+                "schedule": {
+                  "startsAt": "2026-10-27T10:30:00+00:00",
+                  "endsAt": "2026-11-03T10:30:00+00:00"
+                },
+                "event": null,
+                "catchFormId": "gible",
+                "perfectCp": 635,
+                "weatherBoostedPerfectCp": 794
+              }
+            ],
+            "next": [ ]
+          }
+        ],
+        "required": [
+          "now",
+          "next"
+        ],
+        "type": "object",
+        "properties": {
+          "now": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LiveRaidBoss"
+            }
+          },
+          "next": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LiveRaidBoss"
+            }
+          }
+        },
+        "description": "Current bosses and all announced future bosses, in chronological order within each list."
+      },
       "RaidTier": {
         "enum": [
           "OneStar",
@@ -4858,6 +5980,9 @@
     },
     {
       "name": "Sign-in"
+    },
+    {
+      "name": "Live data"
     }
   ]
 }

@@ -26,6 +26,8 @@ FROM mcr.microsoft.com/dotnet/aspnet:10.0-noble-chiseled AS final
 ARG VERSION=dev
 ENV APP_VERSION=$VERSION
 WORKDIR /app
+# The chiseled image omits tzdata. Keep IANA zones available for live schedules.
+COPY --from=build /usr/share/zoneinfo/ /usr/share/zoneinfo/
 COPY --from=build /app .
 EXPOSE 8080
 ENTRYPOINT ["dotnet", "MyPoGoCompanion.Api.dll"]

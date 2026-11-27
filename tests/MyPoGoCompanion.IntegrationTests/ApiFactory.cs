@@ -12,11 +12,11 @@ namespace MyPoGoCompanion.IntegrationTests;
 /// The real API in memory, pointed at the given database and allowing calls from <see cref="WebOrigin"/>. Sign-in is
 /// configured with test secrets; <paramref name="google"/> stands in for Google's token endpoint when given;
 /// <paramref name="settings"/> adds or overrides configuration (e.g. <c>ApiDocs:Enabled</c>); <paramref name="importStarter"/>
-/// stands in for Azure when Run now starts the daily import.
+/// stands in for Azure when Run now starts the daily import. <paramref name="clock"/> supplies time when given.
 /// </summary>
 public sealed class ApiFactory(
     string connectionString, IGoogleTokenExchange? google = null, bool signInConfigured = true,
-    IReadOnlyDictionary<string, string?>? settings = null, IImportStarter? importStarter = null)
+    IReadOnlyDictionary<string, string?>? settings = null, IImportStarter? importStarter = null, TimeProvider? clock = null)
     : WebApplicationFactory<Program>
 {
     public const string WebOrigin = "https://web.example.test";
@@ -50,6 +50,11 @@ public sealed class ApiFactory(
         if (importStarter is not null)
         {
             builder.ConfigureTestServices(services => services.Replace(ServiceDescriptor.Singleton(importStarter)));
+        }
+
+        if (clock is not null)
+        {
+            builder.ConfigureTestServices(services => services.Replace(ServiceDescriptor.Singleton(clock)));
         }
     }
 }

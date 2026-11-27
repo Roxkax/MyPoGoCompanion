@@ -19,6 +19,22 @@ Swagger UI can't do the Google sign-in itself (Google sends people back to the w
 
 Don't use `POST /auth/refresh` on the docs page with the web app's refresh token: a refresh token works once, so the web app's copy would then count as reused and that sign-in ends.
 
+## Live data
+
+These public endpoints accept an optional `timeZone` query parameter, for example `Europe/Lisbon`. UTC is the default. Player-local times keep their in-game wall clock, while global schedules show the same instant in the requested zone. Returned times include their offsets. Starts are inclusive and known ends are exclusive.
+
+| Endpoint | Response |
+|---|---|
+| `GET /raids` | `now` and `next` lists, with boss form, tier, Shadow and shiny flags, and 100% catch CP at levels 20 and 25 (weather boosted). |
+| `GET /max-battles` | `now` and `next` lists, with stars, Gigantamax and shiny flags. |
+| `GET /events?date=2026-11-07&days=7` | Events overlapping the requested days, including featured Pokémon, bonuses and exclusive moves. The default is today in the requested zone and a single day. Request up to 31 days at once. Events with an unknown end are listed on their starting day. |
+| `GET /eggs` | Current hatch entries by egg kind and rarity, with shiny availability and 100% CP at level 20. |
+| `GET /research` | Current Field Research tasks with their Pokémon rewards, shiny availability and 100% CP at level 15. |
+
+Raid CP uses the encounter form. For Mega and Primal raids that's the base form. Fusion raids for Necrozma or Kyurem, and Crowned Zacian or Zamazenta raids, also yield a different form. A CP is null when the game data needed to calculate it is missing. [Necrozma](https://pokemongo.com/news/into-the-wild-2025) · [Kyurem](https://pokemongo.com/news/fusion-adventure-effects-kyurem) · [Zacian and Zamazenta](https://pokemongo.com/news/adventure-effects-crowned-zacian-zamazenta)
+
+Current feeds use the known schedule where available. Raid and Max Battle rotations with no known end, and egg or research entries without a dated event window, use the latest successful research run or an admin fix. Removed entries are hidden and historical records are retained. Use `GET /freshness` for the out-of-date warning.
+
 ## Changing the API
 
 1. Change the endpoint. Describe it as you go: `.WithName("OperationId")` (the operation's name in the document, the docs page and the future mobile clients), `.WithSummary(...)`, `.ProducesProblem(status)` for every error it can answer, XML comments (`<summary>`, `<param>`) on request and response records (they become field descriptions).

@@ -8,6 +8,7 @@ using MyPoGoCompanion.Api.Diagnostics;
 using MyPoGoCompanion.Api.Filters;
 using MyPoGoCompanion.Api.Freshness;
 using MyPoGoCompanion.Api.Health;
+using MyPoGoCompanion.Api.LiveData;
 using MyPoGoCompanion.Api.Moves;
 using MyPoGoCompanion.Api.Pokedex;
 using MyPoGoCompanion.Data.GameData;
@@ -83,6 +84,20 @@ internal static class OpenApiExamples
         AppearanceKind.Event, "garchomp", IsShadow: false, null, null, Gigantamax: false, null, null, null, "Community Day: Gible",
         "Dia Comunitário: Gible", EventKind.CommunityDay, new DateTime(2026, 11, 7, 14, 0, 0), new DateTime(2026, 11, 7, 17, 0, 0), Shiny: true);
 
+    private static readonly LivePokemon _liveGible = new(443, "gible", "Gible", "Gible", ["dragon", "ground"], "pm443", "pm443.s", null);
+    private static readonly LivePokemon _liveGarchomp = new(445, "garchomp", "Garchomp", "Garchomp", ["dragon", "ground"], "pm445", "pm445.s", null);
+    private static readonly LivePokemon _liveCharmander = new(4, "charmander", "Charmander", "Charmander", ["fire"], "pm4", "pm4.s", null);
+    private static readonly LiveSchedule _liveRotation = new(_now.AddHours(-8), _now.AddDays(7).AddHours(-8));
+    private static readonly LiveEventReference _liveCommunityDay = new(Guid.Parse("33a31054-321a-4bd8-a15a-eb7d7ad3e18c"), "Community Day: Gible", "Dia Comunitário: Gible");
+    private static readonly LiveRaidBoss _liveRaid = new(Guid.Parse("d0158b99-68e9-49aa-96d0-af09b2cba788"),
+        _liveGible, RaidTier.OneStar, IsShadow: false, ShinyAvailable: true, _liveRotation, null, "gible", 635, 794);
+    private static readonly LiveMaxBoss _liveMax = new(Guid.Parse("f714508c-cc07-43ee-a827-5677e30f7e2f"),
+        _liveCharmander, 1, IsGigantamax: false, ShinyAvailable: true, _liveRotation, null);
+    private static readonly LiveEventPokemon _liveFeatured = new(_liveGible, Shiny: true);
+    private static readonly LiveEventMove _liveMove = new(_liveGarchomp, "EARTH_POWER", "Earth Power", "Poder da Terra", "Evolve Gabite", "Evolui Gabite");
+    private static readonly LiveEventBonus _liveBonus = new("3× catch Stardust", "3× Poeira Estelar por captura");
+    private static readonly LiveResearchReward _liveReward = new(_liveGible, ShinyAvailable: true, 477);
+
     private static readonly Dictionary<Type, object> _examples = new()
     {
         [typeof(HealthResponse)] = new HealthResponse(
@@ -142,6 +157,24 @@ internal static class OpenApiExamples
         [typeof(PageEvolution)] = _gibleToGabite,
         [typeof(PageCostume)] = _costume,
         [typeof(PageAppearance)] = _communityDay,
+        [typeof(LivePokemon)] = _liveGible,
+        [typeof(LiveSchedule)] = _liveRotation,
+        [typeof(LiveEventReference)] = _liveCommunityDay,
+        [typeof(RaidRotations)] = new RaidRotations([_liveRaid], []),
+        [typeof(LiveRaidBoss)] = _liveRaid,
+        [typeof(MaxBattleRotations)] = new MaxBattleRotations([_liveMax], []),
+        [typeof(LiveMaxBoss)] = _liveMax,
+        [typeof(LiveCalendarEvent)] = new LiveCalendarEvent(_liveCommunityDay.Id, EventKind.CommunityDay, _liveCommunityDay.NameEn, _liveCommunityDay.NamePt,
+            "Evolve Gabite for Garchomp with Earth Power", "Evolui Gabite para ter Garchomp com Poder da Terra",
+            new LiveSchedule(new DateTimeOffset(2026, 11, 7, 14, 0, 0, TimeSpan.Zero), new DateTimeOffset(2026, 11, 7, 17, 0, 0, TimeSpan.Zero)),
+            [_liveFeatured], [_liveMove], [_liveBonus]),
+        [typeof(LiveEventPokemon)] = _liveFeatured,
+        [typeof(LiveEventMove)] = _liveMove,
+        [typeof(LiveEventBonus)] = _liveBonus,
+        [typeof(LiveEgg)] = new LiveEgg(EggKind.TenKm, _liveGible, ShinyAvailable: true, 2, null, 635),
+        [typeof(LiveResearchTask)] = new LiveResearchTask(Guid.Parse("7cb920d3-822c-4a88-8de9-408a1108db03"),
+            "Win 3 raids", "Vence 3 reides", null, [_liveReward]),
+        [typeof(LiveResearchReward)] = _liveReward,
         [typeof(ClientErrorRequest)] = new ClientErrorRequest(
             "7f3a2c91", ClientErrorKind.Screen, "Cannot read properties of undefined (reading 'cp')",
             "TypeError: Cannot read properties of undefined (reading 'cp')\n    at RaidCounters (assets/index-3cd4b0c.js:1:23456)",
