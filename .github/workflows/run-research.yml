@@ -1,0 +1,52 @@
+name: Run weekly researcher
+
+on:
+  schedule:
+    - cron: '0 22 * * 0'
+      timezone: Europe/Lisbon
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment to research
+        type: choice
+        options: [qa, prod]
+        default: qa
+
+permissions:
+  contents: read
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    environment: ${{ inputs.environment || 'prod' }}
+    concurrency:
+      group: ${{ (inputs.environment || 'prod') == 'prod' && 'prod-environment' || 'qa-environment' }}
+      cancel-in-progress: false
+    permissions:
+      id-token: write
+    env:
+      RESOURCE_GROUP: rg-mypogocompanion
+      JOB_NAME: job-research-${{ inputs.environment || 'prod' }}
+    steps:
+      - name: Sign in to Azure
+        uses: azure/login@v3
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Run the researcher and wait for publication
+        run: |
+          execution=$(az containerapp job start -g "$RESOURCE_GROUP" -n "$JOB_NAME" --query name -o tsv)
+          echo "Started $execution."
+          for attempt in {1..190}; do
+            status=$(az containerapp job execution show -g "$RESOURCE_GROUP" -n "$JOB_NAME" --job-execution-name "$execution" --query properties.status -o tsv)
+            case "$status" in
+              Succeeded) exit 0 ;;
+              Failed|Stopped|Degraded) echo "::error::Execution $execution ended with $status"; exit 1 ;;
+            esac
+            sleep 10
+          done
+          echo "::error::Execution $execution did not finish within the job timeout."
+          exit 1

@@ -1,6 +1,6 @@
 # Research sources
 
-The scheduled jobs project exposes `IResearchSource` for the weekly researcher. Register it with `services.AddResearchSource()` in the researcher host, then resolve it through dependency injection. The default registration uses Leek Duck and needs no search account, API key, or OpenAI calls. The weekly job, publication, and Pokémon validation are part of E05-F03.
+The scheduled jobs project exposes `IResearchSource` for the weekly researcher. Register it with `services.AddResearchSource()` in the researcher host, then resolve it through dependency injection. The default registration uses Leek Duck and needs no search account, API key, or OpenAI calls. The weekly job uses this connector and the shared budgeted AI client.
 
 ## Discover and fetch
 
@@ -16,3 +16,9 @@ To verify the connector using deterministic source responses, run the jobs unit 
 dotnet test --project jobs/MyPoGoCompanion.Jobs.UnitTests
 dotnet test --project tests/MyPoGoCompanion.IntegrationTests --filter-class '*ResearchSourceTests'
 ```
+
+## Weekly publication
+
+The **Run weekly researcher** GitHub workflow starts the production Container Apps Job each Sunday at 22:00 in Europe/Lisbon, including daylight saving time. The QA and production deploys install the researcher with the same database, OpenAI secret and monthly cap as their respective API. QA runs are manual. To run locally, use `dotnet run --project jobs/MyPoGoCompanion.Jobs -- weekly-research` with the database and AI settings described in the AI provider guide.
+
+The researcher extracts English facts from each source page, checks referenced forms against the Pokédex and publishes all five topics in one transaction. Entries missing from a page retain their history. Fixed and removed entries keep the admin's changes. A changed source snapshot flags the entry for review. Job runs record additions, changes, flags, settled USD cost and outstanding reservations. Provider errors, invalid facts and incomplete responses fail the run before publication. QA deployments exercise recorded responses in CI. A manual research execution uses the environment's real OpenAI budget.

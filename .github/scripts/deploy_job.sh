@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# Creates or updates the daily import's Container Apps Job (job-import-qa or job-import-prod) with its image and
-# settings (docs/DAILY-IMPORT.md). Used by the QA and prod deploys.
+# Deploys the import or researcher Container Apps Job to QA or production. GitHub handles the schedules.
 #
 # Needs: RESOURCE_GROUP, JOB_NAME, IMAGE_TAG, DATABASE_URL (the environment's secret, Neon's postgresql:// URL).
 # TRIGGER: what a run says started it in the run log when nothing else says (manual); every start passes its own.
@@ -20,7 +19,20 @@ scripts="$(cd "$(dirname "$0")" && pwd)"
 connection=$(python3 "$scripts/npgsql_connection.py" --direct)
 echo "::add-mask::$connection"
 secrets=("database-url=$connection")
-settings=("ConnectionStrings__Database=secretref:database-url" "DailyImport__Trigger=$TRIGGER")
+command=daily-import
+settings=("ConnectionStrings__Database=secretref:database-url")
+if [[ $JOB_NAME == job-research-* ]]; then
+  command=weekly-research
+  settings+=("Ai__MonthlyCapUsd=${AI_MONTHLY_CAP_USD:-5}")
+  if [[ -n ${OPENAI_API_KEY:-} ]]; then
+    secrets+=("openai-api-key=$OPENAI_API_KEY")
+    settings+=("Ai__OpenAiApiKey=secretref:openai-api-key")
+  else
+    settings+=("Ai__OpenAiApiKey=")
+  fi
+else
+  settings+=("DailyImport__Trigger=$TRIGGER")
+fi
 
 # Telemetry for this copy, as for the API (appinsights.sh).
 # shellcheck source=appinsights.sh
@@ -57,7 +69,7 @@ if [[ -n $trigger_type ]]; then
 else
   az containerapp job create -g "$RESOURCE_GROUP" -n "$JOB_NAME" --environment "$ENVIRONMENT_NAME" --trigger-type Manual \
     --parallelism 1 --replica-completion-count 1 "${common[@]}" \
-    --secrets "${secrets[@]}" --env-vars "${settings[@]}" --args daily-import
+    --secrets "${secrets[@]}" --env-vars "${settings[@]}" --args "$command"
   created=true
   echo "Created $JOB_NAME (started by hand) with ${IMAGE_TAG##*:}."
 fi

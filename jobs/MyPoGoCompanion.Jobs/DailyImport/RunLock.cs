@@ -15,10 +15,12 @@ public interface IRunLock
 /// released, and freed by PostgreSQL if the job dies. Needs a direct connection, not Neon's pooler (the deploys pass
 /// the direct host: .github/scripts/deploy_job.sh).
 /// </summary>
-public sealed class PostgresRunLock(AppDbContext db) : IRunLock
+public sealed class PostgresRunLock(AppDbContext db, long key = PostgresRunLock.DailyImportKey) : IRunLock
 {
     /// <summary>"MPGO" and job 1, the daily import.</summary>
     public const long DailyImportKey = 0x4D50_474F_0000_0001;
+
+    internal const long ResearcherKey = 0x4D50_474F_0000_0002;
 
     public async Task<IAsyncDisposable?> TryAcquireAsync(CancellationToken cancellationToken)
     {
@@ -36,7 +38,7 @@ public sealed class PostgresRunLock(AppDbContext db) : IRunLock
     {
         // The function name is one of two constants in this class, never input.
 #pragma warning disable EF1002
-        return await db.Database.SqlQueryRaw<bool>($"select {function}({{0}}) as \"Value\"", DailyImportKey).SingleAsync(cancellationToken);
+        return await db.Database.SqlQueryRaw<bool>($"select {function}({{0}}) as \"Value\"", key).SingleAsync(cancellationToken);
 #pragma warning restore EF1002
     }
 

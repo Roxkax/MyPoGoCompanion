@@ -3,8 +3,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using MyPoGoCompanion.Ai;
 using MyPoGoCompanion.Data;
 using MyPoGoCompanion.Jobs.DailyImport;
+using MyPoGoCompanion.Jobs.Research;
 using MyPoGoCompanion.Observability;
 using Npgsql;
 
@@ -18,6 +20,8 @@ public static class JobHost
 {
     public const string DailyImportCommand = "daily-import";
 
+    public const string ResearcherCommand = "weekly-research";
+
     public const string SpritesCommand = "sprites";
 
     /// <summary>Wrong or missing command (the BSD "usage" exit code).</summary>
@@ -26,6 +30,7 @@ public static class JobHost
     public const string NoDatabase = "No database: set ConnectionStrings__Database (docs/DAILY-IMPORT.md).";
 
     public const string Usage = "Usage: MyPoGoCompanion.Jobs daily-import [--DailyImport:Trigger=schedule|deploy|manual]\n"
+        + "       MyPoGoCompanion.Jobs weekly-research\n"
         + "       MyPoGoCompanion.Jobs sprites --source <PokeMiners picture folder> --out <folder> [--set <name>]";
 
     /// <param name="args">The command, then optional configuration overrides (<c>--Section:Key=value</c>).</param>
@@ -39,14 +44,14 @@ public static class JobHost
             return await RunSpritesAsync(args[1..]);
         }
 
-        if (args.Length == 0 || args[0] != DailyImportCommand)
+        if (args.Length == 0 || args[0] is not (DailyImportCommand or ResearcherCommand))
         {
             await Console.Error.WriteLineAsync(Usage);
             return UsageExitCode;
         }
 
         var builder = Host.CreateApplicationBuilder(args[1..]);
-        builder.AddTelemetry(DailyImportCommand);
+        builder.AddTelemetry(args[0]);
         // The import writes thousands of rows: EF Core's line per command and the HTTP client's per-request lines
         // would flood the log (and the log workspace's daily cap). The job logs its own steps.
         builder.Logging.AddFilter("Microsoft.EntityFrameworkCore", LogLevel.Warning);
@@ -54,7 +59,18 @@ public static class JobHost
         builder.Logging.AddFilter("System.Net.Http.HttpClient", LogLevel.Warning);
         builder.Logging.AddFilter("Microsoft.Hosting.Lifetime", LogLevel.Warning);
         builder.Services.AddJobDatabase(builder.Configuration);
-        builder.Services.AddDailyImport(builder.Configuration);
+        if (args[0] == ResearcherCommand)
+        {
+            builder.Services.AddResearchSource();
+            builder.Services.AddBudgetedAi(builder.Configuration);
+            builder.Services.AddScoped<IRunLock>(provider => new PostgresRunLock(provider.GetRequiredService<AppDbContext>(), PostgresRunLock.ResearcherKey));
+            builder.Services.AddScoped<WeeklyResearcher>();
+        }
+        else
+        {
+            builder.Services.AddDailyImport(builder.Configuration);
+        }
+
         configure?.Invoke(builder);
         if (!builder.Services.Any(service => service.ServiceType == typeof(AppDbContext)))
         {
@@ -68,6 +84,11 @@ public static class JobHost
         try
         {
             await using var scope = host.Services.CreateAsyncScope();
+            if (args[0] == ResearcherCommand)
+            {
+                return await scope.ServiceProvider.GetRequiredService<WeeklyResearcher>().RunAsync(cancellationToken);
+            }
+
             var outcome = await scope.ServiceProvider.GetRequiredService<DailyImportJob>().RunAsync(cancellationToken);
             return outcome == DailyImportOutcome.Failed ? 1 : 0;
         }
