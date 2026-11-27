@@ -101,6 +101,7 @@ Board: https://github.com/users/Roxkax/projects/2 (kept in sync by the `Project 
 | E05-F01 AI provider layer and cost cap | **Done** 2026-11-26 | #972 | Issues #258–#264 (GitHub milestone Sprint 7). OpenAI Responses behind a shared .NET client, with per-call accounting and a configurable $5 cap. Admins can see UTC monthly spend, active reservations, and pause status. Local checks passed 292 API unit tests, 103 PostgreSQL integration tests, .NET formatting, and the web build. The owner selected shared QA on 2026-11-26. Guide: `docs/AI-PROVIDER.md`. Merged on 2026-11-26, closing issues #258–#264. |
 | E05-F02 Search and fetch connector | **Done** 2026-11-26 | #973 | Issues #265–#270 (GitHub milestone Sprint 7). Leek Duck discovery and fetch for events, raids, Max Battles, eggs, and field research, with in-process caching and request pacing. The owner selected shared QA on 2026-11-26. Guide: `docs/RESEARCH-SOURCES.md`. |
 | E05-F03 Weekly AI researcher | **Done** 2026-11-27 | #974 | Issues #271–#281. Weekly production research, atomic publication and source-change tracking. Shared QA passed 330 browser tests. Merged in #974. |
+| E05-F04 Live data API | **In review** | #976 | Issues #282–#287. Public raid, Max Battle, calendar, egg and Field Research endpoints with player time zones and 100% encounter CP. Local checks passed 319 API unit tests, 116 PostgreSQL integration tests, .NET formatting and the web build. Aggregate .NET line coverage was 91.5%. The owner selected shared QA on 2026-11-27. Shared QA passed the smoke test and 330 browser tests, and all five API endpoints answered successfully. The first manual QA research run on 2026-11-27 failed while the key was unset. Shared QA was redeployed with the key and passed the smoke and browser tests. The second run stopped at the OpenAI credit limit. After credits became available, OpenAI accepted the QA key and the researcher completed one billed request within the app cap. The run then stopped with `InvalidDataException` before publishing. Live-data owner review is pending a successful run. [Latest QA research run](https://github.com/Roxkax/MyPoGoCompanion/actions/runs/46007369650). Guide: `docs/API.md`. |
 
 ### Other work done
 
@@ -350,6 +351,7 @@ Board: https://github.com/users/Roxkax/projects/2 (kept in sync by the `Project 
 | 2026-11-26 | **Shared QA for E05-F02 Search and fetch connector** (owner). |
 | 2026-11-26 | The owner chose Sundays at 22:00 Europe/Lisbon year-round for production research and shared QA for E05-F03. |
 | 2026-11-27 | Rename every Codex chat as soon as its task is identified, using the feature key and name for backlog features and a descriptive title for other work. |
+| 2026-11-27 | **Shared QA for E05-F04 Live data API** (owner). |
 
 ## Open decisions
 

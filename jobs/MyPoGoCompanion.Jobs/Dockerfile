@@ -29,6 +29,8 @@ FROM mcr.microsoft.com/dotnet/runtime:10.0-noble-chiseled AS final
 ARG VERSION=dev
 ENV APP_VERSION=$VERSION
 WORKDIR /app
+# The chiseled image omits tzdata. Keep IANA zones available for live schedules.
+COPY --from=build /usr/share/zoneinfo/ /usr/share/zoneinfo/
 COPY --from=build /app .
 ENTRYPOINT ["dotnet", "MyPoGoCompanion.Jobs.dll"]
 CMD ["daily-import"]

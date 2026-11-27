@@ -362,6 +362,106 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/raids": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Current and upcoming raid bosses and their 100% catch CP.
+         * @description Pass the player's timeZone (such as Europe/Lisbon). Defaults to UTC.
+         */
+        get: operations["GetRaids"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/max-battles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Current and upcoming Dynamax and Gigantamax bosses.
+         * @description Pass the player's timeZone (such as Europe/Lisbon). Defaults to UTC.
+         */
+        get: operations["GetMaxBattles"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Events overlapping the requested player's calendar days.
+         * @description Use date (YYYY-MM-DD) for the first day, and days (1–31) for the number of days. Defaults to today and one day. Pass the player's timeZone (such as Europe/Lisbon). Defaults to UTC.
+         */
+        get: operations["GetCalendarEvents"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/eggs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Current egg pool entries and their 100% hatch CP.
+         * @description Pass the player's timeZone (such as Europe/Lisbon). Defaults to UTC.
+         */
+        get: operations["GetEggPools"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/research": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Current Field Research tasks and their 100% encounter CP.
+         * @description Pass the player's timeZone (such as Europe/Lisbon). Defaults to UTC.
+         */
+        get: operations["GetFieldResearch"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/saved-filters": {
         parameters: {
             query?: never;
@@ -765,6 +865,456 @@ export interface components {
             level: number;
             /** Format: int32 */
             cp: number;
+        };
+        /**
+         * @description An event overlapping the requested calendar days, or starting in the window if its end is unknown.
+         * @example {
+         *       "id": "33a31054-321a-4bd8-a15a-eb7d7ad3e18c",
+         *       "kind": "CommunityDay",
+         *       "nameEn": "Community Day: Gible",
+         *       "namePt": "Dia Comunitário: Gible",
+         *       "summaryEn": "Evolve Gabite for Garchomp with Earth Power",
+         *       "summaryPt": "Evolui Gabite para ter Garchomp com Poder da Terra",
+         *       "schedule": {
+         *         "startsAt": "2026-11-07T14:00:00+00:00",
+         *         "endsAt": "2026-11-07T17:00:00+00:00"
+         *       },
+         *       "pokemon": [
+         *         {
+         *           "pokemon": {
+         *             "dex": 443,
+         *             "formId": "gible",
+         *             "nameEn": "Gible",
+         *             "namePt": "Gible",
+         *             "types": [
+         *               "dragon",
+         *               "ground"
+         *             ],
+         *             "sprite": "pm443",
+         *             "spriteShiny": "pm443.s",
+         *             "spriteGigantamax": null
+         *           },
+         *           "shiny": true
+         *         }
+         *       ],
+         *       "moves": [
+         *         {
+         *           "pokemon": {
+         *             "dex": 445,
+         *             "formId": "garchomp",
+         *             "nameEn": "Garchomp",
+         *             "namePt": "Garchomp",
+         *             "types": [
+         *               "dragon",
+         *               "ground"
+         *             ],
+         *             "sprite": "pm445",
+         *             "spriteShiny": "pm445.s",
+         *             "spriteGigantamax": null
+         *           },
+         *           "moveId": "EARTH_POWER",
+         *           "nameEn": "Earth Power",
+         *           "namePt": "Poder da Terra",
+         *           "howEn": "Evolve Gabite",
+         *           "howPt": "Evolui Gabite"
+         *         }
+         *       ],
+         *       "bonuses": [
+         *         {
+         *           "textEn": "3× catch Stardust",
+         *           "textPt": "3× Poeira Estelar por captura"
+         *         }
+         *       ]
+         *     }
+         */
+        LiveCalendarEvent: {
+            /** Format: uuid */
+            id: string;
+            kind: components["schemas"]["EventKind"];
+            nameEn: string;
+            namePt: null | string;
+            summaryEn: null | string;
+            summaryPt: null | string;
+            schedule: components["schemas"]["LiveSchedule"];
+            pokemon: components["schemas"]["LiveEventPokemon"][];
+            moves: components["schemas"]["LiveEventMove"][];
+            bonuses: components["schemas"]["LiveEventBonus"][];
+        };
+        /**
+         * @description A Pokémon currently available from an egg pool.
+         * @example {
+         *       "egg": "TenKm",
+         *       "pokemon": {
+         *         "dex": 443,
+         *         "formId": "gible",
+         *         "nameEn": "Gible",
+         *         "namePt": "Gible",
+         *         "types": [
+         *           "dragon",
+         *           "ground"
+         *         ],
+         *         "sprite": "pm443",
+         *         "spriteShiny": "pm443.s",
+         *         "spriteGigantamax": null
+         *       },
+         *       "shinyAvailable": true,
+         *       "rarity": 2,
+         *       "event": null,
+         *       "perfectCp": 635
+         *     }
+         */
+        LiveEgg: {
+            /** @description Egg pool kind, including special pools. */
+            egg: components["schemas"]["EggKind"];
+            /** @description The form that hatches from the egg. */
+            pokemon: components["schemas"]["LivePokemon"];
+            /** @description Whether it can hatch shiny. */
+            shinyAvailable: boolean;
+            /**
+             * Format: int32
+             * @description Rarity tier from 1 to 5, when known.
+             */
+            rarity: null | number;
+            event: null | components["schemas"]["LiveEventReference"];
+            /**
+             * Format: int32
+             * @description 100% IV hatch CP at level 20, or null when unavailable.
+             */
+            perfectCp: null | number;
+        };
+        /**
+         * @description A bonus listed for the event.
+         * @example {
+         *       "textEn": "3× catch Stardust",
+         *       "textPt": "3× Poeira Estelar por captura"
+         *     }
+         */
+        LiveEventBonus: {
+            textEn: string;
+            textPt: null | string;
+        };
+        /**
+         * @description An event-exclusive move and the instructions for obtaining it, when available.
+         * @example {
+         *       "pokemon": {
+         *         "dex": 445,
+         *         "formId": "garchomp",
+         *         "nameEn": "Garchomp",
+         *         "namePt": "Garchomp",
+         *         "types": [
+         *           "dragon",
+         *           "ground"
+         *         ],
+         *         "sprite": "pm445",
+         *         "spriteShiny": "pm445.s",
+         *         "spriteGigantamax": null
+         *       },
+         *       "moveId": "EARTH_POWER",
+         *       "nameEn": "Earth Power",
+         *       "namePt": "Poder da Terra",
+         *       "howEn": "Evolve Gabite",
+         *       "howPt": "Evolui Gabite"
+         *     }
+         */
+        LiveEventMove: {
+            pokemon: components["schemas"]["LivePokemon"];
+            moveId: string;
+            nameEn: string;
+            namePt: null | string;
+            howEn: null | string;
+            howPt: null | string;
+        };
+        /**
+         * @description A form featured in an event and whether its shiny is available or boosted.
+         * @example {
+         *       "pokemon": {
+         *         "dex": 443,
+         *         "formId": "gible",
+         *         "nameEn": "Gible",
+         *         "namePt": "Gible",
+         *         "types": [
+         *           "dragon",
+         *           "ground"
+         *         ],
+         *         "sprite": "pm443",
+         *         "spriteShiny": "pm443.s",
+         *         "spriteGigantamax": null
+         *       },
+         *       "shiny": true
+         *     }
+         */
+        LiveEventPokemon: {
+            pokemon: components["schemas"]["LivePokemon"];
+            shiny: boolean;
+        };
+        /**
+         * @description A reference to a related event.
+         * @example {
+         *       "id": "33a31054-321a-4bd8-a15a-eb7d7ad3e18c",
+         *       "nameEn": "Community Day: Gible",
+         *       "namePt": "Dia Comunitário: Gible"
+         *     }
+         */
+        LiveEventReference: {
+            /** Format: uuid */
+            id: string;
+            nameEn: string;
+            namePt: null | string;
+        };
+        /**
+         * @description A scheduled Dynamax or Gigantamax boss.
+         * @example {
+         *       "id": "f714508c-cc07-43ee-a827-5677e30f7e2f",
+         *       "pokemon": {
+         *         "dex": 4,
+         *         "formId": "charmander",
+         *         "nameEn": "Charmander",
+         *         "namePt": "Charmander",
+         *         "types": [
+         *           "fire"
+         *         ],
+         *         "sprite": "pm4",
+         *         "spriteShiny": "pm4.s",
+         *         "spriteGigantamax": null
+         *       },
+         *       "stars": 1,
+         *       "isGigantamax": false,
+         *       "shinyAvailable": true,
+         *       "schedule": {
+         *         "startsAt": "2026-10-27T10:30:00+00:00",
+         *         "endsAt": "2026-11-03T10:30:00+00:00"
+         *       },
+         *       "event": null
+         *     }
+         */
+        LiveMaxBoss: {
+            /** Format: uuid */
+            id: string;
+            pokemon: components["schemas"]["LivePokemon"];
+            /** Format: int32 */
+            stars: number;
+            isGigantamax: boolean;
+            shinyAvailable: boolean;
+            schedule: components["schemas"]["LiveSchedule"];
+            event: null | components["schemas"]["LiveEventReference"];
+        };
+        /**
+         * @description A Pokédex form featured in a live activity.
+         * @example {
+         *       "dex": 443,
+         *       "formId": "gible",
+         *       "nameEn": "Gible",
+         *       "namePt": "Gible",
+         *       "types": [
+         *         "dragon",
+         *         "ground"
+         *       ],
+         *       "sprite": "pm443",
+         *       "spriteShiny": "pm443.s",
+         *       "spriteGigantamax": null
+         *     }
+         */
+        LivePokemon: {
+            /**
+             * Format: int32
+             * @description National Pokédex number.
+             */
+            dex: number;
+            /** @description Form identifier used on the Pokémon page. */
+            formId: string;
+            /** @description English form name. */
+            nameEn: string;
+            /** @description Portuguese form name when available. */
+            namePt: null | string;
+            /** @description One or two Pokémon type identifiers. */
+            types: string[];
+            /** @description Normal sprite identifier, when available. */
+            sprite: null | string;
+            /** @description Shiny sprite identifier, when available. */
+            spriteShiny: null | string;
+            /** @description Gigantamax sprite identifier, when available. */
+            spriteGigantamax: null | string;
+        };
+        /**
+         * @description A scheduled raid boss and the perfect CP of its catch encounter, when calculable.
+         * @example {
+         *       "id": "d0158b99-68e9-49aa-96d0-af09b2cba788",
+         *       "pokemon": {
+         *         "dex": 443,
+         *         "formId": "gible",
+         *         "nameEn": "Gible",
+         *         "namePt": "Gible",
+         *         "types": [
+         *           "dragon",
+         *           "ground"
+         *         ],
+         *         "sprite": "pm443",
+         *         "spriteShiny": "pm443.s",
+         *         "spriteGigantamax": null
+         *       },
+         *       "tier": "OneStar",
+         *       "isShadow": false,
+         *       "shinyAvailable": true,
+         *       "schedule": {
+         *         "startsAt": "2026-10-27T10:30:00+00:00",
+         *         "endsAt": "2026-11-03T10:30:00+00:00"
+         *       },
+         *       "event": null,
+         *       "catchFormId": "gible",
+         *       "perfectCp": 635,
+         *       "weatherBoostedPerfectCp": 794
+         *     }
+         */
+        LiveRaidBoss: {
+            /**
+             * Format: uuid
+             * @description The rotation entry's identifier.
+             */
+            id: string;
+            /** @description The form fought in the raid. */
+            pokemon: components["schemas"]["LivePokemon"];
+            /** @description The raid tier. */
+            tier: components["schemas"]["RaidTier"];
+            /** @description Whether this is a Shadow raid. */
+            isShadow: boolean;
+            /** @description Whether the reward encounter can be shiny. */
+            shinyAvailable: boolean;
+            /** @description The boss's rotation window. */
+            schedule: components["schemas"]["LiveSchedule"];
+            event: null | components["schemas"]["LiveEventReference"];
+            /** @description Pokédex form caught after the raid, or null when unavailable. */
+            catchFormId: null | string;
+            /**
+             * Format: int32
+             * @description 100% IV catch CP at level 20, or null when unavailable.
+             */
+            perfectCp: null | number;
+            /**
+             * Format: int32
+             * @description 100% IV weather-boosted catch CP at level 25, or null when unavailable.
+             */
+            weatherBoostedPerfectCp: null | number;
+        };
+        /**
+         * @description A possible Pokémon encounter for a Field Research task.
+         * @example {
+         *       "pokemon": {
+         *         "dex": 443,
+         *         "formId": "gible",
+         *         "nameEn": "Gible",
+         *         "namePt": "Gible",
+         *         "types": [
+         *           "dragon",
+         *           "ground"
+         *         ],
+         *         "sprite": "pm443",
+         *         "spriteShiny": "pm443.s",
+         *         "spriteGigantamax": null
+         *       },
+         *       "shinyAvailable": true,
+         *       "perfectCp": 477
+         *     }
+         */
+        LiveResearchReward: {
+            /** @description The form encountered. */
+            pokemon: components["schemas"]["LivePokemon"];
+            /** @description Whether it can be shiny. */
+            shinyAvailable: boolean;
+            /**
+             * Format: int32
+             * @description 100% IV encounter CP at level 15, or null when unavailable.
+             */
+            perfectCp: null | number;
+        };
+        /**
+         * @description A current Field Research task and its Pokémon encounters.
+         * @example {
+         *       "id": "7cb920d3-822c-4a88-8de9-408a1108db03",
+         *       "taskEn": "Win 3 raids",
+         *       "taskPt": "Vence 3 reides",
+         *       "event": null,
+         *       "rewards": [
+         *         {
+         *           "pokemon": {
+         *             "dex": 443,
+         *             "formId": "gible",
+         *             "nameEn": "Gible",
+         *             "namePt": "Gible",
+         *             "types": [
+         *               "dragon",
+         *               "ground"
+         *             ],
+         *             "sprite": "pm443",
+         *             "spriteShiny": "pm443.s",
+         *             "spriteGigantamax": null
+         *           },
+         *           "shinyAvailable": true,
+         *           "perfectCp": 477
+         *         }
+         *       ]
+         *     }
+         */
+        LiveResearchTask: {
+            /** Format: uuid */
+            id: string;
+            taskEn: string;
+            taskPt: null | string;
+            event: null | components["schemas"]["LiveEventReference"];
+            rewards: components["schemas"]["LiveResearchReward"][];
+        };
+        /**
+         * @description A schedule expressed in the requested time zone.
+         * @example {
+         *       "startsAt": "2026-10-27T10:30:00+00:00",
+         *       "endsAt": "2026-11-03T10:30:00+00:00"
+         *     }
+         */
+        LiveSchedule: {
+            /**
+             * Format: date-time
+             * @description The inclusive start, with its UTC offset.
+             */
+            startsAt: string;
+            /**
+             * Format: date-time
+             * @description The exclusive end, with its UTC offset, or null when the end is unknown.
+             */
+            endsAt: null | string;
+        };
+        /**
+         * @description Current Max Battle bosses and all announced future bosses, in chronological order within each list.
+         * @example {
+         *       "now": [
+         *         {
+         *           "id": "f714508c-cc07-43ee-a827-5677e30f7e2f",
+         *           "pokemon": {
+         *             "dex": 4,
+         *             "formId": "charmander",
+         *             "nameEn": "Charmander",
+         *             "namePt": "Charmander",
+         *             "types": [
+         *               "fire"
+         *             ],
+         *             "sprite": "pm4",
+         *             "spriteShiny": "pm4.s",
+         *             "spriteGigantamax": null
+         *           },
+         *           "stars": 1,
+         *           "isGigantamax": false,
+         *           "shinyAvailable": true,
+         *           "schedule": {
+         *             "startsAt": "2026-10-27T10:30:00+00:00",
+         *             "endsAt": "2026-11-03T10:30:00+00:00"
+         *           },
+         *           "event": null
+         *         }
+         *       ],
+         *       "next": []
+         *     }
+         */
+        MaxBattleRotations: {
+            now: components["schemas"]["LiveMaxBoss"][];
+            next: components["schemas"]["LiveMaxBoss"][];
         };
         /**
          * @description The signed-in user as the web app sees them.
@@ -2195,6 +2745,45 @@ export interface components {
             detail?: null | string;
             instance?: null | string;
         };
+        /**
+         * @description Current bosses and all announced future bosses, in chronological order within each list.
+         * @example {
+         *       "now": [
+         *         {
+         *           "id": "d0158b99-68e9-49aa-96d0-af09b2cba788",
+         *           "pokemon": {
+         *             "dex": 443,
+         *             "formId": "gible",
+         *             "nameEn": "Gible",
+         *             "namePt": "Gible",
+         *             "types": [
+         *               "dragon",
+         *               "ground"
+         *             ],
+         *             "sprite": "pm443",
+         *             "spriteShiny": "pm443.s",
+         *             "spriteGigantamax": null
+         *           },
+         *           "tier": "OneStar",
+         *           "isShadow": false,
+         *           "shinyAvailable": true,
+         *           "schedule": {
+         *             "startsAt": "2026-10-27T10:30:00+00:00",
+         *             "endsAt": "2026-11-03T10:30:00+00:00"
+         *           },
+         *           "event": null,
+         *           "catchFormId": "gible",
+         *           "perfectCp": 635,
+         *           "weatherBoostedPerfectCp": 794
+         *         }
+         *       ],
+         *       "next": []
+         *     }
+         */
+        RaidRotations: {
+            now: components["schemas"]["LiveRaidBoss"][];
+            next: components["schemas"]["LiveRaidBoss"][];
+        };
         /** @enum {string} */
         RaidTier: "OneStar" | "ThreeStar" | "FiveStar" | "Mega" | "LegendaryMega" | "Elite";
         /**
@@ -3304,6 +3893,203 @@ export interface operations {
                      *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.5",
                      *       "title": "Not Found",
                      *       "status": 404
+                     *     }
+                     */
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    GetRaids: {
+        parameters: {
+            query?: {
+                timeZone?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RaidRotations"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+                     *       "title": "Bad Request",
+                     *       "status": 400,
+                     *       "detail": "What was wrong with the request, written for people."
+                     *     }
+                     */
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    GetMaxBattles: {
+        parameters: {
+            query?: {
+                timeZone?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MaxBattleRotations"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+                     *       "title": "Bad Request",
+                     *       "status": 400,
+                     *       "detail": "What was wrong with the request, written for people."
+                     *     }
+                     */
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    GetCalendarEvents: {
+        parameters: {
+            query?: {
+                date?: string;
+                days?: number;
+                timeZone?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LiveCalendarEvent"][];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+                     *       "title": "Bad Request",
+                     *       "status": 400,
+                     *       "detail": "What was wrong with the request, written for people."
+                     *     }
+                     */
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    GetEggPools: {
+        parameters: {
+            query?: {
+                timeZone?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LiveEgg"][];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+                     *       "title": "Bad Request",
+                     *       "status": 400,
+                     *       "detail": "What was wrong with the request, written for people."
+                     *     }
+                     */
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    GetFieldResearch: {
+        parameters: {
+            query?: {
+                timeZone?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LiveResearchTask"][];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+                     *       "title": "Bad Request",
+                     *       "status": 400,
+                     *       "detail": "What was wrong with the request, written for people."
                      *     }
                      */
                     "application/problem+json": components["schemas"]["ProblemDetails"];

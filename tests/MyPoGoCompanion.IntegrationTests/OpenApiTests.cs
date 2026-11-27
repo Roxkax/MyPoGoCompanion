@@ -216,6 +216,13 @@ public sealed partial class OpenApiTests(PostgresFixture postgres)
 
         await using var withSample = new ApiFactory(seeded);
         using var sampleClient = withSample.CreateClient();
+        await Call(sampleClient, HttpMethod.Get, "/raids?timeZone=Europe%2FLisbon");
+        await Call(sampleClient, HttpMethod.Get, "/max-battles");
+        await Call(sampleClient, HttpMethod.Get, "/events?days=14");
+        await Call(sampleClient, HttpMethod.Get, "/events?days=0");
+        await Call(sampleClient, HttpMethod.Get, "/eggs");
+        await Call(sampleClient, HttpMethod.Get, "/research");
+
         var moves = await Call(sampleClient, HttpMethod.Get, "/moves");
         using (var unchanged = new HttpRequestMessage(HttpMethod.Get, new Uri("/moves", UriKind.Relative)))
         {
