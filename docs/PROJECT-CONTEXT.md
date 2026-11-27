@@ -100,7 +100,7 @@ Board: https://github.com/users/Roxkax/projects/2 (kept in sync by the `Project 
 |---|---|---|---|
 | E05-F01 AI provider layer and cost cap | **Done** 2026-11-26 | #972 | Issues #258–#264 (GitHub milestone Sprint 7). OpenAI Responses behind a shared .NET client, with per-call accounting and a configurable $5 cap. Admins can see UTC monthly spend, active reservations, and pause status. Local checks passed 292 API unit tests, 103 PostgreSQL integration tests, .NET formatting, and the web build. The owner selected shared QA on 2026-11-26. Guide: `docs/AI-PROVIDER.md`. Merged on 2026-11-26, closing issues #258–#264. |
 | E05-F02 Search and fetch connector | **Done** 2026-11-26 | #973 | Issues #265–#270 (GitHub milestone Sprint 7). Leek Duck discovery and fetch for events, raids, Max Battles, eggs, and field research, with in-process caching and request pacing. The owner selected shared QA on 2026-11-26. Guide: `docs/RESEARCH-SOURCES.md`. |
-| E05-F03 Weekly AI researcher | **In review** | #974 | Issues #271–#281. Weekly production research, atomic publication and source-change tracking. 278 local jobs unit tests passed. Shared QA requested. |
+| E05-F03 Weekly AI researcher | **Done** 2026-11-27 | #974 | Issues #271–#281. Weekly production research, atomic publication and source-change tracking. Shared QA passed 330 browser tests. Merged in #974. |
 
 ### Other work done
 
@@ -349,6 +349,7 @@ Board: https://github.com/users/Roxkax/projects/2 (kept in sync by the `Project 
 | 2026-11-26 | **Start Sprint 5, Live data and the AI researcher** (owner): begin with E05-F01 and deploy its PR to shared QA. The GitHub milestone is Sprint 7. |
 | 2026-11-26 | **Shared QA for E05-F02 Search and fetch connector** (owner). |
 | 2026-11-26 | The owner chose Sundays at 22:00 Europe/Lisbon year-round for production research and shared QA for E05-F03. |
+| 2026-11-27 | Rename every Codex chat as soon as its task is identified, using the feature key and name for backlog features and a descriptive title for other work. |
 
 ## Open decisions
 

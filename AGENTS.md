@@ -19,7 +19,7 @@
 - **Language:** replies in English; the owner may write in Portuguese.
 - **Decision log:** record each confirmed decision immediately, with its date, in [docs/PROJECT-CONTEXT.md](docs/PROJECT-CONTEXT.md#decision-log). Preserve historical facts and add dated entries when a decision supersedes an earlier one.
 - **Progress:** update **Sprint progress** in that document after each task, PR, merge or setup step (status, PR, remaining work, owner to-dos), and commit it with the work.
-- **Task naming:** use `<feature key> <feature name>` for a Codex task when naming is available; use a short descriptive name for other work.
+- **Chat title:** In every new Codex session, rename the current chat as soon as you identify the task, before starting implementation. Use the chat rename tool (`set_thread_title`) with `<feature key> <feature name>` for backlog features, or a short descriptive title for other work. If the chat moves to a different task, update its title when that task is identified.
 
 ## Git and pull requests
 
